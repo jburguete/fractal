@@ -1,0 +1,53 @@
+objs = fractal.o draw.o simulator.o main.o
+src = fractal.h draw.h simulator.h fractal.c draw.c simulator.c main.c
+configs = config.h Makefile
+
+flags_fast = -c -O3 -ffast-math -Wall
+flags_small = -c -Os -ffast-math -Wall
+
+gcc = gcc -Wall -std=gnu99
+es = po/es/LC_MESSAGES/
+fr = po/fr/LC_MESSAGES/
+
+CFLAGS = @CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ @PNG_CFLAGS@ @GTK_CFLAGS@
+LDFLAGS = @LDFLAGS@ @LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ @PNG_LIBS@ @GTK_LIBS@
+
+CC = @CC@ -std=gnu99 @LTO@ @ccflags@ #-pg
+
+all: fractal po/fractal.pot $(es)fractal.mo $(fr)fractal.mo
+
+copy:
+	tar -cjf fractal-2-0-4.tbz *.{h,c,png,ac,in} po/*.pot po/*/*/*.po
+
+fractal: $(objs)
+	$(CC) $(objs) $(LDFLAGS) -o fractal
+
+fractal.o: fractal.c fractal.h draw.h $(configs)
+	$(CC) $(CFLAGS) fractal.c -o fractal.o $(flags_fast)
+
+draw.o: draw.c fractal.h draw.h $(configs)
+	$(CC) $(CFLAGS) draw.c -o draw.o $(flags_fast)
+
+simulator.o: simulator.c fractal.h draw.h simulator.h $(configs)
+	$(CC) $(CFLAGS) simulator.c -o simulator.o $(flags_small)
+
+main.o: main.c fractal.h draw.h simulator.h $(configs)
+	$(CC) $(CFLAGS) main.c -o main.o $(flags_small)
+
+po/fractal.pot: Makefile $(src)
+	xgettext -d fractal -o po/fractal.pot --from-code=UTF-8 $(src)
+#	msginit -l es -o $(es)fractal.po -i po/fractal.pot --no-translator
+#	msginit -l fr -o $(fr)fractal.po -i po/fractal.pot --no-translator
+	msgmerge -U $(es)fractal.po po/fractal.pot
+	msgmerge -U $(fr)fractal.po po/fractal.pot
+	vim -p $(es)fractal.po $(fr)fractal.po
+
+$(es)fractal.mo: $(es)fractal.po po/fractal.pot
+	msgfmt -c -v -o $(es)fractal.mo $(es)fractal.po
+
+$(fr)fractal.mo: $(fr)fractal.po po/fractal.pot
+	msgfmt -c -v -o $(fr)fractal.mo $(fr)fractal.po
+
+clean:
+	rm -rf *.m4 *.cache *.scan *.log config.status Makefile *.o fractal \
+		po/*/*/*.mo

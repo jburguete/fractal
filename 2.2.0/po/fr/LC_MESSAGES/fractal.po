@@ -1,0 +1,106 @@
+# French translations for fractal package.
+# Copyright (C) 2009 THE fractal'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the fractal package.
+# Automatically generated, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 2.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-03 08:27+0200\n"
+"PO-Revision-Date: 2009-04-12 20:09+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: simulator.c:95 simulator.c:323
+msgid "Save graphical"
+msgstr "Saver graphique"
+
+#: simulator.c:135
+msgid "_Tree"
+msgstr "A_rbre"
+
+#: simulator.c:135
+msgid "_Forest"
+msgstr "_Bois"
+
+#: simulator.c:135
+msgid "_Neuron"
+msgstr "_Neurone"
+
+#: simulator.c:139
+msgid "_Diagonal movement"
+msgstr ""
+
+#: simulator.c:141
+msgid "Length"
+msgstr "Longueur"
+
+#: simulator.c:142
+msgid "Width"
+msgstr "Large"
+
+#: simulator.c:143
+msgid "Height"
+msgstr "Hauteur"
+
+#: simulator.c:164
+msgid "Fractal type"
+msgstr "Type de fractal"
+
+#: simulator.c:189
+msgid "Options"
+msgstr ""
+
+#: simulator.c:247
+msgid "Copyright 2009-2013 Javier Burguete Tolosa."
+msgstr ""
+
+#: simulator.c:349
+msgid "E_xit"
+msgstr "_Sortir"
+
+#: simulator.c:350
+msgid "_Options"
+msgstr ""
+
+#: simulator.c:351
+msgid "S_tart"
+msgstr "_Commencer"
+
+#: simulator.c:352
+msgid "Sto_p"
+msgstr ""
+
+#: simulator.c:353
+msgid "_Save"
+msgstr "_Enregistrer"
+
+#: simulator.c:354
+msgid "_Help"
+msgstr "_Aide"
+
+#: simulator.c:400
+msgid "Calculating time"
+msgstr "Temp de calcul"
+
+#: simulator.c:406
+msgid "Progress"
+msgstr ""
+
+#: simulator.c:418
+msgid "Horizontal perspective angle (º)"
+msgstr ""
+
+#: simulator.c:420
+msgid "Vertical perspective angle (º)"
+msgstr ""
+
+#: simulator.c:443
+msgid "Fractal growing"
+msgstr "Croissance fractal"
