@@ -35,8 +35,8 @@ FILES
 * simulator.c: interface source file.
 * main.c: main source file.
 * Doxyfile: configuration file to generate doxygen documentation.
-* es/LC_MESSAGES/fractal.po: spanish language file.
-* fr/LC_MESSAGES/fractal.po: french language file.
+* po/es/LC_MESSAGES/fractal.po: spanish language file.
+* po/fr/LC_MESSAGES/fractal.po: french language file.
 
 BUILDING INSTRUCTIONS
 ---------------------
