@@ -41,14 +41,14 @@ FILES
 BUILDING INSTRUCTIONS
 ---------------------
 
-aclocal
-autoconf
-./configure
-make
+* aclocal
+* autoconf
+* ./configure
+* make
 
 MAKING MANUAL INSTRUCTIONS
 --------------------------
 
-doxygen
-cd latex
-make 
+* doxygen
+* cd latex
+* make
