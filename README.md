@@ -47,6 +47,7 @@ BUILDING INSTRUCTIONS
 * autoconf
 * ./configure
 * make
+* strip fractal (optional: to make a final version)
 
 MAKING MANUAL INSTRUCTIONS
 --------------------------

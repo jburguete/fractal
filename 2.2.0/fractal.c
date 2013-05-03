@@ -58,9 +58,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \var simulating
  * \brief 1 on simulating, 0 otherwise.
  */
-unsigned int width = 600;
-unsigned int height = 400;
-unsigned int length = 600;
+unsigned int width = 320;
+unsigned int height = 200;
+unsigned int length = 320;
 unsigned int area;
 unsigned int breaking = 0;
 unsigned int simulating = 0;
