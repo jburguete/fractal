@@ -34,6 +34,8 @@ FILES
 * simulator.h: interface header file.
 * simulator.c: interface source file.
 * main.c: main source file.
+* logo.png: logo file.
+* logo2.png: logo file.
 * Doxyfile: configuration file to generate doxygen documentation.
 * po/es/LC_MESSAGES/fractal.po: spanish language file.
 * po/fr/LC_MESSAGES/fractal.po: french language file.
