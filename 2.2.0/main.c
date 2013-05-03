@@ -59,9 +59,9 @@ int main(int argn, char **argc)
 {
 // PARALELLIZING INIT
 	#ifdef G_OS_WIN32
-    	SYSTEM_INFO sysinfo;
-	    GetSystemInfo(&sysinfo);
-    	nthreads = sysinfo.dwNumberOfProcessors;
+		SYSTEM_INFO sysinfo;
+		GetSystemInfo(&sysinfo);
+		nthreads = sysinfo.dwNumberOfProcessors;
 	#else
 		nthreads = (int)sysconf(_SC_NPROCESSORS_CONF);
 	#endif
