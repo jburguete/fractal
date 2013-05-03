@@ -36,8 +36,6 @@ main.o: main.c fractal.h draw.h simulator.h $(configs)
 
 po/fractal.pot: Makefile $(src)
 	xgettext -d fractal -o po/fractal.pot --from-code=UTF-8 $(src)
-#	msginit -l es -o $(es)fractal.po -i po/fractal.pot --no-translator
-#	msginit -l fr -o $(fr)fractal.po -i po/fractal.pot --no-translator
 	msgmerge -U $(es)fractal.po po/fractal.pot
 	msgmerge -U $(fr)fractal.po po/fractal.pot
 	vim -p $(es)fractal.po $(fr)fractal.po
