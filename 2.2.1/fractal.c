@@ -144,7 +144,7 @@ DialogSimulator dialog_simulator;
  * \brief Mutex to lock memory saves.
  */
 unsigned int nthreads;
-GMutex *mutex;
+GMutex mutex[1];
 
 // END
 

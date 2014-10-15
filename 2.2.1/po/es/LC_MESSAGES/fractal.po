@@ -1,4 +1,4 @@
-# French translations for fractal package.
+# Spanish translations for fractal package.
 # Copyright (C) 2009 THE fractal'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the fractal package.
 # Automatically generated, 2009.
@@ -11,51 +11,51 @@ msgstr ""
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: \n"
+"Language: spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: simulator.c:96 simulator.c:330
 msgid "Save graphical"
-msgstr "Saver graphique"
+msgstr "Guardar gráfica"
 
 #: simulator.c:138
 msgid "_Tree"
-msgstr "A_rbre"
+msgstr "Á_rbol"
 
 #: simulator.c:138
 msgid "_Forest"
-msgstr "_Bois"
+msgstr "_Bosque"
 
 #: simulator.c:138
 msgid "_Neuron"
-msgstr "_Neurone"
+msgstr "_Neurona"
 
 #: simulator.c:142
 msgid "_Diagonal movement"
-msgstr ""
+msgstr "Movimiento _diagonal"
 
 #: simulator.c:144
 msgid "Length"
-msgstr "Longueur"
+msgstr "Longitud"
 
 #: simulator.c:145
 msgid "Width"
-msgstr "Large"
+msgstr "Anchura"
 
 #: simulator.c:146
 msgid "Height"
-msgstr "Hauteur"
+msgstr "Altura"
 
 #: simulator.c:167
 msgid "Fractal type"
-msgstr "Type de fractal"
+msgstr "Tipo de fractal"
 
 #: simulator.c:192
 msgid "Options"
-msgstr ""
+msgstr "Opciones"
 
 #: simulator.c:251
 msgid "Copyright 2009-2013 Javier Burguete Tolosa."
@@ -63,15 +63,15 @@ msgstr ""
 
 #: simulator.c:357
 msgid "E_xit"
-msgstr "_Sortir"
+msgstr "_Salir"
 
 #: simulator.c:358
 msgid "_Options"
-msgstr ""
+msgstr "_Opciones"
 
 #: simulator.c:359
 msgid "S_tart"
-msgstr "_Commencer"
+msgstr "_Comenzar"
 
 #: simulator.c:360
 msgid "Sto_p"
@@ -79,19 +79,19 @@ msgstr ""
 
 #: simulator.c:361
 msgid "_Save"
-msgstr "_Enregistrer"
+msgstr "_Guardar"
 
 #: simulator.c:362
 msgid "_Help"
-msgstr "_Aide"
+msgstr "A_yuda"
 
 #: simulator.c:408
 msgid "Calculating time"
-msgstr "Temp de calcul"
+msgstr "Tiempo de cálculo"
 
 #: simulator.c:414
 msgid "Progress"
-msgstr ""
+msgstr "Progreso"
 
 #: simulator.c:426
 msgid "Horizontal perspective angle (º)"
@@ -103,4 +103,4 @@ msgstr ""
 
 #: simulator.c:451
 msgid "Fractal growing"
-msgstr "Croissance fractal"
+msgstr "Crecimiento fractal"

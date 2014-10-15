@@ -36,12 +36,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define DRAW__H 1
 
 /**
- * \def REDISPLAY
- * \brief Macro to redisplay the draw.
- */
-#define REDISPLAY() (glutPostRedisplay())
-
-/**
  * \struct Logo
  * \brief A struct to define the logo.
  */

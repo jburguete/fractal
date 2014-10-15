@@ -65,8 +65,6 @@ int main(int argn, char **argc)
 	#else
 		nthreads = (int)sysconf(_SC_NPROCESSORS_CONF);
 	#endif
-	g_thread_init(NULL);
-	mutex = g_mutex_new();
 // END
 
 	// Initing locales

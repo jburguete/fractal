@@ -76,7 +76,7 @@ enum FractalType
 
 // PARALLELIZING DATA
 extern unsigned int nthreads;
-extern GMutex *mutex;
+extern GMutex mutex[1];
 // END
 
 extern unsigned int fractal_type, fractal_points, fractal_3D, fractal_diagonal;
