@@ -2,7 +2,7 @@
 FRACTAL - A program using drawing fractals to benchmark parallelization and
 drawing libraries.
 
-Copyright 2009-2013, Javier Burguete Tolosa.
+Copyright 2009-2014, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file simulator.c
  * \brief Source file to define the windows data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2013, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2014, Javier Burguete Tolosa.
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -168,25 +168,16 @@ void dialog_options_create()
 	gtk_container_add(GTK_CONTAINER(dlg->frame_fractal),
 		GTK_WIDGET(dlg->box_fractal));
 
-	dlg->table = (GtkTable*)gtk_table_new(0, 0, 0);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->button_diagonal), 0, 2, 0, 1);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->button_3D), 0, 2, 1, 2);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->label_length), 0, 1, 2, 3);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->entry_length), 1, 2, 2, 3);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->label_width), 0, 1, 3, 4);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->entry_width), 1, 2, 3, 4);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->label_height), 0, 1, 4, 5);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->entry_height), 1, 2, 4, 5);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->frame_fractal), 0, 2, 5, 6);
+	dlg->table = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->button_diagonal), 0, 0, 2, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->button_3D), 0, 1, 2, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_length), 0, 2, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->entry_length), 1, 2, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_width), 0, 3, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->entry_width), 1, 3, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_height), 0, 4, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->entry_height), 1, 4, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->frame_fractal), 0, 5, 2, 1);
 
 	dlg->dialog = (GtkDialog*)gtk_dialog_new_with_buttons(
 		gettext("Options"),
@@ -248,7 +239,7 @@ void dialog_simulator_help()
 		"version",
 		"2.2.0",
 		"copyright",
-		gettext("Copyright 2009-2013 Javier Burguete Tolosa."),
+		gettext("Copyright 2009-2014 Javier Burguete Tolosa."),
 		"logo",
 		dialog_simulator.logo,
 		"website-label",
@@ -427,20 +418,15 @@ void dialog_simulator_create()
 	dlg->label_vertical = (GtkLabel*)gtk_label_new
 		(gettext("Vertical perspective angle (º)"));
 
-	dlg->table=(GtkVBox*)gtk_table_new(0, 0, 0);
-	gtk_table_attach_defaults(dlg->table, GTK_WIDGET(dlg->toolbar), 0, 3, 0, 1);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->progress), 0, 1, 1, 2);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->label_time), 1, 2, 1, 2);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->entry_time), 2, 3, 1, 2);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->label_horizontal), 0, 1, 2, 3);
-	gtk_table_attach_defaults(dlg->table, GTK_WIDGET(dlg->hscale), 1, 3, 2, 3);
-	gtk_table_attach_defaults
-		(dlg->table, GTK_WIDGET(dlg->label_vertical), 0, 1, 3, 4);
-	gtk_table_attach_defaults(dlg->table, GTK_WIDGET(dlg->vscale), 1, 3, 3, 4);
+	dlg->table = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->toolbar), 0, 0, 3, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->progress), 0, 1, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_time), 1, 1, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->entry_time), 2, 1, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_horizontal), 0, 2, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->hscale), 1, 2, 2, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_vertical), 0, 3, 1, 1);
+	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->vscale), 1, 3, 2, 1);
 
 	dlg->logo = gtk_image_get_pixbuf
 		(GTK_IMAGE(gtk_image_new_from_file("logo.png")));

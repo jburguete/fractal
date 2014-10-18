@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-03 12:28+0200\n"
+"POT-Creation-Date: 2014-10-18 03:11+0200\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: simulator.c:96 simulator.c:330
+#: simulator.c:96 simulator.c:321
 msgid "Save graphical"
 msgstr "Saver graphique"
 
@@ -53,54 +53,54 @@ msgstr "Hauteur"
 msgid "Fractal type"
 msgstr "Type de fractal"
 
-#: simulator.c:192
+#: simulator.c:183
 msgid "Options"
 msgstr ""
 
-#: simulator.c:251
-msgid "Copyright 2009-2013 Javier Burguete Tolosa."
+#: simulator.c:242
+msgid "Copyright 2009-2014 Javier Burguete Tolosa."
 msgstr ""
 
-#: simulator.c:357
+#: simulator.c:348
 msgid "E_xit"
 msgstr "_Sortir"
 
-#: simulator.c:358
+#: simulator.c:349
 msgid "_Options"
 msgstr ""
 
-#: simulator.c:359
+#: simulator.c:350
 msgid "S_tart"
 msgstr "_Commencer"
 
-#: simulator.c:360
+#: simulator.c:351
 msgid "Sto_p"
 msgstr ""
 
-#: simulator.c:361
+#: simulator.c:352
 msgid "_Save"
 msgstr "_Enregistrer"
 
-#: simulator.c:362
+#: simulator.c:353
 msgid "_Help"
 msgstr "_Aide"
 
-#: simulator.c:408
+#: simulator.c:399
 msgid "Calculating time"
 msgstr "Temp de calcul"
 
-#: simulator.c:414
+#: simulator.c:405
 msgid "Progress"
 msgstr ""
 
-#: simulator.c:426
+#: simulator.c:417
 msgid "Horizontal perspective angle (º)"
 msgstr ""
 
-#: simulator.c:428
+#: simulator.c:419
 msgid "Vertical perspective angle (º)"
 msgstr ""
 
-#: simulator.c:451
+#: simulator.c:437
 msgid "Fractal growing"
 msgstr "Croissance fractal"

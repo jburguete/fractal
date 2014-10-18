@@ -2,7 +2,7 @@
 FRACTAL - A program using drawing fractals to benchmark parallelization and
 drawing libraries.
 
-Copyright 2009-2013, Javier Burguete Tolosa.
+Copyright 2009-2014, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file fractal.c
  * \brief Source file to define the fractal data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2013, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2014, Javier Burguete Tolosa.
  */
 #include <stdio.h>
 #include <stdlib.h>

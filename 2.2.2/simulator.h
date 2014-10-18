@@ -2,7 +2,7 @@
 FRACTAL - A program using drawing fractals to benchmark parallelization and
 drawing libraries.
 
-Copyright 2009-2013, Javier Burguete Tolosa.
+Copyright 2009-2014, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file simulator.h
  * \brief Header file to define the windows data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2013, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2014, Javier Burguete Tolosa.
  */
 #ifndef SIMULATOR__H
 #define SIMULATOR__H 1
@@ -65,7 +65,7 @@ typedef struct
  * \var frame_fractal
  * \brief GtkFrame to show the fractal types.
  * \var table
- * \brief GtkTable to group the widgets.
+ * \brief GtkGrid to group the widgets.
  * \var dialog
  * \brief GtkDialog to show the options window.
  */
@@ -75,7 +75,7 @@ typedef struct
 	GtkRadioButton *array_buttons[3];
 	GtkVBox *box_fractal;
 	GtkFrame *frame_fractal;
-	GtkTable *table;
+	GtkGrid *table;
 	GtkDialog *dialog;
 } DialogOptions;
 
@@ -127,7 +127,7 @@ typedef struct
  * \var progress
  * \brief GtkProgressBar to show the fractal growing progress.
  * \var table
- * \brief GtkTable to pack all widgets.
+ * \brief GtkGrid to pack all widgets.
  * \var logo
  * \brief GdkPixbuf containing the main logo.
  * \var logo_min
@@ -144,7 +144,7 @@ typedef struct
 	GtkSpinButton *entry_time;
 	GtkProgressBar *progress;
 	GtkHScale *hscale, *vscale;
-	GtkTable *table;
+	GtkGrid *table;
 	GdkPixbuf *logo, *logo_min;
 	GtkWindow *window;
 } DialogSimulator;

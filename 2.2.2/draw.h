@@ -2,7 +2,7 @@
 FRACTAL - A program using drawing fractals to benchmark parallelization and
 drawing libraries.
 
-Copyright 2009-2013, Javier Burguete Tolosa.
+Copyright 2009-2014, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file draw.h
  * \brief Header file to define the drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2013, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2014, Javier Burguete Tolosa.
  */
 #ifndef DRAW__H
 #define DRAW__H 1
