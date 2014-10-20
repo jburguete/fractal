@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.2.0\n"
+"Project-Id-Version: 2.2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-18 03:11+0200\n"
+"POT-Creation-Date: 2014-10-20 11:42+0200\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,90 +17,102 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: simulator.c:96 simulator.c:321
+#: simulator.c:94 simulator.c:313
 msgid "Save graphical"
 msgstr "Saver graphique"
 
-#: simulator.c:138
+#: simulator.c:96 simulator.c:182
+msgid "_OK"
+msgstr "_Accepter"
+
+#: simulator.c:97 simulator.c:183 simulator.c:315
+msgid "_Cancel"
+msgstr "_Annuler"
+
+#: simulator.c:134
 msgid "_Tree"
 msgstr "A_rbre"
 
-#: simulator.c:138
+#: simulator.c:134
 msgid "_Forest"
 msgstr "_Bois"
 
-#: simulator.c:138
+#: simulator.c:134
 msgid "_Neuron"
 msgstr "_Neurone"
 
-#: simulator.c:142
+#: simulator.c:138
 msgid "_Diagonal movement"
-msgstr ""
+msgstr "Mouvement diagonal"
 
-#: simulator.c:144
+#: simulator.c:140
 msgid "Length"
 msgstr "Longueur"
 
-#: simulator.c:145
+#: simulator.c:141
 msgid "Width"
 msgstr "Large"
 
-#: simulator.c:146
+#: simulator.c:142
 msgid "Height"
 msgstr "Hauteur"
 
-#: simulator.c:167
+#: simulator.c:163
 msgid "Fractal type"
 msgstr "Type de fractal"
 
-#: simulator.c:183
+#: simulator.c:179
 msgid "Options"
-msgstr ""
+msgstr "Options"
 
-#: simulator.c:242
+#: simulator.c:237
 msgid "Copyright 2009-2014 Javier Burguete Tolosa."
 msgstr ""
 
-#: simulator.c:348
+#: simulator.c:316
+msgid "_Open"
+msgstr "_Ouvrir"
+
+#: simulator.c:339
 msgid "E_xit"
 msgstr "_Sortir"
 
-#: simulator.c:349
+#: simulator.c:340
 msgid "_Options"
-msgstr ""
+msgstr "_Options"
 
-#: simulator.c:350
+#: simulator.c:341
 msgid "S_tart"
 msgstr "_Commencer"
 
-#: simulator.c:351
+#: simulator.c:342
 msgid "Sto_p"
-msgstr ""
+msgstr "A_rrêter"
 
-#: simulator.c:352
+#: simulator.c:343
 msgid "_Save"
 msgstr "_Enregistrer"
 
-#: simulator.c:353
+#: simulator.c:344
 msgid "_Help"
 msgstr "_Aide"
 
-#: simulator.c:399
+#: simulator.c:390
 msgid "Calculating time"
 msgstr "Temp de calcul"
 
-#: simulator.c:405
+#: simulator.c:396
 msgid "Progress"
-msgstr ""
+msgstr "Progrès"
 
-#: simulator.c:417
+#: simulator.c:408
 msgid "Horizontal perspective angle (º)"
-msgstr ""
+msgstr "Angle de perspective horizontale (º)"
 
-#: simulator.c:419
+#: simulator.c:410
 msgid "Vertical perspective angle (º)"
-msgstr ""
+msgstr "Angle de perspective verticale (º)"
 
-#: simulator.c:437
+#: simulator.c:428
 msgid "Fractal growing"
 msgstr "Croissance fractal"

@@ -93,8 +93,8 @@ void dialog_draw_save()
 	dlg = (GtkFileChooserDialog*)gtk_file_chooser_dialog_new
 		(gettext("Save graphical"), dialog_simulator.window,
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		gettext("_OK"), GTK_RESPONSE_CANCEL,
+		gettext("_Cancel"), GTK_RESPONSE_OK,
 		NULL);
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dlg), filter);
 	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dlg),1);
@@ -179,8 +179,8 @@ void dialog_options_create()
 		gettext("Options"),
 		dialog_simulator.window,
 		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_OK, GTK_RESPONSE_OK,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		gettext("_OK"), GTK_RESPONSE_OK,
+		gettext("_Cancel"), GTK_RESPONSE_CANCEL,
 		NULL);
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg->dialog)),
 		GTK_WIDGET(dlg->table));
@@ -232,7 +232,7 @@ void dialog_simulator_help()
 		"authors",
 		authors,
 		"version",
-		"2.2.0",
+		"2.2.3",
 		"copyright",
 		gettext("Copyright 2009-2014 Javier Burguete Tolosa."),
 		"logo",
@@ -312,8 +312,8 @@ void dialog_simulator_save()
 	dlg = (GtkFileChooserDialog*)gtk_file_chooser_dialog_new(
 		gettext("Save graphical"), dialog_simulator.window,
 		GTK_FILE_CHOOSER_ACTION_SAVE,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+		gettext("_Cancel"), GTK_RESPONSE_CANCEL,
+		gettext("_Open"), GTK_RESPONSE_ACCEPT,
 		NULL);
 	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dlg), 1);
 	if (gtk_dialog_run(GTK_DIALOG(dlg)) == GTK_RESPONSE_ACCEPT)
