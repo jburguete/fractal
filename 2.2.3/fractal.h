@@ -58,10 +58,6 @@ typedef struct
 /**
  * \enum FractalType
  * \brief A enum to define fractal types.
- */
-enum FractalType
-{
-/**
  * \var FRACTAL_TYPE_TREE
  * \brief Tree fractal type.
  * \var FRACTAL_TYPE_FOREST
@@ -69,6 +65,8 @@ enum FractalType
  * \var FRACTAL_TYPE_NEURON
  * \brief Neuron fractal type.
  */
+enum FractalType
+{
 	FRACTAL_TYPE_TREE = 0,
 	FRACTAL_TYPE_FOREST = 1,
 	FRACTAL_TYPE_NEURON = 2

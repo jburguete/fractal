@@ -163,7 +163,6 @@ error1:
 /**
  * \fn void draw()
  * \brief Function to draw the fractal.
- * \param
  */
 void draw()
 {

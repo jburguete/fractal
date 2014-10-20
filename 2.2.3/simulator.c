@@ -48,7 +48,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /**
  * \fn void set_perspective()
  * \brief Function to set the view perspective.
- * \param
  */
 void set_perspective()
 {
@@ -81,7 +80,6 @@ void set_perspective()
 /**
  * \fn void dialog_draw_save()
  * \brief Function to show a dialog to save the graphical view in a PNG file.
- * \param
  */
 void dialog_draw_save()
 {
@@ -115,7 +113,6 @@ void dialog_draw_save()
 /**
  * \fn void dialog_options_update()
  * \brief Function to update the enabled fractal characteristics.
- * \param
  */
 void dialog_options_update()
 {
@@ -129,7 +126,6 @@ void dialog_options_update()
 /**
  * \fn void dialog_options_create()
  * \brief Function to create a dialog to set the fractal options.
- * \param
  */
 void dialog_options_create()
 {
@@ -222,7 +218,6 @@ void dialog_options_create()
 /**
  * \fn void dialog_simulator_help()
  * \brief Function to show a help dialog.
- * \param
  */
 void dialog_simulator_help()
 {
@@ -252,7 +247,6 @@ void dialog_simulator_help()
 /**
  * \fn void dialog_simulator_update()
  * \brief Function to update the enabled window properties.
- * \param
  */
 void dialog_simulator_update()
 {
@@ -265,7 +259,6 @@ void dialog_simulator_update()
 /**
  * \fn void dialog_simulator_progress()
  * \brief Function to show the fractal progress.
- * \param
  */
 void dialog_simulator_progress()
 {
@@ -311,7 +304,6 @@ void dialog_simulator_progress()
 /**
  * \fn void dialog_simulator_save()
  * \brief Function to save the graphical view on a PNG file.
- * \param
  */
 void dialog_simulator_save()
 {
@@ -337,7 +329,6 @@ void dialog_simulator_save()
 /**
  * \fn void dialog_simulator_create()
  * \brief Function to create the main window.
- * \param
  */
 void dialog_simulator_create()
 {

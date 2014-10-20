@@ -159,6 +159,7 @@ void dialog_options_create();
 
 void dialog_simulator_help();
 void dialog_simulator_update();
+void dialog_simulator_progress();
 void dialog_simulator_create();
 
 #endif

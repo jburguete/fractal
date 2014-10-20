@@ -924,7 +924,6 @@ static inline unsigned int neuron_3D_end(int x, int y, int z)
 /**
  * \fn void fractal_stop()
  * \brief Function to stop the fractal simulation.
- * \param
  */
 void fractal_stop()
 {
@@ -1296,7 +1295,6 @@ void* parallel_fractal_neuron_3D_diagonal(GRand *rand)
 /**
  * \fn void medium_start()
  * \brief Function to start the fractal functions and data.
- * \param
  */
 void medium_start()
 {
@@ -1405,7 +1403,6 @@ void medium_start()
 /**
  * \fn void fractal()
  * \brief Function with the main bucle to draw the fractal.
- * \param
  */
 void fractal()
 {
@@ -1414,7 +1411,6 @@ void fractal()
 // PARALLELIZING DATA
 	GRand *rand[nthreads];
 	GThread *thread[nthreads];
-	GError *error;
 
 	t0 = time(NULL);
 	#if DEBUG
@@ -1455,8 +1451,7 @@ void fractal()
 		#endif
 // PARALLELIZING CALLS
 		for (i = 0; i < nthreads; ++i)
-			thread[i] = g_thread_create
-				((void(*))parallel_fractal, rand[i], TRUE, &error);
+			thread[i] = g_thread_new(NULL, (void(*))parallel_fractal, rand[i]);
 		for (i = 0; i < nthreads; ++i) g_thread_join(thread[i]);
 // END
 
