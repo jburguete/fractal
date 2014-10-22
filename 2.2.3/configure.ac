@@ -1,27 +1,21 @@
-# To work in Debian (Linux, kFreeBSD or Hurd) or in FreeBSD:
+# To work in:
+#	- Debian 7.4 (Linux, kFreeBSD or Hurd)
+#	- FreeBSD 10.0
+#	- Microsoft Windows XP 32 bits
+#	- Microsoft Windows 7 32 bits
+#	- NetBSD (with modular xorg)
+#
 # aclocal
 # autoconf
 # ./configure
 # make
 
-# To work in Microsoft Windows (64 bits) with MinGW/MSYS:
-# aclocal -I /mingw/share/aclocal
-# autoconf
-# CPPFLAGS='-I/mingw/include -I/mingw/x86_64-w64-mingw32/include' configure --host=x86_64-w64-mingw32
-# make
-
-# To work in Microsoft Windows (32 bits) with MinGW/MSYS:
+# To work in Microsoft Windows (64 bits):
+#
 # aclocal
 # autoconf
-# LDFLAGS='-lglut -lopengl32' configure --host=mingw32
-# make
-
-# To work in NetBSD:
-# ln -s /usr/X11R7/include/GL/glu.h /usr/pkg/include/GL
-# ln -s /usr/X11R7/lib/libGL.so.2 /usr/pkg/lib
-# aclocal
-# autoconf
-# CPPFLAGS=-I/usr/pkg/include LDFLAGS=-L/usr/pkg/lib ./configure --host=x86_64--netbsd
+# automake --add-missing
+# ./configure --host=x86_64-w64-mingw32
 # make
 
 # To work in OpenBSD:
@@ -30,30 +24,47 @@
 # CPPFLAGS='-I/usr/local/include -I/usr/X11R6/include' LDFLAGS='-L/usr/local/lib -L/usr/X11R6/lib' ./configure
 # make
 
-# To work in DragonFly BSD:
-# setenv PATH ${PATH}:/usr/pkg/gcc47/bin
-# setenv CPPFLAGS '-I/usr/pkg/include -I/usr/pkg/gcc47/include -I/usr/pkg/include/gettext'
-# setenv CFLAGS '-I/usr/pkg/include -I/usr/pkg/gcc47/include -I/usr/pkg/include/gettext'
-# setenv LDFLAGS '-L/usr/pkg/lib -L/usr/pkg/gcc47/lib'
+# To work in DragonflyBSD:
+# setenv CPPFLAGS '-I/usr/pkg/include -I/usr/pkg/include/gettext'
+# setenv CFLAGS '-I/usr/pkg/include -I/usr/pkg/include/gettext'
+# setenv LDFLAGS '-L/usr/pkg/lib'
 # aclocal
 # autoconf
-# ./configure --host=x86_64-pc-dragonfly
+# ./configure
 # make
 
 AC_PREREQ([2.67])
-AC_INIT(fractal, [2.2])
+AC_INIT(fractal, [2.2.3])
 
 # Checks for operative systems
-#AC_CANONICAL_HOST: Requires automake
+AC_CANONICAL_SYSTEM
+AM_INIT_AUTOMAKE
+AC_MSG_NOTICE([System: $build])
 AC_MSG_NOTICE([System: $host])
-if test $host == "x86_64-w64-mingw32"; then
+if test $host = "x86_64-w64-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 64 bits])
-	AC_SUBST(ccflags, "-march=corei7 -mfpmath=sse -msse3")
+	CPPFLAGS="$CPPFLAGS -I/mingw/include"
+	AC_SUBST(ccflags, "-march=corei7 -mfpmath=sse -msse3 -mwindows")
+	AC_SUBST(libgcc, "libgcc_s_seh-1")
 	win=1
-elif test $host == "mingw32"; then
+elif test $host = "i686-pc-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 32 bits])
-	AC_SUBST(ccflags, "-march=pentium4 -mfpmath=sse -msse2")
+	LDFLAGS="$LDFLAGS -lglut -lopengl32"
+	CPPFLAGS="$CPPFLAGS -I/mingw/include"
+	AC_SUBST(ccflags, "-march=pentium4 -mfpmath=sse -msse2 -mwindows")
+	AC_SUBST(libgcc, "libgcc_s_sjlj-1")
 	win=1
+elif test `uname -s` = "NetBSD"; then
+	AC_MSG_NOTICE([NetBSD])
+	LDFLAGS="$LDFLAGS -L/usr/pkg/lib"
+	CPPFLAGS="$CPPFLAGS -I/usr/pkg/include"
+	PATH="/usr/pkg/gcc48/bin:$PATH"
+	win=0
+elif test `uname -s` = "OpenBSD"; then
+	AC_MSG_NOTICE([NetBSD])
+	LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
+	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
+	win=0
 else
 	AC_MSG_NOTICE([Unix type system])
 	AC_SUBST(ccflags, "-march=native")
@@ -61,12 +72,13 @@ else
 fi
 
 # Checks for programs
-AC_PROG_CC([gcc47 gcc46 egcc gcc clang])
+AC_PROG_CC([gcc49 gcc48 egcc gcc clang])
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG
 AC_MSG_NOTICE([Compiler: $CC])
-if test $win == 1; then
+$CC -v
+if test $win = 1; then
 	AC_CHECK_TOOL(WINDRES, windres)
 fi
 
@@ -75,7 +87,7 @@ compiler=$CC
 CC="$CC -flto"
 AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [lto=1], [lto=0])
 CC=$compiler
-if test $lto == 0; then
+if test $lto = 0; then
 	AC_MSG_NOTICE("checking for -flto... no")
 	AC_SUBST(LTO, "")
 else
