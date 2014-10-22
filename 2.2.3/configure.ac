@@ -1,5 +1,5 @@
 # To work in:
-#	- Debian 7.4 (Linux, kFreeBSD or Hurd)
+#	- Debian 7.6 (Linux, kFreeBSD or Hurd)
 #	- FreeBSD 10.0
 #	- Microsoft Windows XP 32 bits
 #	- Microsoft Windows 7 32 bits
@@ -39,8 +39,8 @@ AC_INIT(fractal, [2.2.3])
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE
-AC_MSG_NOTICE([System: $build])
-AC_MSG_NOTICE([System: $host])
+AC_MSG_NOTICE([Build: $build])
+AC_MSG_NOTICE([Host: $host])
 if test $host = "x86_64-w64-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 64 bits])
 	CPPFLAGS="$CPPFLAGS -I/mingw/include"
@@ -61,7 +61,7 @@ elif test `uname -s` = "NetBSD"; then
 	PATH="/usr/pkg/gcc48/bin:$PATH"
 	win=0
 elif test `uname -s` = "OpenBSD"; then
-	AC_MSG_NOTICE([NetBSD])
+	AC_MSG_NOTICE([OpenBSD])
 	LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
 	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
 	win=0
