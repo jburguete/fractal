@@ -234,13 +234,13 @@ void dialog_simulator_help()
 		"version",
 		"2.2.3",
 		"copyright",
-		gettext("Copyright 2009-2014 Javier Burguete Tolosa."),
+		"Copyright 2009-2014 Javier Burguete Tolosa",
 		"logo",
 		dialog_simulator.logo,
 		"website-label",
-		"Website",
+		gettext("Website"),
 		"website",
-		"http://www.eead.csic.es",
+		"https://github.com/jburguete/fractal",
 		NULL);
 }
 
