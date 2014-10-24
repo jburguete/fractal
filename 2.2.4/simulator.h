@@ -60,11 +60,11 @@ typedef struct
  * \brief GtkButton to set 2D / 3D fractals.
  * \var array_buttons
  * \brief Array of GtkRadioButtons to set the fractal type.
- * \var box_fractal
- * \brief GtkBox to group the fractal types.
  * \var frame_fractal
  * \brief GtkFrame to show the fractal types.
- * \var table
+ * \var grid_fractal
+ * \brief GtkGrid to group the fractal types.
+ * \var grid
  * \brief GtkGrid to group the widgets.
  * \var dialog
  * \brief GtkDialog to show the options window.
@@ -73,9 +73,8 @@ typedef struct
 	GtkSpinButton *entry_length, *entry_width, *entry_height;
 	GtkCheckButton *button_diagonal, *button_3D;
 	GtkRadioButton *array_buttons[3];
-	GtkVBox *box_fractal;
 	GtkFrame *frame_fractal;
-	GtkGrid *table;
+	GtkGrid *grid_fractal, *grid;
 	GtkDialog *dialog;
 } DialogOptions;
 
@@ -126,7 +125,7 @@ typedef struct
  * \brief GtkHscale to set the vertical perspective of the view.
  * \var progress
  * \brief GtkProgressBar to show the fractal growing progress.
- * \var table
+ * \var grid
  * \brief GtkGrid to pack all widgets.
  * \var logo
  * \brief GdkPixbuf containing the main logo.
@@ -143,8 +142,8 @@ typedef struct
 	GtkLabel *label_time, *label_horizontal, *label_vertical;
 	GtkSpinButton *entry_time;
 	GtkProgressBar *progress;
-	GtkHScale *hscale, *vscale;
-	GtkGrid *table;
+	GtkScale *hscale, *vscale;
+	GtkGrid *grid;
 	GdkPixbuf *logo, *logo_min;
 	GtkWindow *window;
 } DialogSimulator;

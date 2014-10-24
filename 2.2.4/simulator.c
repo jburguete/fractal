@@ -147,33 +147,33 @@ void dialog_options_create()
 	dlg->entry_height =
 		(GtkSpinButton*)gtk_spin_button_new_with_range(200., 2400., 1.);
 
-	dlg->box_fractal = (GtkVBox*)gtk_vbox_new(1, 0);
+	dlg->grid_fractal = (GtkGrid*)gtk_grid_new();
 	dlg->array_buttons[0] = NULL;
 	for (i = 0; i < 3; ++i)
 	{
 		dlg->array_buttons[i] =
 			(GtkRadioButton*)gtk_radio_button_new_with_mnemonic_from_widget
 				(dlg->array_buttons[0], array_char[i]);
-		gtk_container_add(GTK_CONTAINER(dlg->box_fractal),
-			GTK_WIDGET(dlg->array_buttons[i]));
+		gtk_grid_attach(dlg->grid_fractal, GTK_WIDGET(dlg->array_buttons[i]),
+			0, i, 1, 1);
 	}
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON(dlg->array_buttons[fractal_type]), 1);
 
 	dlg->frame_fractal = (GtkFrame*)gtk_frame_new(gettext("Fractal type"));
 	gtk_container_add(GTK_CONTAINER(dlg->frame_fractal),
-		GTK_WIDGET(dlg->box_fractal));
+		GTK_WIDGET(dlg->grid_fractal));
 
-	dlg->table = (GtkGrid*)gtk_grid_new();
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->button_diagonal), 0, 0, 2, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->button_3D), 0, 1, 2, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_length), 0, 2, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->entry_length), 1, 2, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_width), 0, 3, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->entry_width), 1, 3, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_height), 0, 4, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->entry_height), 1, 4, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->frame_fractal), 0, 5, 2, 1);
+	dlg->grid = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->button_diagonal), 0, 0, 2, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->button_3D), 0, 1, 2, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->label_length), 0, 2, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->entry_length), 1, 2, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->label_width), 0, 3, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->entry_width), 1, 3, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->label_height), 0, 4, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->entry_height), 1, 4, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->frame_fractal), 0, 5, 2, 1);
 
 	dlg->dialog = (GtkDialog*)gtk_dialog_new_with_buttons(
 		gettext("Options"),
@@ -183,7 +183,7 @@ void dialog_options_create()
 		gettext("_Cancel"), GTK_RESPONSE_CANCEL,
 		NULL);
 	gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(dlg->dialog)),
-		GTK_WIDGET(dlg->table));
+		GTK_WIDGET(dlg->grid));
 	gtk_widget_show_all(GTK_WIDGET(dlg->dialog));
 
 	g_signal_connect(dlg->button_3D, "clicked", dialog_options_update, NULL);
@@ -232,7 +232,7 @@ void dialog_simulator_help()
 		"authors",
 		authors,
 		"version",
-		"2.2.3",
+		"2.2.4",
 		"copyright",
 		"Copyright 2009-2014 Javier Burguete Tolosa",
 		"logo",
@@ -395,10 +395,12 @@ void dialog_simulator_create()
 	dlg->progress = (GtkProgressBar*)gtk_progress_bar_new();
 	gtk_progress_bar_set_text(dlg->progress, gettext("Progress"));
 
-	dlg->hscale = (GtkHScale*)gtk_hscale_new_with_range(-90., 0., 1.);
-	dlg->vscale = (GtkHScale*)gtk_hscale_new_with_range(0., 90., 1.);
-	gtk_scale_set_digits(GTK_SCALE(dlg->hscale), 0);
-	gtk_scale_set_digits(GTK_SCALE(dlg->vscale), 0);
+	dlg->hscale= (GtkScale*)gtk_scale_new_with_range
+		(GTK_ORIENTATION_HORIZONTAL, -90., 0., 1.);
+	dlg->vscale= (GtkScale*)gtk_scale_new_with_range
+		(GTK_ORIENTATION_HORIZONTAL, 0., 90., 1.);
+	gtk_scale_set_digits(dlg->hscale, 0);
+	gtk_scale_set_digits(dlg->vscale, 0);
 	gtk_range_set_value(GTK_RANGE(dlg->hscale), phid);
 	gtk_range_set_value(GTK_RANGE(dlg->vscale), thetad);
 	g_signal_connect(dlg->hscale, "value-changed", set_perspective, NULL);
@@ -409,15 +411,15 @@ void dialog_simulator_create()
 	dlg->label_vertical = (GtkLabel*)gtk_label_new
 		(gettext("Vertical perspective angle (º)"));
 
-	dlg->table = (GtkGrid*)gtk_grid_new();
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->toolbar), 0, 0, 3, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->progress), 0, 1, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_time), 1, 1, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->entry_time), 2, 1, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_horizontal), 0, 2, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->hscale), 1, 2, 2, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->label_vertical), 0, 3, 1, 1);
-	gtk_grid_attach(dlg->table, GTK_WIDGET(dlg->vscale), 1, 3, 2, 1);
+	dlg->grid = (GtkGrid*)gtk_grid_new();
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->toolbar), 0, 0, 3, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->progress), 0, 1, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->label_time), 1, 1, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->entry_time), 2, 1, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->label_horizontal), 0, 2, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->hscale), 1, 2, 2, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->label_vertical), 0, 3, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->vscale), 1, 3, 2, 1);
 
 	dlg->logo = gtk_image_get_pixbuf
 		(GTK_IMAGE(gtk_image_new_from_file("logo.png")));
@@ -427,7 +429,7 @@ void dialog_simulator_create()
 	dlg->window = (GtkWindow*)gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(dlg->window, gettext("Fractal growing"));
 	gtk_window_set_icon(dlg->window, dlg->logo_min);
-	gtk_container_add(GTK_CONTAINER(dlg->window), GTK_WIDGET(dlg->table));
+	gtk_container_add(GTK_CONTAINER(dlg->window), GTK_WIDGET(dlg->grid));
 	gtk_widget_show_all(GTK_WIDGET(dlg->window));
 	g_signal_connect(dlg->window, "delete_event", glutLeaveMainLoop, NULL);
 

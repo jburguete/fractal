@@ -106,7 +106,7 @@ unsigned long t0;
  */
 float xmin, xmax, ymin, ymax, phi, theta;
 float phid = -45.;
-float thetad = 60.;
+float thetad = 80.;
 
 /**
  * \var max_d
