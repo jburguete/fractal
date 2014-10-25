@@ -85,30 +85,18 @@ typedef struct
 typedef struct
 {
 /**
- * \var action_exit
- * \brief GtkAction to exit.
- * \var action_options
- * \brief GtkAction to set the fractal options.
- * \var action_start
- * \brief GtkAction to run the simulation.
- * \var action_stop
- * \brief GtkAction to stop the simulation.
- * \var action_save
- * \brief GtkAction to save the view in a PNG file.
- * \var action_help
- * \brief GtkAction to show a help dialog.
- * \var item_exit
- * \brief GtkToolItem to exit.
- * \var item_options
- * \brief GtkToolItem to set the fractal options.
- * \var item_start
- * \brief GtkToolItem to run the simulation.
- * \var item_stop
- * \brief GtkToolItem to stop the simulation.
- * \var item_save
- * \brief GtkToolItem to save the view in a PNG file.
- * \var item_help
- * \brief GtkToolItem to show a help dialog.
+ * \var button_options
+ * \brief GtkToolButton to set the fractal options.
+ * \var button_start
+ * \brief GtkToolButton to run the simulation.
+ * \var button_stop
+ * \brief GtkToolButton to stop the simulation.
+ * \var button_save
+ * \brief GtkToolButton to save the view in a PNG file.
+ * \var button_help
+ * \brief GtkToolButton to show a help dialog.
+ * \var button_exit
+ * \brief GtkToolButton to exit.
  * \var toolbar
  * \brief GtkToolbar containing the tool items.
  * \var label_time
@@ -134,10 +122,8 @@ typedef struct
  * \var window
  * \brief GtkWindow to show the main windows.
  */
-	GtkAction *action_exit, *action_options, *action_start, *action_stop,
-		*action_save, *action_help;
-	GtkToolItem *item_exit, *item_options, *item_start, *item_stop, *item_save,
-		*item_help;
+	GtkToolButton *button_options, *button_start, *button_stop, *button_save,
+		*button_help, *button_exit;
 	GtkToolbar *toolbar;
 	GtkLabel *label_time, *label_horizontal, *label_vertical;
 	GtkSpinButton *entry_time;

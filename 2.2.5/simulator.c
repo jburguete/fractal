@@ -232,7 +232,7 @@ void dialog_simulator_help()
 		"authors",
 		authors,
 		"version",
-		"2.2.4",
+		"2.2.5",
 		"copyright",
 		"Copyright 2009-2014 Javier Burguete Tolosa",
 		"logo",
@@ -251,9 +251,9 @@ void dialog_simulator_help()
 void dialog_simulator_update()
 {
 	gtk_widget_set_sensitive
-		(GTK_WIDGET(dialog_simulator.item_start), !simulating);
+		(GTK_WIDGET(dialog_simulator.button_start), !simulating);
 	gtk_widget_set_sensitive
-		(GTK_WIDGET(dialog_simulator.item_stop), simulating);
+		(GTK_WIDGET(dialog_simulator.button_stop), simulating);
 }
 
 /**
@@ -334,58 +334,75 @@ void dialog_simulator_create()
 {
 	static char *str_exit, *str_options, *str_start, *str_stop, *str_save,
 		*str_help;
-	DialogSimulator *dlg = &dialog_simulator;
+	static char *tip_exit, *tip_options, *tip_start, *tip_stop, *tip_save,
+		*tip_help;
+	DialogSimulator *dlg;
 
-	str_exit = gettext("E_xit");
+	dlg = &dialog_simulator;
+
 	str_options = gettext("_Options");
 	str_start = gettext("S_tart");
 	str_stop = gettext("Sto_p");
 	str_save = gettext("_Save");
 	str_help = gettext("_Help");
+	str_exit = gettext("E_xit");
+	tip_options = gettext("Fractal options");
+	tip_start = gettext("Start fractal growing");
+	tip_stop = gettext("Stop fractal growing");
+	tip_save = gettext("Save graphical");
+	tip_help = gettext("Help");
+	tip_exit = gettext("Exit");
 
 	dlg->toolbar = (GtkToolbar*)gtk_toolbar_new();
-	dlg->action_exit =
-		(GtkAction*)gtk_action_new(str_exit, str_exit, NULL, GTK_STOCK_QUIT);
-	dlg->item_exit =
-		(GtkToolItem*)gtk_action_create_tool_item(dlg->action_exit);
-	gtk_toolbar_insert(dlg->toolbar, dlg->item_exit, -1);
-	g_signal_connect(dlg->action_exit, "activate", glutLeaveMainLoop, NULL);
 
-	dlg->action_options = (GtkAction*)gtk_action_new
-		(str_options, str_options, NULL, GTK_STOCK_PREFERENCES);
-	dlg->item_options =
-		(GtkToolItem*)gtk_action_create_tool_item(dlg->action_options);
-	gtk_toolbar_insert(dlg->toolbar, dlg->item_options, -1);
+	dlg->button_options = (GtkToolButton*)gtk_tool_button_new
+		(gtk_image_new_from_icon_name
+		 	("preferences-system", GTK_ICON_SIZE_SMALL_TOOLBAR),
+		str_options);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(dlg->button_options), tip_options);
+	gtk_toolbar_insert(dlg->toolbar, GTK_TOOL_ITEM(dlg->button_options), -1);
 	g_signal_connect
-		(dlg->action_options, "activate", dialog_options_create, NULL);
+		(dlg->button_options, "clicked", dialog_options_create, NULL);
 
-	dlg->action_start = (GtkAction*)gtk_action_new
-		(str_start, str_start, NULL, GTK_STOCK_EXECUTE);
-	dlg->item_start =
-		(GtkToolItem*)gtk_action_create_tool_item(dlg->action_start);
-	gtk_toolbar_insert(dlg->toolbar, dlg->item_start, -1);
-	g_signal_connect(dlg->action_start, "activate", fractal, NULL);
+	dlg->button_start = (GtkToolButton*)gtk_tool_button_new
+		(gtk_image_new_from_icon_name
+		 	("system-run", GTK_ICON_SIZE_SMALL_TOOLBAR),
+		str_start);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(dlg->button_start), tip_start);
+	gtk_toolbar_insert(dlg->toolbar, GTK_TOOL_ITEM(dlg->button_start), -1);
+	g_signal_connect(dlg->button_start, "clicked", fractal, NULL);
 
-	dlg->action_stop = (GtkAction*)gtk_action_new
-		(str_stop, str_stop, NULL, GTK_STOCK_STOP);
-	dlg->item_stop =
-		(GtkToolItem*)gtk_action_create_tool_item(dlg->action_stop);
-	gtk_toolbar_insert(dlg->toolbar, dlg->item_stop, -1);
-	g_signal_connect(dlg->action_stop, "activate", fractal_stop, NULL);
+	dlg->button_stop = (GtkToolButton*)gtk_tool_button_new
+		(gtk_image_new_from_icon_name
+		 	("process-stop", GTK_ICON_SIZE_SMALL_TOOLBAR),
+		str_stop);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(dlg->button_stop), tip_stop);
+	gtk_toolbar_insert(dlg->toolbar, GTK_TOOL_ITEM(dlg->button_stop), -1);
+	g_signal_connect(dlg->button_stop, "clicked", fractal_stop, NULL);
 
-	dlg->action_save = (GtkAction*)gtk_action_new
-		(str_save, str_save, NULL, GTK_STOCK_SAVE);
-	dlg->item_save =
-		(GtkToolItem*)gtk_action_create_tool_item(dlg->action_save);
-	gtk_toolbar_insert(dlg->toolbar, dlg->item_save, -1);
-	g_signal_connect(dlg->action_save, "activate", dialog_simulator_save, NULL);
+	dlg->button_save = (GtkToolButton*)gtk_tool_button_new
+		(gtk_image_new_from_icon_name
+		 	("document-save", GTK_ICON_SIZE_SMALL_TOOLBAR),
+		str_save);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(dlg->button_save), tip_save);
+	gtk_toolbar_insert(dlg->toolbar, GTK_TOOL_ITEM(dlg->button_save), -1);
+	g_signal_connect(dlg->button_save, "clicked", dialog_simulator_save, NULL);
 
-	dlg->action_help =
-		(GtkAction*)gtk_action_new(str_help, str_help, NULL, GTK_STOCK_HELP);
-	dlg->item_help =
-		(GtkToolItem*)gtk_action_create_tool_item(dlg->action_help);
-	gtk_toolbar_insert(dlg->toolbar, dlg->item_help, -1);
-	g_signal_connect(dlg->action_help, "activate", dialog_simulator_help, NULL);
+	dlg->button_help = (GtkToolButton*)gtk_tool_button_new
+		(gtk_image_new_from_icon_name
+		 	("help-browser", GTK_ICON_SIZE_SMALL_TOOLBAR),
+		str_help);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(dlg->button_help), tip_help);
+	gtk_toolbar_insert(dlg->toolbar, GTK_TOOL_ITEM(dlg->button_help), -1);
+	g_signal_connect(dlg->button_help, "clicked", dialog_simulator_help, NULL);
+
+	dlg->button_exit = (GtkToolButton*)gtk_tool_button_new
+		(gtk_image_new_from_icon_name
+		 	("application-exit", GTK_ICON_SIZE_SMALL_TOOLBAR),
+		str_exit);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(dlg->button_exit), tip_exit);
+	gtk_toolbar_insert(dlg->toolbar, GTK_TOOL_ITEM(dlg->button_exit), -1);
+	g_signal_connect(dlg->button_exit, "clicked", glutLeaveMainLoop, NULL);
 
 	dlg->label_time = (GtkLabel*)gtk_label_new(gettext("Calculating time"));
 	dlg->entry_time =

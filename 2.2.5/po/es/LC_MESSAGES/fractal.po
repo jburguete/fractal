@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.2.4\n"
+"Project-Id-Version: 2.2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-24 08:14+0200\n"
+"POT-Creation-Date: 2014-10-25 05:44+0200\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: simulator.c:94 simulator.c:313
+#: simulator.c:94 simulator.c:313 simulator.c:352
 msgid "Save graphical"
 msgstr "Guardar gráfica"
 
@@ -73,46 +73,66 @@ msgstr "Sitio web"
 msgid "_Open"
 msgstr "_Abrir"
 
-#: simulator.c:339
-msgid "E_xit"
-msgstr "_Salir"
-
-#: simulator.c:340
+#: simulator.c:343
 msgid "_Options"
 msgstr "_Opciones"
 
-#: simulator.c:341
+#: simulator.c:344
 msgid "S_tart"
 msgstr "_Comenzar"
 
-#: simulator.c:342
+#: simulator.c:345
 msgid "Sto_p"
 msgstr "_Parar"
 
-#: simulator.c:343
+#: simulator.c:346
 msgid "_Save"
 msgstr "_Guardar"
 
-#: simulator.c:344
+#: simulator.c:347
 msgid "_Help"
 msgstr "A_yuda"
 
-#: simulator.c:390
+#: simulator.c:348
+msgid "E_xit"
+msgstr "_Salir"
+
+#: simulator.c:349
+msgid "Fractal options"
+msgstr "Opciones de fractal"
+
+#: simulator.c:350
+msgid "Start fractal growing"
+msgstr "Iniciar crecimiento fractal"
+
+#: simulator.c:351
+msgid "Stop fractal growing"
+msgstr "Parar crecimiento fractal"
+
+#: simulator.c:353
+msgid "Help"
+msgstr "Ayuda"
+
+#: simulator.c:354
+msgid "Exit"
+msgstr "Salir"
+
+#: simulator.c:407
 msgid "Calculating time"
 msgstr "Tiempo de cálculo"
 
-#: simulator.c:396
+#: simulator.c:413
 msgid "Progress"
 msgstr "Progreso"
 
-#: simulator.c:410
+#: simulator.c:427
 msgid "Horizontal perspective angle (º)"
 msgstr "Ángulo de perspectiva horizontal (º)"
 
-#: simulator.c:412
+#: simulator.c:429
 msgid "Vertical perspective angle (º)"
 msgstr "Ángulo de perspectiva vertical (º)"
 
-#: simulator.c:430
+#: simulator.c:447
 msgid "Fractal growing"
 msgstr "Crecimiento fractal"
