@@ -1,8 +1,7 @@
 FRACTAL
 =======
 
-A program using drawing fractals to benchmark parallelization and drawing
-libraries.
+A program growing fractals to benchmark parallelization and drawing libraries.
 
 WARNING
 -------

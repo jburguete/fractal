@@ -1,6 +1,6 @@
 /*
-FRACTAL - A program using drawing fractals to benchmark parallelization and
-drawing libraries.
+FRACTAL - A program growing fractals to benchmark parallelization and drawing
+libraries.
 
 Copyright 2009-2014, Javier Burguete Tolosa.
 
@@ -229,10 +229,13 @@ void dialog_simulator_help()
 	gtk_show_about_dialog(dialog_simulator.window,
 		"program_name",
 		"Fractal",
+		"comments",
+		gettext("A program growing fractals to benchmark parallelization and "
+		"drawing libraries"),
 		"authors",
 		authors,
 		"version",
-		"2.2.5",
+		"2.2.6",
 		"copyright",
 		"Copyright 2009-2014 Javier Burguete Tolosa",
 		"logo",

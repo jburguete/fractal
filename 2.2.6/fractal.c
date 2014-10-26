@@ -1,6 +1,6 @@
 /*
-FRACTAL - A program using drawing fractals to benchmark parallelization and
-drawing libraries.
+FRACTAL - A program growing fractals to benchmark parallelization and drawing
+libraries.
 
 Copyright 2009-2014, Javier Burguete Tolosa.
 
