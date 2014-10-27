@@ -100,17 +100,14 @@ else
 fi
 
 # Checks for libraries.
-AC_SEARCH_LIBS([glutInit], [freeglut glut])
-AC_SEARCH_LIBS([glEnd], [GL opengl32])
-PKG_CHECK_MODULES([GTK], [gtk+-3.0], [gtk3=1], [gtk3=0])
-if test $gtk3 == 0; then
-	PKG_CHECK_MODULES([GTK], [gtk+-2.0])
-fi
-PKG_CHECK_MODULES([PNG], [libpng])
+AC_SEARCH_LIBS([sqrt], [m])
+AC_SEARCH_LIBS([textdomain], [intl])
 PKG_CHECK_MODULES([GLIB], [glib-2.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
-AC_SEARCH_LIBS([textdomain], [intl])
-AC_SEARCH_LIBS([sqrt], [m])
+PKG_CHECK_MODULES([GTK], [gtk+-3.0])
+PKG_CHECK_MODULES([PNG], [libpng])
+AC_SEARCH_LIBS([glutInit], [freeglut glut])
+AC_SEARCH_LIBS([glEnd], [GL opengl32])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h unistd.h libintl.h GL/freeglut.h])
