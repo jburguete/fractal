@@ -48,16 +48,16 @@ Debian kFreeBSD 7.6
 ___________________
 Debian Hurd 7.6
 _______________
+DragonFly BSD 3.8.2
+___________________
+FreeBSD 10.0
+____________
 Microsoft Windows 7 32 bits
 ___________________________
 Microsoft Windows XP 32 bits
 ____________________________
-FreeBSD 10.0
-___________
 NetBSD 6.1.5 (with modular xorg)
 ________________________________
-DragonFly BSD 3.8.2
-___________________
 
 * cd 2.2.7
 * aclocal
