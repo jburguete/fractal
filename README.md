@@ -18,7 +18,7 @@ REQUIRED
 * png (to work with PNG files)
 * gtk+ (to make the interface windows)
 * freeglut (interaction with OpenGL to draw graphics)
-* doxygen (standard comments format to generate documentation)
+* doxygen (optional: standard comments format to generate documentation)
 
 FILES
 -----
