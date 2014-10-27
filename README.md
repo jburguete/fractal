@@ -54,7 +54,7 @@ Microsoft Windows XP 32 bits
 ____________________________
 FreeBSD 10.0
 ___________
-NetBSD 6.1.3 (with modular xorg)
+NetBSD 6.1.5 (with modular xorg)
 ________________________________
 DragonFly BSD 3.8.2
 ___________________

@@ -3,7 +3,8 @@
 #	- FreeBSD 10.0
 #	- Microsoft Windows XP 32 bits
 #	- Microsoft Windows 7 32 bits
-#	- NetBSD (with modular xorg)
+#	- NetBSD 6.1.5 (with modular xorg)
+#	- DragonFly BSD 3.8.2
 #
 # aclocal
 # autoconf
@@ -23,15 +24,6 @@
 # To work in OpenBSD 5.5:
 #
 # export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
-# aclocal
-# autoconf
-# ./configure
-# make
-
-# To work in DragonflyBSD:
-# setenv CPPFLAGS '-I/usr/pkg/include -I/usr/pkg/include/gettext'
-# setenv CFLAGS '-I/usr/pkg/include -I/usr/pkg/include/gettext'
-# setenv LDFLAGS '-L/usr/pkg/lib'
 # aclocal
 # autoconf
 # ./configure
