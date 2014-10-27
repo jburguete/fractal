@@ -10,7 +10,9 @@
 # ./configure
 # make
 
-# To work in Microsoft Windows (64 bits):
+# To work in:
+#	- Microsoft Windows XP 64 bits
+#	- Microsoft Windows 7 64 bits
 #
 # aclocal
 # autoconf
@@ -18,10 +20,12 @@
 # ./configure --host=x86_64-w64-mingw32
 # make
 
-# To work in OpenBSD:
-# AUTOCONF_VERSION=2.69 aclocal-1.11
-# autoconf-2.69
-# CPPFLAGS='-I/usr/local/include -I/usr/X11R6/include' LDFLAGS='-L/usr/local/lib -L/usr/X11R6/lib' ./configure
+# To work in OpenBSD 5.5:
+#
+# export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
+# aclocal
+# autoconf
+# ./configure
 # make
 
 # To work in DragonflyBSD:

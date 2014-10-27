@@ -1,5 +1,5 @@
-FRACTAL
-=======
+FRACTAL (2.2.7 version)
+=======================
 
 A program growing fractals to benchmark parallelization and drawing libraries.
 
@@ -42,8 +42,50 @@ FILES
 BUILDING INSTRUCTIONS
 ---------------------
 
+Debian Linux 7.6
+________________
+Debian kFreeBSD 7.6
+___________________
+Debian Hurd 7.6
+_______________
+Microsoft Windows 7 32 bits
+___________________________
+Microsoft Windows XP 32 bits
+____________________________
+FreeBSD 10.0
+___________
+NetBSD 6.1.3 (with modular xorg)
+____________
+
+* cd 2.2.7
 * aclocal
 * autoconf
+* automake --add-missing
+* ./configure
+* make
+* strip fractal (optional: to make a final version)
+
+Microsoft Windows 7 64 bits
+___________________________
+Microsoft Windows XP 64 bits
+____________________________
+
+* cd 2.2.7
+* aclocal
+* autoconf
+* automake --add-missing
+* configure --host=x86_64-w64-mingw32
+* make
+* strip fractal (optional: to make a final version)
+
+OpenBSD 5.5
+___________
+
+* cd 2.2.7
+* export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
+* aclocal
+* autoconf
+* automake --add-missing
 * ./configure
 * make
 * strip fractal (optional: to make a final version)
