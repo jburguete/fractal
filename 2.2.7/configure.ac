@@ -69,6 +69,11 @@ elif test `uname -s` = "OpenBSD"; then
 	LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
 	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
 	win=0
+elif test `uname -s` = "DragonFly"; then
+	AC_MSG_NOTICE([DragonFly BSD])
+	LDFLAGS="$LDFLAGS -L/usr/local/lib"
+	CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+	win=0
 else
 	AC_MSG_NOTICE([Unix type system])
 	AC_SUBST(ccflags, "-march=native")
