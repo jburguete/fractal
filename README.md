@@ -55,7 +55,9 @@ ____________________________
 FreeBSD 10.0
 ___________
 NetBSD 6.1.3 (with modular xorg)
-____________
+________________________________
+DragonFly BSD 3.8.2
+___________________
 
 * cd 2.2.7
 * aclocal
@@ -93,6 +95,7 @@ ___________
 MAKING MANUAL INSTRUCTIONS
 --------------------------
 
+* cd 2.2.7
 * doxygen
 * cd latex
 * make
