@@ -59,43 +59,65 @@ ____________________________
 NetBSD 6.1.5 (with modular xorg)
 ________________________________
 
-* cd 2.2.7
-* aclocal
-* autoconf
-* automake --add-missing
-* ./configure
-* make
-* strip fractal (optional: to make a final version)
+> $ cd 2.2.7
+>
+> $ aclocal
+>
+> $ autoconf
+>
+> $ automake --add-missing
+>
+> $ ./configure
+>
+> $ make
+>
+> $ strip fractal (optional: to make a final version)
 
 Microsoft Windows 7 64 bits
 ___________________________
 Microsoft Windows XP 64 bits
 ____________________________
 
-* cd 2.2.7
-* aclocal
-* autoconf
-* automake --add-missing
-* configure --host=x86_64-w64-mingw32
-* make
-* strip fractal (optional: to make a final version)
+> $ cd 2.2.7
+>
+> $ aclocal
+>
+> $ autoconf
+>
+> $ automake --add-missing
+>
+> $ configure --host=x86_64-w64-mingw32
+>
+> $ make
+>
+> $ strip fractal (optional: to make a final version)
 
 OpenBSD 5.5
 ___________
 
-* cd 2.2.7
-* export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
-* aclocal
-* autoconf
-* automake --add-missing
-* ./configure
-* make
-* strip fractal (optional: to make a final version)
+> $ cd 2.2.7
+>
+> $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
+>
+> $ aclocal
+>
+> $ autoconf
+>
+> $ automake --add-missing
+>
+> $ ./configure
+>
+> $ make
+>
+> $ strip fractal (optional: to make a final version)
 
 MAKING MANUAL INSTRUCTIONS
 --------------------------
 
-* cd 2.2.7
-* doxygen
-* cd latex
-* make
+> $ cd 2.2.7
+>
+> $ doxygen
+>
+> $ cd latex
+>
+> $ make
