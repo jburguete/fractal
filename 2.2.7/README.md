@@ -19,6 +19,7 @@ REQUIRED
 * gtk+ (to make the interface windows)
 * freeglut (interaction with OpenGL to draw graphics)
 * doxygen (optional: standard comments format to generate documentation)
+* latex (optional: to build the PDF reference manual)
 
 FILES
 -----
@@ -41,6 +42,8 @@ FILES
 
 BUILDING INSTRUCTIONS
 ---------------------
+
+This software has been build and tested in the following operative systems:
 
 Debian Linux 7.7
 ________________
