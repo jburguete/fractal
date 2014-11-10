@@ -43,7 +43,7 @@ FILES
 BUILDING INSTRUCTIONS
 ---------------------
 
-On Microsof Windows system you have to install
+On Microsoft Windows systems you have to install
 [MSYS/MinGW](http://www.mingw.org) and the required libraries and utilities. You
 can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
