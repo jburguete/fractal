@@ -62,7 +62,8 @@ ____________________________
 NetBSD 6.1.5 (with modular xorg)
 ________________________________
 
-> $ cd 2.2.7
+Download this repository and execute on a terminal:
+> $ cd PATH_TO_FRACTAL/2.2.7
 >
 > $ aclocal
 >
@@ -81,6 +82,9 @@ ___________________________
 Microsoft Windows XP 64 bits
 ____________________________
 
+Download this repository and execute on a MSYS terminal:
+> $ cd PATH_TO_FRACTAL/2.2.7
+>
 > $ cd 2.2.7
 >
 > $ aclocal
@@ -98,7 +102,8 @@ ____________________________
 OpenBSD 5.5
 ___________
 
-> $ cd 2.2.7
+Download this repository and execute on a terminal:
+> $ cd PATH_TO_FRACTAL/2.2.7
 >
 > $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
 >
@@ -114,10 +119,11 @@ ___________
 >
 > $ strip fractal (optional: to make a final version)
 
-MAKING MANUAL INSTRUCTIONS
---------------------------
+MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
+--------------------------------------------------
 
-> $ cd 2.2.7
+Execute on a terminal:
+> $ cd PATH_TO_FRACTAL/2.2.7
 >
 > $ doxygen
 >
