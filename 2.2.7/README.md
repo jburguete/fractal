@@ -48,7 +48,10 @@ On Microsoft Windows systems you have to install
 can follow detailed instructions in
 [MinGW-64-Make](https://github.com/jburguete/MinGW-64-Make)
 
-This software has been build and tested in the following operative systems:
+On OpenBSD 5.6 you have to do first on the building terminal:
+> $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
+
+This software has been built and tested in the following operative systems:
 
 Debian Linux 7.7
 ________________
@@ -66,6 +69,8 @@ Microsoft Windows XP 32 bits
 ____________________________
 NetBSD 6.1.5 (with modular xorg)
 ________________________________
+OpenBSD 5.6
+___________
 
 Download this repository and execute on a terminal:
 > $ cd PATH_TO_FRACTAL/2.2.7
@@ -102,27 +107,7 @@ Download this repository and execute on a MSYS terminal:
 >
 > $ make
 >
-> $ strip fractal (optional: to make a final version)
-
-OpenBSD 5.5
-___________
-
-Download this repository and execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.2.7
->
-> $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.14
->
-> $ aclocal
->
-> $ autoconf
->
-> $ automake --add-missing
->
-> $ ./configure
->
-> $ make
->
-> $ strip fractal (optional: to make a final version)
+> $ strip fractal.exe (optional: to make a final version)
 
 MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
