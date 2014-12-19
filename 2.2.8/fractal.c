@@ -57,6 +57,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \brief 1 on breaking, 0 otherwise.
  * \var simulating
  * \brief 1 on simulating, 0 otherwise.
+ * \var animating
+ * \brief 1 on animating, 0 otherwise.
  */
 unsigned int width = 320;
 unsigned int height = 200;
@@ -64,6 +66,7 @@ unsigned int length = 320;
 unsigned int area;
 unsigned int breaking = 0;
 unsigned int simulating = 0;
+unsigned int animating = 1;
 
 /**
  * \var fractal_type
@@ -974,7 +977,7 @@ void* parallel_fractal_tree_2D(GRand *rand)
 		#if DEBUG
 			printf("checking end\n");
 		#endif
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (tree_2D_end(x, y)) fractal_stop();
 	}
 	while (!breaking);
@@ -1002,7 +1005,7 @@ void* parallel_fractal_tree_3D(GRand *rand)
 			point_3D_move(&x, &y, &z, rand);
 			tree_3D_point_boundary(&x, &y, &z, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (tree_3D_end(x, y, z)) fractal_stop();
 	}
 	while (!breaking);
@@ -1030,7 +1033,7 @@ void* parallel_fractal_forest_2D(GRand *rand)
 			point_2D_move(&x, &y, rand);
 			forest_2D_point_boundary(&x, &y, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (tree_2D_end(x, y)) fractal_stop();
 	}
 	while (!breaking);
@@ -1058,7 +1061,7 @@ void* parallel_fractal_forest_3D(GRand *rand)
 			point_3D_move(&x, &y, &z, rand);
 			forest_3D_point_boundary(&x, &y, &z, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (tree_3D_end(x, y, z)) fractal_stop();
 	}
 	while (!breaking);
@@ -1086,7 +1089,7 @@ void* parallel_fractal_neuron_2D(GRand *rand)
 			point_2D_move(&x, &y, rand);
 			neuron_2D_point_boundary(&x, &y, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (neuron_2D_end(x, y)) fractal_stop();
 	}
 	while (!breaking);
@@ -1114,7 +1117,7 @@ void* parallel_fractal_neuron_3D(GRand *rand)
 			point_3D_move(&x, &y, &z, rand);
 			neuron_3D_point_boundary(&x, &y, &z, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (neuron_3D_end(x, y, z)) fractal_stop();
 	}
 	while (!breaking);
@@ -1142,7 +1145,7 @@ void* parallel_fractal_tree_2D_diagonal(GRand *rand)
 			point_2D_move(&x, &y, rand);
 			tree_2D_point_boundary(&x, &y, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (tree_2D_end(x, y)) fractal_stop();
 	}
 	while (!breaking);
@@ -1170,7 +1173,7 @@ void* parallel_fractal_tree_3D_diagonal(GRand *rand)
 			point_3D_move(&x, &y, &z, rand);
 			tree_3D_point_boundary(&x, &y, &z, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (tree_3D_end(x, y, z)) fractal_stop();
 	}
 	while (!breaking);
@@ -1198,7 +1201,7 @@ void* parallel_fractal_forest_2D_diagonal(GRand *rand)
 			point_2D_move_diagonal(&x, &y, rand);
 			forest_2D_point_boundary(&x, &y, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (tree_2D_end(x, y)) fractal_stop();
 	}
 	while (!breaking);
@@ -1226,7 +1229,7 @@ void* parallel_fractal_forest_3D_diagonal(GRand *rand)
 			point_3D_move_diagonal(&x, &y, &z, rand);
 			forest_3D_point_boundary(&x, &y, &z, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (tree_3D_end(x, y, z)) fractal_stop();
 	}
 	while (!breaking);
@@ -1254,7 +1257,7 @@ void* parallel_fractal_neuron_2D_diagonal(GRand *rand)
 			point_2D_move_diagonal(&x, &y, rand);
 			neuron_2D_point_boundary(&x, &y, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (neuron_2D_end(x, y)) fractal_stop();
 	}
 	while (!breaking);
@@ -1282,7 +1285,7 @@ void* parallel_fractal_neuron_3D_diagonal(GRand *rand)
 			point_3D_move_diagonal(&x, &y, &z, rand);
 			neuron_3D_point_boundary(&x, &y, &z, rand);
 		}
-		if (time(NULL) > t0) break;
+		if (animating && time(NULL) > t0) break;
 		if (neuron_3D_end(x, y, z)) fractal_stop();
 	}
 	while (!breaking);

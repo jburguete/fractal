@@ -78,7 +78,8 @@ extern GMutex mutex[1];
 // END
 
 extern unsigned int fractal_type, fractal_points, fractal_3D, fractal_diagonal;
-extern unsigned int width, height, length, area, breaking, simulating;
+extern unsigned int width, height, length, area, breaking, simulating,
+	animating;
 extern unsigned long t0;
 
 extern float xmin, xmax, ymin, ymax, phid, thetad, phi, theta;

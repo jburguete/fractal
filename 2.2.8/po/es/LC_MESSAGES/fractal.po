@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.2.7\n"
+"Project-Id-Version: 2.2.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-10-26 05:27+0100\n"
+"POT-Creation-Date: 2014-12-19 20:45+0100\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: simulator.c:94 simulator.c:318 simulator.c:357
+#: simulator.c:94 simulator.c:326 simulator.c:365
 msgid "Save graphical"
 msgstr "Guardar gráfica"
 
-#: simulator.c:96 simulator.c:182
+#: simulator.c:96 simulator.c:188
 msgid "_OK"
 msgstr "_Aceptar"
 
-#: simulator.c:97 simulator.c:183 simulator.c:320
+#: simulator.c:97 simulator.c:189 simulator.c:328
 msgid "_Cancel"
 msgstr "_Cancelar"
 
@@ -61,89 +61,93 @@ msgstr "Altura"
 msgid "Fractal type"
 msgstr "Tipo de fractal"
 
-#: simulator.c:179
+#: simulator.c:168
+msgid "_Animate"
+msgstr "_Animar"
+
+#: simulator.c:185
 msgid "Options"
 msgstr "Opciones"
 
-#: simulator.c:233
+#: simulator.c:241
 msgid ""
 "A program growing fractals to benchmark parallelization and drawing libraries"
 msgstr ""
 "Un programa que usa crecimiento de fractales para analizar paralelización y "
 "librerías gráficas"
 
-#: simulator.c:238
+#: simulator.c:246
 msgid "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 msgstr "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 
-#: simulator.c:246
+#: simulator.c:254
 msgid "Website"
 msgstr "Sitio web"
 
-#: simulator.c:321
+#: simulator.c:329
 msgid "_Open"
 msgstr "_Abrir"
 
-#: simulator.c:348
+#: simulator.c:356
 msgid "_Options"
 msgstr "_Opciones"
 
-#: simulator.c:349
+#: simulator.c:357
 msgid "S_tart"
 msgstr "_Comenzar"
 
-#: simulator.c:350
+#: simulator.c:358
 msgid "Sto_p"
 msgstr "_Parar"
 
-#: simulator.c:351
+#: simulator.c:359
 msgid "_Save"
 msgstr "_Guardar"
 
-#: simulator.c:352
+#: simulator.c:360
 msgid "_Help"
 msgstr "A_yuda"
 
-#: simulator.c:353
+#: simulator.c:361
 msgid "E_xit"
 msgstr "_Salir"
 
-#: simulator.c:354
+#: simulator.c:362
 msgid "Fractal options"
 msgstr "Opciones de fractal"
 
-#: simulator.c:355
+#: simulator.c:363
 msgid "Start fractal growing"
 msgstr "Iniciar crecimiento fractal"
 
-#: simulator.c:356
+#: simulator.c:364
 msgid "Stop fractal growing"
 msgstr "Parar crecimiento fractal"
 
-#: simulator.c:358
+#: simulator.c:366
 msgid "Help"
 msgstr "Ayuda"
 
-#: simulator.c:359
+#: simulator.c:367
 msgid "Exit"
 msgstr "Salir"
 
-#: simulator.c:412
+#: simulator.c:420
 msgid "Calculating time"
 msgstr "Tiempo de cálculo"
 
-#: simulator.c:418
+#: simulator.c:426
 msgid "Progress"
 msgstr "Progreso"
 
-#: simulator.c:432
+#: simulator.c:440
 msgid "Horizontal perspective angle (º)"
 msgstr "Ángulo de perspectiva horizontal (º)"
 
-#: simulator.c:434
+#: simulator.c:442
 msgid "Vertical perspective angle (º)"
 msgstr "Ángulo de perspectiva vertical (º)"
 
-#: simulator.c:452
+#: simulator.c:460
 msgid "Fractal growing"
 msgstr "Crecimiento fractal"

@@ -164,6 +164,11 @@ void dialog_options_create()
 	gtk_container_add(GTK_CONTAINER(dlg->frame_fractal),
 		GTK_WIDGET(dlg->grid_fractal));
 
+	dlg->button_animate = (GtkCheckButton*)gtk_check_button_new_with_mnemonic
+		(gettext("_Animate"));
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON(dlg->button_animate), animating);
+
 	dlg->grid = (GtkGrid*)gtk_grid_new();
 	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->button_diagonal), 0, 0, 2, 1);
 	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->button_3D), 0, 1, 2, 1);
@@ -174,6 +179,7 @@ void dialog_options_create()
 	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->label_height), 0, 4, 1, 1);
 	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->entry_height), 1, 4, 1, 1);
 	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->frame_fractal), 0, 5, 2, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->button_animate), 0, 6, 2, 1);
 
 	dlg->dialog = (GtkDialog*)gtk_dialog_new_with_buttons(
 		gettext("Options"),
@@ -208,6 +214,8 @@ void dialog_options_create()
 		length = gtk_spin_button_get_value_as_int(dlg->entry_length);
 		width = gtk_spin_button_get_value_as_int(dlg->entry_width);
 		height = gtk_spin_button_get_value_as_int(dlg->entry_height);
+		animating = gtk_toggle_button_get_active
+			(GTK_TOGGLE_BUTTON(dlg->button_animate));
 		medium_start();
 		set_perspective();
 		breaking = 1;
@@ -237,7 +245,7 @@ void dialog_simulator_help()
 		"translator-credits",
 		gettext("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
 		"version",
-		"2.2.7",
+		"2.2.8",
 		"copyright",
 		"Copyright 2009-2014 Javier Burguete Tolosa",
 		"logo",

@@ -71,7 +71,7 @@ typedef struct
  */
 	GtkLabel *label_length, *label_width, *label_height;
 	GtkSpinButton *entry_length, *entry_width, *entry_height;
-	GtkCheckButton *button_diagonal, *button_3D;
+	GtkCheckButton *button_diagonal, *button_3D, *button_animate;
 	GtkRadioButton *array_buttons[3];
 	GtkFrame *frame_fractal;
 	GtkGrid *grid_fractal, *grid;
