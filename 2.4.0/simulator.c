@@ -37,6 +37,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <math.h>
 #include <time.h>
 #include <libintl.h>
+#include <gsl/gsl_rng.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <GL/freeglut.h>
@@ -121,6 +122,13 @@ void dialog_options_update()
 	i = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dlg->button_3D));
 	gtk_widget_set_sensitive(GTK_WIDGET(dlg->label_length), i);
 	gtk_widget_set_sensitive(GTK_WIDGET(dlg->entry_length), i);
+	for (i = 0; i < N_RANDOM_SEED_TYPES; ++i)
+		if (gtk_toggle_button_get_active
+			(GTK_TOGGLE_BUTTON(dlg->array_seeds[i])))
+				break;
+	i = (i == RANDOM_SEED_TYPE_FIXED)? 1: 0;
+	gtk_widget_set_sensitive(GTK_WIDGET(dlg->label_seed), i);
+	gtk_widget_set_sensitive(GTK_WIDGET(dlg->entry_seed), i);
 }
 
 /**
@@ -130,36 +138,56 @@ void dialog_options_update()
 void dialog_options_create()
 {
 	int i;
-	const char *array_char[3]=
+	const char *array_fractals[N_FRACTAL_TYPES] =
 		{gettext("_Tree"), gettext("_Forest"), gettext("_Neuron")};
+	const char *array_algorithms[N_RANDOM_TYPES] =
+	{
+		"_mt19937",
+		"_ranlxs0",
+		"r_anlxs1",
+		"ra_nlxs2",
+		"ran_lxd1",
+		"ranlx_d2",
+		"ranlu_x",
+		"ranlux_389",
+		"_cmrg",
+		"mr_g",
+		"_taus2",
+		"g_fsr4"
+	};
+	const char *array_seeds[N_RANDOM_SEED_TYPES] =
+		{gettext("_Default"), gettext("_Clock based"), gettext("_Fixed")};
 	DialogOptions *dlg = &dialog_options;
 
 	dlg->button_diagonal = (GtkCheckButton*)gtk_check_button_new_with_mnemonic
 		(gettext("_Diagonal movement"));
 	dlg->button_3D = (GtkCheckButton*)gtk_check_button_new_with_mnemonic("3_D");
+	g_signal_connect(dlg->button_3D, "clicked", dialog_options_update, NULL);
 	dlg->label_length = (GtkLabel*)gtk_label_new(gettext("Length"));
 	dlg->label_width = (GtkLabel*)gtk_label_new(gettext("Width"));
 	dlg->label_height = (GtkLabel*)gtk_label_new(gettext("Height"));
+	dlg->label_seed = (GtkLabel*)gtk_label_new(gettext("Random seed"));
 	dlg->entry_length =
 		(GtkSpinButton*)gtk_spin_button_new_with_range(320., 2400., 1.);
 	dlg->entry_width =
 		(GtkSpinButton*)gtk_spin_button_new_with_range(320., 2400., 1.);
 	dlg->entry_height =
 		(GtkSpinButton*)gtk_spin_button_new_with_range(200., 2400., 1.);
+	dlg->entry_seed =
+		(GtkSpinButton*)gtk_spin_button_new_with_range(0., (2L<<32) - 1., 1.);
 
 	dlg->grid_fractal = (GtkGrid*)gtk_grid_new();
-	dlg->array_buttons[0] = NULL;
-	for (i = 0; i < 3; ++i)
+	dlg->array_fractals[0] = NULL;
+	for (i = 0; i < N_FRACTAL_TYPES; ++i)
 	{
-		dlg->array_buttons[i] =
+		dlg->array_fractals[i] =
 			(GtkRadioButton*)gtk_radio_button_new_with_mnemonic_from_widget
-				(dlg->array_buttons[0], array_char[i]);
-		gtk_grid_attach(dlg->grid_fractal, GTK_WIDGET(dlg->array_buttons[i]),
+				(dlg->array_fractals[0], array_fractals[i]);
+		gtk_grid_attach(dlg->grid_fractal, GTK_WIDGET(dlg->array_fractals[i]),
 			0, i, 1, 1);
 	}
 	gtk_toggle_button_set_active
-		(GTK_TOGGLE_BUTTON(dlg->array_buttons[fractal_type]), 1);
-
+		(GTK_TOGGLE_BUTTON(dlg->array_fractals[fractal_type]), 1);
 	dlg->frame_fractal = (GtkFrame*)gtk_frame_new(gettext("Fractal type"));
 	gtk_container_add(GTK_CONTAINER(dlg->frame_fractal),
 		GTK_WIDGET(dlg->grid_fractal));
@@ -168,6 +196,41 @@ void dialog_options_create()
 		(gettext("_Animate"));
 	gtk_toggle_button_set_active
 		(GTK_TOGGLE_BUTTON(dlg->button_animate), animating);
+
+	dlg->grid_algorithm = (GtkGrid*)gtk_grid_new();
+	dlg->array_algorithms[0] = NULL;
+	for (i = 0; i < N_RANDOM_TYPES; ++i)
+	{
+		dlg->array_algorithms[i] =
+			(GtkRadioButton*)gtk_radio_button_new_with_mnemonic_from_widget
+				(dlg->array_algorithms[0], array_algorithms[i]);
+		gtk_grid_attach(dlg->grid_algorithm,
+			GTK_WIDGET(dlg->array_algorithms[i]), 0, i, 1, 1);
+	}
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON(dlg->array_algorithms[random_algorithm]), 1);
+	dlg->frame_algorithm
+		= (GtkFrame*)gtk_frame_new(gettext("Random algorithm"));
+	gtk_container_add(GTK_CONTAINER(dlg->frame_algorithm),
+		GTK_WIDGET(dlg->grid_algorithm));
+
+	dlg->grid_seed = (GtkGrid*)gtk_grid_new();
+	dlg->array_seeds[0] = NULL;
+	for (i = 0; i < N_RANDOM_SEED_TYPES; ++i)
+	{
+		dlg->array_seeds[i] =
+			(GtkRadioButton*)gtk_radio_button_new_with_mnemonic_from_widget
+				(dlg->array_seeds[0], array_seeds[i]);
+		gtk_grid_attach(dlg->grid_seed, GTK_WIDGET(dlg->array_seeds[i]),
+			0, i, 1, 1);
+		g_signal_connect(dlg->array_seeds[i], "clicked", dialog_options_update,
+			NULL);
+	}
+	gtk_toggle_button_set_active
+		(GTK_TOGGLE_BUTTON(dlg->array_seeds[random_seed_type]), 1);
+	dlg->frame_seed = (GtkFrame*)gtk_frame_new(gettext("Random seed type"));
+	gtk_container_add(GTK_CONTAINER(dlg->frame_seed),
+		GTK_WIDGET(dlg->grid_seed));
 
 	dlg->grid = (GtkGrid*)gtk_grid_new();
 	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->button_diagonal), 0, 0, 2, 1);
@@ -180,6 +243,10 @@ void dialog_options_create()
 	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->entry_height), 1, 4, 1, 1);
 	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->frame_fractal), 0, 5, 2, 1);
 	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->button_animate), 0, 6, 2, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->frame_algorithm), 2, 0, 1, 8);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->frame_seed), 0, 7, 2, 2);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->label_seed), 0, 9, 1, 1);
+	gtk_grid_attach(dlg->grid, GTK_WIDGET(dlg->entry_seed), 1, 9, 1, 1);
 
 	dlg->dialog = (GtkDialog*)gtk_dialog_new_with_buttons(
 		gettext("Options"),
@@ -192,13 +259,13 @@ void dialog_options_create()
 		GTK_WIDGET(dlg->grid));
 	gtk_widget_show_all(GTK_WIDGET(dlg->dialog));
 
-	g_signal_connect(dlg->button_3D, "clicked", dialog_options_update, NULL);
 	gtk_toggle_button_set_active
 		((GtkToggleButton*)dlg->button_diagonal, fractal_diagonal);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(dlg->button_3D), fractal_3D);
 	gtk_spin_button_set_value(dlg->entry_length, length);
 	gtk_spin_button_set_value(dlg->entry_width, width);
 	gtk_spin_button_set_value(dlg->entry_height, height);
+	gtk_spin_button_set_value(dlg->entry_seed, random_seed);
 	dialog_options_update();
 
 	if (gtk_dialog_run(dlg->dialog) == GTK_RESPONSE_OK)
@@ -207,15 +274,24 @@ void dialog_options_create()
 			(GTK_TOGGLE_BUTTON(dlg->button_diagonal));
 		fractal_3D =
 			gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(dlg->button_3D));
-		for (i = 0; i < 3; ++i)
+		for (i = 0; i < N_FRACTAL_TYPES; ++i)
 			if (gtk_toggle_button_get_active
-				(GTK_TOGGLE_BUTTON(dlg->array_buttons[i])))
+				(GTK_TOGGLE_BUTTON(dlg->array_fractals[i])))
 					fractal_type = i;
 		length = gtk_spin_button_get_value_as_int(dlg->entry_length);
 		width = gtk_spin_button_get_value_as_int(dlg->entry_width);
 		height = gtk_spin_button_get_value_as_int(dlg->entry_height);
+		random_seed = gtk_spin_button_get_value_as_int(dlg->entry_seed);
 		animating = gtk_toggle_button_get_active
 			(GTK_TOGGLE_BUTTON(dlg->button_animate));
+		for (i = 0; i < N_RANDOM_TYPES; ++i)
+			if (gtk_toggle_button_get_active
+				(GTK_TOGGLE_BUTTON(dlg->array_algorithms[i])))
+					random_algorithm = i;
+		for (i = 0; i < N_RANDOM_SEED_TYPES; ++i)
+			if (gtk_toggle_button_get_active
+				(GTK_TOGGLE_BUTTON(dlg->array_seeds[i])))
+					random_seed_type = i;
 		medium_start();
 		set_perspective();
 		breaking = 1;
@@ -245,7 +321,7 @@ void dialog_simulator_help()
 		"translator-credits",
 		gettext("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
 		"version",
-		"2.2.8",
+		"2.4.0",
 		"copyright",
 		"Copyright 2009-2014 Javier Burguete Tolosa",
 		"logo",

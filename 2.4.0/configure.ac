@@ -30,7 +30,7 @@
 # make
 
 AC_PREREQ([2.67])
-AC_INIT(fractal, [2.2.8])
+AC_INIT(fractal, [2.4.0])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -99,6 +99,7 @@ fi
 # Checks for libraries.
 AC_SEARCH_LIBS([sqrt], [m])
 AC_SEARCH_LIBS([textdomain], [intl])
+PKG_CHECK_MODULES([GSL], [gsl])
 PKG_CHECK_MODULES([GLIB], [glib-2.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
 PKG_CHECK_MODULES([GTK], [gtk+-3.0])

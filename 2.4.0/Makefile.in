@@ -9,15 +9,14 @@ gcc = gcc -Wall -std=gnu99
 es = po/es/LC_MESSAGES/
 fr = po/fr/LC_MESSAGES/
 
-CFLAGS = @CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ @PNG_CFLAGS@ @GTK_CFLAGS@
-LDFLAGS = @LDFLAGS@ @LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ @PNG_LIBS@ @GTK_LIBS@
+CFLAGS = @CFLAGS@ @GSL_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ @PNG_CFLAGS@ \
+	@GTK_CFLAGS@
+LDFLAGS = @LDFLAGS@ @LIBS@ @GSL_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ @PNG_LIBS@ \
+	@GTK_LIBS@
 
 CC = @CC@ -std=gnu99 @LTO@ @ccflags@ #-pg
 
 all: fractal po/fractal.pot $(es)fractal.mo $(fr)fractal.mo
-
-copy:
-	tar -cjf fractal-2-0-4.tbz *.{h,c,png,ac,in} po/*.pot po/*/*/*.po
 
 fractal: $(objs)
 	$(CC) $(objs) $(LDFLAGS) -o fractal

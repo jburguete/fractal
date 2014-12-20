@@ -36,6 +36,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
+#include <gsl/gsl_rng.h>
 #include <glib.h>
 #include <png.h>
 #include <GL/freeglut.h>

@@ -38,6 +38,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <time.h>
 #include <unistd.h>
 #include <libintl.h>
+#include <gsl/gsl_rng.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <GL/freeglut.h>

@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.2.8\n"
+"Project-Id-Version: 2.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-19 20:45+0100\n"
+"POT-Creation-Date: 2014-12-20 05:47+0100\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,137 +17,161 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: simulator.c:94 simulator.c:326 simulator.c:365
+#: simulator.c:95 simulator.c:402 simulator.c:441
 msgid "Save graphical"
 msgstr "Guardar gráfica"
 
-#: simulator.c:96 simulator.c:188
+#: simulator.c:97 simulator.c:255
 msgid "_OK"
 msgstr "_Aceptar"
 
-#: simulator.c:97 simulator.c:189 simulator.c:328
+#: simulator.c:98 simulator.c:256 simulator.c:404
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: simulator.c:134
+#: simulator.c:142
 msgid "_Tree"
 msgstr "Á_rbol"
 
-#: simulator.c:134
+#: simulator.c:142
 msgid "_Forest"
 msgstr "_Bosque"
 
-#: simulator.c:134
+#: simulator.c:142
 msgid "_Neuron"
 msgstr "_Neurona"
 
-#: simulator.c:138
+#: simulator.c:159
+msgid "_Default"
+msgstr "_Defecto"
+
+#: simulator.c:159
+msgid "_Clock based"
+msgstr "_Basdo en reloj"
+
+#: simulator.c:159
+msgid "_Fixed"
+msgstr "_Fijo"
+
+#: simulator.c:163
 msgid "_Diagonal movement"
 msgstr "Movimiento _diagonal"
 
-#: simulator.c:140
+#: simulator.c:166
 msgid "Length"
 msgstr "Longitud"
 
-#: simulator.c:141
+#: simulator.c:167
 msgid "Width"
 msgstr "Anchura"
 
-#: simulator.c:142
+#: simulator.c:168
 msgid "Height"
 msgstr "Altura"
 
-#: simulator.c:163
+#: simulator.c:169
+msgid "Random seed"
+msgstr "Semilla de números aleatorios"
+
+#: simulator.c:191
 msgid "Fractal type"
 msgstr "Tipo de fractal"
 
-#: simulator.c:168
+#: simulator.c:196
 msgid "_Animate"
 msgstr "_Animar"
 
-#: simulator.c:185
+#: simulator.c:213
+msgid "Random algorithm"
+msgstr "Algoritmo de números aleatorios"
+
+#: simulator.c:231
+msgid "Random seed type"
+msgstr "Tipo de semilla de números aleatorios"
+
+#: simulator.c:252
 msgid "Options"
 msgstr "Opciones"
 
-#: simulator.c:241
+#: simulator.c:317
 msgid ""
 "A program growing fractals to benchmark parallelization and drawing libraries"
 msgstr ""
 "Un programa que usa crecimiento de fractales para analizar paralelización y "
 "librerías gráficas"
 
-#: simulator.c:246
+#: simulator.c:322
 msgid "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 msgstr "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 
-#: simulator.c:254
+#: simulator.c:330
 msgid "Website"
 msgstr "Sitio web"
 
-#: simulator.c:329
+#: simulator.c:405
 msgid "_Open"
 msgstr "_Abrir"
 
-#: simulator.c:356
+#: simulator.c:432
 msgid "_Options"
 msgstr "_Opciones"
 
-#: simulator.c:357
+#: simulator.c:433
 msgid "S_tart"
 msgstr "_Comenzar"
 
-#: simulator.c:358
+#: simulator.c:434
 msgid "Sto_p"
 msgstr "_Parar"
 
-#: simulator.c:359
+#: simulator.c:435
 msgid "_Save"
 msgstr "_Guardar"
 
-#: simulator.c:360
+#: simulator.c:436
 msgid "_Help"
 msgstr "A_yuda"
 
-#: simulator.c:361
+#: simulator.c:437
 msgid "E_xit"
 msgstr "_Salir"
 
-#: simulator.c:362
+#: simulator.c:438
 msgid "Fractal options"
 msgstr "Opciones de fractal"
 
-#: simulator.c:363
+#: simulator.c:439
 msgid "Start fractal growing"
 msgstr "Iniciar crecimiento fractal"
 
-#: simulator.c:364
+#: simulator.c:440
 msgid "Stop fractal growing"
 msgstr "Parar crecimiento fractal"
 
-#: simulator.c:366
+#: simulator.c:442
 msgid "Help"
 msgstr "Ayuda"
 
-#: simulator.c:367
+#: simulator.c:443
 msgid "Exit"
 msgstr "Salir"
 
-#: simulator.c:420
+#: simulator.c:496
 msgid "Calculating time"
 msgstr "Tiempo de cálculo"
 
-#: simulator.c:426
+#: simulator.c:502
 msgid "Progress"
 msgstr "Progreso"
 
-#: simulator.c:440
+#: simulator.c:516
 msgid "Horizontal perspective angle (º)"
 msgstr "Ángulo de perspectiva horizontal (º)"
 
-#: simulator.c:442
+#: simulator.c:518
 msgid "Vertical perspective angle (º)"
 msgstr "Ángulo de perspectiva vertical (º)"
 
-#: simulator.c:460
+#: simulator.c:536
 msgid "Fractal growing"
 msgstr "Crecimiento fractal"

@@ -57,7 +57,7 @@ typedef struct
 
 /**
  * \enum FractalType
- * \brief A enum to define fractal types.
+ * \brief An enum to define fractal types.
  * \var FRACTAL_TYPE_TREE
  * \brief Tree fractal type.
  * \var FRACTAL_TYPE_FOREST
@@ -71,6 +71,86 @@ enum FractalType
 	FRACTAL_TYPE_FOREST = 1,
 	FRACTAL_TYPE_NEURON = 2
 };
+
+/**
+ * \def N_FRACTAL_TYPES
+ * \brief Macro to define the number of fractal types.
+ */
+#define N_FRACTAL_TYPES (FRACTAL_TYPE_NEURON + 1)
+
+/**
+ * \enum RandomType
+ * \brief An enum to define random algorithm types.
+ * \var RANDOM_TYPE_MT19937
+ * \brief gsl_rng_mt19937 random numbers generator algorithm.
+ * \var RANDOM_TYPE_RANLXS0 = 1
+ * \brief gsl_rng_ranlxs0 random numbers generator algorithm.
+ * \var RANDOM_TYPE_RANLXS1 = 2
+ * \brief gsl_rng_ranlxs1 random numbers generator algorithm.
+ * \var RANDOM_TYPE_RANLXS2 = 3
+ * \brief gsl_rng_ranlxs2 random numbers generator algorithm.
+ * \var RANDOM_TYPE_RANLXD1 = 4
+ * \brief gsl_rng_ranlxd1 random numbers generator algorithm.
+ * \var RANDOM_TYPE_RANLXD2 = 5
+ * \brief gsl_rng_ranlxd2 random numbers generator algorithm.
+ * \var RANDOM_TYPE_RANLUX = 6
+ * \brief gsl_rng_ranlux random numbers generator algorithm.
+ * \var RANDOM_TYPE_RANLUX389 = 7
+ * \brief gsl_rng_ranlux389 random numbers generator algorithm.
+ * \var RANDOM_TYPE_CMRG = 8
+ * \brief gsl_rng_cmrg random numbers generator algorithm.
+ * \var RANDOM_TYPE_MRG = 9
+ * \brief gsl_rng_mrg random numbers generator algorithm.
+ * \var RANDOM_TYPE_TAUS2 = 10
+ * \brief gsl_rng_taus2 random numbers generator algorithm.
+ * \var RANDOM_TYPE_GFSR4 = 11
+ * \brief gsl_rng_gfsr4 random numbers generator algorithm.
+ */
+enum RandomType
+{
+	RANDOM_TYPE_MT19937 = 0,
+	RANDOM_TYPE_RANLXS0 = 1,
+	RANDOM_TYPE_RANLXS1 = 2,
+	RANDOM_TYPE_RANLXS2 = 3,
+	RANDOM_TYPE_RANLXD1 = 4,
+	RANDOM_TYPE_RANLXD2 = 5,
+	RANDOM_TYPE_RANLUX = 6,
+	RANDOM_TYPE_RANLUX389 = 7,
+	RANDOM_TYPE_CMRG = 8,
+	RANDOM_TYPE_MRG = 9,
+	RANDOM_TYPE_TAUS2 = 10,
+	RANDOM_TYPE_GFSR4 = 11
+};
+
+/**
+ * \def N_RANDOM_TYPES
+ * \brief Macro to define the number of random numbers generator algorithm
+ *   types.
+ */
+#define N_RANDOM_TYPES (RANDOM_TYPE_GFSR4 + 1)
+
+/**
+ * \enum RandomSeedType
+ * \brief A enum to define random seed types.
+ * \var RANDOM_SEED_TYPE_DEFAULT
+ * \brief default random seed.
+ * \var RANDOM_SEED_TYPE_CLOCK
+ * \brief clock based random seed.
+ * \var RANDOM_SEED_TYPE_FIXED
+ * \brief user fixed random seed.
+ */
+enum RandomSeedType
+{
+	RANDOM_SEED_TYPE_DEFAULT = 0,
+	RANDOM_SEED_TYPE_CLOCK = 1,
+	RANDOM_SEED_TYPE_FIXED = 2
+};
+
+/**
+ * \def N_RANDOM_SEED_TYPES
+ * \brief Macro to define the number of random seed types.
+ */
+#define N_RANDOM_SEED_TYPES (RANDOM_SEED_TYPE_FIXED + 1)
 
 // PARALLELIZING DATA
 extern unsigned int nthreads;
@@ -88,7 +168,10 @@ extern unsigned int max_d;
 extern unsigned int *medium;
 extern GList *list_points;
 
-extern void* (*parallel_fractal)(GRand *rand);
+extern unsigned int random_algorithm, random_seed_type;
+extern unsigned long random_seed;
+
+extern void* (*parallel_fractal)(gsl_rng *rng);
 
 /**
  * \fn inline void perspective(int x, int y, int z, float *X, float *Y)

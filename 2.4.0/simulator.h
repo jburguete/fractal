@@ -48,33 +48,50 @@ typedef struct
  * \brief GtkLabel to show the width label.
  * \var label_height
  * \brief GtkLabel to show the height label.
+ * \var label_seed
+ * \brief GtkLabel to show the seed label.
  * \var entry_length
  * \brief GtkSpinButton to set the medium length.
  * \var entry_width
  * \brief GtkSpinButton to set the medium width.
  * \var entry_height
  * \brief GtkSpinButton to set the medium height.
+ * \var entry_seed
+ * \brief GtkSpinButton to set the random numbers generator seed.
  * \var button_diagonal
  * \brief GtkButton to allow diagonal movements.
  * \var button_3D
  * \brief GtkButton to set 2D / 3D fractals.
- * \var array_buttons
+ * \var array_fractals
  * \brief Array of GtkRadioButtons to set the fractal type.
+ * \var array_algorithms
+ * \brief Array of GtkRadioButtons to set the random numbers generator algoritm.
+ * \var array_seeds
+ * \brief Array of GtkRadioButtons to set the random seed type.
  * \var frame_fractal
  * \brief GtkFrame to show the fractal types.
+ * \var frame_algortithm
+ * \brief GtkFrame to show the random number generator algorithms.
+ * \var frame_seed
+ * \brief GtkFrame to show the random seed types.
  * \var grid_fractal
  * \brief GtkGrid to group the fractal types.
+ * \var grid_algorithm
+ * \brief GtkGrid to group the random numbers generator algorithms.
+ * \var grid_seed
+ * \brief GtkGrid to group the random seed types.
  * \var grid
  * \brief GtkGrid to group the widgets.
  * \var dialog
  * \brief GtkDialog to show the options window.
  */
-	GtkLabel *label_length, *label_width, *label_height;
-	GtkSpinButton *entry_length, *entry_width, *entry_height;
+	GtkLabel *label_length, *label_width, *label_height, *label_seed;
+	GtkSpinButton *entry_length, *entry_width, *entry_height, *entry_seed;
 	GtkCheckButton *button_diagonal, *button_3D, *button_animate;
-	GtkRadioButton *array_buttons[3];
-	GtkFrame *frame_fractal;
-	GtkGrid *grid_fractal, *grid;
+	GtkRadioButton *array_fractals[N_FRACTAL_TYPES],
+		*array_algorithms[N_RANDOM_TYPES], *array_seeds[N_RANDOM_SEED_TYPES];
+	GtkFrame *frame_fractal, *frame_algorithm, *frame_seed;
+	GtkGrid *grid_fractal, *grid_algorithm, *grid_seed, *grid;
 	GtkDialog *dialog;
 } DialogOptions;
 
