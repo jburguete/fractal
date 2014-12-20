@@ -62,6 +62,8 @@ typedef struct
  * \brief GtkButton to allow diagonal movements.
  * \var button_3D
  * \brief GtkButton to set 2D / 3D fractals.
+ * \var button_animate
+ * \brief GtkButton to set graphical animation.
  * \var array_fractals
  * \brief Array of GtkRadioButtons to set the fractal type.
  * \var array_algorithms
@@ -70,7 +72,7 @@ typedef struct
  * \brief Array of GtkRadioButtons to set the random seed type.
  * \var frame_fractal
  * \brief GtkFrame to show the fractal types.
- * \var frame_algortithm
+ * \var frame_algorithm
  * \brief GtkFrame to show the random number generator algorithms.
  * \var frame_seed
  * \brief GtkFrame to show the random seed types.

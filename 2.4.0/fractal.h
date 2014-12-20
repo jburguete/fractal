@@ -83,27 +83,27 @@ enum FractalType
  * \brief An enum to define random algorithm types.
  * \var RANDOM_TYPE_MT19937
  * \brief gsl_rng_mt19937 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLXS0 = 1
+ * \var RANDOM_TYPE_RANLXS0
  * \brief gsl_rng_ranlxs0 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLXS1 = 2
+ * \var RANDOM_TYPE_RANLXS1
  * \brief gsl_rng_ranlxs1 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLXS2 = 3
+ * \var RANDOM_TYPE_RANLXS2
  * \brief gsl_rng_ranlxs2 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLXD1 = 4
+ * \var RANDOM_TYPE_RANLXD1
  * \brief gsl_rng_ranlxd1 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLXD2 = 5
+ * \var RANDOM_TYPE_RANLXD2
  * \brief gsl_rng_ranlxd2 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLUX = 6
+ * \var RANDOM_TYPE_RANLUX
  * \brief gsl_rng_ranlux random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLUX389 = 7
+ * \var RANDOM_TYPE_RANLUX389
  * \brief gsl_rng_ranlux389 random numbers generator algorithm.
- * \var RANDOM_TYPE_CMRG = 8
+ * \var RANDOM_TYPE_CMRG
  * \brief gsl_rng_cmrg random numbers generator algorithm.
- * \var RANDOM_TYPE_MRG = 9
+ * \var RANDOM_TYPE_MRG
  * \brief gsl_rng_mrg random numbers generator algorithm.
- * \var RANDOM_TYPE_TAUS2 = 10
+ * \var RANDOM_TYPE_TAUS2
  * \brief gsl_rng_taus2 random numbers generator algorithm.
- * \var RANDOM_TYPE_GFSR4 = 11
+ * \var RANDOM_TYPE_GFSR4
  * \brief gsl_rng_gfsr4 random numbers generator algorithm.
  */
 enum RandomType

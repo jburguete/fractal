@@ -131,8 +131,6 @@ GList *list_points = NULL;
  * \brief Type of random seed.
  * \var random_seed
  * \brief Random seed.
- * \var random_type
- * \brief Array of gsl_rng_type* random numbers generator algorithms.
  */
 unsigned int random_algorithm = 0;
 unsigned int random_seed_type = 1;
