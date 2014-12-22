@@ -181,7 +181,7 @@ static inline void list_points_delete()
 {
 	while (list_points)
 	{
-		g_free(list_points->data);
+		g_slice_free(Point, list_points->data);
 		list_points = g_list_remove_link(list_points, list_points);
 	}
 }
@@ -201,7 +201,7 @@ static inline void list_points_delete()
 static inline void list_points_add(int x, int y, int z, unsigned int c)
 {
 	Point *point;
-	point = (Point*)g_malloc(sizeof(Point));
+	point = g_slice_new(Point);
 	point->x = x;
 	point->y = y;
 	point->z = z;
@@ -1543,5 +1543,5 @@ void fractal()
 	#if DEBUG
 		printf("Freeing threads\n");
 	#endif
-	for (i = 0; i < nthreads; ++i) g_free(rng[i]);
+	for (i = 0; i < nthreads; ++i) gsl_rng_free(rng[i]);
 }

@@ -30,7 +30,7 @@
 # make
 
 AC_PREREQ([2.67])
-AC_INIT(fractal, [2.4.0])
+AC_INIT(fractal, [2.4.1])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM

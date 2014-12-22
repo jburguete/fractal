@@ -144,7 +144,7 @@ void logo_new(char *name)
 	logo.width = png_get_image_width(png, info);
 	logo.height = png_get_image_height(png, info);
 	row_bytes = png_get_rowbytes(png, info);
-	logo.image = (GLubyte*)g_try_malloc(row_bytes * logo.height);
+	logo.image = (GLubyte*)g_malloc(row_bytes * logo.height);
 	if (!logo.image) goto error2;
 	row_pointers = png_get_rows(png, info);
 	for (i = 0; i < logo.height; i++)
@@ -312,7 +312,7 @@ void draw_save(char *file_name)
 	// Getting the OpenGL pixels
 	glViewport(0, 0, x2, y2);
 	row_bytes = 4 * x2;
-	pixels = (GLubyte*)malloc(row_bytes * y2);
+	pixels = (GLubyte*)g_malloc(row_bytes * y2);
 	glReadPixels
 		(0, 0, x2, y2, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
@@ -320,7 +320,7 @@ void draw_save(char *file_name)
 	row_pointers = (png_byte**)malloc(y2 * sizeof(png_byte*));
 	for (i = 0; i < y2; ++i)
 	{
-		row_pointers[i] = (png_byte*)malloc(row_bytes);
+		row_pointers[i] = (png_byte*)g_slice_alloc(row_bytes);
 		memcpy(row_pointers[i], pixels + (y2 - 1 - i) * row_bytes,
 			row_bytes);
 	}
@@ -332,9 +332,9 @@ void draw_save(char *file_name)
 	png_write_image(png, row_pointers);
 
 	// Freeing memory
-	for (i = 0; i < y2; ++i) free(row_pointers[i]);
-	free(row_pointers);
-	free(pixels);
+	for (i = 0; i < y2; ++i) g_slice_free1(row_bytes, row_pointers[i]);
+	g_free(row_pointers);
+	g_free(pixels);
 
 	// Saving the file
 	if (setjmp(png_jmpbuf(png)))
