@@ -54,6 +54,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \brief Medium length.
  * \var area
  * \brief Medium area.
+ * \var medium_bytes.
+ * \brief Number of bytes used by the medium.
  * \var breaking
  * \brief 1 on breaking, 0 otherwise.
  * \var simulating
@@ -65,6 +67,7 @@ unsigned int width = 320;
 unsigned int height = 200;
 unsigned int length = 320;
 unsigned int area;
+unsigned int medium_bytes;
 unsigned int breaking = 0;
 unsigned int simulating = 0;
 unsigned int animating = 1;
@@ -1332,7 +1335,8 @@ void medium_start()
 
 	j = area = width * length;
 	if (fractal_3D) j*= length;
-	medium = (unsigned int*)g_realloc(medium, j * sizeof(unsigned int));
+	medium_bytes = j * sizeof(unsigned int);
+	medium = (unsigned int*)g_slice_alloc(medium_bytes);
 	for (i = j; --i >= 0;) medium[i] = 0;
 	#if DEBUG
 		printf("Medium size=%d pointer=%ld\n", j, (size_t)medium);
@@ -1474,10 +1478,10 @@ void fractal()
 			case RANDOM_SEED_TYPE_DEFAULT:
 				break;
 			case RANDOM_SEED_TYPE_CLOCK:
-				gsl_rng_set(rng[i], (unsigned long)clock());
+				gsl_rng_set(rng[i], (unsigned long)clock() + i);
 				break;
 			default:
-				gsl_rng_set(rng[i], random_seed);
+				gsl_rng_set(rng[i], random_seed + i);
 		}
 	}
 
@@ -1544,4 +1548,5 @@ void fractal()
 		printf("Freeing threads\n");
 	#endif
 	for (i = 0; i < nthreads; ++i) gsl_rng_free(rng[i]);
+	g_slice_free1(medium_bytes, medium);
 }

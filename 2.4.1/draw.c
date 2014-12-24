@@ -263,7 +263,7 @@ end_draw:
 void draw_save(char *file_name)
 {
 	int i, x2, y2;
-	unsigned int row_bytes;
+	unsigned int row_bytes, pointers_bytes, pixels_bytes;
 	GLubyte *pixels;
 	FILE *file;
 	png_struct *png;
@@ -312,12 +312,14 @@ void draw_save(char *file_name)
 	// Getting the OpenGL pixels
 	glViewport(0, 0, x2, y2);
 	row_bytes = 4 * x2;
-	pixels = (GLubyte*)g_malloc(row_bytes * y2);
+	pixels_bytes = row_bytes * y2;
+	pixels = (GLubyte*)g_slice_alloc(pixels_bytes);
 	glReadPixels
 		(0, 0, x2, y2, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
 
 	// Saving the pixels in the PNG order
-	row_pointers = (png_byte**)malloc(y2 * sizeof(png_byte*));
+	pointers_bytes = y2 * sizeof(png_byte*);
+	row_pointers = (png_byte**)malloc(pointers_bytes);
 	for (i = 0; i < y2; ++i)
 	{
 		row_pointers[i] = (png_byte*)g_slice_alloc(row_bytes);
@@ -333,8 +335,8 @@ void draw_save(char *file_name)
 
 	// Freeing memory
 	for (i = 0; i < y2; ++i) g_slice_free1(row_bytes, row_pointers[i]);
-	g_free(row_pointers);
-	g_free(pixels);
+	g_slice_free1(pointers_bytes, row_pointers);
+	g_slice_free1(pixels_bytes, pixels);
 
 	// Saving the file
 	if (setjmp(png_jmpbuf(png)))
