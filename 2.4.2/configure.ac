@@ -45,7 +45,7 @@ if test $host = "x86_64-w64-mingw32"; then
 	win=1
 elif test $host = "i686-pc-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 32 bits])
-	LDFLAGS="$LDFLAGS -lglut -lopengl32"
+	LDFLAGS="$LDFLAGS -lfreeglut -lopengl32"
 	CPPFLAGS="$CPPFLAGS -I/mingw/include"
 	AC_SUBST(ccflags, "-march=pentium4 -mfpmath=sse -msse2 -mwindows")
 	AC_SUBST(libgcc, "libgcc_s_sjlj-1")
