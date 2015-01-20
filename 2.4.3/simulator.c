@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2014, Javier Burguete Tolosa.
+Copyright 2009-2015, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file simulator.c
  * \brief Source file to define the windows data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2014, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2015, Javier Burguete Tolosa.
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -323,7 +323,7 @@ void dialog_simulator_help()
 		"version",
 		"2.4.3",
 		"copyright",
-		"Copyright 2009-2014 Javier Burguete Tolosa",
+		"Copyright 2009-2015 Javier Burguete Tolosa",
 		"logo",
 		dialog_simulator.logo,
 		"website-label",
