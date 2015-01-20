@@ -44,10 +44,17 @@ if test $host = "x86_64-w64-mingw32"; then
 	AC_SUBST(libgcc, "libgcc_s_seh-1")
 	AC_SUBST(icon, [logo.o])
 	win=1
+elif test $host = "x86_64-pc-mingw64"; then
+	AC_MSG_NOTICE([Microsoft Windows 64 bits])
+	AC_SUBST(ccflags, "-march=corei7 -mfpmath=sse -msse3 -mwindows")
+	AC_SUBST(libgcc, "libgcc_s_seh-1")
+	AC_SUBST(icon, [logo.o])
+	AC_SUBST(sysdir, [/mingw64/])
+	AC_SUBST(basedir, [win64/])
+	win=1
 elif test $host = "i686-pc-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 32 bits])
 	LDFLAGS="$LDFLAGS -lfreeglut -lopengl32"
-	CPPFLAGS="$CPPFLAGS -I/mingw/include"
 	AC_SUBST(ccflags, "-march=pentium4 -mfpmath=sse -msse2 -mwindows")
 	AC_SUBST(libgcc, "libgcc_s_dw2-1")
 	AC_SUBST(icon, [logo.o])
