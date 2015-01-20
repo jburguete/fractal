@@ -1,4 +1,4 @@
-FRACTAL (2.4.2 version)
+FRACTAL (2.4.3 version)
 =======================
 
 A program growing fractals to benchmark parallelization and drawing libraries.
@@ -73,7 +73,7 @@ OpenBSD 5.6
 ___________
 
 Download this repository and execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.4.2
+> $ cd PATH_TO_FRACTAL/2.4.3
 >
 > $ aclocal
 >
@@ -93,9 +93,9 @@ Microsoft Windows XP 64 bits
 ____________________________
 
 Download this repository and execute on a MSYS terminal:
-> $ cd PATH_TO_FRACTAL/2.4.2
+> $ cd PATH_TO_FRACTAL/2.4.3
 >
-> $ cd 2.4.2
+> $ cd 2.4.3
 >
 > $ aclocal
 >
@@ -113,7 +113,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.4.2
+> $ cd PATH_TO_FRACTAL/2.4.3
 >
 > $ doxygen
 >
