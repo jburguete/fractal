@@ -174,7 +174,7 @@ void dialog_options_create()
 	dlg->entry_height =
 		(GtkSpinButton*)gtk_spin_button_new_with_range(200., 2400., 1.);
 	dlg->entry_seed =
-		(GtkSpinButton*)gtk_spin_button_new_with_range(0., (2L<<32) - 1., 1.);
+		(GtkSpinButton*)gtk_spin_button_new_with_range(0., 4294967295., 1.);
 
 	dlg->grid_fractal = (GtkGrid*)gtk_grid_new();
 	dlg->array_fractals[0] = NULL;
