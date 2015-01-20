@@ -22,6 +22,7 @@ dll = $(dlldir)libatk-1.0-0.dll $(dlldir)libbz2-1.dll $(dlldir)libcairo-2.dll \
 	$(dlldir)libpangoft2-1.0-0.dll $(dlldir)libpangowin32-1.0-0.dll \
 	$(dlldir)libpixman-1-0.dll $(dlldir)libpng16-16.dll \
 	$(dlldir)libwinpthread-1.dll $(dlldir)zlib1.dll
+png = logo.png logo2.png
 
 flags_fast = -c -O3 -ffast-math -Wall
 flags_small = -c -Os -ffast-math -Wall
