@@ -52,6 +52,15 @@ elif test $host = "x86_64-pc-mingw64"; then
 	AC_SUBST(sysdir, [/mingw64/])
 	AC_SUBST(basedir, [win64/])
 	win=1
+elif test $host = "x86_64-pc-mingw32"; then
+	AC_MSG_NOTICE([Microsoft Windows 32 bits])
+	LDFLAGS="$LDFLAGS -lfreeglut -lopengl32"
+	AC_SUBST(ccflags, "-march=pentium4 -mfpmath=sse -msse2 -mwindows")
+	AC_SUBST(libgcc, "libgcc_s_dw2-1")
+	AC_SUBST(icon, [logo.o])
+	AC_SUBST(sysdir, [/mingw32/])
+	AC_SUBST(basedir, [win32/])
+	win=1
 elif test $host = "i686-pc-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 32 bits])
 	LDFLAGS="$LDFLAGS -lfreeglut -lopengl32"
