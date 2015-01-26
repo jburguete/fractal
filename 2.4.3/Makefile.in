@@ -78,7 +78,7 @@ dist: $(name) $(dll)
 	test -d $(bindir) || mkdir -p $(bindir)
 	test -d $(icondir) || mkdir -p $(icondir)
 	cp fractal.exe $(dll) $(png) $(bindir)
-	strip $(bindir)*.dll
+	strip $(bindir)*.exe $(bindir)*.dll
 	cp -r $(sysdir)share/icons/Adwaita $(icondir)
 	test -d $(bindir)po/$(es) || mkdir -p $(bindir)po/$(es)
 	cp $(modir)$(es)atk10.mo $(modir)$(es)gdk-pixbuf.mo \
