@@ -1,18 +1,3 @@
-# To work in:
-#	- Debian 8.2 (Linux, kFreeBSD or Hurd)
-#	- FreeBSD 10.2
-#	- Microsoft Windows 7
-#	- Microsoft Windows 8.1
-#	- NetBSD 6.1.5 (with modular xorg)
-#	- DragonFly BSD 4.2.4
-#
-# ./build
-
-# To work in OpenBSD 5.7:
-#
-# export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.15
-# ./build
-
 AC_PREREQ([2.67])
 AC_INIT(fractal, [2.4.3])
 
