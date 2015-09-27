@@ -6,10 +6,10 @@ Copyright 2009-2015, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
- 
+
 1. Redistributions of source code must retain the above copyright notice, this
 	list of conditions and the following disclaimer.
- 
+
 2. Redistributions in binary form must reproduce the above copyright notice,
 	this list of conditions and the following disclaimer in the documentation
 	and/or other materials provided with the distribution.
@@ -22,7 +22,7 @@ INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
 BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
 DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
@@ -41,18 +41,18 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 typedef struct
 {
-/**
- * \var x
- * \brief x-coordinate.
- * \var y
- * \brief y-coordinate.
- * \var z
- * \brief z-coordinate.
- * \var c
- * \brief color.
- */
-	int x, y, z;
-	unsigned int c;
+    /**
+     * \var x
+     * \brief x-coordinate.
+     * \var y
+     * \brief y-coordinate.
+     * \var z
+     * \brief z-coordinate.
+     * \var c
+     * \brief color.
+     */
+    int x, y, z;
+    unsigned int c;
 } Point;
 
 /**
@@ -67,9 +67,9 @@ typedef struct
  */
 enum FractalType
 {
-	FRACTAL_TYPE_TREE = 0,
-	FRACTAL_TYPE_FOREST = 1,
-	FRACTAL_TYPE_NEURON = 2
+    FRACTAL_TYPE_TREE = 0,
+    FRACTAL_TYPE_FOREST = 1,
+    FRACTAL_TYPE_NEURON = 2
 };
 
 /**
@@ -108,18 +108,18 @@ enum FractalType
  */
 enum RandomType
 {
-	RANDOM_TYPE_MT19937 = 0,
-	RANDOM_TYPE_RANLXS0 = 1,
-	RANDOM_TYPE_RANLXS1 = 2,
-	RANDOM_TYPE_RANLXS2 = 3,
-	RANDOM_TYPE_RANLXD1 = 4,
-	RANDOM_TYPE_RANLXD2 = 5,
-	RANDOM_TYPE_RANLUX = 6,
-	RANDOM_TYPE_RANLUX389 = 7,
-	RANDOM_TYPE_CMRG = 8,
-	RANDOM_TYPE_MRG = 9,
-	RANDOM_TYPE_TAUS2 = 10,
-	RANDOM_TYPE_GFSR4 = 11
+    RANDOM_TYPE_MT19937 = 0,
+    RANDOM_TYPE_RANLXS0 = 1,
+    RANDOM_TYPE_RANLXS1 = 2,
+    RANDOM_TYPE_RANLXS2 = 3,
+    RANDOM_TYPE_RANLXD1 = 4,
+    RANDOM_TYPE_RANLXD2 = 5,
+    RANDOM_TYPE_RANLUX = 6,
+    RANDOM_TYPE_RANLUX389 = 7,
+    RANDOM_TYPE_CMRG = 8,
+    RANDOM_TYPE_MRG = 9,
+    RANDOM_TYPE_TAUS2 = 10,
+    RANDOM_TYPE_GFSR4 = 11
 };
 
 /**
@@ -141,9 +141,9 @@ enum RandomType
  */
 enum RandomSeedType
 {
-	RANDOM_SEED_TYPE_DEFAULT = 0,
-	RANDOM_SEED_TYPE_CLOCK = 1,
-	RANDOM_SEED_TYPE_FIXED = 2
+    RANDOM_SEED_TYPE_DEFAULT = 0,
+    RANDOM_SEED_TYPE_CLOCK = 1,
+    RANDOM_SEED_TYPE_FIXED = 2
 };
 
 /**
@@ -159,7 +159,7 @@ extern GMutex mutex[1];
 
 extern unsigned int fractal_type, fractal_points, fractal_3D, fractal_diagonal;
 extern unsigned int width, height, length, area, breaking, simulating,
-	animating;
+       animating;
 extern unsigned long t0;
 
 extern float xmin, xmax, ymin, ymax, phid, thetad, phi, theta;
@@ -189,8 +189,8 @@ extern void* (*parallel_fractal)(gsl_rng *rng);
  */
 static inline void perspective(int x, int y, int z, float *X, float *Y)
 {
-	*X = x * cos(phi) - y * sin(phi);
-	*Y = z * sin(theta) + (y * cos(phi) + x * sin(phi)) * cos(theta);
+    *X = x * cos(phi) - y * sin(phi);
+    *Y = z * sin(theta) + (y * cos(phi) + x * sin(phi)) * cos(theta);
 }
 
 void fractal_stop();

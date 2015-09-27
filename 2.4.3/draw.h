@@ -6,10 +6,10 @@ Copyright 2009-2015, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
- 
+
 1. Redistributions of source code must retain the above copyright notice, this
 	list of conditions and the following disclaimer.
- 
+
 2. Redistributions in binary form must reproduce the above copyright notice,
 	this list of conditions and the following disclaimer in the documentation
 	and/or other materials provided with the distribution.
@@ -22,7 +22,7 @@ INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
 BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
 DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
 LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
 ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
@@ -41,16 +41,16 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 typedef struct
 {
-/**
- * \var width
- * \brief Width.
- * \var height
- * \brief Height.
- * \var image
- * \brief Image bytes.
- */
-	int width, height;
-	GLubyte *image;
+    /**
+     * \var width
+     * \brief Width.
+     * \var height
+     * \brief Height.
+     * \var image
+     * \brief Image bytes.
+     */
+    int width, height;
+    GLubyte *image;
 } Logo;
 
 extern const float *color3f[15];
@@ -63,18 +63,18 @@ extern Logo logo;
  */
 static inline void draw_logo()
 {
-	unsigned int x2, y2;
-	x2 = glutGet(GLUT_WINDOW_WIDTH);
-	y2 = glutGet(GLUT_WINDOW_HEIGHT);
-	glViewport(0, 0, x2, y2);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(-1.f, 1.f, -1.f, 1.f, -1.f, 1.f);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glRasterPos2f(-1.f, -1.f);
-	glDrawPixels
-		(logo.width, logo.height, GL_RGBA, GL_UNSIGNED_BYTE, logo.image);
+    unsigned int x2, y2;
+    x2 = glutGet(GLUT_WINDOW_WIDTH);
+    y2 = glutGet(GLUT_WINDOW_HEIGHT);
+    glViewport(0, 0, x2, y2);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(-1.f, 1.f, -1.f, 1.f, -1.f, 1.f);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glRasterPos2f(-1.f, -1.f);
+    glDrawPixels
+    (logo.width, logo.height, GL_RGBA, GL_UNSIGNED_BYTE, logo.image);
 }
 
 void logo_new(char *name);
