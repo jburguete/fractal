@@ -49,8 +49,8 @@ typedef struct
      * \var image
      * \brief Image bytes.
      */
-    int width, height;
-    GLubyte *image;
+  int width, height;
+  GLubyte *image;
 } Logo;
 
 extern const float *color3f[15];
@@ -61,25 +61,25 @@ extern Logo logo;
  * \brief Funtion to draw the logo.
  * \param
  */
-static inline void draw_logo()
+static inline void
+draw_logo ()
 {
-    unsigned int x2, y2;
-    x2 = glutGet(GLUT_WINDOW_WIDTH);
-    y2 = glutGet(GLUT_WINDOW_HEIGHT);
-    glViewport(0, 0, x2, y2);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(-1.f, 1.f, -1.f, 1.f, -1.f, 1.f);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glRasterPos2f(-1.f, -1.f);
-    glDrawPixels
-    (logo.width, logo.height, GL_RGBA, GL_UNSIGNED_BYTE, logo.image);
+  unsigned int x2, y2;
+  x2 = glutGet (GLUT_WINDOW_WIDTH);
+  y2 = glutGet (GLUT_WINDOW_HEIGHT);
+  glViewport (0, 0, x2, y2);
+  glMatrixMode (GL_PROJECTION);
+  glLoadIdentity ();
+  glOrtho (-1.f, 1.f, -1.f, 1.f, -1.f, 1.f);
+  glMatrixMode (GL_MODELVIEW);
+  glLoadIdentity ();
+  glRasterPos2f (-1.f, -1.f);
+  glDrawPixels (logo.width, logo.height, GL_RGBA, GL_UNSIGNED_BYTE, logo.image);
 }
 
-void logo_new(char *name);
+void logo_new (char *name);
 
-void draw();
-void draw_save(char *file_name);
+void draw ();
+void draw_save (char *file_name);
 
 #endif

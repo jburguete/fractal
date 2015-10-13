@@ -51,8 +51,8 @@ typedef struct
      * \var c
      * \brief color.
      */
-    int x, y, z;
-    unsigned int c;
+  int x, y, z;
+  unsigned int c;
 } Point;
 
 /**
@@ -67,9 +67,9 @@ typedef struct
  */
 enum FractalType
 {
-    FRACTAL_TYPE_TREE = 0,
-    FRACTAL_TYPE_FOREST = 1,
-    FRACTAL_TYPE_NEURON = 2
+  FRACTAL_TYPE_TREE = 0,
+  FRACTAL_TYPE_FOREST = 1,
+  FRACTAL_TYPE_NEURON = 2
 };
 
 /**
@@ -108,18 +108,18 @@ enum FractalType
  */
 enum RandomType
 {
-    RANDOM_TYPE_MT19937 = 0,
-    RANDOM_TYPE_RANLXS0 = 1,
-    RANDOM_TYPE_RANLXS1 = 2,
-    RANDOM_TYPE_RANLXS2 = 3,
-    RANDOM_TYPE_RANLXD1 = 4,
-    RANDOM_TYPE_RANLXD2 = 5,
-    RANDOM_TYPE_RANLUX = 6,
-    RANDOM_TYPE_RANLUX389 = 7,
-    RANDOM_TYPE_CMRG = 8,
-    RANDOM_TYPE_MRG = 9,
-    RANDOM_TYPE_TAUS2 = 10,
-    RANDOM_TYPE_GFSR4 = 11
+  RANDOM_TYPE_MT19937 = 0,
+  RANDOM_TYPE_RANLXS0 = 1,
+  RANDOM_TYPE_RANLXS1 = 2,
+  RANDOM_TYPE_RANLXS2 = 3,
+  RANDOM_TYPE_RANLXD1 = 4,
+  RANDOM_TYPE_RANLXD2 = 5,
+  RANDOM_TYPE_RANLUX = 6,
+  RANDOM_TYPE_RANLUX389 = 7,
+  RANDOM_TYPE_CMRG = 8,
+  RANDOM_TYPE_MRG = 9,
+  RANDOM_TYPE_TAUS2 = 10,
+  RANDOM_TYPE_GFSR4 = 11
 };
 
 /**
@@ -141,9 +141,9 @@ enum RandomType
  */
 enum RandomSeedType
 {
-    RANDOM_SEED_TYPE_DEFAULT = 0,
-    RANDOM_SEED_TYPE_CLOCK = 1,
-    RANDOM_SEED_TYPE_FIXED = 2
+  RANDOM_SEED_TYPE_DEFAULT = 0,
+  RANDOM_SEED_TYPE_CLOCK = 1,
+  RANDOM_SEED_TYPE_FIXED = 2
 };
 
 /**
@@ -159,7 +159,7 @@ extern GMutex mutex[1];
 
 extern unsigned int fractal_type, fractal_points, fractal_3D, fractal_diagonal;
 extern unsigned int width, height, length, area, breaking, simulating,
-       animating;
+  animating;
 extern unsigned long t0;
 
 extern float xmin, xmax, ymin, ymax, phid, thetad, phi, theta;
@@ -171,7 +171,7 @@ extern GList *list_points;
 extern unsigned int random_algorithm, random_seed_type;
 extern unsigned long random_seed;
 
-extern void* (*parallel_fractal)(gsl_rng *rng);
+extern void *(*parallel_fractal) (gsl_rng * rng);
 
 /**
  * \fn inline void perspective(int x, int y, int z, float *X, float *Y)
@@ -187,14 +187,15 @@ extern void* (*parallel_fractal)(gsl_rng *rng);
  * \param Y
  * \brief Perspective Y-coordinate.
  */
-static inline void perspective(int x, int y, int z, float *X, float *Y)
+static inline void
+perspective (int x, int y, int z, float *X, float *Y)
 {
-    *X = x * cos(phi) - y * sin(phi);
-    *Y = z * sin(theta) + (y * cos(phi) + x * sin(phi)) * cos(theta);
+  *X = x * cos (phi) - y * sin (phi);
+  *Y = z * sin (theta) + (y * cos (phi) + x * sin (phi)) * cos (theta);
 }
 
-void fractal_stop();
-void medium_start();
-void fractal();
+void fractal_stop ();
+void medium_start ();
+void fractal ();
 
 #endif

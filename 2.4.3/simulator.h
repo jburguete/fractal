@@ -87,14 +87,14 @@ typedef struct
      * \var dialog
      * \brief GtkDialog to show the options window.
      */
-    GtkLabel *label_length, *label_width, *label_height, *label_seed;
-    GtkSpinButton *entry_length, *entry_width, *entry_height, *entry_seed;
-    GtkCheckButton *button_diagonal, *button_3D, *button_animate;
-    GtkRadioButton *array_fractals[N_FRACTAL_TYPES],
-                   *array_algorithms[N_RANDOM_TYPES], *array_seeds[N_RANDOM_SEED_TYPES];
-    GtkFrame *frame_fractal, *frame_algorithm, *frame_seed;
-    GtkGrid *grid_fractal, *grid_algorithm, *grid_seed, *grid;
-    GtkDialog *dialog;
+  GtkLabel *label_length, *label_width, *label_height, *label_seed;
+  GtkSpinButton *entry_length, *entry_width, *entry_height, *entry_seed;
+  GtkCheckButton *button_diagonal, *button_3D, *button_animate;
+  GtkRadioButton *array_fractals[N_FRACTAL_TYPES],
+    *array_algorithms[N_RANDOM_TYPES], *array_seeds[N_RANDOM_SEED_TYPES];
+  GtkFrame *frame_fractal, *frame_algorithm, *frame_seed;
+  GtkGrid *grid_fractal, *grid_algorithm, *grid_seed, *grid;
+  GtkDialog *dialog;
 } DialogOptions;
 
 /**
@@ -141,29 +141,29 @@ typedef struct
      * \var window
      * \brief GtkWindow to show the main windows.
      */
-    GtkToolButton *button_options, *button_start, *button_stop, *button_save,
-                  *button_help, *button_exit;
-    GtkToolbar *toolbar;
-    GtkLabel *label_time, *label_horizontal, *label_vertical;
-    GtkSpinButton *entry_time;
-    GtkProgressBar *progress;
-    GtkScale *hscale, *vscale;
-    GtkGrid *grid;
-    GdkPixbuf *logo, *logo_min;
-    GtkWindow *window;
+  GtkToolButton *button_options, *button_start, *button_stop, *button_save,
+    *button_help, *button_exit;
+  GtkToolbar *toolbar;
+  GtkLabel *label_time, *label_horizontal, *label_vertical;
+  GtkSpinButton *entry_time;
+  GtkProgressBar *progress;
+  GtkScale *hscale, *vscale;
+  GtkGrid *grid;
+  GdkPixbuf *logo, *logo_min;
+  GtkWindow *window;
 } DialogSimulator;
 
 extern DialogOptions dialog_options;
 extern DialogSimulator dialog_simulator;
 
-void set_perspective();
+void set_perspective ();
 
-void dialog_options_update();
-void dialog_options_create();
+void dialog_options_update ();
+void dialog_options_create ();
 
-void dialog_simulator_help();
-void dialog_simulator_update();
-void dialog_simulator_progress();
-void dialog_simulator_create();
+void dialog_simulator_help ();
+void dialog_simulator_update ();
+void dialog_simulator_progress ();
+void dialog_simulator_create ();
 
 #endif

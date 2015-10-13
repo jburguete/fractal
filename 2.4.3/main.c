@@ -56,52 +56,53 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \brief Array of arguments.
  * \return 0 on success.
  */
-int main(int argn, char **argc)
+int
+main (int argn, char **argc)
 {
 // PARALELLIZING INIT
 #ifdef G_OS_WIN32
-    SYSTEM_INFO sysinfo;
-    GetSystemInfo(&sysinfo);
-    nthreads = sysinfo.dwNumberOfProcessors;
+  SYSTEM_INFO sysinfo;
+  GetSystemInfo (&sysinfo);
+  nthreads = sysinfo.dwNumberOfProcessors;
 #else
-    nthreads = (int)sysconf(_SC_NPROCESSORS_CONF);
+  nthreads = (int) sysconf (_SC_NPROCESSORS_CONF);
 #endif
 // END
 
-    // Initing locales
-    bindtextdomain("fractal", "./po");
-    bind_textdomain_codeset("fractal", "UTF-8");
-    textdomain("fractal");
+  // Initing locales
+  bindtextdomain ("fractal", "./po");
+  bind_textdomain_codeset ("fractal", "UTF-8");
+  textdomain ("fractal");
 
-    // Initing GTK+
-    gtk_init(&argn, &argc);
+  // Initing GTK+
+  gtk_init (&argn, &argc);
 
-    // Initing FreeGLUT
-    glutInit(&argn, argc);
-    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-    glutInitWindowSize(640, 480);
-    glutCreateWindow("fractal");
+  // Initing FreeGLUT
+  glutInit (&argn, argc);
+  glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+  glutInitWindowSize (640, 480);
+  glutCreateWindow ("fractal");
 
-    // Initing logo
-    logo_new("logo.png");
+  // Initing logo
+  logo_new ("logo.png");
 
-    // Passing the GTK+ signals to the FreeGLUT main loop
-    glutIdleFunc((void(*))gtk_main_iteration);
+  // Passing the GTK+ signals to the FreeGLUT main loop
+  glutIdleFunc ((void (*)) gtk_main_iteration);
 
-    // Setting our draw function as the FreeGLUT display function
-    glutDisplayFunc(draw);
+  // Setting our draw function as the FreeGLUT display function
+  glutDisplayFunc (draw);
 
-    // Creating the main GTK+ window
+  // Creating the main GTK+ window
 #if DEBUG
-    printf("Creating simulator dialog\n");
+  printf ("Creating simulator dialog\n");
 #endif
-    dialog_simulator_create(&dialog_simulator);
+  dialog_simulator_create (&dialog_simulator);
 
-    // FreeGLUT main loop
+  // FreeGLUT main loop
 #if DEBUG
-    printf("GLUT main loop\n");
+  printf ("GLUT main loop\n");
 #endif
-    glutMainLoop();
+  glutMainLoop ();
 
-    return 0;
+  return 0;
 }
