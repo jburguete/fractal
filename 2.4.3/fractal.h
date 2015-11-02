@@ -41,116 +41,74 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 typedef struct
 {
-    /**
-     * \var x
-     * \brief x-coordinate.
-     * \var y
-     * \brief y-coordinate.
-     * \var z
-     * \brief z-coordinate.
-     * \var c
-     * \brief color.
-     */
-  int x, y, z;
-  unsigned int c;
+  int x;                        ///< x-coordinate.
+  int y;                        ///< y-coordinate.
+  int z;                        ///< z-coordinate.
+  unsigned int c;               ///< color.
 } Point;
 
 /**
  * \enum FractalType
  * \brief An enum to define fractal types.
- * \var FRACTAL_TYPE_TREE
- * \brief Tree fractal type.
- * \var FRACTAL_TYPE_FOREST
- * \brief Forest fractal type.
- * \var FRACTAL_TYPE_NEURON
- * \brief Neuron fractal type.
  */
 enum FractalType
 {
-  FRACTAL_TYPE_TREE = 0,
-  FRACTAL_TYPE_FOREST = 1,
-  FRACTAL_TYPE_NEURON = 2
+  FRACTAL_TYPE_TREE = 0,        ///< Tree fractal type.
+  FRACTAL_TYPE_FOREST = 1,      ///< Forest fractal type.
+  FRACTAL_TYPE_NEURON = 2       ///< Neuron fractal type.
 };
 
-/**
- * \def N_FRACTAL_TYPES
- * \brief Macro to define the number of fractal types.
- */
 #define N_FRACTAL_TYPES (FRACTAL_TYPE_NEURON + 1)
+  ///< Macro to define the number of fractal types.
 
 /**
  * \enum RandomType
  * \brief An enum to define random algorithm types.
- * \var RANDOM_TYPE_MT19937
- * \brief gsl_rng_mt19937 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLXS0
- * \brief gsl_rng_ranlxs0 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLXS1
- * \brief gsl_rng_ranlxs1 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLXS2
- * \brief gsl_rng_ranlxs2 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLXD1
- * \brief gsl_rng_ranlxd1 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLXD2
- * \brief gsl_rng_ranlxd2 random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLUX
- * \brief gsl_rng_ranlux random numbers generator algorithm.
- * \var RANDOM_TYPE_RANLUX389
- * \brief gsl_rng_ranlux389 random numbers generator algorithm.
- * \var RANDOM_TYPE_CMRG
- * \brief gsl_rng_cmrg random numbers generator algorithm.
- * \var RANDOM_TYPE_MRG
- * \brief gsl_rng_mrg random numbers generator algorithm.
- * \var RANDOM_TYPE_TAUS2
- * \brief gsl_rng_taus2 random numbers generator algorithm.
- * \var RANDOM_TYPE_GFSR4
- * \brief gsl_rng_gfsr4 random numbers generator algorithm.
  */
 enum RandomType
 {
   RANDOM_TYPE_MT19937 = 0,
+  ///< gsl_rng_mt19937 random numbers generator algorithm.
   RANDOM_TYPE_RANLXS0 = 1,
+  ///< gsl_rng_ranlxs0 random numbers generator algorithm.
   RANDOM_TYPE_RANLXS1 = 2,
+  ///< gsl_rng_ranlxs1 random numbers generator algorithm.
   RANDOM_TYPE_RANLXS2 = 3,
+  ///< gsl_rng_ranlxs2 random numbers generator algorithm.
   RANDOM_TYPE_RANLXD1 = 4,
+  ///< gsl_rng_ranlxd1 random numbers generator algorithm.
   RANDOM_TYPE_RANLXD2 = 5,
+  ///< gsl_rng_ranlxd2 random numbers generator algorithm.
   RANDOM_TYPE_RANLUX = 6,
+  ///< gsl_rng_ranlux random numbers generator algorithm.
   RANDOM_TYPE_RANLUX389 = 7,
+  ///< gsl_rng_ranlux389 random numbers generator algorithm.
   RANDOM_TYPE_CMRG = 8,
+  ///< gsl_rng_cmrg random numbers generator algorithm.
   RANDOM_TYPE_MRG = 9,
+  ///< gsl_rng_mrg random numbers generator algorithm.
   RANDOM_TYPE_TAUS2 = 10,
+  ///< gsl_rng_taus2 random numbers generator algorithm.
   RANDOM_TYPE_GFSR4 = 11
+    ///< gsl_rng_gfsr4 random numbers generator algorithm.
 };
 
-/**
- * \def N_RANDOM_TYPES
- * \brief Macro to define the number of random numbers generator algorithm
- *   types.
- */
 #define N_RANDOM_TYPES (RANDOM_TYPE_GFSR4 + 1)
+  ///< Macro to define the number of random numbers generator algorithm types.
 
 /**
  * \enum RandomSeedType
  * \brief A enum to define random seed types.
- * \var RANDOM_SEED_TYPE_DEFAULT
- * \brief default random seed.
- * \var RANDOM_SEED_TYPE_CLOCK
- * \brief clock based random seed.
- * \var RANDOM_SEED_TYPE_FIXED
- * \brief user fixed random seed.
  */
 enum RandomSeedType
 {
-  RANDOM_SEED_TYPE_DEFAULT = 0,
-  RANDOM_SEED_TYPE_CLOCK = 1,
-  RANDOM_SEED_TYPE_FIXED = 2
+  RANDOM_SEED_TYPE_DEFAULT = 0, ///< default random seed.
+  RANDOM_SEED_TYPE_CLOCK = 1,   ///< clock based random seed.
+  RANDOM_SEED_TYPE_FIXED = 2    ///< user fixed random seed.
 };
 
-/**
- * \def N_RANDOM_SEED_TYPES
- * \brief Macro to define the number of random seed types.
- */
 #define N_RANDOM_SEED_TYPES (RANDOM_SEED_TYPE_FIXED + 1)
+  ///< Macro to define the number of random seed types.
 
 // PARALLELIZING DATA
 extern unsigned int nthreads;

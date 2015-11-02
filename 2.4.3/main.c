@@ -32,6 +32,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \author Javier Burguete Tolosa.
  * \copyright Copyright 2009-2015, Javier Burguete Tolosa.
  */
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

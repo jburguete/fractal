@@ -32,6 +32,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \author Javier Burguete Tolosa.
  * \copyright Copyright 2009-2015, Javier Burguete Tolosa.
  */
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -252,8 +253,7 @@ dialog_options_create ()
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->entry_seed), 1, 9, 1, 1);
 
   dlg->dialog = (GtkDialog *) gtk_dialog_new_with_buttons (gettext ("Options"),
-                                                           dialog_simulator.
-                                                           window,
+                                                           dialog_simulator.window,
                                                            GTK_DIALOG_MODAL |
                                                            GTK_DIALOG_DESTROY_WITH_PARENT,
                                                            gettext ("_OK"),
@@ -484,7 +484,7 @@ dialog_simulator_create ()
 
   dlg->button_help = (GtkToolButton *) gtk_tool_button_new
     (gtk_image_new_from_icon_name
-     ("help-browser", GTK_ICON_SIZE_SMALL_TOOLBAR), str_help);
+     ("help-about", GTK_ICON_SIZE_SMALL_TOOLBAR), str_help);
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_help), tip_help);
   gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_help), -1);
   g_signal_connect (dlg->button_help, "clicked", dialog_simulator_help, NULL);

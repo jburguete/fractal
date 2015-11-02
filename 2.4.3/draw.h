@@ -41,16 +41,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 typedef struct
 {
-    /**
-     * \var width
-     * \brief Width.
-     * \var height
-     * \brief Height.
-     * \var image
-     * \brief Image bytes.
-     */
-  int width, height;
-  GLubyte *image;
+  unsigned int width;           ///< Width.
+  unsigned int height;          ///< Height.
+  GLubyte *image;               ///< Image bytes.
 } Logo;
 
 extern const float *color3f[15];

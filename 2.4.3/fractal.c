@@ -32,6 +32,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \author Javier Burguete Tolosa.
  * \copyright Copyright 2009-2015, Javier Burguete Tolosa.
  */
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -45,124 +46,51 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "draw.h"
 #include "simulator.h"
 
-/**
- * \var width
- * \brief Medium width.
- * \var height
- * \brief Medium height.
- * \var length
- * \brief Medium length.
- * \var area
- * \brief Medium area.
- * \var medium_bytes.
- * \brief Number of bytes used by the medium.
- * \var breaking
- * \brief 1 on breaking, 0 otherwise.
- * \var simulating
- * \brief 1 on simulating, 0 otherwise.
- * \var animating
- * \brief 1 on animating, 0 otherwise.
- */
-unsigned int width = 320;
-unsigned int height = 200;
-unsigned int length = 320;
-unsigned int area;
-unsigned int medium_bytes;
-unsigned int breaking = 0;
-unsigned int simulating = 0;
-unsigned int animating = 1;
+unsigned int width = 320;       ///< Medium width.
+unsigned int height = 200;      ///< Medium height.
+unsigned int length = 320;      ///< Medium length.
+unsigned int area;              ///< Medium area.
+unsigned int medium_bytes;      ///< Number of bytes used by the medium.
+unsigned int breaking = 0;      ///< 1 on breaking, 0 otherwise.
+unsigned int simulating = 0;    ///< 1 on simulating, 0 otherwise.
+unsigned int animating = 1;     ///< 1 on animating, 0 otherwise.
 
-/**
- * \var fractal_type
- * \brief Fractal type.
- * \var fractal_points
- * \brief Fractal points number.
- * \var fractal_3D
- * \brief 1 on 3D fractals, 0 on 2D fractals.
- * \var fractal_diagonal
- * \brief 1 on diagonal point movement, 0 otherwise.
- */
-unsigned int fractal_type = FRACTAL_TYPE_TREE;
-unsigned int fractal_points = 0;
-unsigned int fractal_3D = 0;
+unsigned int fractal_type = FRACTAL_TYPE_TREE;  ///< Fractal type.
+unsigned int fractal_points = 0;        ///< Fractal points number.
+unsigned int fractal_3D = 0;    ///< 1 on 3D fractals, 0 on 2D fractals.
 unsigned int fractal_diagonal = 0;
+  ///< 1 on diagonal point movement, 0 otherwise.
 
-/**
- * \var t0
- * \brief Computational time.
- */
-unsigned long t0;
+unsigned long t0;               ///< Computational time.
 
-/**
- * \var xmin
- * \brief Minimun x-coordinate of the view.
- * \var xmax
- * \brief Maximun x-coordinate of the view.
- * \var ymin
- * \brief Minimun y-coordinate of the view.
- * \var ymax
- * \brief Maximun y-coordinate of the view.
- * \var phi
- * \brief Horizontal perspective angle (in radians).
- * \var theta
- * \brief Vertical perspective angle (in radians).
- * \var phid
- * \brief Horizontal perspective angle (in degrees).
- * \var thetad
- * \brief Vertical perspective angle (in degrees).
- */
-float xmin, xmax, ymin, ymax, phi, theta;
-float phid = -45.;
-float thetad = 80.;
+float xmin;                     ///< Minimun x-coordinate of the view.
+float xmax;                     ///< Maximun x-coordinate of the view.
+float ymin;                     ///< Minimun y-coordinate of the view.
+float ymax;                     ///< Maximun y-coordinate of the view.
+float phi;                      ///< Horizontal perspective angle (in radians).
+float theta;                    ///< Vertical perspective angle (in radians).
+float phid = -45.;              ///< Horizontal perspective angle (in degrees).
+float thetad = 80.;             ///< Vertical perspective angle (in degrees).
 
-/**
- * \var max_d
- * \brief Maximum fractal size.
- * \var medium
- * \brief Array of fractal points.
- * \var list_points
- * \brief GList of points.
- */
-unsigned int max_d = 0;
-unsigned int *medium = NULL;
-GList *list_points = NULL;
+unsigned int max_d = 0;         ///< Maximum fractal size.
+unsigned int *medium = NULL;    ///< Array of fractal points.
+GList *list_points = NULL;      ///< GList of points.
 
-/**
- * \var random_algorithm
- * \brief Type of random numbers generator algorithm.
- * \var random_seed_type
- * \brief Type of random seed.
- * \var random_seed
- * \brief Random seed.
- */
 unsigned int random_algorithm = 0;
-unsigned int random_seed_type = 1;
-unsigned long random_seed = 7007L;
-/**
- * \var parallel_fractal
- * \brief Pointer to the function to calculate the fractal.
- */
+  ///< Type of random numbers generator algorithm.
+unsigned int random_seed_type = 1;      ///< Type of random seed.
+unsigned long random_seed = 7007L;      ///< Random seed.
 void *(*parallel_fractal) (gsl_rng * rng);
+  ///< Pointer to the function to calculate the fractal.
 
-/**
- * \var dialog_options
- * \brief DialogOptions to set the fractal options.
- * \var dialog_simulator
- * \brief DialogSimulator to show the main window.
- */
-DialogOptions dialog_options;
+DialogOptions dialog_options;   ///< DialogOptions to set the fractal options.
 DialogSimulator dialog_simulator;
+  ///< DialogSimulator to show the main window.
 
 // PARALLELIZING DATA
 
-/**
- * \var nthreads
- * \brief Threads number.
- * \var mutex
- * \brief Mutex to lock memory saves.
- */
-unsigned int nthreads;
-GMutex mutex[1];
+unsigned int nthreads;          ///< Threads number.
+GMutex mutex[1];                ///< Mutex to lock memory saves.
 
 // END
 

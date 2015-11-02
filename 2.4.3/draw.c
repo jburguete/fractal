@@ -32,6 +32,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \author Javier Burguete Tolosa.
  * \copyright Copyright 2009-2015, Javier Burguete Tolosa.
  */
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -44,68 +45,28 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "fractal.h"
 #include "draw.h"
 
-/**
- * \var color0
- * \brief Color 0.
- * \var color1
- * \brief Color 1.
- * \var color2
- * \brief Color 2.
- * \var color3
- * \brief Color 3.
- * \var color4
- * \brief Color 4.
- * \var color5
- * \brief Color 5.
- * \var color6
- * \brief Color 6.
- * \var color7
- * \brief Color 7.
- * \var color8
- * \brief Color 8.
- * \var color9
- * \brief Color 9.
- * \var color10
- * \brief Color 10.
- * \var color11
- * \brief Color 11.
- * \var color12
- * \brief Color 12.
- * \var color13
- * \brief Color 13.
- * \var color14
- * \brief Color 14.
- */
-const float color0[3] = { 1., 0., 0. };
-const float color1[3] = { 0., 1., 0. };
-const float color2[3] = { 0., 0., 1. };
-const float color3[3] = { 0.5, 0.5, 0. };
-const float color4[3] = { 0.5, 0., 0.5 };
-const float color5[3] = { 0., 0.5, 0.5 };
-const float color6[3] = { 0.5, 0.25, 0.25 };
-const float color7[3] = { 0.25, 0.5, 0.25 };
-const float color8[3] = { 0.25, 0.25, 0.5 };
-const float color9[3] = { 0.75, 0.25, 0. };
-const float color10[3] = { 0.75, 0., 0.25 };
-const float color11[3] = { 0.25, 0.75, 0. };
-const float color12[3] = { 0., 0.75, 0.25 };
-const float color13[3] = { 0.25, 0., 0.75 };
-const float color14[3] = { 0., 0.25, 0.75 };
+const float color0[3] = { 1., 0., 0. }; ///< Color 0.
+const float color1[3] = { 0., 1., 0. }; ///< Color 1.
+const float color2[3] = { 0., 0., 1. }; ///< Color 2.
+const float color3[3] = { 0.5, 0.5, 0. };       ///< Color 3.
+const float color4[3] = { 0.5, 0., 0.5 };       ///< Color 4.
+const float color5[3] = { 0., 0.5, 0.5 };       ///< Color 5.
+const float color6[3] = { 0.5, 0.25, 0.25 };    ///< Color 6.
+const float color7[3] = { 0.25, 0.5, 0.25 };    ///< Color 7.
+const float color8[3] = { 0.25, 0.25, 0.5 };    ///< Color 8.
+const float color9[3] = { 0.75, 0.25, 0. };     ///< Color 9.
+const float color10[3] = { 0.75, 0., 0.25 };    ///< Color 10.
+const float color11[3] = { 0.25, 0.75, 0. };    ///< Color 11.
+const float color12[3] = { 0., 0.75, 0.25 };    ///< Color 12.
+const float color13[3] = { 0.25, 0., 0.75 };    ///< Color 13.
+const float color14[3] = { 0., 0.25, 0.75 };    ///< Color 14.
 
-/**
- * \var color3f
- * \brief Array of color pointers.
- */
 const float *color3f[15] = {
   color0, color1, color2, color3, color4, color5, color6, color7,
   color8, color9, color10, color11, color12, color13, color14
-};
+};                              ///< Array of color pointers.
 
-/**
- * \var logo
- * \brief Logo data.
- */
-Logo logo;
+Logo logo;                      ///< Logo data.
 
 /**
  * \fn void logo_new(char *name)
