@@ -59,12 +59,7 @@ set_perspective ()
   thetad = gtk_range_get_value (GTK_RANGE (dialog_simulator.vscale));
   phi = phid * M_PI / 180.;
   theta = thetad * M_PI / 180.;
-  if (!fractal_3D)
-    {
-      k1 = width;
-      k2 = height;
-    }
-  else
+  if (fractal_3D)
     {
       perspective (0, 0, 0, &k1, &k2);
       xmin = k1;
@@ -74,8 +69,6 @@ set_perspective ()
       ymin = k2;
       perspective (0, width, height, &k1, &k2);
       ymax = k2;
-      k1 = xmax - xmin;
-      k2 = ymax - ymin;
     }
   draw ();
 }
@@ -252,15 +245,15 @@ dialog_options_create ()
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->label_seed), 0, 9, 1, 1);
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->entry_seed), 1, 9, 1, 1);
 
-  dlg->dialog = (GtkDialog *) gtk_dialog_new_with_buttons (gettext ("Options"),
-                                                           dialog_simulator.window,
-                                                           GTK_DIALOG_MODAL |
-                                                           GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                           gettext ("_OK"),
-                                                           GTK_RESPONSE_OK,
-                                                           gettext ("_Cancel"),
-                                                           GTK_RESPONSE_CANCEL,
-                                                           NULL);
+  dlg->dialog
+    = (GtkDialog *) gtk_dialog_new_with_buttons (gettext ("Options"),
+                                                 dialog_simulator.window,
+                                                 GTK_DIALOG_MODAL |
+                                                 GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                 gettext ("_OK"),
+                                                 GTK_RESPONSE_OK,
+                                                 gettext ("_Cancel"),
+                                                 GTK_RESPONSE_CANCEL, NULL);
   gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (dlg->dialog)),
                      GTK_WIDGET (dlg->grid));
   gtk_widget_show_all (GTK_WIDGET (dlg->dialog));
@@ -317,20 +310,22 @@ dialog_simulator_help ()
     NULL
   };
   gtk_show_about_dialog (dialog_simulator.window,
-                         "program_name",
-                         "Fractal",
+                         "program_name", "Fractal",
                          "comments",
                          gettext
-                         ("A program growing fractals to benchmark parallelization and "
-                          "drawing libraries"), "authors", authors,
+                         ("A program growing fractals to benchmark "
+                          "parallelization and drawing libraries"),
+                         "authors", authors,
                          "translator-credits",
                          gettext
                          ("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "2.4.3", "copyright",
-                         "Copyright 2009-2015 Javier Burguete Tolosa", "logo",
-                         dialog_simulator.logo, "website-label",
-                         gettext ("Website"), "website",
-                         "https://github.com/jburguete/fractal", NULL);
+                         "version", "2.6.1",
+                         "copyright",
+                         "Copyright 2009-2015 Javier Burguete Tolosa",
+                         "logo", dialog_simulator.logo,
+                         "website-label", gettext ("Website"),
+                         "website", "https://github.com/jburguete/fractal",
+                         NULL);
 }
 
 /**
@@ -405,8 +400,7 @@ dialog_simulator_save ()
 {
   char *filename = NULL;
   GtkFileChooserDialog *dlg;
-  dlg =
-    (GtkFileChooserDialog *)
+  dlg = (GtkFileChooserDialog *)
     gtk_file_chooser_dialog_new (gettext ("Save graphical"),
                                  dialog_simulator.window,
                                  GTK_FILE_CHOOSER_ACTION_SAVE,

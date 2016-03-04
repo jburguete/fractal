@@ -1,3 +1,0 @@
-#include <winver.h>
-
-fractal ICON	"fractal.ico"

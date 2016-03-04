@@ -178,34 +178,30 @@ draw_init ()
     "varying lowp vec3 fcolor;"
     "uniform highp mat4 matrix;"
     "void main ()"
-    "{"
-    "  gl_Position = matrix * vec4 (position, 0.f, 1.f);"
-    "  fcolor = icolor;" "}";
+    "{gl_Position = matrix * vec4 (position, 0.f, 1.f); fcolor = icolor;}";
   const char *vs_3D_source =
     "attribute highp vec3 position;"
     "attribute lowp vec3 icolor;"
     "varying lowp vec3 fcolor;"
     "uniform highp mat4 matrix;"
     "void main ()"
-    "{"
-    "  gl_Position = matrix * vec4 (position, 1.f);" "  fcolor = icolor;" "}";
+    "{gl_Position = matrix * vec4 (position, 1.f); fcolor = icolor;}";
   const char *vs_2D_texture_source =
     "attribute highp vec2 position;"
     "attribute highp vec2 texture_position;"
     "varying highp vec2 t_position;"
     "uniform highp mat4 matrix;"
     "void main ()"
-    "{"
-    "  gl_Position = matrix * vec4 (position, 0.f, 1.f);"
-    "  t_position = texture_position;" "}";
+    "{gl_Position = matrix * vec4 (position, 0.f, 1.f);"
+    "  t_position = texture_position;}";
   const char *fs_source =
     "varying lowp vec3 fcolor;"
-    "void main ()" "{" "  gl_FragColor = vec4 (fcolor, 1.f);" "}";
+    "void main () {gl_FragColor = vec4 (fcolor, 1.f);}";
   const char *fs_texture_source =
     "varying highp vec2 t_position;"
     "uniform lowp sampler2D texture_logo;"
     "void main ()"
-    "{" "  gl_FragColor = texture2D (texture_logo, t_position);" "}";
+    "{gl_FragColor = texture2D (texture_logo, t_position);}";
   const char *attribute_vertex_name = "position";
   const char *attribute_color_name = "icolor";
   const char *attribute_texture_name = "texture_position";
@@ -399,8 +395,8 @@ draw ()
   // Rectangle matrix
   Point3D square_vertices[4] = {
     {{0., 0., 0.}, {0., 0., 0.}},
-    {{width, 0., 0.}, {0., 0., 0.}},
-    {{width, width, 0.}, {0., 0., 0.}},
+    {{length, 0., 0.}, {0., 0., 0.}},
+    {{length, width, 0.}, {0., 0., 0.}},
     {{0., width, 0.}, {0., 0., 0.}}
   };
   const GLushort square_indices[4] = { 0, 1, 2, 3 };
@@ -424,15 +420,13 @@ draw ()
       sincosf (theta, &st, &ct);
       w = xmax - xmin;
       h = ymax - ymin;
-      printf ("xmin=%f xmax=%f ymin=%f ymax=%f\n", xmin, xmax, ymin, ymax);
-      printf ("cp=%f sp=%f ct=%f st=%f\n", cp, sp, ct, st);
       projection_matrix[0] = 2. * cp / w;
-      projection_matrix[1] = 2. * ct * sp / w;
+      projection_matrix[1] = 2. * ct * sp / h;
       projection_matrix[4] = -2. * sp / w;
-      projection_matrix[5] = 2. * ct * cp / w;
+      projection_matrix[5] = 2. * ct * cp / h;
       projection_matrix[9] = 2. * st / h;
-      projection_matrix[12] = -1. - xmin / w;
-      projection_matrix[13] = -1. - ymin / h;
+      projection_matrix[12] = -1.;
+      projection_matrix[13] = -1. - 2. * ymin / h;
       glUniformMatrix4fv (uniform_3D_matrix, 1, GL_FALSE, projection_matrix);
 
       // Drawing a black rectangle
