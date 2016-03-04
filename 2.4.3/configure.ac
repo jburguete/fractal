@@ -93,8 +93,8 @@ PKG_CHECK_MODULES([GLIB], [glib-2.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
 PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 PKG_CHECK_MODULES([PNG], [libpng])
-AC_SEARCH_LIBS([glutInit], [freeglut glut])
 AC_SEARCH_LIBS([glEnd], [GL opengl32])
+AC_SEARCH_LIBS([glutInit], [freeglut glut])
 
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h unistd.h libintl.h GL/freeglut.h])
