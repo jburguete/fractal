@@ -27,43 +27,16 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * \file draw.h
- * \brief Header file to define the drawing data and functions.
+ * \file config.h
+ * \brief Header file to define basic configuration and compilation options.
  * \author Javier Burguete Tolosa.
  * \copyright Copyright 2009-2015, Javier Burguete Tolosa.
  */
-#ifndef DRAW__H
-#define DRAW__H 1
+#ifndef CONFIG__H
+#define CONFIG__H 1
 
-/**
- * \struct Logo
- * \brief A struct to define the logo.
- */
-typedef struct
-{
-  unsigned int width;           ///< Width.
-  unsigned int height;          ///< Height.
-  GLubyte *image;               ///< Image bytes.
-} Logo;
-
-extern const float *color3f[15];
-extern Logo logo;
-
-/**
- * \fn inline void draw_logo
- * \brief Funtion to draw the logo.
- * \param
- */
-static inline void
-draw_logo ()
-{
-  glRasterPos2f (-1.f, -1.f);
-  glDrawPixels (logo.width, logo.height, GL_RGBA, GL_UNSIGNED_BYTE, logo.image);
-}
-
-void logo_new (char *name);
-
-void draw ();
-void draw_save (char *file_name);
+#define DEBUG 0                 ///< Macro to debug the code.
+#define SEED 7
+  ///< Macro to set the pseudo-random number generator seed.
 
 #endif

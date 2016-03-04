@@ -1,0 +1,96 @@
+basedir = @basedir@
+sysdir = @sysdir@
+bindir = $(basedir)bin/
+icondir = $(basedir)share/icons/
+dlldir = $(sysdir)bin/
+modir = $(sysdir)share/locale/
+
+objs = fractal.o draw.o simulator.o main.o @icon@
+src = fractal.h draw.h simulator.h fractal.c draw.c simulator.c main.c
+configs = config.h Makefile
+dll = $(dlldir)libatk-1.0-0.dll $(dlldir)libbz2-1.dll $(dlldir)libcairo-2.dll \
+	$(dlldir)libcairo-gobject-2.dll $(dlldir)libexpat-1.dll \
+	$(dlldir)libffi-6.dll $(dlldir)libfontconfig-1.dll \
+	$(dlldir)libfreeglut.dll $(dlldir)libfreetype-6.dll $(dlldir)@libgcc@.dll \
+	$(dlldir)libgdk_pixbuf-2.0-0.dll $(dlldir)libgdk-3-0.dll \
+	$(dlldir)libgio-2.0-0.dll $(dlldir)libglib-2.0-0.dll \
+	$(dlldir)libgmodule-2.0-0.dll $(dlldir)libgobject-2.0-0.dll \
+	$(dlldir)libgsl-0.dll $(dlldir)libgslcblas-0.dll \
+	$(dlldir)libgthread-2.0-0.dll $(dlldir)libgtk-3-0.dll \
+	$(dlldir)libharfbuzz-0.dll $(dlldir)libiconv-2.dll $(dlldir)libintl-8.dll \
+	$(dlldir)libpango-1.0-0.dll $(dlldir)libpangocairo-1.0-0.dll \
+	$(dlldir)libpangoft2-1.0-0.dll $(dlldir)libpangowin32-1.0-0.dll \
+	$(dlldir)libpixman-1-0.dll $(dlldir)libpng16-16.dll \
+	$(dlldir)libwinpthread-1.dll $(dlldir)zlib1.dll
+png = logo.png logo2.png
+
+flags_fast = -c -O3 -ffast-math -Wall
+flags_small = -c -Os -ffast-math -Wall
+
+gcc = gcc -Wall -std=gnu99
+es = es/LC_MESSAGES/
+fr = fr/LC_MESSAGES/
+
+CFLAGS = @CFLAGS@ @GSL_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ @PNG_CFLAGS@ \
+	@GTK_CFLAGS@ @GLEW_CFLAGS@
+LDFLAGS = @LDFLAGS@ @LIBS@ @GSL_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ @PNG_LIBS@ \
+	@GTK_LIBS@ @GLEW_LIBS@
+
+CC = @CC@ -std=gnu99 @LTO@ @ccflags@ #-pg
+
+all: fractal po/fractal.pot po/$(es)fractal.mo po/$(fr)fractal.mo
+
+fractal: $(objs)
+	$(CC) $(objs) $(LDFLAGS) -o fractal
+
+fractal.o: fractal.c fractal.h draw.h $(configs)
+	$(CC) $(CFLAGS) fractal.c -o fractal.o $(flags_fast)
+
+draw.o: draw.c fractal.h draw.h $(configs)
+	$(CC) $(CFLAGS) draw.c -o draw.o $(flags_fast)
+
+simulator.o: simulator.c fractal.h draw.h simulator.h $(configs)
+	$(CC) $(CFLAGS) simulator.c -o simulator.o $(flags_small)
+
+main.o: main.c fractal.h draw.h simulator.h $(configs)
+	$(CC) $(CFLAGS) main.c -o main.o $(flags_small)
+
+fractal.ico: logo2.png
+	convert logo2.png fractal.ico
+
+@icon@: fractal.rc fractal.ico
+	@WINDRES@ fractal.rc -o @icon@
+
+po/fractal.pot: Makefile $(src)
+	xgettext -d fractal -o po/fractal.pot --from-code=UTF-8 $(src)
+	msgmerge -U po/$(es)fractal.po po/fractal.pot
+	msgmerge -U po/$(fr)fractal.po po/fractal.pot
+	vim -p po/$(es)fractal.po po/$(fr)fractal.po
+
+po/$(es)fractal.mo: po/$(es)fractal.po po/fractal.pot
+	msgfmt -c -v -o po/$(es)fractal.mo po/$(es)fractal.po
+
+po/$(fr)fractal.mo: po/$(fr)fractal.po po/fractal.pot
+	msgfmt -c -v -o po/$(fr)fractal.mo po/$(fr)fractal.po
+
+## Making Microsoft Windows distribution
+dist: $(name) $(dll)
+	test -d $(bindir) || mkdir -p $(bindir)
+	test -d $(icondir) || mkdir -p $(icondir)
+	cp fractal.exe $(dll) $(png) $(bindir)
+	strip $(bindir)*.exe $(bindir)*.dll
+	cp -r $(sysdir)share/icons/Adwaita $(icondir)
+	test -d $(bindir)po/$(es) || mkdir -p $(bindir)po/$(es)
+	cp $(modir)$(es)atk10.mo $(modir)$(es)gdk-pixbuf.mo \
+		$(modir)$(es)gettext-runtime.mo $(modir)$(es)glib20.mo \
+		$(modir)$(es)gtk30.mo $(modir)$(es)gtk30-properties.mo \
+		$(modir)$(es)libiconv.mo po/$(es)fractal.mo $(bindir)po/$(es)
+	test -d $(bindir)po/$(fr) || mkdir -p $(bindir)po/$(fr)
+	cp $(modir)$(fr)atk10.mo $(modir)$(fr)gdk-pixbuf.mo \
+		$(modir)$(fr)gettext-runtime.mo $(modir)$(fr)glib20.mo \
+		$(modir)$(fr)gtk30.mo $(modir)$(fr)gtk30-properties.mo \
+		$(modir)$(fr)libiconv.mo po/$(fr)fractal.mo $(bindir)po/$(fr)
+
+clean:
+	rm -rf *.m4 *.cache *.scan *.log config.status Makefile *.o *.ico fractal \
+		po/*/*/*.mo

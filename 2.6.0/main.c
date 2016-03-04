@@ -43,31 +43,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <GL/glew.h>
-#include <SDL.h>
+#include <GL/freeglut.h>
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
 #include "simulator.h"
-
-void
-main_loop (SDL_Window *window)
-{
-  SDL_Event event[1];
-  while (1)
-	{
-	  while (SDL_PollEvent (event))
-		{
-		  if (event->type == SDL_QUIT)
-		    return;
-	      if (event->type == SDL_WINDOWEVENT
-			  && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-		    window_resize (event->window.data1, event->window.data2);;
-		}
-	  while (gtk_events_pending ())
-		gtk_main_iteration ();
-	  draw (window);
-	}
-}
 
 /**
  * \fn int main(int argn, char **argc)
@@ -81,9 +61,7 @@ main_loop (SDL_Window *window)
 int
 main (int argn, char **argc)
 {
-  SDL_Window *window;
   GLenum glew_status;
-
 // PARALELLIZING INIT
 #ifdef G_OS_WIN32
   SYSTEM_INFO sysinfo;
@@ -102,32 +80,43 @@ main (int argn, char **argc)
   // Initing GTK+
   gtk_init (&argn, &argc);
 
-  // Initing SDL
-  SDL_Init (SDL_INIT_VIDEO);
-  window = SDL_CreateWindow ("fractal",
-		                     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		                     640, 480,
-		                     SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
-  if (!window)
-    {
-	  printf ("ERROR! unable to create the window: %s\n", SDL_GetError ());
-	  return EXIT_FAILURE;
-	}
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-  if (!SDL_GL_CreateContext (window))
-    {
-	  printf ("ERROR! SDL_GL_CreateContext: %s\n", SDL_GetError ());
-	  return EXIT_FAILURE;
-	}
+  // Initing FreeGLUT
+  glutInit (&argn, argc);
+  glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+  glutInitWindowSize (640, 480);
+  glutCreateWindow ("fractal");
+
+  // Initing GLEW
+#if DEBUG
+  printf ("Initing GLEW\n");
+#endif
   glew_status = glewInit ();
   if (glew_status != GLEW_OK)
-	{
-	  printf ("ERROR! glewInit: %s\n", glewGetErrorString (glew_status));
-      return EXIT_FAILURE;
-	}
+    {
+      printf ("ERROR! glewInit: %s\n", glewGetErrorString (glew_status));
+      return 1;
+    }
 
   // Initing logo
+#if DEBUG
+  printf ("Initing logo\n");
+#endif
   logo_new ("logo.png");
+
+  // Initing drawing data
+#if DEBUG
+  printf ("Initing drawing data\n");
+#endif
+  draw_init ();
+
+  // Passing the GTK+ signals to the FreeGLUT main loop
+  glutIdleFunc ((void (*)) gtk_main_iteration);
+
+  // Setting our draw resize function as the FreeGLUT reshape function
+  glutReshapeFunc (draw_resize);
+
+  // Setting our draw function as the FreeGLUT display function
+  glutDisplayFunc (draw);
 
   // Creating the main GTK+ window
 #if DEBUG
@@ -135,11 +124,11 @@ main (int argn, char **argc)
 #endif
   dialog_simulator_create (&dialog_simulator);
 
-  // Main loop
+  // FreeGLUT main loop
 #if DEBUG
-  printf ("Main loop\n");
+  printf ("GLUT main loop\n");
 #endif
-  main_loop (window);
+  glutMainLoop ();
 
   return 0;
 }

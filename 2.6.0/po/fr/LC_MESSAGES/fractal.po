@@ -1,0 +1,177 @@
+# French translations for fractal package.
+# Copyright (C) 2009 THE fractal'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the fractal package.
+# Automatically generated, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 2.6.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-03 16:24+0100\n"
+"PO-Revision-Date: 2009-04-12 20:09+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: french\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: simulator.c:91 simulator.c:405 simulator.c:445
+msgid "Save graphical"
+msgstr "Saver graphique"
+
+#: simulator.c:93 simulator.c:252
+msgid "_OK"
+msgstr "_Accepter"
+
+#: simulator.c:94 simulator.c:254 simulator.c:408
+msgid "_Cancel"
+msgstr "_Annuler"
+
+#: simulator.c:139
+msgid "_Tree"
+msgstr "A_rbre"
+
+#: simulator.c:139
+msgid "_Forest"
+msgstr "_Bois"
+
+#: simulator.c:139
+msgid "_Neuron"
+msgstr "_Neurone"
+
+#: simulator.c:155
+msgid "_Default"
+msgstr "_Défaut"
+
+#: simulator.c:155
+msgid "_Clock based"
+msgstr "Basé á l'horloge"
+
+#: simulator.c:155
+msgid "_Fixed"
+msgstr "Fixé"
+
+#: simulator.c:159
+msgid "_Diagonal movement"
+msgstr "_Mouvement diagonal"
+
+#: simulator.c:163
+msgid "Length"
+msgstr "Longueur"
+
+#: simulator.c:164
+msgid "Width"
+msgstr "Large"
+
+#: simulator.c:165
+msgid "Height"
+msgstr "Hauteur"
+
+#: simulator.c:166
+msgid "Random seed"
+msgstr "Graine aléatoire"
+
+#: simulator.c:188
+msgid "Fractal type"
+msgstr "Type de fractal"
+
+#: simulator.c:193
+msgid "_Animate"
+msgstr "_Réaliser"
+
+#: simulator.c:210
+msgid "Random algorithm"
+msgstr "Algorithme aléatoire"
+
+#: simulator.c:228
+msgid "Random seed type"
+msgstr "Type de graine aléatoire"
+
+#: simulator.c:248
+msgid "Options"
+msgstr "Options"
+
+#: simulator.c:316
+msgid ""
+"A program growing fractals to benchmark parallelization and drawing libraries"
+msgstr ""
+"Un programme utilisant croissance de fractals pour analyser parallèlization "
+"et librairies graphiques"
+
+#: simulator.c:321
+msgid "Javier Burguete Tolosa (jburguete@eead.csic.es)"
+msgstr "Javier Burguete Tolosa (jburguete@eead.csic.es)"
+
+#: simulator.c:326
+msgid "Website"
+msgstr "Site web"
+
+#: simulator.c:409
+msgid "_Open"
+msgstr "_Ouvrir"
+
+#: simulator.c:436
+msgid "_Options"
+msgstr "_Options"
+
+#: simulator.c:437
+msgid "S_tart"
+msgstr "_Commencer"
+
+#: simulator.c:438
+msgid "Sto_p"
+msgstr "A_rrêter"
+
+#: simulator.c:439
+msgid "_Save"
+msgstr "_Enregistrer"
+
+#: simulator.c:440
+msgid "_Help"
+msgstr "_Aide"
+
+#: simulator.c:441
+msgid "E_xit"
+msgstr "_Sortir"
+
+#: simulator.c:442
+msgid "Fractal options"
+msgstr "Options du fractal"
+
+#: simulator.c:443
+msgid "Start fractal growing"
+msgstr "Commencer croissance fractal"
+
+#: simulator.c:444
+msgid "Stop fractal growing"
+msgstr "Arrêter croissance fractal"
+
+#: simulator.c:446
+msgid "Help"
+msgstr "Aide"
+
+#: simulator.c:447
+msgid "Exit"
+msgstr "Quitter"
+
+#: simulator.c:494
+msgid "Calculating time"
+msgstr "Temp de calcul"
+
+#: simulator.c:500
+msgid "Progress"
+msgstr "Progrès"
+
+#: simulator.c:514
+msgid "Horizontal perspective angle (º)"
+msgstr "Angle de perspective horizontale (º)"
+
+#: simulator.c:516
+msgid "Vertical perspective angle (º)"
+msgstr "Angle de perspective verticale (º)"
+
+#: simulator.c:534
+msgid "Fractal growing"
+msgstr "Croissance fractal"

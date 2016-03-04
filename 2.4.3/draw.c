@@ -40,7 +40,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <gsl/gsl_rng.h>
 #include <glib.h>
 #include <png.h>
-#include <GL/freeglut.h>
+#include <GL/glew.h>
+#include <SDL.h>
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
@@ -125,6 +126,13 @@ error1:
   png_destroy_read_struct (&png, &info, NULL);
 }
 
+void
+window_resize (unsigned int width, unsigned int height)
+{
+  glViewport (0, 0, width, height);
+}
+
+
 /**
  * \fn void draw()
  * \brief Function to draw the fractal.
@@ -151,26 +159,11 @@ draw ()
   if (!medium)
     goto end_draw;
 
-  // Window size
-  x2 = glutGet (GLUT_WINDOW_WIDTH);
-  y2 = glutGet (GLUT_WINDOW_HEIGHT);
-
-  // Setting the view
-  glViewport (0, 0, x2, y2);
-
-  // Setting the model matrix
-  glMatrixMode (GL_MODELVIEW);
-
   // Checking if 3D or 2D fractal
   if (fractal_3D)
     {
       // 3D fractal requires projection
       glLoadMatrixf (m);
-
-      // Setting the projection matrix
-      glMatrixMode (GL_PROJECTION);
-      glLoadIdentity ();
-      glOrtho (xmin, xmax, ymin, ymax, -1., 1.);
 
       // Drawing a black rectangle
       glColor3f (0., 0., 0.);
@@ -193,12 +186,6 @@ draw ()
     }
   else
     {
-      // No projection
-      glLoadIdentity ();
-      glMatrixMode (GL_PROJECTION);
-      glLoadIdentity ();
-      glOrtho (0., width, 0., height, -1., 1.);
-
       // Drawing the fractal points
       glBegin (GL_POINTS);
       for (list = g_list_last (list_points); list; list = list->prev)

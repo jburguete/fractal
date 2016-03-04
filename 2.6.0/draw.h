@@ -46,23 +46,14 @@ typedef struct
   GLubyte *image;               ///< Image bytes.
 } Logo;
 
-extern const float *color3f[15];
 extern Logo logo;
-
-/**
- * \fn inline void draw_logo
- * \brief Funtion to draw the logo.
- * \param
- */
-static inline void
-draw_logo ()
-{
-  glRasterPos2f (-1.f, -1.f);
-  glDrawPixels (logo.width, logo.height, GL_RGBA, GL_UNSIGNED_BYTE, logo.image);
-}
+extern unsigned int window_width;
+extern unsigned int window_height;
 
 void logo_new (char *name);
 
+void draw_init ();
+void draw_resize (int width, int height);
 void draw ();
 void draw_save (char *file_name);
 
