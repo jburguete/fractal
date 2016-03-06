@@ -52,7 +52,7 @@ extern unsigned int window_height;
 
 void logo_new (char *name);
 
-void draw_init ();
+int draw_init ();
 void draw_resize (int width, int height);
 void draw ();
 void draw_save (char *file_name);

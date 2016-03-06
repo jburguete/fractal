@@ -319,7 +319,7 @@ dialog_simulator_help ()
                          "translator-credits",
                          gettext
                          ("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "2.6.1",
+                         "version", "2.6.2",
                          "copyright",
                          "Copyright 2009-2015 Javier Burguete Tolosa",
                          "logo", dialog_simulator.logo,

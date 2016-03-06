@@ -107,7 +107,8 @@ main (int argn, char **argc)
 #if DEBUG
   printf ("Initing drawing data\n");
 #endif
-  draw_init ();
+  if (!draw_init ())
+    return 2;
 
   // Passing the GTK+ signals to the FreeGLUT main loop
   glutIdleFunc ((void (*)) gtk_main_iteration);

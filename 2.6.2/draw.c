@@ -65,8 +65,8 @@ GLint uniform_2D_matrix;
 GLint attribute_3D_position;
 GLint attribute_3D_icolor;
 GLint uniform_3D_matrix;
-unsigned int window_width = 480;
-unsigned int window_height = 480;
+unsigned int window_width = 480;        ///< Graphic window width.
+unsigned int window_height = 480;       ///< Graphic window height.
 
 const GLfloat square_texture[8] = {
   0.0, 1.0,
@@ -169,7 +169,12 @@ error1:
   png_destroy_read_struct (&png, &info, NULL);
 }
 
-void
+/**
+ * \fn int draw_init ()
+ * \brief Function to init the graphic data.
+ * \return 1 on success, 0 on error.
+ */
+int
 draw_init ()
 {
   const char *vs_2D_source =
@@ -200,8 +205,7 @@ draw_init ()
   const char *fs_texture_source =
     "varying highp vec2 t_position;"
     "uniform lowp sampler2D texture_logo;"
-    "void main ()"
-    "{gl_FragColor = texture2D (texture_logo, t_position);}";
+    "void main () {gl_FragColor = texture2D (texture_logo, t_position);}";
   const char *attribute_vertex_name = "position";
   const char *attribute_color_name = "icolor";
   const char *attribute_texture_name = "texture_position";
@@ -235,7 +239,10 @@ draw_init ()
   if (!k)
     {
       printf ("ERROR! unable to compile the 2D vertex shader\n");
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
 #if DEBUG
@@ -249,7 +256,10 @@ draw_init ()
   if (!k)
     {
       printf ("ERROR! unable to compile the fragment shader\n");
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   vs_3D_sources[0] = version;
@@ -260,7 +270,10 @@ draw_init ()
   if (!k)
     {
       printf ("ERROR! unable to compile the 3D vertex shader\n");
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   program_3D = glCreateProgram ();
@@ -271,7 +284,10 @@ draw_init ()
   if (!k)
     {
       printf ("ERROR! unable to link the program 3D\n");
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   attribute_3D_position
@@ -280,7 +296,10 @@ draw_init ()
     {
       printf ("ERROR! could not bind cube attribute %s\n",
               attribute_vertex_name);
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   attribute_3D_icolor = glGetAttribLocation (program_3D, attribute_color_name);
@@ -288,14 +307,20 @@ draw_init ()
     {
       printf ("ERROR! could not bind cube attribute %s\n",
               attribute_color_name);
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   uniform_3D_matrix = glGetUniformLocation (program_3D, uniform_matrix_name);
   if (uniform_3D_matrix == -1)
     {
       printf ("ERROR! could not bind cube uniform %s\n", uniform_matrix_name);
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   glGenBuffers (1, &vbo_logo);
@@ -321,7 +346,10 @@ draw_init ()
   if (!k)
     {
       printf ("ERROR! unable to compile the 2D texture vertex shader\n");
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   fs_texture_sources[0] = version;
@@ -332,7 +360,10 @@ draw_init ()
   if (!k)
     {
       printf ("ERROR! unable to compile the 2D texture fragment shader\n");
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   program_2D_texture = glCreateProgram ();
@@ -343,7 +374,10 @@ draw_init ()
   if (!k)
     {
       printf ("ERROR! unable to link the program 2D texture\n");
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   glGenTextures (1, &id_texture);
@@ -364,7 +398,10 @@ draw_init ()
   if (attribute_texture == -1)
     {
       printf ("ERROR! could not bind attribute %s\n", attribute_vertex_name);
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   attribute_texture_position
@@ -372,7 +409,10 @@ draw_init ()
   if (attribute_texture_position == -1)
     {
       printf ("ERROR! could not bind attribute %s\n", attribute_texture_name);
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
 
   uniform_texture
@@ -381,8 +421,16 @@ draw_init ()
     {
       printf ("ERROR! could not bind texture uniform %s\n",
               uniform_texture_name);
-      return;
+#if DEBUG
+      printf ("draw_init: end\n");
+#endif
+      return 0;
     }
+
+#if DEBUG
+  printf ("draw_init: end\n");
+#endif
+  return 1;
 }
 
 /**
@@ -516,6 +564,14 @@ end_draw:
   glutSwapBuffers ();
 }
 
+/**
+ * \fn void draw_resize (int width, int height)
+ * \brief Function to updating window data when resizing.
+ * \param width
+ * \brief Graphic window width.
+ * \param height
+ * \brief Graphic window height.
+ */
 void
 draw_resize (int width, int height)
 {
