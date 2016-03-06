@@ -40,7 +40,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <gsl/gsl_rng.h>
 #include <glib.h>
 #include <gtk/gtk.h>
-#include <GL/freeglut.h>
+#include <GL/glew.h>
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
@@ -103,8 +103,9 @@ const float color3f[16][3] = {
   {0., 0.25, 0.75}
 };                              ///< Array of colors.
 
-DialogOptions dialog_options;   ///< DialogOptions to set the fractal options.
-DialogSimulator dialog_simulator;
+DialogOptions dialog_options[1];
+  ///< DialogOptions to set the fractal options.
+DialogSimulator dialog_simulator[1];
   ///< DialogSimulator to show the main window.
 
 // PARALLELIZING DATA

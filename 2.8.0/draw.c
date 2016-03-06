@@ -41,7 +41,12 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <glib.h>
 #include <png.h>
 #include <GL/glew.h>
+#if HAVE_FREEGLUT
 #include <GL/freeglut.h>
+#elif HAVE_SDL
+#include <SDL.h>
+extern SDL_Window *window;
+#endif
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
@@ -561,7 +566,11 @@ end_draw:
   glDisableVertexAttribArray (attribute_texture_position);
 
   // Displaying the draw
+#if HAVE_FREEGLUT
   glutSwapBuffers ();
+#elif HAVE_SDL
+  SDL_GL_SwapWindow (window);
+#endif
 }
 
 /**

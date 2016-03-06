@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT(fractal, [2.6.2])
+AC_INIT(fractal, [2.8.0])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -94,11 +94,26 @@ PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
 PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 PKG_CHECK_MODULES([PNG], [libpng])
 PKG_CHECK_MODULES([GLEW], [glew])
-AC_SEARCH_LIBS([glutInit], [freeglut glut])
 AC_SEARCH_LIBS([glViewport], [GL opengl32])
 
+# Checks for FreeGLUT of SDL to draw the graphic window
+AC_ARG_WITH([sdl],
+	AS_HELP_STRING([--with-sdl], [Build graphic window with SDL]))
+if test "x$with_sdl" == "xyes"; then
+	AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
+	PKG_CHECK_MODULES([SDL], [sdl2])
+else
+	AC_SEARCH_LIBS([glutInit], [freeglut glut], glut="yes", glut="no")
+	if test $glut == "yes"; then
+		AC_SUBST(GRAPHIC, "-DHAVE_FREEGLUT=1")
+	else
+		AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
+		PKG_CHECK_MODULES([SDL], [sdl2])
+	fi
+fi
+
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h unistd.h libintl.h GL/freeglut.h])
+AC_CHECK_HEADERS([stdlib.h unistd.h libintl.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE

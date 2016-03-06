@@ -108,8 +108,8 @@ typedef struct
   GtkWindow *window;            ///< GtkWindow to show the main windows.
 } DialogSimulator;
 
-extern DialogOptions dialog_options;
-extern DialogSimulator dialog_simulator;
+extern DialogOptions dialog_options[1];
+extern DialogSimulator dialog_simulator[1];
 
 void set_perspective ();
 

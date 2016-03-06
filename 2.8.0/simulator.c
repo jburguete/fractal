@@ -41,11 +41,20 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <gsl/gsl_rng.h>
 #include <glib.h>
 #include <gtk/gtk.h>
+#include <GL/glew.h>
+#if HAVE_FREEGLUT
 #include <GL/freeglut.h>
+#elif HAVE_SDL
+#include <SDL.h>
+#endif
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
 #include "simulator.h"
+
+#if HAVE_SDL
+SDL_Event exit_event[1];
+#endif
 
 /**
  * \fn void set_perspective()
@@ -55,8 +64,8 @@ void
 set_perspective ()
 {
   float k1, k2;
-  phid = gtk_range_get_value (GTK_RANGE (dialog_simulator.hscale));
-  thetad = gtk_range_get_value (GTK_RANGE (dialog_simulator.vscale));
+  phid = gtk_range_get_value (GTK_RANGE (dialog_simulator->hscale));
+  thetad = gtk_range_get_value (GTK_RANGE (dialog_simulator->vscale));
   phi = phid * M_PI / 180.;
   theta = thetad * M_PI / 180.;
   if (fractal_3D)
@@ -88,7 +97,7 @@ dialog_draw_save ()
   gtk_file_filter_add_pattern (filter, "*.png");
   gtk_file_filter_add_pattern (filter, "*.PNG");
   dlg = (GtkFileChooserDialog *) gtk_file_chooser_dialog_new
-    (gettext ("Save graphical"), dialog_simulator.window,
+    (gettext ("Save graphical"), dialog_simulator->window,
      GTK_FILE_CHOOSER_ACTION_SAVE,
      gettext ("_OK"), GTK_RESPONSE_CANCEL,
      gettext ("_Cancel"), GTK_RESPONSE_OK, NULL);
@@ -115,7 +124,7 @@ void
 dialog_options_update ()
 {
   int i;
-  DialogOptions *dlg = &dialog_options;
+  DialogOptions *dlg = dialog_options;
   i = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dlg->button_3D));
   gtk_widget_set_sensitive (GTK_WIDGET (dlg->label_length), i);
   gtk_widget_set_sensitive (GTK_WIDGET (dlg->entry_length), i);
@@ -153,7 +162,7 @@ dialog_options_create ()
   };
   const char *array_seeds[N_RANDOM_SEED_TYPES] =
     { gettext ("_Default"), gettext ("_Clock based"), gettext ("_Fixed") };
-  DialogOptions *dlg = &dialog_options;
+  DialogOptions *dlg = dialog_options;
 
   dlg->button_diagonal = (GtkCheckButton *) gtk_check_button_new_with_mnemonic
     (gettext ("_Diagonal movement"));
@@ -247,7 +256,7 @@ dialog_options_create ()
 
   dlg->dialog
     = (GtkDialog *) gtk_dialog_new_with_buttons (gettext ("Options"),
-                                                 dialog_simulator.window,
+                                                 dialog_simulator->window,
                                                  GTK_DIALOG_MODAL |
                                                  GTK_DIALOG_DESTROY_WITH_PARENT,
                                                  gettext ("_OK"),
@@ -309,7 +318,7 @@ dialog_simulator_help ()
     "Javier Burguete Tolosa (jburguete@eead.csic.es)",
     NULL
   };
-  gtk_show_about_dialog (dialog_simulator.window,
+  gtk_show_about_dialog (dialog_simulator->window,
                          "program_name", "Fractal",
                          "comments",
                          gettext
@@ -319,10 +328,10 @@ dialog_simulator_help ()
                          "translator-credits",
                          gettext
                          ("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "2.6.2",
+                         "version", "2.8.0",
                          "copyright",
                          "Copyright 2009-2015 Javier Burguete Tolosa",
-                         "logo", dialog_simulator.logo,
+                         "logo", dialog_simulator->logo,
                          "website-label", gettext ("Website"),
                          "website", "https://github.com/jburguete/fractal",
                          NULL);
@@ -336,9 +345,9 @@ void
 dialog_simulator_update ()
 {
   gtk_widget_set_sensitive
-    (GTK_WIDGET (dialog_simulator.button_start), !simulating);
+    (GTK_WIDGET (dialog_simulator->button_start), !simulating);
   gtk_widget_set_sensitive
-    (GTK_WIDGET (dialog_simulator.button_stop), simulating);
+    (GTK_WIDGET (dialog_simulator->button_stop), simulating);
 }
 
 /**
@@ -384,9 +393,9 @@ dialog_simulator_progress ()
           x = fmin (1., max_d / (float) k);
         }
     }
-  gtk_progress_bar_set_fraction (dialog_simulator.progress, x);
+  gtk_progress_bar_set_fraction (dialog_simulator->progress, x);
   gtk_spin_button_set_value
-    (dialog_simulator.entry_time, difftime (time (NULL), t0));
+    (dialog_simulator->entry_time, difftime (time (NULL), t0));
   while (gtk_events_pending ())
     gtk_main_iteration ();
 }
@@ -402,7 +411,7 @@ dialog_simulator_save ()
   GtkFileChooserDialog *dlg;
   dlg = (GtkFileChooserDialog *)
     gtk_file_chooser_dialog_new (gettext ("Save graphical"),
-                                 dialog_simulator.window,
+                                 dialog_simulator->window,
                                  GTK_FILE_CHOOSER_ACTION_SAVE,
                                  gettext ("_Cancel"), GTK_RESPONSE_CANCEL,
                                  gettext ("_Open"), GTK_RESPONSE_ACCEPT, NULL);
@@ -430,7 +439,14 @@ dialog_simulator_create ()
     *tip_help;
   DialogSimulator *dlg;
 
-  dlg = &dialog_simulator;
+#if DEBUG
+  printf ("dialog_simulator_create: start\n");
+#endif
+
+  dlg = dialog_simulator;
+#if HAVE_SDL
+  exit_event->type = SDL_QUIT;
+#endif
 
   str_options = gettext ("_Options");
   str_start = gettext ("S_tart");
@@ -488,7 +504,12 @@ dialog_simulator_create ()
      ("application-exit", GTK_ICON_SIZE_SMALL_TOOLBAR), str_exit);
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_exit), tip_exit);
   gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_exit), -1);
+#if HAVE_FREEGLUT
   g_signal_connect (dlg->button_exit, "clicked", glutLeaveMainLoop, NULL);
+#elif HAVE_SDL
+  g_signal_connect_swapped (dlg->button_exit, "clicked",
+		                    (void(*)) SDL_PushEvent, exit_event);
+#endif
 
   dlg->label_time = (GtkLabel *) gtk_label_new (gettext ("Calculating time"));
   dlg->entry_time =
@@ -534,8 +555,16 @@ dialog_simulator_create ()
   gtk_window_set_icon (dlg->window, dlg->logo_min);
   gtk_container_add (GTK_CONTAINER (dlg->window), GTK_WIDGET (dlg->grid));
   gtk_widget_show_all (GTK_WIDGET (dlg->window));
+#if HAVE_FREEGLUT
   g_signal_connect (dlg->window, "delete_event", glutLeaveMainLoop, NULL);
+#elif HAVE_SDL
+  g_signal_connect_swapped (dlg->window, "delete_event",
+		                    (void(*)) SDL_PushEvent, exit_event);
+#endif
 
   set_perspective ();
   dialog_simulator_update ();
+#if DEBUG
+  printf ("dialog_simulator_create: end\n");
+#endif
 }
