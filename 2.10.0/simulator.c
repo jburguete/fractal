@@ -46,6 +46,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <GL/freeglut.h>
 #elif HAVE_SDL
 #include <SDL.h>
+#elif HAVE_GLFW
+#include <GLFW/glfw3.h>
+extern GLFWwindow *window;
 #endif
 #include "config.h"
 #include "fractal.h"
@@ -328,7 +331,7 @@ dialog_simulator_help ()
                          "translator-credits",
                          gettext
                          ("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "2.8.0",
+                         "version", "2.10.0",
                          "copyright",
                          "Copyright 2009-2015 Javier Burguete Tolosa",
                          "logo", dialog_simulator->logo,
@@ -426,6 +429,14 @@ dialog_simulator_save ()
     }
 }
 
+#if HAVE_GLFW
+void
+window_close ()
+{
+  glfwSetWindowShouldClose (window, GL_TRUE);
+}
+#endif
+
 /**
  * \fn void dialog_simulator_create()
  * \brief Function to create the main window.
@@ -508,7 +519,9 @@ dialog_simulator_create ()
   g_signal_connect (dlg->button_exit, "clicked", glutLeaveMainLoop, NULL);
 #elif HAVE_SDL
   g_signal_connect_swapped (dlg->button_exit, "clicked",
-		                    (void(*)) SDL_PushEvent, exit_event);
+                            (void (*)) SDL_PushEvent, exit_event);
+#elif HAVE_GLFW
+  g_signal_connect (dlg->button_exit, "clicked", (void (*)) window_close, NULL);
 #endif
 
   dlg->label_time = (GtkLabel *) gtk_label_new (gettext ("Calculating time"));
@@ -559,7 +572,9 @@ dialog_simulator_create ()
   g_signal_connect (dlg->window, "delete_event", glutLeaveMainLoop, NULL);
 #elif HAVE_SDL
   g_signal_connect_swapped (dlg->window, "delete_event",
-		                    (void(*)) SDL_PushEvent, exit_event);
+                            (void (*)) SDL_PushEvent, exit_event);
+#elif HAVE_GLFW
+  g_signal_connect (dlg->window, "delete_event", (void (*)) window_close, NULL);
 #endif
 
   set_perspective ();

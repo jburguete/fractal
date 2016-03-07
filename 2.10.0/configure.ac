@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT(fractal, [2.8.0])
+AC_INIT(fractal, [2.10.0])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -96,19 +96,31 @@ PKG_CHECK_MODULES([PNG], [libpng])
 PKG_CHECK_MODULES([GLEW], [glew])
 AC_SEARCH_LIBS([glViewport], [GL opengl32])
 
-# Checks for FreeGLUT of SDL to draw the graphic window
+# Checks for FreeGLUT, SDL or GLFW to draw the graphic window
 AC_ARG_WITH([sdl],
 	AS_HELP_STRING([--with-sdl], [Build graphic window with SDL]))
+AC_ARG_WITH([glfw],
+	AS_HELP_STRING([--with-glfw], [Build graphic window with GLFW]))
 if test "x$with_sdl" == "xyes"; then
 	AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
 	PKG_CHECK_MODULES([SDL], [sdl2])
 else
-	AC_SEARCH_LIBS([glutInit], [freeglut glut], glut="yes", glut="no")
-	if test $glut == "yes"; then
-		AC_SUBST(GRAPHIC, "-DHAVE_FREEGLUT=1")
+	if test "x$with_glfw" == "xyes"; then
+		AC_SUBST(GRAPHIC, "-DHAVE_GLFW=1")
+		PKG_CHECK_MODULES([GLFW], [glfw3])
 	else
-		AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
-		PKG_CHECK_MODULES([SDL], [sdl2])
+		AC_SEARCH_LIBS([glutInit], [freeglut glut], glut="yes", glut="no")
+		if test $glut == "yes"; then
+			AC_SUBST(GRAPHIC, "-DHAVE_FREEGLUT=1")
+		else
+			PKG_CHECK_MODULES([SDL], [sdl2], sdl="yes", sdl="no")
+			if test $sdl == "yes"; then
+				AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
+			else
+				PKG_CHECK_MODULES([GLFW], [glfw3])
+				AC_SUBST(GRAPHIC, "-DHAVE_GLFW=1")
+			fi
+		fi
 	fi
 fi
 

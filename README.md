@@ -1,4 +1,4 @@
-FRACTAL (2.8.0 version)
+FRACTAL (2.10.0 version)
 =======================
 
 A program growing fractals to benchmark parallelization and drawing libraries.
@@ -26,11 +26,11 @@ locales)
 * [glib](https://developer.gnome.org/glib) (extended utilities of C to work with
 data, lists, mapped files, regular expressions, using multicores in shared
 memory machines, ...)
-* [gtk+3](http://www.gtk.org) (to create the interactive GUI tool)
+* [gtk+](http://www.gtk.org) (to create the interactive GUI tool)
 * [glew](http://glew.sourceforge.net) (to use advanced OpenGL functions to draw
 graphics)
-* [freeglut](http://freeglut.sourceforge.net) or [sdl2](https://www.libsdl.org)
-(interaction with OpenGL to draw graphics)
+* [freeglut](http://freeglut.sourceforge.net) (interaction with OpenGL to draw
+graphics)
 * [png](http://www.libpng.org) (to work with PNG files)
 
 OPTIONAL TOOLS TO BUILD THE REFERENCE MANUAL
@@ -93,7 +93,7 @@ OpenBSD 5.8
 ___________
 
 Download this repository and execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.8.0
+> $ cd PATH_TO_FRACTAL/2.10.0
 >
 > $ ./build
 >
@@ -103,7 +103,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.8.0
+> $ cd PATH_TO_FRACTAL/2.10.0
 >
 > $ doxygen
 >

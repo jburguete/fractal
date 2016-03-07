@@ -46,6 +46,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #elif HAVE_SDL
 #include <SDL.h>
 extern SDL_Window *window;
+#elif HAVE_GLFW
+#include <GLFW/glfw3.h>
+extern GLFWwindow *window;
 #endif
 #include "config.h"
 #include "fractal.h"
@@ -65,7 +68,6 @@ extern SDL_Window *window;
 	"#endif\n"
 
 GLuint program_3D;
-GLint attribute_2D_position;
 GLint uniform_2D_matrix;
 GLint attribute_3D_position;
 GLint attribute_3D_icolor;
@@ -80,7 +82,7 @@ const GLfloat square_texture[8] = {
   1.0, 1.0,
 };
 
-GLuint vbo_texture;
+GLuint vbo_texture;             ///< Texture vertex buffer object.
 GLuint program_2D_texture;
 GLuint id_texture;
 GLint uniform_texture;
@@ -439,6 +441,22 @@ draw_init ()
 }
 
 /**
+ * \fn void draw_resize (int width, int height)
+ * \brief Function to updating window data when resizing.
+ * \param width
+ * \brief Graphic window width.
+ * \param height
+ * \brief Graphic window height.
+ */
+void
+draw_resize (int width, int height)
+{
+  window_width = width;
+  window_height = height;
+  glViewport (0, 0, width, height);
+}
+
+/**
  * \fn void draw()
  * \brief Function to draw the fractal.
  */
@@ -455,6 +473,12 @@ draw ()
   const GLushort square_indices[4] = { 0, 1, 2, 3 };
   float cp, sp, ct, st, w, h;
   GLuint vbo_square, ibo_square, vbo_points;
+
+#if HAVE_GLFW
+  int graphic_width, graphic_height;
+  glfwGetFramebufferSize (window, &graphic_width, &graphic_height);
+  draw_resize (graphic_width, graphic_height);
+#endif
 
   // Drawing a white background
   glClearColor (1., 1., 1., 0.);
@@ -562,7 +586,7 @@ end_draw:
   glVertexAttribPointer (attribute_texture, 2, GL_FLOAT, GL_FALSE, 0, 0);
   glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, ibo_logo);
   glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
-  glDisableVertexAttribArray (attribute_2D_position);
+  glDisableVertexAttribArray (attribute_3D_position);
   glDisableVertexAttribArray (attribute_texture_position);
 
   // Displaying the draw
@@ -570,23 +594,9 @@ end_draw:
   glutSwapBuffers ();
 #elif HAVE_SDL
   SDL_GL_SwapWindow (window);
+#elif HAVE_GLFW
+  glfwSwapBuffers (window);
 #endif
-}
-
-/**
- * \fn void draw_resize (int width, int height)
- * \brief Function to updating window data when resizing.
- * \param width
- * \brief Graphic window width.
- * \param height
- * \brief Graphic window height.
- */
-void
-draw_resize (int width, int height)
-{
-  window_width = width;
-  window_height = height;
-  glViewport (0, 0, width, height);
 }
 
 /**

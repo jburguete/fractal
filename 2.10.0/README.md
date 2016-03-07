@@ -1,4 +1,4 @@
-FRACTAL (2.8.0 version)
+FRACTAL (2.10.0 version)
 =======================
 
 A program growing fractals to benchmark parallelization and drawing libraries.
@@ -93,7 +93,7 @@ OpenBSD 5.8
 ___________
 
 Download this repository and execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.8.0
+> $ cd PATH_TO_FRACTAL/2.10.0
 >
 > $ ./build
 >
@@ -103,7 +103,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.8.0
+> $ cd PATH_TO_FRACTAL/2.10.0
 >
 > $ doxygen
 >

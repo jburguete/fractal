@@ -47,6 +47,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <GL/freeglut.h>
 #elif HAVE_SDL
 #include <SDL.h>
+#elif HAVE_GLFW
+#include <GLFW/glfw3.h>
 #endif
 #include "config.h"
 #include "fractal.h"
@@ -55,28 +57,59 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #if HAVE_SDL
 SDL_Window *window;
+#elif HAVE_GLFW
+GLFWwindow *window;
+#endif
 
 void
 main_loop ()
 {
+#if HAVE_SDL
   SDL_Event event[1];
+#endif
+
+#if HAVE_FREEGLUT
+
+  // Passing the GTK+ signals to the FreeGLUT main loop
+  glutIdleFunc ((void (*)) gtk_main_iteration);
+  // Setting our draw resize function as the FreeGLUT reshape function
+  glutReshapeFunc (draw_resize);
+  // Setting our draw function as the FreeGLUT display function
+  glutDisplayFunc (draw);
+  // FreeGLUT main loop
+  glutMainLoop ();
+
+#else
+
+#if HAVE_SDL
   while (1)
-	{
-	  while (gtk_events_pending ())
-		gtk_main_iteration ();
-	  while (SDL_PollEvent (event))
-		{
-		  if (event->type == SDL_QUIT)
-		    return;
-	      if (event->type == SDL_WINDOWEVENT
-			  && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-		    draw_resize (event->window.data1, event->window.data2);
-		}
-	  draw ();
-	}
-}
+    {
+      while (gtk_events_pending ())
+        gtk_main_iteration ();
+      while (SDL_PollEvent (event))
+        {
+          if (event->type == SDL_QUIT)
+            return;
+          if (event->type == SDL_WINDOWEVENT
+              && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+            draw_resize (event->window.data1, event->window.data2);
+        }
+
+#elif HAVE_GLFW
+
+  while (!glfwWindowShouldClose (window))
+    {
+      while (gtk_events_pending ())
+        gtk_main_iteration ();
+      glfwPollEvents ();
 
 #endif
+
+      draw ();
+    }
+
+#endif
+}
 
 /**
  * \fn int main(int argn, char **argc)
@@ -112,6 +145,7 @@ main (int argn, char **argc)
 
   // Initing graphic window
 #if HAVE_FREEGLUT
+
 #if DEBUG
   printf ("Initing FreeGLUT window\n");
 #endif
@@ -119,26 +153,49 @@ main (int argn, char **argc)
   glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
   glutInitWindowSize (window_width, window_height);
   glutCreateWindow ("fractal");
+
 #elif HAVE_SDL
+
 #if DEBUG
   printf ("Initing SDL window\n");
 #endif
   SDL_Init (SDL_INIT_VIDEO);
   window = SDL_CreateWindow ("fractal",
-		                     SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-		                     window_width, window_height,
-		                     SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
+                             SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+                             window_width, window_height,
+                             SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
   if (!window)
     {
-	  printf ("ERROR! unable to create the window: %s\n", SDL_GetError ());
-	  return 1;
-	}
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+      printf ("ERROR! unable to create the window: %s\n", SDL_GetError ());
+      return 1;
+    }
+  SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
   if (!SDL_GL_CreateContext (window))
     {
-	  printf ("ERROR! SDL_GL_CreateContext: %s\n", SDL_GetError ());
-	  return 1;
-	}
+      printf ("ERROR! SDL_GL_CreateContext: %s\n", SDL_GetError ());
+      return 1;
+    }
+
+#elif HAVE_GLFW
+
+#if DEBUG
+  printf ("Initing GLFW window\n");
+#endif
+  if (!glfwInit ())
+    {
+      printf ("ERROR! unable to init GLFW\n");
+      return 1;
+    }
+  window
+    = glfwCreateWindow (window_width, window_height, "fractal", NULL, NULL);
+  if (!window)
+    {
+      printf ("ERROR! unable to open the window\n");
+      glfwTerminate ();
+      return 1;
+    }
+  glfwMakeContextCurrent (window);
+
 #endif
 
   // Initing GLEW
@@ -177,23 +234,15 @@ main (int argn, char **argc)
 #endif
   dialog_simulator_create (dialog_simulator);
 
-#if HAVE_FREEGLUT
-  // FreeGLUT main loop
-#if DEBUG
-  printf ("GLUT main loop\n");
-#endif
-  // Passing the GTK+ signals to the FreeGLUT main loop
-  glutIdleFunc ((void (*)) gtk_main_iteration);
-  // Setting our draw resize function as the FreeGLUT reshape function
-  glutReshapeFunc (draw_resize);
-  // Setting our draw function as the FreeGLUT display function
-  glutDisplayFunc (draw);
-  glutMainLoop ();
-#elif HAVE_SDL
 #if DEBUG
   printf ("Main loop\n");
 #endif
   main_loop ();
+
+  // Freeing memory
+#if HAVE_GLFW
+  glfwDestroyWindow (window);
+  glfwTerminate ();
 #endif
 
   return 0;
