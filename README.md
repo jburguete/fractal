@@ -29,8 +29,8 @@ memory machines, ...)
 * [gtk+](http://www.gtk.org) (to create the interactive GUI tool)
 * [glew](http://glew.sourceforge.net) (to use advanced OpenGL functions to draw
 graphics)
-* [freeglut](http://freeglut.sourceforge.net) (interaction with OpenGL to draw
-graphics)
+* [freeglut](http://freeglut.sourceforge.net), [sdl2](https://www.libsdl.org) or
+[glfw](http://www.glfw.org) (interaction with OpenGL to draw graphics)
 * [png](http://www.libpng.org) (to work with PNG files)
 
 OPTIONAL TOOLS TO BUILD THE REFERENCE MANUAL

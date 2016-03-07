@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-07 10:38+0100\n"
+"POT-Creation-Date: 2016-03-07 11:01+0100\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: simulator.c:103 simulator.c:416 simulator.c:470
+#: simulator.c:103 simulator.c:416 simulator.c:471
 msgid "Save graphical"
 msgstr "Guardar gráfica"
 
@@ -112,66 +112,66 @@ msgstr "Sitio web"
 msgid "_Open"
 msgstr "_Abrir"
 
-#: simulator.c:461
+#: simulator.c:462
 msgid "_Options"
 msgstr "_Opciones"
 
-#: simulator.c:462
+#: simulator.c:463
 msgid "S_tart"
 msgstr "_Comenzar"
 
-#: simulator.c:463
+#: simulator.c:464
 msgid "Sto_p"
 msgstr "_Parar"
 
-#: simulator.c:464
+#: simulator.c:465
 msgid "_Save"
 msgstr "_Guardar"
 
-#: simulator.c:465
+#: simulator.c:466
 msgid "_Help"
 msgstr "A_yuda"
 
-#: simulator.c:466
+#: simulator.c:467
 msgid "E_xit"
 msgstr "_Salir"
 
-#: simulator.c:467
+#: simulator.c:468
 msgid "Fractal options"
 msgstr "Opciones de fractal"
 
-#: simulator.c:468
+#: simulator.c:469
 msgid "Start fractal growing"
 msgstr "Iniciar crecimiento fractal"
 
-#: simulator.c:469
+#: simulator.c:470
 msgid "Stop fractal growing"
 msgstr "Parar crecimiento fractal"
 
-#: simulator.c:471
+#: simulator.c:472
 msgid "Help"
 msgstr "Ayuda"
 
-#: simulator.c:472
+#: simulator.c:473
 msgid "Exit"
 msgstr "Salir"
 
-#: simulator.c:526
+#: simulator.c:527
 msgid "Calculating time"
 msgstr "Tiempo de cálculo"
 
-#: simulator.c:532
+#: simulator.c:533
 msgid "Progress"
 msgstr "Progreso"
 
-#: simulator.c:546
+#: simulator.c:547
 msgid "Horizontal perspective angle (º)"
 msgstr "Ángulo de perspectiva horizontal (º)"
 
-#: simulator.c:548
+#: simulator.c:549
 msgid "Vertical perspective angle (º)"
 msgstr "Ángulo de perspectiva vertical (º)"
 
-#: simulator.c:566
+#: simulator.c:567
 msgid "Fractal growing"
 msgstr "Crecimiento fractal"
