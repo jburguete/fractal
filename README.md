@@ -26,7 +26,7 @@ locales)
 * [glib](https://developer.gnome.org/glib) (extended utilities of C to work with
 data, lists, mapped files, regular expressions, using multicores in shared
 memory machines, ...)
-* [gtk+](http://www.gtk.org) (to create the interactive GUI tool)
+* [gtk+3](http://www.gtk.org) (to create the interactive GUI tool)
 * [glew](http://glew.sourceforge.net) (to use advanced OpenGL functions to draw
 graphics)
 * [freeglut](http://freeglut.sourceforge.net), [sdl2](https://www.libsdl.org) or
