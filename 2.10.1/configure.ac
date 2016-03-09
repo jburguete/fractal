@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT(fractal, [2.10.0])
+AC_INIT(fractal, [2.10.1])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -93,6 +93,7 @@ PKG_CHECK_MODULES([GLIB], [glib-2.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
 PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 PKG_CHECK_MODULES([PNG], [libpng])
+PKG_CHECK_MODULES([FREETYPE], [freetype2])
 PKG_CHECK_MODULES([GLEW], [glew])
 AC_SEARCH_LIBS([glViewport], [GL opengl32])
 

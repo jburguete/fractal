@@ -50,6 +50,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #elif HAVE_GLFW
 #include <GLFW/glfw3.h>
 #endif
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
@@ -209,6 +211,13 @@ main (int argn, char **argc)
       return 1;
     }
 
+  // Initing FreeType
+  if (FT_Init_FreeType (&ft))
+  {
+    printf("ERROR! could not init freetype library\n");
+    return 1;
+  }
+
   // Initing GTK+
 #if DEBUG
   printf ("Initing GTK+\n");
@@ -226,7 +235,7 @@ main (int argn, char **argc)
   printf ("Initing drawing data\n");
 #endif
   if (!draw_init ())
-    return 2;
+    return 1;
 
   // Creating the main GTK+ window
 #if DEBUG

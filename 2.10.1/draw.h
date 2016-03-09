@@ -46,9 +46,10 @@ typedef struct
   GLubyte *image;               ///< Image bytes.
 } Logo;
 
-extern Logo logo;
 extern unsigned int window_width;
 extern unsigned int window_height;
+extern Logo logo;
+extern FT_Library ft;
 
 void logo_new (char *name);
 

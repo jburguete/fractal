@@ -50,6 +50,8 @@ extern SDL_Window *window;
 #include <GLFW/glfw3.h>
 extern GLFWwindow *window;
 #endif
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
@@ -119,6 +121,9 @@ GLuint vbo_logo;                ///< Logo vertices buffer object.
 GLuint ibo_logo;                ///< Logo indices buffer object.
 Logo logo;                      ///< Logo data.
 
+FT_Library ft;                  ///< FreeType data.
+FT_Face face;                   ///< FreeType face to draw text.
+
 /**
  * \fn void logo_new(char *name)
  * \brief Function to read the logo on a PNG file.
@@ -186,18 +191,18 @@ draw_init ()
 {
   const char *vs_2D_source =
     "attribute highp vec2 position;"
-    "attribute lowp vec3 icolor;"
+    "attribute lowp vec3 color;"
     "varying lowp vec3 fcolor;"
     "uniform highp mat4 matrix;"
     "void main ()"
-    "{gl_Position = matrix * vec4 (position, 0.f, 1.f); fcolor = icolor;}";
+    "{gl_Position = matrix * vec4 (position, 0.f, 1.f); fcolor = color;}";
   const char *vs_3D_source =
     "attribute highp vec3 position;"
-    "attribute lowp vec3 icolor;"
+    "attribute lowp vec3 color;"
     "varying lowp vec3 fcolor;"
     "uniform highp mat4 matrix;"
     "void main ()"
-    "{gl_Position = matrix * vec4 (position, 1.f); fcolor = icolor;}";
+    "{gl_Position = matrix * vec4 (position, 1.f); fcolor = color;}";
   const char *vs_2D_texture_source =
     "attribute highp vec2 position;"
     "attribute highp vec2 texture_position;"
@@ -206,6 +211,11 @@ draw_init ()
     "void main ()"
     "{gl_Position = matrix * vec4 (position, 0.f, 1.f);"
     "  t_position = texture_position;}";
+  const char *vs_text_source =
+	"attribute highp vec4 position;"
+	"varying highp vec2 textcoord;"
+	"void main ()"
+	"{gl_Position = vec4(position.xy, 0, 1); textcoord = position.zw;}";
   const char *fs_source =
     "varying lowp vec3 fcolor;"
     "void main () {gl_FragColor = vec4 (fcolor, 1.f);}";
@@ -213,24 +223,38 @@ draw_init ()
     "varying highp vec2 t_position;"
     "uniform lowp sampler2D texture_logo;"
     "void main () {gl_FragColor = texture2D (texture_logo, t_position);}";
-  const char *attribute_vertex_name = "position";
-  const char *attribute_color_name = "icolor";
-  const char *attribute_texture_name = "texture_position";
-  const char *uniform_matrix_name = "matrix";
-  const char *uniform_texture_name = "texture_logo";
+  const char *fs_text_source =
+	"varying highp textcoord;"
+    "uniform lowp sampler2D text;"
+    "uniform lowp vec4 color;"
+	"void main ()"
+	"{gl_FragColor = vec4(1, 1, 1, texture2D(text, textcoord).r) * color;}";
+  const char *vertex_name = "position";
+  const char *color_name = "color";
+  const char *texture_position_name = "texture_position";
+  const char *matrix_name = "matrix";
+  const char *texture_logo_name = "texture_logo";
+  const char *text_name ="text";
   const char *vs_2D_sources[3] = { NULL, INIT_GL_GLES, vs_2D_source };
   const char *vs_3D_sources[3] = { NULL, INIT_GL_GLES, vs_3D_source };
   const char *vs_2D_texture_sources[3]
     = { NULL, INIT_GL_GLES, vs_2D_texture_source };
+  const char *vs_text_sources[3] = { NULL, INIT_GL_GLES, vs_text_source };
   const char *fs_sources[3] = { NULL, INIT_GL_GLES, fs_source };
   const char *fs_texture_sources[3] = { NULL, INIT_GL_GLES, fs_texture_source };
+  const char *fs_text_sources[3] = { NULL, INIT_GL_GLES, fs_text_source };
   const char *version;
+  const char *error_message;
   GLint k;
   GLuint vs, fs, fs_texture;
 
 #if DEBUG
   printf ("draw_init: start\n");
 #endif
+
+  // OpenGL properties
+  glEnable (GL_BLEND);
+  glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   // GLSL version
   version = "#version 120\n";   // OpenGL 2.1
@@ -245,15 +269,12 @@ draw_init ()
   glGetShaderiv (vs, GL_COMPILE_STATUS, &k);
   if (!k)
     {
-      printf ("ERROR! unable to compile the 2D vertex shader\n");
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "unable to compile the 2D vertex shader";
+      goto exit_on_error;
     }
 
 #if DEBUG
-  printf ("draw_init: compiling 2D vertex shader\n");
+  printf ("draw_init: compiling 2D vertex shader";
 #endif
   fs_sources[0] = version;
   fs = glCreateShader (GL_FRAGMENT_SHADER);
@@ -262,11 +283,8 @@ draw_init ()
   glGetShaderiv (fs, GL_COMPILE_STATUS, &k);
   if (!k)
     {
-      printf ("ERROR! unable to compile the fragment shader\n");
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "unable to compile the fragment shader";
+      goto exit_on_error;
     }
 
   vs_3D_sources[0] = version;
@@ -276,11 +294,8 @@ draw_init ()
   glGetShaderiv (vs, GL_COMPILE_STATUS, &k);
   if (!k)
     {
-      printf ("ERROR! unable to compile the 3D vertex shader\n");
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "unable to compile the 3D vertex shader";
+      goto exit_on_error;
     }
 
   program_3D = glCreateProgram ();
@@ -290,44 +305,30 @@ draw_init ()
   glGetProgramiv (program_3D, GL_LINK_STATUS, &k);
   if (!k)
     {
-      printf ("ERROR! unable to link the program 3D\n");
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "unable to link the program 3D";
+      goto exit_on_error;
     }
 
   attribute_3D_position
-    = glGetAttribLocation (program_3D, attribute_vertex_name);
+    = glGetAttribLocation (program_3D, vertex_name);
   if (attribute_3D_position == -1)
     {
-      printf ("ERROR! could not bind cube attribute %s\n",
-              attribute_vertex_name);
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "could not bind attribute";
+      goto exit_on_error;
     }
 
-  attribute_3D_icolor = glGetAttribLocation (program_3D, attribute_color_name);
+  attribute_3D_icolor = glGetAttribLocation (program_3D, color_name);
   if (attribute_3D_icolor == -1)
     {
-      printf ("ERROR! could not bind cube attribute %s\n",
-              attribute_color_name);
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "could not bind attribute";
+      goto exit_on_error;
     }
 
-  uniform_3D_matrix = glGetUniformLocation (program_3D, uniform_matrix_name);
+  uniform_3D_matrix = glGetUniformLocation (program_3D, matrix_name);
   if (uniform_3D_matrix == -1)
     {
-      printf ("ERROR! could not bind cube uniform %s\n", uniform_matrix_name);
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "could not bind uniform";
+      goto exit_on_error;
     }
 
   glGenBuffers (1, &vbo_logo);
@@ -352,11 +353,8 @@ draw_init ()
   glGetShaderiv (vs, GL_COMPILE_STATUS, &k);
   if (!k)
     {
-      printf ("ERROR! unable to compile the 2D texture vertex shader\n");
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "unable to compile the 2D texture vertex shader";
+      goto exit_on_error;
     }
 
   fs_texture_sources[0] = version;
@@ -366,11 +364,8 @@ draw_init ()
   glGetShaderiv (fs_texture, GL_COMPILE_STATUS, &k);
   if (!k)
     {
-      printf ("ERROR! unable to compile the 2D texture fragment shader\n");
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "unable to compile the 2D texture fragment shader";
+      goto exit_on_error;
     }
 
   program_2D_texture = glCreateProgram ();
@@ -380,11 +375,8 @@ draw_init ()
   glGetProgramiv (program_2D_texture, GL_LINK_STATUS, &k);
   if (!k)
     {
-      printf ("ERROR! unable to link the program 2D texture\n");
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "unable to link the program 2D texture";
+      goto exit_on_error;
     }
 
   glGenTextures (1, &id_texture);
@@ -400,44 +392,48 @@ draw_init ()
                 GL_UNSIGNED_BYTE,       // type
                 logo.image);
 
-  attribute_texture
-    = glGetAttribLocation (program_2D_texture, attribute_vertex_name);
+  attribute_texture = glGetAttribLocation (program_2D_texture, vertex_name);
   if (attribute_texture == -1)
     {
-      printf ("ERROR! could not bind attribute %s\n", attribute_vertex_name);
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "could not bind attribute";
+      goto exit_on_error;
     }
 
   attribute_texture_position
-    = glGetAttribLocation (program_2D_texture, attribute_texture_name);
+    = glGetAttribLocation (program_2D_texture, texture_position_name);
   if (attribute_texture_position == -1)
     {
-      printf ("ERROR! could not bind attribute %s\n", attribute_texture_name);
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "could not bind attribute";
+      goto exit_on_error;
     }
 
   uniform_texture
-    = glGetUniformLocation (program_2D_texture, uniform_texture_name);
+    = glGetUniformLocation (program_2D_texture, texture_logo_name);
   if (uniform_texture == -1)
     {
-      printf ("ERROR! could not bind texture uniform %s\n",
-              uniform_texture_name);
-#if DEBUG
-      printf ("draw_init: end\n");
-#endif
-      return 0;
+      error_message = "could not bind texture uniform";
+      goto exit_on_error;
     }
 
+  if (FT_New_Face(ft, "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 0,
+			      &face))
+    {
+      error_message = "could not open font";
+      goto exit_on_error;
+	}
+  FT_Set_Pixel_Sizes(face, 0, 48);
+  
 #if DEBUG
   printf ("draw_init: end\n");
 #endif
   return 1;
+
+exit_on_error:
+  printf("ERROR! %s\n", error_message);
+#if DEBUG
+  printf ("draw_init: end\n");
+#endif
+  return 0;
 }
 
 /**

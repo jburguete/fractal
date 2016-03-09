@@ -41,6 +41,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <GL/glew.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"

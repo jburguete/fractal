@@ -50,6 +50,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <GLFW/glfw3.h>
 extern GLFWwindow *window;
 #endif
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
@@ -331,7 +333,7 @@ dialog_simulator_help ()
                          "translator-credits",
                          gettext
                          ("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "2.10.0",
+                         "version", "2.10.1",
                          "copyright",
                          "Copyright 2009-2016 Javier Burguete Tolosa",
                          "logo", dialog_simulator->logo,
