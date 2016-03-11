@@ -416,11 +416,13 @@ draw_init ()
     }
 
   if (FT_New_Face(ft, "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 0,
+			      &face)
+      && FT_New_Face(ft, "/usr/share/fonts/TrueType/freefont/FreeSans.ttf", 0,
 			      &face))
     {
       error_message = "could not open font";
       goto exit_on_error;
-	}
+    }
   FT_Set_Pixel_Sizes(face, 0, 48);
   
 #if DEBUG
