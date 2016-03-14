@@ -121,6 +121,12 @@ GLuint vbo_logo;                ///< Logo vertices buffer object.
 GLuint ibo_logo;                ///< Logo indices buffer object.
 Logo logo;                      ///< Logo data.
 
+GLuint vbo_text;                ///< Text vertex buffer object.
+GLuint program_text;
+GLuint id_text;
+GLint attribute_text_position;
+GLint uniform_text;
+GLint uniform_color;
 FT_Library ft;                  ///< FreeType data.
 FT_Face face;                   ///< FreeType face to draw text.
 
@@ -224,7 +230,7 @@ draw_init ()
     "uniform lowp sampler2D texture_logo;"
     "void main () {gl_FragColor = texture2D (texture_logo, t_position);}";
   const char *fs_text_source =
-	"varying highp textcoord;"
+	"varying highp vec2 textcoord;"
     "uniform lowp sampler2D text;"
     "uniform lowp vec4 color;"
 	"void main ()"
@@ -246,7 +252,7 @@ draw_init ()
   const char *version;
   const char *error_message;
   GLint k;
-  GLuint vs, fs, fs_texture;
+  GLuint vs, fs;
 
 #if DEBUG
   printf ("draw_init: start\n");
@@ -331,21 +337,6 @@ draw_init ()
       goto exit_on_error;
     }
 
-  glGenBuffers (1, &vbo_logo);
-  glBindBuffer (GL_ARRAY_BUFFER, vbo_logo);
-  glBufferData (GL_ARRAY_BUFFER, sizeof (logo_vertices), logo_vertices,
-                GL_STATIC_DRAW);
-
-  glGenBuffers (1, &ibo_logo);
-  glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, ibo_logo);
-  glBufferData (GL_ELEMENT_ARRAY_BUFFER, sizeof (logo_elements), logo_elements,
-                GL_STATIC_DRAW);
-
-  glGenBuffers (1, &vbo_texture);
-  glBindBuffer (GL_ARRAY_BUFFER, vbo_texture);
-  glBufferData (GL_ARRAY_BUFFER, sizeof (square_texture), square_texture,
-                GL_STATIC_DRAW);
-
   vs_2D_texture_sources[0] = version;
   vs = glCreateShader (GL_VERTEX_SHADER);
   glShaderSource (vs, 3, vs_2D_texture_sources, NULL);
@@ -358,10 +349,10 @@ draw_init ()
     }
 
   fs_texture_sources[0] = version;
-  fs_texture = glCreateShader (GL_FRAGMENT_SHADER);
-  glShaderSource (fs_texture, 3, fs_texture_sources, NULL);
-  glCompileShader (fs_texture);
-  glGetShaderiv (fs_texture, GL_COMPILE_STATUS, &k);
+  fs = glCreateShader (GL_FRAGMENT_SHADER);
+  glShaderSource (fs, 3, fs_texture_sources, NULL);
+  glCompileShader (fs);
+  glGetShaderiv (fs, GL_COMPILE_STATUS, &k);
   if (!k)
     {
       error_message = "unable to compile the 2D texture fragment shader";
@@ -370,7 +361,7 @@ draw_init ()
 
   program_2D_texture = glCreateProgram ();
   glAttachShader (program_2D_texture, vs);
-  glAttachShader (program_2D_texture, fs_texture);
+  glAttachShader (program_2D_texture, fs);
   glLinkProgram (program_2D_texture);
   glGetProgramiv (program_2D_texture, GL_LINK_STATUS, &k);
   if (!k)
@@ -379,6 +370,7 @@ draw_init ()
       goto exit_on_error;
     }
 
+  glActiveTexture (GL_TEXTURE0);
   glGenTextures (1, &id_texture);
   glBindTexture (GL_TEXTURE_2D, id_texture);
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -415,6 +407,59 @@ draw_init ()
       goto exit_on_error;
     }
 
+  vs_text_sources[0] = version;
+  vs = glCreateShader (GL_VERTEX_SHADER);
+  glShaderSource (vs, 3, vs_text_sources, NULL);
+  glCompileShader (vs);
+  glGetShaderiv (vs, GL_COMPILE_STATUS, &k);
+  if (!k)
+    {
+      error_message = "unable to compile the 2D text vertex shader";
+      goto exit_on_error;
+    }
+
+  fs_text_sources[0] = version;
+  fs = glCreateShader (GL_FRAGMENT_SHADER);
+  glShaderSource (fs, 3, fs_text_sources, NULL);
+  glCompileShader (fs);
+  glGetShaderiv (fs, GL_COMPILE_STATUS, &k);
+  if (!k)
+    {
+      error_message = "unable to compile the 2D text fragment shader";
+      goto exit_on_error;
+    }
+
+  program_text = glCreateProgram ();
+  glAttachShader (program_text, vs);
+  glAttachShader (program_text, fs);
+  glLinkProgram (program_text);
+  glGetProgramiv (program_text, GL_LINK_STATUS, &k);
+  if (!k)
+    {
+      error_message = "unable to link the program 2D text";
+      goto exit_on_error;
+    }
+
+  attribute_text_position
+    = glGetAttribLocation (program_text, vertex_name);
+  if (attribute_text_position == -1)
+    {
+      error_message = "could not bind attribute";
+      goto exit_on_error;
+    }
+  uniform_text = glGetUniformLocation (program_text, text_name);
+  if (uniform_text == -1)
+    {
+      error_message = "could not bind text uniform";
+      goto exit_on_error;
+    }
+  uniform_color = glGetUniformLocation (program_text, color_name);
+  if (uniform_color == -1)
+    {
+      error_message = "could not bind color uniform";
+      goto exit_on_error;
+    }
+
   if (FT_New_Face(ft, "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 0,
 			      &face)
       && FT_New_Face(ft, "/usr/share/fonts/TrueType/freefont/FreeSans.ttf", 0,
@@ -425,6 +470,23 @@ draw_init ()
     }
   FT_Set_Pixel_Sizes(face, 0, 48);
   
+  glGenBuffers (1, &vbo_logo);
+  glBindBuffer (GL_ARRAY_BUFFER, vbo_logo);
+  glBufferData (GL_ARRAY_BUFFER, sizeof (logo_vertices), logo_vertices,
+                GL_STATIC_DRAW);
+
+  glGenBuffers (1, &ibo_logo);
+  glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, ibo_logo);
+  glBufferData (GL_ELEMENT_ARRAY_BUFFER, sizeof (logo_elements), logo_elements,
+                GL_STATIC_DRAW);
+
+  glGenBuffers (1, &vbo_texture);
+  glBindBuffer (GL_ARRAY_BUFFER, vbo_texture);
+  glBufferData (GL_ARRAY_BUFFER, sizeof (square_texture), square_texture,
+                GL_STATIC_DRAW);
+
+  glGenBuffers (1, &vbo_text);
+
 #if DEBUG
   printf ("draw_init: end\n");
 #endif
@@ -454,6 +516,66 @@ draw_resize (int width, int height)
   glViewport (0, 0, width, height);
 }
 
+void
+draw_text (char *text, float x, float y, float sx, float sy,
+		   const GLfloat *color)
+{
+  float x2, y2, w, h, box[16];
+  glUseProgram (program_text);
+  glActiveTexture (GL_TEXTURE1);
+  glGenTextures (1, &id_text);
+  glBindTexture (GL_TEXTURE_2D, id_text);
+  glUniform1i (uniform_text, 0);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+  glUniform4fv(uniform_color, 1, color);
+  glEnableVertexAttribArray (attribute_text_position);
+  glBindBuffer (GL_ARRAY_BUFFER, vbo_text);
+  glVertexAttribPointer(attribute_text_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
+  for (; *text; ++text)
+    {
+	  if (FT_Load_Char (face, *text, FT_LOAD_RENDER))
+		continue;
+	  glTexImage2D (GL_TEXTURE_2D,
+			        0,
+					GL_ALPHA,
+					face->glyph->bitmap.width,
+			        face->glyph->bitmap.rows,
+					0,
+					GL_ALPHA,
+					GL_UNSIGNED_BYTE,
+					face->glyph->bitmap.buffer);
+	  x2 = x + face->glyph->bitmap_left * sx;
+	  y2 = -y - face->glyph->bitmap_top * sy;
+	  w = face->glyph->bitmap.width * sx;
+	  h = face->glyph->bitmap.rows * sy;
+      box[0] = x2;
+      box[1] = -y2;
+      box[2] = 0.;
+      box[3] = 0.;
+      box[4] = x2 + w;
+      box[5] = -y2;
+      box[6] = 1.;
+      box[7] = 0.;
+      box[8] = x2;
+      box[9] = -y2 - h;
+      box[10] = 0.;
+      box[11] = 1.;
+      box[12] = x2 + w;
+      box[13] = -y2 - h;
+      box[14] = 1.;
+      box[15] = 1.;
+	  glBufferData(GL_ARRAY_BUFFER, sizeof(box), box, GL_DYNAMIC_DRAW);
+	  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	  x += (face->glyph->advance.x >> 6) * sx;
+	  y += (face->glyph->advance.y >> 6) * sy;
+	}
+	glDisableVertexAttribArray(attribute_text_position);
+}
+
 /**
  * \fn void draw()
  * \brief Function to draw the fractal.
@@ -469,7 +591,8 @@ draw ()
     {{0., width, 0.}, {0., 0., 0.}}
   };
   const GLushort square_indices[4] = { 0, 1, 2, 3 };
-  float cp, sp, ct, st, w, h;
+  const GLfloat black[4] = {0., 0., 0., 1.};
+  float cp, sp, ct, st, w, h, sx, sy;
   GLuint vbo_square, ibo_square, vbo_points;
 
 #if HAVE_GLFW
@@ -586,6 +709,10 @@ end_draw:
   glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
   glDisableVertexAttribArray (attribute_3D_position);
   glDisableVertexAttribArray (attribute_texture_position);
+
+  sx = 2. / window_width;
+  sy = 2. / window_height;
+  draw_text ("Prueba", -0.5 + sx, 0.5 - sy, sx, sy, black); 
 
   // Displaying the draw
 #if HAVE_FREEGLUT

@@ -1,4 +1,4 @@
-FRACTAL (2.10.2 version)
+FRACTAL (2.10.3 version)
 =======================
 
 A program growing fractals to benchmark parallelization and drawing libraries.
@@ -91,11 +91,9 @@ NetBSD 7.0 (with modular xorg)
 ________________________________
 OpenBSD 5.8
 ___________
-OpenIndiana Hipster
-___________________
 
 Download this repository and execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.10.2
+> $ cd PATH_TO_FRACTAL/2.10.3
 >
 > $ ./build
 >
@@ -105,7 +103,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.10.2
+> $ cd PATH_TO_FRACTAL/2.10.3
 >
 > $ doxygen
 >
