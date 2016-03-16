@@ -57,7 +57,6 @@ elif test `uname -s` = "DragonFly"; then
 	win=0
 else
 	AC_MSG_NOTICE([Unix type system])
-	AC_SUBST(ccflags, "-march=native")
 	win=0
 fi
 
@@ -83,6 +82,20 @@ if test $lto = 0; then
 else
 	AC_MSG_NOTICE("checking for -flto... yes")
 	AC_SUBST(LTO, "-flto")
+fi
+if test $win = 0; then
+	compiler=$CC
+	CC="$CC -march=native"
+	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [native=1],
+		[native=0])
+	CC=$compiler
+	if test $native = 0; then
+		AC_MSG_NOTICE("checking for -march=native... no")
+		AC_SUBST(NATIVE, "")
+	else
+		AC_MSG_NOTICE("checking for -march=native... yes")
+		AC_SUBST(NATIVE, "-march=native")
+	fi
 fi
 
 # Checks for libraries.
