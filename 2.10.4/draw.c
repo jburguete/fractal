@@ -234,7 +234,7 @@ draw_init ()
     "uniform lowp sampler2D text;"
     "uniform lowp vec4 color;"
 	"void main ()"
-	"{gl_FragColor = vec4(1, 1, 1, texture2D(text, textcoord).r) * color;}";
+	"{gl_FragColor = vec4(1, 1, 1, texture2D(text, textcoord).a) * color;}";
   const char *vertex_name = "position";
   const char *color_name = "color";
   const char *texture_position_name = "texture_position";
@@ -468,7 +468,7 @@ draw_init ()
       error_message = "could not open font";
       goto exit_on_error;
     }
-  FT_Set_Pixel_Sizes(face, 0, 48);
+  FT_Set_Pixel_Sizes(face, 0, 12);
   
   glGenBuffers (1, &vbo_logo);
   glBindBuffer (GL_ARRAY_BUFFER, vbo_logo);
@@ -522,7 +522,6 @@ draw_text (char *text, float x, float y, float sx, float sy,
 {
   float x2, y2, w, h, box[16];
   glUseProgram (program_text);
-  glActiveTexture (GL_TEXTURE1);
   glGenTextures (1, &id_text);
   glBindTexture (GL_TEXTURE_2D, id_text);
   glUniform1i (uniform_text, 0);
@@ -695,7 +694,6 @@ end_draw:
   logo_matrix[13] = sp - 1.f;
   glUseProgram (program_2D_texture);
   glUniformMatrix4fv (uniform_2D_matrix, 1, GL_FALSE, logo_matrix);
-  glActiveTexture (GL_TEXTURE0);
   glUniform1i (uniform_texture, 0);
   glBindTexture (GL_TEXTURE_2D, id_texture);
   glBindBuffer (GL_ARRAY_BUFFER, vbo_texture);
@@ -712,7 +710,7 @@ end_draw:
 
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Prueba", -0.5 + sx, 0.5 - sy, sx, sy, black); 
+  draw_text ("Fractal 2.10.4", 1. - 77. * sx, -1., sx, sy, black); 
 
   // Displaying the draw
 #if HAVE_FREEGLUT
