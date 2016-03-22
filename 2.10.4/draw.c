@@ -256,6 +256,7 @@ draw_init ()
 
 #if DEBUG
   printf ("draw_init: start\n");
+  fflush (stdout);
 #endif
 
   // OpenGL properties
@@ -267,6 +268,7 @@ draw_init ()
 
 #if DEBUG
   printf ("draw_init: compiling 2D vertex shader\n");
+  fflush (stdout);
 #endif
   vs_2D_sources[0] = version;
   vs = glCreateShader (GL_VERTEX_SHADER);
@@ -280,7 +282,8 @@ draw_init ()
     }
 
 #if DEBUG
-  printf ("draw_init: compiling 2D vertex shader";
+  printf ("draw_init: compiling 2D vertex shader");
+  fflush (stdout);
 #endif
   fs_sources[0] = version;
   fs = glCreateShader (GL_FRAGMENT_SHADER);
@@ -489,6 +492,7 @@ draw_init ()
 
 #if DEBUG
   printf ("draw_init: end\n");
+  fflush (stdout);
 #endif
   return 1;
 
@@ -496,6 +500,7 @@ exit_on_error:
   printf("ERROR! %s\n", error_message);
 #if DEBUG
   printf ("draw_init: end\n");
+  fflush (stdout);
 #endif
   return 0;
 }

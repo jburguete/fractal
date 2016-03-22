@@ -140,6 +140,7 @@ main (int argn, char **argc)
   // Initing locales
 #if DEBUG
   printf ("Initing locales\n");
+  fflush (stdout);
 #endif
   bindtextdomain ("fractal", "./po");
   bind_textdomain_codeset ("fractal", "UTF-8");
@@ -150,6 +151,7 @@ main (int argn, char **argc)
 
 #if DEBUG
   printf ("Initing FreeGLUT window\n");
+  fflush (stdout);
 #endif
   glutInit (&argn, argc);
   glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
@@ -160,6 +162,7 @@ main (int argn, char **argc)
 
 #if DEBUG
   printf ("Initing SDL window\n");
+  fflush (stdout);
 #endif
   SDL_Init (SDL_INIT_VIDEO);
   window = SDL_CreateWindow ("fractal",
@@ -182,6 +185,7 @@ main (int argn, char **argc)
 
 #if DEBUG
   printf ("Initing GLFW window\n");
+  fflush (stdout);
 #endif
   if (!glfwInit ())
     {
@@ -203,6 +207,7 @@ main (int argn, char **argc)
   // Initing GLEW
 #if DEBUG
   printf ("Initing GLEW\n");
+  fflush (stdout);
 #endif
   glew_status = glewInit ();
   if (glew_status != GLEW_OK)
@@ -221,18 +226,21 @@ main (int argn, char **argc)
   // Initing GTK+
 #if DEBUG
   printf ("Initing GTK+\n");
+  fflush (stdout);
 #endif
   gtk_init (&argn, &argc);
 
   // Initing logo
 #if DEBUG
   printf ("Initing logo\n");
+  fflush (stdout);
 #endif
   logo_new ("logo.png");
 
   // Initing drawing data
 #if DEBUG
   printf ("Initing drawing data\n");
+  fflush (stdout);
 #endif
   if (!draw_init ())
     return 1;
@@ -240,11 +248,13 @@ main (int argn, char **argc)
   // Creating the main GTK+ window
 #if DEBUG
   printf ("Creating simulator dialog\n");
+  fflush (stdout);
 #endif
   dialog_simulator_create (dialog_simulator);
 
 #if DEBUG
   printf ("Main loop\n");
+  fflush (stdout);
 #endif
   main_loop ();
 
