@@ -28,12 +28,12 @@ es = es/LC_MESSAGES/
 fr = fr/LC_MESSAGES/
 
 CFLAGS = -c -Wall -O3 @NATIVE@ @CFLAGS@ @GSL_CFLAGS@ @GTHREAD_CFLAGS@ \
-	@GLIB_CFLAGS@ @PNG_CFLAGS@ @GTK_CFLAGS@ @GLEW_CFLAGS@ @SDL_CFLAGS@ \
-	@GLFW_CFLAGS@ @FREETYPE_CFLAGS@ @NATIVE@
+	@GLIB_CFLAGS@ @PNG_CFLAGS@ @GTK_CFLAGS@ @FREETYPE_CFLAGS@ @GLEW_CFLAGS@ \
+	@SDL_CFLAGS@ @GLFW_CFLAGS@ @GRAPHIC@
 LDFLAGS = @LDFLAGS@ @LIBS@ @GSL_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ @PNG_LIBS@ \
-	@GTK_LIBS@ @GLEW_LIBS@ @SDL_LIBS@ @GLFW_LIBS@ @FREETYPE_LIBS@
+	@GTK_LIBS@ @FREETYPE_LIBS@ @GLEW_LIBS@ @SDL_LIBS@ @GLFW_LIBS@
 
-CC = @CC@ -std=gnu99 @LTO@ @ccflags@ #-pg
+CC = @CC@ @STD@ @LTO@ @ccflags@ #-pg
 
 all: fractal po/fractal.pot po/$(es)fractal.mo po/$(fr)fractal.mo
 
@@ -41,16 +41,16 @@ fractal: $(objs)
 	$(CC) $(objs) $(LDFLAGS) -o fractal
 
 fractal.o: fractal.c fractal.h draw.h $(configs)
-	$(CC) $(CFLAGS) fractal.c -o fractal.o $(flags_fast) @GRAPHIC@
+	$(CC) $(CFLAGS) fractal.c -o fractal.o $(flags_fast)
 
 draw.o: draw.c fractal.h draw.h $(configs)
-	$(CC) $(CFLAGS) draw.c -o draw.o $(flags_fast) @GRAPHIC@
+	$(CC) $(CFLAGS) draw.c -o draw.o $(flags_fast)
 
 simulator.o: simulator.c fractal.h draw.h simulator.h $(configs)
-	$(CC) $(CFLAGS) simulator.c -o simulator.o $(flags_small) @GRAPHIC@
+	$(CC) $(CFLAGS) simulator.c -o simulator.o $(flags_small)
 
 main.o: main.c fractal.h draw.h simulator.h $(configs)
-	$(CC) $(CFLAGS) main.c -o main.o $(flags_small) @GRAPHIC@
+	$(CC) $(CFLAGS) main.c -o main.o $(flags_small)
 
 fractal.ico: logo2.png
 	convert logo2.png fractal.ico

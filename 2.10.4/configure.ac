@@ -73,6 +73,7 @@ fi
 
 # Checks for compiler flags
 compiler=$CC
+
 CC="$CC -flto"
 AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [lto=1], [lto=0])
 CC=$compiler
@@ -83,8 +84,29 @@ else
 	AC_MSG_NOTICE("checking for -flto... yes")
 	AC_SUBST(LTO, "-flto")
 fi
+
+CC="$CC -std=gnu11"
+AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [std=1], [std=0])
+CC=$compiler
+if test $std = 0; then
+	AC_MSG_NOTICE("checking for -std=gnu11... no")
+	CC="$CC -std=gnu99"
+	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [std=1],
+		[std=0])
+	CC=$compiler
+	if test $std = 0; then
+		AC_MSG_NOTICE("checking for -std=gnu99... no")
+		AC_SUBST(STD, "")
+	else
+		AC_MSG_NOTICE("checking for -std=gnu99... yes")
+		AC_SUBST(STD, "-std=gnu99")
+	fi
+else
+	AC_MSG_NOTICE("checking for -std=gnu11... yes")
+	AC_SUBST(STD, "-std=gnu11")
+fi
+
 if test $win = 0; then
-	compiler=$CC
 	CC="$CC -march=native"
 	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [native=1],
 		[native=0])
