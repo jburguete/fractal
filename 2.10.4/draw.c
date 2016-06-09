@@ -466,7 +466,10 @@ draw_init ()
   if (FT_New_Face(ft, "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 0,
 			      &face)
       && FT_New_Face(ft, "/usr/share/fonts/TrueType/freefont/FreeSans.ttf", 0,
-			      &face))
+			      &face)
+      && FT_New_Face(ft, "/usr/local/share/texmf-dist/fonts/truetype/public/gnu-freefont/FreeSans.ttf", 0,
+                              &face))
+
     {
       error_message = "could not open font";
       goto exit_on_error;
@@ -618,8 +621,10 @@ draw ()
   if (fractal_3D)
     {
       // Projection matrix
-      sincosf (phi, &sp, &cp);
-      sincosf (theta, &st, &ct);
+      sp = sinf (phi);
+      cp = cosf (phi);
+      st = sinf (theta);
+      ct = cosf (theta);
       w = xmax - xmin;
       h = ymax - ymin;
       projection_matrix[0] = 2. * cp / w;

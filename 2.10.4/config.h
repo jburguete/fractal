@@ -35,7 +35,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef CONFIG__H
 #define CONFIG__H 1
 
-#define DEBUG 1                 ///< Macro to debug the code.
+#define DEBUG 0                 ///< Macro to debug the code.
 #define SEED 7
   ///< Macro to set the pseudo-random number generator seed.
 
