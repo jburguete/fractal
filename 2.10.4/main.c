@@ -41,6 +41,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <libintl.h>
 #include <gsl/gsl_rng.h>
 #include <glib.h>
+#ifdef G_OS_WIN32
+#include <windows.h>
+#endif
 #include <gtk/gtk.h>
 #include <GL/glew.h>
 #if HAVE_FREEGLUT
