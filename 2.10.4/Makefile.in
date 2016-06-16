@@ -52,9 +52,6 @@ simulator.o: simulator.c fractal.h draw.h simulator.h $(configs)
 main.o: main.c fractal.h draw.h simulator.h $(configs)
 	$(CC) $(CFLAGS) main.c -o main.o $(flags_small)
 
-fractal.ico: logo2.png
-	convert logo2.png fractal.ico
-
 @icon@: fractal.rc fractal.ico
 	@WINDRES@ fractal.rc -o @icon@
 
