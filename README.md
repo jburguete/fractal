@@ -81,7 +81,7 @@ Debian Hurd 8
 _____________
 DragonFly BSD 4.4
 _________________
-FreeBSD 10.2
+FreeBSD 10.3
 ____________
 Microsoft Windows 7
 ___________________
