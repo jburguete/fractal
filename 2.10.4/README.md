@@ -68,20 +68,20 @@ libraries and utilities. You can follow detailed instructions in
 [install-unix]
 (https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
 
-On OpenBSD 5.8 you have to do first on the building terminal:
+On OpenBSD 5.9 you have to do first on the building terminal:
 > $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.15
 
 This software has been built and tested in the following operative systems:
 
-Debian Linux 8.2
-________________
-Debian kFreeBSD 8.2
-___________________
-Debian Hurd 8.2
-_______________
-DragonFly BSD 4.2
-___________________
-FreeBSD 10.2
+Debian Linux 8
+______________
+Debian kFreeBSD 8
+_________________
+Debian Hurd 8
+_____________
+DragonFly BSD 4.4
+_________________
+FreeBSD 10.3
 ____________
 Microsoft Windows 7
 ___________________
@@ -89,7 +89,7 @@ Microsoft Windows 8.1
 _____________________
 NetBSD 7.0 (with modular xorg)
 ________________________________
-OpenBSD 5.8
+OpenBSD 5.9
 ___________
 
 Download this repository and execute on a terminal:
