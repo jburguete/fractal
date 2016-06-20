@@ -73,12 +73,8 @@ On OpenBSD 5.9 you have to do first on the building terminal:
 
 This software has been built and tested in the following operative systems:
 
-Debian Linux 8
-______________
-Debian kFreeBSD 8
-_________________
-Debian Hurd 8
-_____________
+Debian 8 (Linux, kFreeBSD and Hurd)
+___________________________________
 DragonFly BSD 4.4
 _________________
 FreeBSD 10.3
