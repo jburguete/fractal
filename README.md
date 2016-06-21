@@ -87,6 +87,8 @@ NetBSD 7.0 (with modular xorg)
 ________________________________
 OpenBSD 5.9
 ___________
+Ubuntu Linux 16.04
+__________________
 
 Download this repository and execute on a terminal:
 > $ cd PATH_TO_FRACTAL/2.10.4
