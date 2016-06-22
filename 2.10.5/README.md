@@ -55,7 +55,6 @@ FILES
 * main.c: main source file.
 * logo.png: logo file.
 * logo2.png: logo file.
-* fractal.ico: icon file.
 * Doxyfile: configuration file to generate doxygen documentation.
 * po/es/LC_MESSAGES/fractal.po: spanish language file.
 * po/fr/LC_MESSAGES/fractal.po: french language file.
@@ -78,8 +77,6 @@ Debian 8 (Linux, kFreeBSD and Hurd)
 ___________________________________
 DragonFly BSD 4.4
 _________________
-Fedora Linux 24
-_______________
 FreeBSD 10.3
 ____________
 Microsoft Windows 7
