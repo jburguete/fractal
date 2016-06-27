@@ -72,6 +72,9 @@ libraries and utilities. You can follow detailed instructions in
 On OpenBSD 5.9 you have to do first on the building terminal:
 > $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.15
 
+On OpenIndiana Hipster you have to do first on the building terminal:
+> $ export PATH="/usr/gcc/4.9/bin/:$PATH"
+
 This software has been built and tested in the following operative systems:
 
 Debian 8 (Linux, kFreeBSD and Hurd)
@@ -90,6 +93,8 @@ NetBSD 7.0 (with modular xorg)
 ________________________________
 OpenBSD 5.9
 ___________
+OpenInidiana Hipster
+____________________
 Ubuntu Linux 16.04
 __________________
 
