@@ -469,6 +469,8 @@ draw_init ()
 			      &face)
       && FT_New_Face(ft, "/usr/share/fonts/gnu-free/FreeSans.ttf", 0,
 			      &face)
+      && FT_New_Face(ft, "/usr/pkg/share/fonts/X11/TTF/FreeSans.ttf", 0,
+			      &face)
       && FT_New_Face(ft, "/usr/local/share/texmf-dist/fonts/truetype/public/gnu-freefont/FreeSans.ttf", 0,
                               &face))
 

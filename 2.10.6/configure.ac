@@ -137,20 +137,20 @@ AC_ARG_WITH([sdl],
 	AS_HELP_STRING([--with-sdl], [Build graphic window with SDL]))
 AC_ARG_WITH([glfw],
 	AS_HELP_STRING([--with-glfw], [Build graphic window with GLFW]))
-if test "x$with_sdl" == "xyes"; then
+if test "x$with_sdl" = "xyes"; then
 	AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
 	PKG_CHECK_MODULES([SDL], [sdl2])
 else
-	if test "x$with_glfw" == "xyes"; then
+	if test "x$with_glfw" = "xyes"; then
 		AC_SUBST(GRAPHIC, "-DHAVE_GLFW=1")
 		PKG_CHECK_MODULES([GLFW], [glfw3])
 	else
 		AC_SEARCH_LIBS([glutInit], [freeglut glut], glut="yes", glut="no")
-		if test $glut == "yes"; then
+		if test $glut = "yes"; then
 			AC_SUBST(GRAPHIC, "-DHAVE_FREEGLUT=1")
 		else
 			PKG_CHECK_MODULES([SDL], [sdl2], sdl="yes", sdl="no")
-			if test $sdl == "yes"; then
+			if test $sdl = "yes"; then
 				AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
 			else
 				PKG_CHECK_MODULES([GLFW], [glfw3])

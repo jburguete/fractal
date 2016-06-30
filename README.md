@@ -69,11 +69,14 @@ libraries and utilities. You can follow detailed instructions in
 [install-unix]
 (https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
 
+On NetBSD 7.0 you have to do first on the building terminal:
+> $ export PATH=/usr/pkg/gcc5/bin:$PATH"
+
 On OpenBSD 5.9 you have to do first on the building terminal:
 > $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.15
 
 On OpenIndiana Hipster you have to do first on the building terminal:
-> $ export PATH="/usr/gcc/4.9/bin/:$PATH"
+> $ export PATH=/usr/gcc/4.9/bin:$PATH
 
 This software has been built and tested in the following operative systems:
 
@@ -90,7 +93,7 @@ ___________________
 Microsoft Windows 8.1
 _____________________
 NetBSD 7.0 (with modular xorg)
-________________________________
+______________________________
 OpenBSD 5.9
 ___________
 OpenInidiana Hipster
