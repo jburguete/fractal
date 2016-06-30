@@ -724,7 +724,7 @@ end_draw:
 
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 2.10.5", 1. - 77. * sx, -1., sx, sy, black); 
+  draw_text ("Fractal 2.10.6", 1. - 77. * sx, -1., sx, sy, black); 
 
   // Displaying the draw
 #if HAVE_FREEGLUT
