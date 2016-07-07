@@ -1,4 +1,4 @@
-FRACTAL (2.10.5 version)
+FRACTAL (2.10.6 version)
 =======================
 
 A program growing fractals to benchmark parallelization and drawing libraries.
@@ -84,6 +84,8 @@ Debian 8 (Linux, kFreeBSD and Hurd)
 ___________________________________
 DragonFly BSD 4.4
 _________________
+Dyson Illumos
+_____________
 Fedora Linux 24
 _______________
 FreeBSD 10.3
@@ -102,7 +104,7 @@ Ubuntu Linux 16.04
 __________________
 
 Download this repository and execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.10.5
+> $ cd PATH_TO_FRACTAL/2.10.6
 >
 > $ ./build
 >
@@ -112,7 +114,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.10.5
+> $ cd PATH_TO_FRACTAL/2.10.6
 >
 > $ doxygen
 >
