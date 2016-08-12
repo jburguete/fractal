@@ -82,7 +82,7 @@ This software has been built and tested in the following operative systems:
 
 Debian 8 (Linux, kFreeBSD and Hurd)
 ___________________________________
-DragonFly BSD 4.4
+DragonFly BSD 4.6
 _________________
 Dyson Illumos
 _____________
