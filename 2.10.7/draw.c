@@ -463,7 +463,9 @@ draw_init ()
       goto exit_on_error;
     }
 
-  if (FT_New_Face(ft, "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 0,
+  if (FT_New_Face(ft, "/usr/share/fonts/truetype/FreeSans.ttf", 0,
+			      &face)
+      && FT_New_Face(ft, "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 0,
 			      &face)
       && FT_New_Face(ft, "/usr/share/fonts/TrueType/freefont/FreeSans.ttf", 0,
 			      &face)
@@ -724,7 +726,7 @@ end_draw:
 
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 2.10.6", 1. - 77. * sx, -1., sx, sy, black); 
+  draw_text ("Fractal 2.10.7", 1. - 77. * sx, -1., sx, sy, black); 
 
   // Displaying the draw
 #if HAVE_FREEGLUT
