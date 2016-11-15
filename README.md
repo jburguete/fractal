@@ -1,4 +1,4 @@
-FRACTAL (2.10.6 version)
+FRACTAL (2.10.7 version)
 =======================
 
 A program growing fractals to benchmark parallelization and drawing libraries.
@@ -72,7 +72,7 @@ libraries and utilities. You can follow detailed instructions in
 On NetBSD 7.0 you have to do first on the building terminal:
 > $ export PATH=/usr/pkg/gcc5/bin:$PATH"
 
-On OpenBSD 5.9 you have to do first on the building terminal:
+On OpenBSD 6.0 you have to do first on the building terminal:
 > $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.15
 
 On OpenIndiana Hipster you have to do first on the building terminal:
@@ -96,7 +96,7 @@ Microsoft Windows 8.1
 _____________________
 NetBSD 7.0 (with modular xorg)
 ______________________________
-OpenBSD 5.9
+OpenBSD 6.0
 ___________
 OpenInidiana Hipster
 ____________________
@@ -104,7 +104,7 @@ Ubuntu Linux 16.04
 __________________
 
 Download this repository and execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.10.6
+> $ cd PATH_TO_FRACTAL/2.10.7
 >
 > $ ./build
 >
@@ -114,7 +114,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.10.6
+> $ cd PATH_TO_FRACTAL/2.10.7
 >
 > $ doxygen
 >
