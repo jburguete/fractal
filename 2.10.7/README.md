@@ -57,8 +57,8 @@ FILES
 * logo2.png: logo file.
 * fractal.ico: icon file.
 * Doxyfile: configuration file to generate doxygen documentation.
-* po/es/LC_MESSAGES/fractal.po: spanish language file.
-* po/fr/LC_MESSAGES/fractal.po: french language file.
+* po/es/LC\_MESSAGES/fractal.po: spanish language file.
+* po/fr/LC\_MESSAGES/fractal.po: french language file.
 
 BUILDING INSTRUCTIONS
 ---------------------
@@ -72,7 +72,7 @@ libraries and utilities. You can follow detailed instructions in
 On NetBSD 7.0 you have to do first on the building terminal:
 > $ export PATH=/usr/pkg/gcc5/bin:$PATH"
 
-On OpenBSD 5.9 you have to do first on the building terminal:
+On OpenBSD 6.1 you have to do first on the building terminal:
 > $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.15
 
 On OpenIndiana Hipster you have to do first on the building terminal:
@@ -86,9 +86,9 @@ DragonFly BSD 4.6
 _________________
 Dyson Illumos
 _____________
-Fedora Linux 24
+Fedora Linux 25
 _______________
-FreeBSD 10.3
+FreeBSD 11.0
 ____________
 Microsoft Windows 7
 ___________________
@@ -96,11 +96,11 @@ Microsoft Windows 8.1
 _____________________
 NetBSD 7.0 (with modular xorg)
 ______________________________
-OpenBSD 5.9
+OpenBSD 6.1
 ___________
 OpenInidiana Hipster
 ____________________
-Ubuntu Linux 16.04
+Ubuntu Linux 17.04
 __________________
 
 Download this repository and execute on a terminal:
