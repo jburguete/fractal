@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2016, Javier Burguete Tolosa.
+Copyright 2009-2018, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file main.c
  * \brief Source file to define the main function.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2016, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2018, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -61,11 +61,14 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "simulator.h"
 
 #if HAVE_SDL
-SDL_Window *window;
+SDL_Window *window; ///< SDL window.
 #elif HAVE_GLFW
-GLFWwindow *window;
+GLFWwindow *window; ///< GLFW window.
 #endif
 
+/**
+ * Function to do the main loop.
+ */
 void
 main_loop ()
 {
@@ -84,10 +87,9 @@ main_loop ()
   // FreeGLUT main loop
   glutMainLoop ();
 
-#else
+#elif HAVE_SDL
 
-#if HAVE_SDL
-  while (1)
+	while (1)
     {
       while (gtk_events_pending ())
         gtk_main_iteration ();
@@ -99,6 +101,8 @@ main_loop ()
               && event->window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
             draw_resize (event->window.data1, event->window.data2);
         }
+      draw ();
+    }
 
 #elif HAVE_GLFW
 
@@ -107,26 +111,23 @@ main_loop ()
       while (gtk_events_pending ())
         gtk_main_iteration ();
       glfwPollEvents ();
-
-#endif
-
       draw ();
     }
+
+#else
+
+  gtk_main ();
 
 #endif
 }
 
 /**
- * \fn int main(int argn, char **argc)
- * \brief Main function
- * \param argn
- * \brief Arguments number.
- * \param argc
- * \brief Array of arguments.
+ * Main function
  * \return 0 on success.
  */
 int
-main (int argn, char **argc)
+main (int argn, ///< Arguments number.
+		  char **argc) ///< Array of arguments.
 {
   GLenum glew_status;
 
@@ -240,14 +241,6 @@ main (int argn, char **argc)
 #endif
   logo_new ("logo.png");
 
-  // Initing drawing data
-#if DEBUG
-  printf ("Initing drawing data\n");
-  fflush (stdout);
-#endif
-  if (!draw_init ())
-    return 1;
-
   // Creating the main GTK+ window
 #if DEBUG
   printf ("Creating simulator dialog\n");
@@ -255,6 +248,15 @@ main (int argn, char **argc)
 #endif
   dialog_simulator_create (dialog_simulator);
 
+	// Initing drawing data
+#if DEBUG
+  printf ("Initing drawing data\n");
+  fflush (stdout);
+#endif
+  if (!draw_init ())
+    return 1;
+
+	// Main loop
 #if DEBUG
   printf ("Main loop\n");
   fflush (stdout);

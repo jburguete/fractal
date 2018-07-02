@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2016, Javier Burguete Tolosa.
+Copyright 2009-2018, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file draw.c
  * \brief Source file to define the drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2016, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2018, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -56,6 +56,9 @@ extern GLFWwindow *window;
 #include "fractal.h"
 #include "draw.h"
 
+/**
+ * Macro to enable OpenGL ES.
+ */
 #define INIT_GL_GLES \
 	"#ifdef GL_ES\n" \
 	"#  ifdef GL_FRAGMENT_PRECISION_HIGH\n" \
@@ -69,7 +72,7 @@ extern GLFWwindow *window;
 	"#  define highp\n" \
 	"#endif\n"
 
-GLuint program_3D;
+GLuint program_3D;                     ///< 3D program.
 GLint uniform_2D_matrix;
 GLint attribute_3D_position;
 GLint attribute_3D_icolor;
@@ -82,11 +85,11 @@ const GLfloat square_texture[8] = {
   0.0, 0.0,
   1.0, 0.0,
   1.0, 1.0,
-};
+}; ///< Square texture vertices.
 
 GLuint vbo_texture;             ///< Texture vertex buffer object.
-GLuint program_2D_texture;
-GLuint id_texture;
+GLuint program_2D_texture;      ///< Texture program.
+GLuint id_texture;              ///< Texture identifier.
 GLint uniform_texture;
 GLint attribute_texture;
 GLint attribute_texture_position;
@@ -122,8 +125,8 @@ GLuint ibo_logo;                ///< Logo indices buffer object.
 Logo logo;                      ///< Logo data.
 
 GLuint vbo_text;                ///< Text vertex buffer object.
-GLuint program_text;
-GLuint id_text;
+GLuint program_text;            ///< Text program
+GLuint id_text;                 ///< Text identitifier.
 GLint attribute_text_position;
 GLint uniform_text;
 GLint uniform_color;
@@ -131,13 +134,10 @@ FT_Library ft;                  ///< FreeType data.
 FT_Face face;                   ///< FreeType face to draw text.
 
 /**
- * \fn void logo_new(char *name)
- * \brief Function to read the logo on a PNG file.
- * \param name
- * \brief Logo PNG file name.
+ * Function to read the logo on a PNG file.
  */
 void
-logo_new (char *name)
+logo_new (char *name) ///< Logo PNG file name.
 {
   unsigned int row_bytes;
   int i;
@@ -188,8 +188,7 @@ error1:
 }
 
 /**
- * \fn int draw_init ()
- * \brief Function to init the graphic data.
+ * Function to init the graphic data.
  * \return 1 on success, 0 on error.
  */
 int
@@ -475,8 +474,8 @@ draw_init ()
 			      &face)
       && FT_New_Face(ft, "/usr/share/fonts/TTF/FreeSans.ttf", 0,
 			      &face)
-      && FT_New_Face(ft, "/usr/local/share/texmf-dist/fonts/truetype/public/gnu-freefont/FreeSans.ttf", 0,
-                              &face))
+      && FT_New_Face(ft, "/usr/local/share/texmf-dist/fonts/truetype/public"
+				                 "/gnu-freefont/FreeSans.ttf", 0, &face))
 
     {
       error_message = "could not open font";
@@ -517,24 +516,27 @@ exit_on_error:
 }
 
 /**
- * \fn void draw_resize (int width, int height)
- * \brief Function to updating window data when resizing.
- * \param width
- * \brief Graphic window width.
- * \param height
- * \brief Graphic window height.
+ * Function to updating window data when resizing.
  */
 void
-draw_resize (int width, int height)
+draw_resize (int width, ///< Graphic window width.
+		         int height) ///< Graphic window height.
 {
   window_width = width;
   window_height = height;
   glViewport (0, 0, width, height);
 }
 
+/**
+ * Function to draw a text.
+ */
 void
-draw_text (char *text, float x, float y, float sx, float sy,
-		   const GLfloat *color)
+draw_text (char *text, ///< Text string.
+		       float x, ///< x initial coordinate.
+					 float y, ///< y initial coordinate.
+					 float sx, ///< x scale factor.
+					 float sy, ///< y scale factor.
+		       const GLfloat *color) ///< array of RBGA colors.
 {
   float x2, y2, w, h, box[16];
   glUseProgram (program_text);
@@ -592,8 +594,7 @@ draw_text (char *text, float x, float y, float sx, float sy,
 }
 
 /**
- * \fn void draw()
- * \brief Function to draw the fractal.
+ * Function to draw the fractal.
  */
 void
 draw ()
@@ -741,13 +742,10 @@ end_draw:
 }
 
 /**
- * \fn void draw_save(char *file_name)
- * \brief Function to save the draw in a PNG file.
- * \param file_name
- * \brief File name.
+ * Function to save the draw in a PNG file.
  */
 void
-draw_save (char *file_name)
+draw_save (char *file_name) ///< File name.
 {
   int i;
   unsigned int row_bytes, pointers_bytes, pixels_bytes;

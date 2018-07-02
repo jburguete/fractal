@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2016, Javier Burguete Tolosa.
+Copyright 2009-2018, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,14 +30,14 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file simulator.h
  * \brief Header file to define the windows data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2016, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2018, Javier Burguete Tolosa.
  */
 #ifndef SIMULATOR__H
 #define SIMULATOR__H 1
 
 /**
- * \struct DialogOptions
- * \brief A struct to show a window to set the fractal options.
+ * /struct DialogOptions
+ * /brief A struct to show a window to set the fractal options.
  */
 typedef struct
 {
@@ -75,8 +75,8 @@ typedef struct
 } DialogOptions;
 
 /**
- * \struct DialogSimulator
- * \brief A struct containing the main program window.
+ * /struct DialogSimulator
+ * /brief A struct containing the main program window.
  */
 typedef struct
 {
@@ -84,7 +84,8 @@ typedef struct
   ///< GtkToolButton to set the fractal options.
   GtkToolButton *button_start;  ///< GtkToolButton to run the simulation.
   GtkToolButton *button_stop;   ///< GtkToolButton to stop the simulation.
-  GtkToolButton *button_save;   ///< GtkToolButton to save the view in a PNG file.
+  GtkToolButton *button_save;   
+	///< GtkToolButton to save the view in a PNG file.
   GtkToolButton *button_help;   ///< GtkToolButton to show a help dialog.
   GtkToolButton *button_exit;   ///< GtkToolButton to exit.
   GtkToolbar *toolbar;          ///< GtkToolbar containing the tool items.
@@ -105,6 +106,9 @@ typedef struct
   GtkGrid *grid;                ///< GtkGrid to pack all widgets.
   GdkPixbuf *logo;              ///< GdkPixbuf containing the main logo.
   GdkPixbuf *logo_min;          ///< GdkPixbuf containing the reduced logo.
+#if HAVE_GTKGLAREA
+	GtkGLArea *gl_area;           ///< GtkGLArea to draw the graphics.
+#endif
   GtkWindow *window;            ///< GtkWindow to show the main windows.
 } DialogSimulator;
 

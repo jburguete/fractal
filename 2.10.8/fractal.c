@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2016, Javier Burguete Tolosa.
+Copyright 2009-2018, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file fractal.c
  * \brief Source file to define the fractal data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2016, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2018, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -118,32 +118,23 @@ GMutex mutex[1];                ///< Mutex to lock memory saves.
 // END
 
 /**
- * \fn inline unsigned int sqr(int x)
- * \brief Function to return the square of an unsigned int.
- * \param x
- * \brief unsigned int.
+ * Function to return the square of an unsigned int.
  * \return square.
  */
 static inline unsigned int
-sqr (int x)
+sqr (int x) ///< unsigned int.
 {
   return x * x;
 }
 
 /**
- * \fn inline void points_add(int x, int y, int z, unsigned int c)
- * \brief Function to add a point to the array.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
- * \param c
- * \brief Point color.
+ * Function to add a point to the array.
  */
 static inline void
-points_add (int x, int y, int z, unsigned int c)
+points_add (int x, ///< Point x-coordinate.
+		        int y, ///< Point y-coordinate.
+						int z, ///< Point z-coordinate.
+						unsigned int c) ///< Point color.
 {
   Point3D *p;
   ++npoints;

@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2016, Javier Burguete Tolosa.
+Copyright 2009-2018, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file simulator.c
  * \brief Source file to define the windows data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2016, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2018, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -62,8 +62,7 @@ SDL_Event exit_event[1];
 #endif
 
 /**
- * \fn void set_perspective()
- * \brief Function to set the view perspective.
+ * Function to set the view perspective.
  */
 void
 set_perspective ()
@@ -88,8 +87,7 @@ set_perspective ()
 }
 
 /**
- * \fn void dialog_draw_save()
- * \brief Function to show a dialog to save the graphical view in a PNG file.
+ * Function to show a dialog to save the graphical view in a PNG file.
  */
 void
 dialog_draw_save ()
@@ -122,8 +120,7 @@ dialog_draw_save ()
 }
 
 /**
- * \fn void dialog_options_update()
- * \brief Function to update the enabled fractal characteristics.
+ * Function to update the enabled fractal characteristics.
  */
 void
 dialog_options_update ()
@@ -142,8 +139,7 @@ dialog_options_update ()
 }
 
 /**
- * \fn void dialog_options_create()
- * \brief Function to create a dialog to set the fractal options.
+ * Function to create a dialog to set the fractal options.
  */
 void
 dialog_options_create ()
@@ -313,8 +309,7 @@ dialog_options_create ()
 }
 
 /**
- * \fn void dialog_simulator_help()
- * \brief Function to show a help dialog.
+ * Function to show a help dialog.
  */
 void
 dialog_simulator_help ()
@@ -335,7 +330,7 @@ dialog_simulator_help ()
                          ("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
                          "version", "2.10.8",
                          "copyright",
-                         "Copyright 2009-2016 Javier Burguete Tolosa",
+                         "Copyright 2009-2018 Javier Burguete Tolosa",
                          "logo", dialog_simulator->logo,
                          "website-label", gettext ("Website"),
                          "website", "https://github.com/jburguete/fractal",
@@ -343,8 +338,7 @@ dialog_simulator_help ()
 }
 
 /**
- * \fn void dialog_simulator_update()
- * \brief Function to update the enabled window properties.
+ * Function to update the enabled window properties.
  */
 void
 dialog_simulator_update ()
@@ -356,8 +350,7 @@ dialog_simulator_update ()
 }
 
 /**
- * \fn void dialog_simulator_progress()
- * \brief Function to show the fractal progress.
+ * Function to show the fractal progress.
  */
 void
 dialog_simulator_progress ()
@@ -406,8 +399,7 @@ dialog_simulator_progress ()
 }
 
 /**
- * \fn void dialog_simulator_save()
- * \brief Function to save the graphical view on a PNG file.
+ * Function to save the graphical view on a PNG file.
  */
 void
 dialog_simulator_save ()
@@ -432,6 +424,9 @@ dialog_simulator_save ()
 }
 
 #if HAVE_GLFW
+/**
+ * Function to close the GLFW window.
+ */
 void
 window_close ()
 {
@@ -440,8 +435,7 @@ window_close ()
 #endif
 
 /**
- * \fn void dialog_simulator_create()
- * \brief Function to create the main window.
+ * Function to create the main window.
  */
 void
 dialog_simulator_create ()
@@ -517,7 +511,9 @@ dialog_simulator_create ()
      ("application-exit", GTK_ICON_SIZE_SMALL_TOOLBAR), str_exit);
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_exit), tip_exit);
   gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_exit), -1);
-#if HAVE_FREEGLUT
+#if HAVE_GTKGLAREA
+  g_signal_connect (dlg->button_exit, "clicked", gtk_main_quit, NULL);
+#elif HAVE_FREEGLUT
   g_signal_connect (dlg->button_exit, "clicked", glutLeaveMainLoop, NULL);
 #elif HAVE_SDL
   g_signal_connect_swapped (dlg->button_exit, "clicked",
@@ -560,6 +556,13 @@ dialog_simulator_create ()
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->label_vertical), 0, 3, 1, 1);
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->vscale), 1, 3, 2, 1);
 
+#if HAVE_GTKGLAREA
+	dlg->gl_area = gtk_gl_area_new ();
+	gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->gl_area), 0, 4, 3, 1);
+	g_signal_connect (dlg->gl_area, "realize", dialog_simulator_draw_init, NULL);
+	g_signal_connect (dlg->gl_area, "render", dialog_simulator_draw_render, NULL);
+#endif
+
   dlg->logo = gtk_image_get_pixbuf
     (GTK_IMAGE (gtk_image_new_from_file ("logo.png")));
   dlg->logo_min = gtk_image_get_pixbuf
@@ -570,7 +573,9 @@ dialog_simulator_create ()
   gtk_window_set_icon (dlg->window, dlg->logo_min);
   gtk_container_add (GTK_CONTAINER (dlg->window), GTK_WIDGET (dlg->grid));
   gtk_widget_show_all (GTK_WIDGET (dlg->window));
-#if HAVE_FREEGLUT
+#if HAVE_GTKGLAREA
+  g_signal_connect (dlg->window, "delete_event", gtk_main_quit, NULL);
+#elif HAVE_FREEGLUT
   g_signal_connect (dlg->window, "delete_event", glutLeaveMainLoop, NULL);
 #elif HAVE_SDL
   g_signal_connect_swapped (dlg->window, "delete_event",
