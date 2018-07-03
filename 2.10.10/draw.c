@@ -40,6 +40,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <gsl/gsl_rng.h>
 #include <glib.h>
 #include <png.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
+#include <gtk/gtk.h>
+
+// Enabling OpenGL
 #include <GL/glew.h>
 #if HAVE_FREEGLUT
 #include <GL/freeglut.h>
@@ -50,11 +55,11 @@ extern SDL_Window *window;
 #include <GLFW/glfw3.h>
 extern GLFWwindow *window;
 #endif
-#include <ft2build.h>
-#include FT_FREETYPE_H
+
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
+#include "simulator.h"
 
 /**
  * Macro to enable OpenGL ES.
@@ -734,7 +739,9 @@ end_draw:
   draw_text ("Fractal 2.10.10", 1. - 77. * sx, -1., sx, sy, black); 
 
   // Displaying the draw
-#if HAVE_FREEGLUT
+#if HAVE_GTKGLAREA
+	gtk_widget_queue_draw (GTK_WIDGET (dialog_simulator->gl_area));
+#elif HAVE_FREEGLUT
   glutSwapBuffers ();
 #elif HAVE_SDL
   SDL_GL_SwapWindow (window);

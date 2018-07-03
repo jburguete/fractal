@@ -44,7 +44,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef G_OS_WIN32
 #include <windows.h>
 #endif
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include <gtk/gtk.h>
+
+// Enabling OpenGL containers
 #include <GL/glew.h>
 #if HAVE_FREEGLUT
 #include <GL/freeglut.h>
@@ -53,8 +57,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #elif HAVE_GLFW
 #include <GLFW/glfw3.h>
 #endif
-#include <ft2build.h>
-#include FT_FREETYPE_H
+
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
@@ -208,18 +211,6 @@ main (int argn, ///< Arguments number.
 
 #endif
 
-  // Initing GLEW
-#if DEBUG
-  printf ("Initing GLEW\n");
-  fflush (stdout);
-#endif
-  glew_status = glewInit ();
-  if (glew_status != GLEW_OK)
-    {
-      printf ("ERROR! glewInit: %s\n", glewGetErrorString (glew_status));
-      return 1;
-    }
-
   // Initing FreeType
   if (FT_Init_FreeType (&ft))
   {
@@ -248,6 +239,18 @@ main (int argn, ///< Arguments number.
 #endif
   dialog_simulator_create (dialog_simulator);
 
+  // Initing GLEW
+#if DEBUG
+  printf ("Initing GLEW\n");
+  fflush (stdout);
+#endif
+  glew_status = glewInit ();
+  if (glew_status != GLEW_OK)
+    {
+      printf ("ERROR! glewInit: %s\n", glewGetErrorString (glew_status));
+      return 1;
+    }
+
 	// Initing drawing data
 #if DEBUG
   printf ("Initing drawing data\n");
@@ -255,6 +258,9 @@ main (int argn, ///< Arguments number.
 #endif
   if (!draw_init ())
     return 1;
+
+  set_perspective ();
+  dialog_simulator_update ();
 
 	// Main loop
 #if DEBUG

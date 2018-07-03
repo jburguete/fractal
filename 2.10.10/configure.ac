@@ -61,7 +61,7 @@ else
 fi
 
 # Checks for programs
-AC_PROG_CC([gcc7 gcc6 gcc5 gcc49 gcc48 egcc gcc clang])
+AC_PROG_CC([gcc-8 gcc8 gcc7 gcc6 gcc5 gcc49 gcc48 egcc gcc clang])
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG
@@ -132,30 +132,28 @@ PKG_CHECK_MODULES([FREETYPE], [freetype2])
 PKG_CHECK_MODULES([GLEW], [glew])
 AC_SEARCH_LIBS([glViewport], [GL opengl32])
 
-# Checks for FreeGLUT, SDL or GLFW to draw the graphic window
-AC_ARG_WITH([sdl],
-	AS_HELP_STRING([--with-sdl], [Build graphic window with SDL]))
+# Checks for GtkGLArea, FreeGLUT, GLFW or SDL to draw the graphic window
+AC_ARG_WITH([gtkglarea],
+	AS_HELP_STRING([--with-gtkglarea], [Build graphic window with GtkGLArea]))
+AC_ARG_WITH([freeglut],
+	AS_HELP_STRING([--with-freeglut], [Build graphic window with FreeGLUT]))
 AC_ARG_WITH([glfw],
 	AS_HELP_STRING([--with-glfw], [Build graphic window with GLFW]))
-if test "x$with_sdl" = "xyes"; then
-	AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
-	PKG_CHECK_MODULES([SDL], [sdl2])
+AC_ARG_WITH([sdl],
+	AS_HELP_STRING([--with-sdl], [Build graphic window with SDL]))
+if test "x$with_freeglut" = "xyes"; then
+	AC_SUBST(GRAPHIC, "-DHAVE_FREEGLUT=1")
+	AC_SEARCH_LIBS([glutInit], [freeglut glut], glut="yes", glut="no")
 else
 	if test "x$with_glfw" = "xyes"; then
 		AC_SUBST(GRAPHIC, "-DHAVE_GLFW=1")
 		PKG_CHECK_MODULES([GLFW], [glfw3])
 	else
-		AC_SEARCH_LIBS([glutInit], [freeglut glut], glut="yes", glut="no")
-		if test $glut = "yes"; then
-			AC_SUBST(GRAPHIC, "-DHAVE_FREEGLUT=1")
+		if test "x$with_sdl" = "xyes"; then
+			AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
+			PKG_CHECK_MODULES([SDL], [sdl2])
 		else
-			PKG_CHECK_MODULES([SDL], [sdl2], sdl="yes", sdl="no")
-			if test $sdl = "yes"; then
-				AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
-			else
-				PKG_CHECK_MODULES([GLFW], [glfw3])
-				AC_SUBST(GRAPHIC, "-DHAVE_GLFW=1")
-			fi
+			AC_SUBST(GRAPHIC, "-DHAVE_GTKGLAREA=1")
 		fi
 	fi
 fi

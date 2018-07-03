@@ -40,7 +40,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <libintl.h>
 #include <gsl/gsl_rng.h>
 #include <glib.h>
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include <gtk/gtk.h>
+
+// Enabling OpenGL containers
 #include <GL/glew.h>
 #if HAVE_FREEGLUT
 #include <GL/freeglut.h>
@@ -50,8 +54,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <GLFW/glfw3.h>
 extern GLFWwindow *window;
 #endif
-#include <ft2build.h>
-#include FT_FREETYPE_H
+
 #include "config.h"
 #include "fractal.h"
 #include "draw.h"
@@ -290,6 +293,10 @@ dialog_options_create ()
       length = gtk_spin_button_get_value_as_int (dlg->entry_length);
       width = gtk_spin_button_get_value_as_int (dlg->entry_width);
       height = gtk_spin_button_get_value_as_int (dlg->entry_height);
+#if HAVE_GTKGLAREA
+	    gtk_widget_set_size_request (GTK_WIDGET (dialog_simulator->gl_area),
+			                             width, height);
+#endif
       random_seed = gtk_spin_button_get_value_as_int (dlg->entry_seed);
       animating = gtk_toggle_button_get_active
         (GTK_TOGGLE_BUTTON (dlg->button_animate));
@@ -423,7 +430,22 @@ dialog_simulator_save ()
     }
 }
 
-#if HAVE_GLFW
+#if HAVE_GTKGLAREA
+
+void
+dialog_simulator_draw_init (GtkGLArea *gl_area)
+{
+	gtk_gl_area_make_current (gl_area);
+}
+
+void
+dialog_simulator_draw_render ()
+{
+	draw ();
+}
+
+#elif HAVE_GLFW
+
 /**
  * Function to close the GLFW window.
  */
@@ -432,6 +454,7 @@ window_close ()
 {
   glfwSetWindowShouldClose (window, GL_TRUE);
 }
+
 #endif
 
 /**
@@ -557,9 +580,12 @@ dialog_simulator_create ()
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->vscale), 1, 3, 2, 1);
 
 #if HAVE_GTKGLAREA
-	dlg->gl_area = gtk_gl_area_new ();
+	dlg->gl_area = (GtkGLArea *) gtk_gl_area_new ();
+	gtk_widget_set_size_request (GTK_WIDGET (dlg->gl_area),
+			                         window_width, window_height);
 	gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->gl_area), 0, 4, 3, 1);
-	g_signal_connect (dlg->gl_area, "realize", dialog_simulator_draw_init, NULL);
+	g_signal_connect (dlg->gl_area, "realize",
+		              	(GCallback) dialog_simulator_draw_init, NULL);
 	g_signal_connect (dlg->gl_area, "render", dialog_simulator_draw_render, NULL);
 #endif
 
@@ -584,8 +610,6 @@ dialog_simulator_create ()
   g_signal_connect (dlg->window, "delete_event", (void (*)) window_close, NULL);
 #endif
 
-  set_perspective ();
-  dialog_simulator_update ();
 #if DEBUG
   printf ("dialog_simulator_create: end\n");
 #endif
