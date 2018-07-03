@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT(fractal, [2.10.10])
+AC_INIT(fractal, [2.10.11])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
