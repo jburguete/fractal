@@ -103,7 +103,7 @@ Ubuntu Linux 17.04
 __________________
 
 Download this repository and execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.10.12
+> $ cd PATH\_TO\_FRACTAL/2.10.12
 >
 > $ ./build
 >
@@ -113,7 +113,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.10.12
+> $ cd PATH\_TO\_FRACTAL/2.10.12
 >
 > $ doxygen
 >
