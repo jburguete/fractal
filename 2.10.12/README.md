@@ -1,4 +1,4 @@
-FRACTAL (2.10.11 version)
+FRACTAL (2.10.12 version)
 =======================
 
 A program growing fractals to benchmark parallelization and drawing libraries.
@@ -103,7 +103,7 @@ Ubuntu Linux 17.04
 __________________
 
 Download this repository and execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.10.11
+> $ cd PATH_TO_FRACTAL/2.10.12
 >
 > $ ./build
 >
@@ -113,7 +113,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH_TO_FRACTAL/2.10.11
+> $ cd PATH_TO_FRACTAL/2.10.12
 >
 > $ doxygen
 >

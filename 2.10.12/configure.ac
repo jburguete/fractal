@@ -1,11 +1,12 @@
 AC_PREREQ([2.67])
-AC_INIT(fractal, [2.10.11])
+AC_INIT(fractal, [2.10.12])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
 AM_INIT_AUTOMAKE
 AC_MSG_NOTICE([Build: $build])
 AC_MSG_NOTICE([Host: $host])
+win=0
 if test $host = "x86_64-w64-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 64 bits])
 	CPPFLAGS="$CPPFLAGS -I/mingw/include"
@@ -44,20 +45,19 @@ elif test `uname -s` = "NetBSD"; then
 	LDFLAGS="$LDFLAGS -L/usr/pkg/lib"
 	CPPFLAGS="$CPPFLAGS -I/usr/pkg/include"
 	PATH="/usr/pkg/gcc48/bin:$PATH"
-	win=0
 elif test `uname -s` = "OpenBSD"; then
 	AC_MSG_NOTICE([OpenBSD])
 	LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
 	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
-	win=0
 elif test `uname -s` = "DragonFly"; then
 	AC_MSG_NOTICE([DragonFly BSD])
 	LDFLAGS="$LDFLAGS -L/usr/local/lib"
 	CPPFLAGS="$CPPFLAGS -I/usr/local/include"
-	win=0
+elif test `uname -s` = "SunOS"; then
+	AC_MSG_NOTICE([SunOS])
+	AC_SUBST(gnu,[/usr/gnu/bin/])
 else
 	AC_MSG_NOTICE([Unix type system])
-	win=0
 fi
 
 # Checks for programs
