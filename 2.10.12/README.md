@@ -71,23 +71,20 @@ libraries and utilities. You can follow detailed instructions in
 On NetBSD 7.0 you have to do first on the building terminal:
 > $ export PATH=/usr/pkg/gcc5/bin:$PATH"
 
-On OpenBSD 6.1 you have to do first on the building terminal:
+On OpenBSD 6.3 you have to do first on the building terminal:
 > $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.15
-
-On OpenIndiana Hipster you have to do first on the building terminal:
-> $ export PATH=/usr/gcc/4.9/bin:$PATH
 
 This software has been built and tested in the following operative systems:
 
-Debian 8 (Linux, kFreeBSD and Hurd)
+Debian 9 (Linux, kFreeBSD and Hurd)
 ___________________________________
-DragonFly BSD 4.6
+DragonFly BSD 5.2
 _________________
 Dyson Illumos
 _____________
-Fedora Linux 25
+Fedora Linux 28
 _______________
-FreeBSD 11.0
+FreeBSD 11.1
 ____________
 Microsoft Windows 7
 ___________________
@@ -95,11 +92,11 @@ Microsoft Windows 8.1
 _____________________
 NetBSD 7.0 (with modular xorg)
 ______________________________
-OpenBSD 6.1
+OpenBSD 6.3
 ___________
 OpenInidiana Hipster
 ____________________
-Ubuntu Linux 17.04
+Ubuntu Linux 18.04
 __________________
 
 Download this repository and execute on a terminal:
