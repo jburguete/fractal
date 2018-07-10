@@ -86,6 +86,8 @@ Fedora Linux 28
 _______________
 FreeBSD 11.1
 ____________
+Manjaro Linux
+_____________
 Microsoft Windows 7
 ___________________
 Microsoft Windows 8.1
@@ -96,6 +98,8 @@ OpenBSD 6.3
 ___________
 OpenInidiana Hipster
 ____________________
+OpenSUSE Linux Leap 15
+______________________
 Ubuntu Linux 18.04
 __________________
 
