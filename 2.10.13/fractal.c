@@ -285,14 +285,14 @@ tree_2D_point_new (int *x, int *y, gsl_rng * rng)
 static inline void
 tree_2D_point_boundary (int *x, int *y, gsl_rng * rng)
 {
-  if (*y < 0 || *y == height)
+  if (*y < 0 || *y == (int)height)
     {
       tree_2D_point_new (x, y, rng);
       return;
     }
   if (*x < 0)
     *x = width - 1;
-  else if (*x == width)
+  else if (*x == (int)width)
     *x = 0;
 #if DEBUG
   printf ("Boundary point x %d y %d\n", *x, *y);
@@ -316,7 +316,8 @@ tree_2D_point_fix (int x, int y)
   printf ("x=%d y=%d max_d=%d width=%d height=%d\n", x, y, max_d, width,
           height);
 #endif
-  if (y > max_d || x == 0 || y == 0 || x == width - 1 || y == height - 1)
+  if (y > (int) max_d || x == 0 || y == 0 || x == (int) width - 1 
+			|| y == (int) height - 1)
     return 0;
   point = medium + y * width + x;
   if (point[1] || point[-1] || point[width] || point[-(int) width])
@@ -356,9 +357,9 @@ tree_2D_init ()
  * \return 1 on ending, 0 on continuing.
  */
 static inline unsigned int
-tree_2D_end (int x, int y)
+tree_2D_end (int x __attribute__ ((unused)), int y)
 {
-  if (y == max_d)
+  if (y == (int) max_d)
     {
 // PARALLELIZING MUTEX
       g_mutex_lock (mutex);
@@ -416,18 +417,18 @@ tree_3D_point_new (int *x, int *y, int *z, gsl_rng * rng)
 static inline void
 tree_3D_point_boundary (int *x, int *y, int *z, gsl_rng * rng)
 {
-  if (*z < 0 || *z == height)
+  if (*z < 0 || *z == (int) height)
     {
       tree_3D_point_new (x, y, z, rng);
       return;
     }
   if (*x < 0)
     *x = length - 1;
-  else if (*x == length)
+  else if (*x == (int) length)
     *x = 0;
   if (*y < 0)
     *y = width - 1;
-  else if (*y == width)
+  else if (*y == (int) width)
     *y = 0;
 #if DEBUG
   printf ("New point x %d y %d z %d\n", *x, *y, *z);
@@ -449,8 +450,8 @@ static inline unsigned int
 tree_3D_point_fix (int x, int y, int z)
 {
   register unsigned int *point;
-  if (z > max_d || z == 0 || y == 0 || x == 0 || z == height - 1
-      || y == width - 1 || x == length - 1)
+  if (z > (int) max_d || z == 0 || y == 0 || x == 0 || z == (int) height - 1
+      || y == (int) width - 1 || x == (int)length - 1)
     return 0;
   point = medium + z * area + y * length + x;
   if (point[1] || point[-1] || point[length] || point[-(int) length]
@@ -490,9 +491,10 @@ tree_3D_init ()
  * \return 1 on ending, 0 on continuing.
  */
 static inline unsigned int
-tree_3D_end (int x, int y, int z)
+tree_3D_end (int x __attribute__ ((unused)), int y __attribute__ ((unused)),
+	           int z)
 {
-  if (z == max_d)
+  if (z == (int) max_d)
     {
 // PARALLELIZING MUTEX
       g_mutex_lock (mutex);
@@ -525,14 +527,14 @@ tree_3D_end (int x, int y, int z)
 static inline void
 forest_2D_point_boundary (int *x, int *y, gsl_rng * rng)
 {
-  if (*y == height || *y < 0)
+  if (*y == (int) height || *y < 0)
     {
       tree_2D_point_new (x, y, rng);
       return;
     }
   if (*x < 0)
     *x = width - 1;
-  else if (*x == width)
+  else if (*x == (int) width)
     *x = 0;
 #if DEBUG
   printf ("Boundary point x %d y %d\n", *x, *y);
@@ -554,7 +556,8 @@ static inline unsigned int
 forest_2D_point_fix (int x, int y, gsl_rng * rng)
 {
   register unsigned int k, *point;
-  if (y > max_d || x == 0 || x == width - 1 || y == height - 1)
+  if (y > (int) max_d || x == 0 || x == (int) width - 1 
+			|| y == (int) height - 1)
     return 0;
   point = medium + y * width + x;
   if (y == 0)
@@ -602,18 +605,18 @@ forest:
 static inline void forest_3D_point_boundary
   (int *x, int *y, int *z, gsl_rng * rng)
 {
-  if (*z == height || *z < 0)
+  if (*z == (int) height || *z < 0)
     {
       tree_3D_point_new (x, y, z, rng);
       return;
     }
   if (*y < 0)
     *y = width - 1;
-  else if (*y == width)
+  else if (*y == (int) width)
     *y = 0;
   if (*x < 0)
     *x = length - 1;
-  else if (*x == length)
+  else if (*x == (int) length)
     *x = 0;
 #if DEBUG
   printf ("Boundary point x %d y %d z %d\n", *x, *y, *z);
@@ -638,8 +641,8 @@ static inline unsigned int forest_3D_point_fix
   (int x, int y, int z, gsl_rng * rng)
 {
   register unsigned int k, *point;
-  if (z > max_d || y == 0 || x == 0 || z == height - 1 || y == width - 1
-      || x == length - 1)
+  if (z > (int) max_d || y == 0 || x == 0 || z == (int) height - 1 
+			|| y == (int) width - 1 || x == (int) length - 1)
     return 0;
   point = medium + z * area + y * length + x;
   if (z == 0)
@@ -712,7 +715,7 @@ neuron_2D_point_new (int *x, int *y, gsl_rng * rng)
 static inline void
 neuron_2D_point_boundary (int *x, int *y, gsl_rng * rng)
 {
-  if (*y < 0 || *y == height || *x < 0 || *x == width)
+  if (*y < 0 || *y == (int) height || *x < 0 || *x == (int) width)
     {
       neuron_2D_point_new (x, y, rng);
 #if DEBUG
@@ -734,7 +737,7 @@ static inline unsigned int
 neuron_2D_point_fix (int x, int y)
 {
   register unsigned int *point;
-  if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
+  if (x == 0 || y == 0 || x == (int) width - 1 || y == (int) height - 1)
     return 0;
   point = medium + y * width + x;
   if (point[1] || point[-1] || point[width] || point[-(int) width])
@@ -775,7 +778,7 @@ neuron_2D_end (int x, int y)
 {
   register int r, k;
   r = 1 + round (sqrt (sqr (x - width / 2) + sqr (y - height / 2)));
-  if (r >= max_d)
+  if (r >= (int) max_d)
     {
 // PARALLELIZING MUTEX
       g_mutex_lock (mutex);
@@ -788,7 +791,7 @@ neuron_2D_end (int x, int y)
   else
     k = width;
   k = k / 2 - 1;
-  if (max_d >= k)
+  if ((int) max_d >= k)
     {
 // PARALLELIZING MUTEX
       g_mutex_lock (mutex);
@@ -816,8 +819,8 @@ static inline void
 neuron_3D_point_new (int *x, int *y, int *z, gsl_rng * rng)
 {
   register double theta, phi;
-  theta = 2 * M_PI * gsl_rng_uniform (rng);
-  phi = M_PI * gsl_rng_uniform (rng);
+  theta = M_PI * gsl_rng_uniform (rng);
+  phi = 2. * M_PI * gsl_rng_uniform (rng);
   *x = length / 2 + max_d * cos (phi) * cos (theta);
   *y = width / 2 + max_d * sin (phi) * cos (theta);
   *z = height / 2 + max_d * sin (theta);
@@ -840,7 +843,8 @@ neuron_3D_point_new (int *x, int *y, int *z, gsl_rng * rng)
 static inline void neuron_3D_point_boundary
   (int *x, int *y, int *z, gsl_rng * rng)
 {
-  if (*z < 0 || *y < 0 || *x < 0 || *z == height || *y == width || *x == length)
+  if (*z < 0 || *y < 0 || *x < 0 || *z == (int) height || *y == (int) width 
+			|| *x == (int) length)
     {
       neuron_3D_point_new (x, y, z, rng);
 #if DEBUG
@@ -864,8 +868,8 @@ static inline unsigned int
 neuron_3D_point_fix (int x, int y, int z)
 {
   register unsigned int *point;
-  if (z == 0 || y == 0 || x == 0 || z == height - 1 || y == width - 1
-      || x == length - 1)
+  if (z == 0 || y == 0 || x == 0 || z == (int) height - 1 
+			|| y == (int) width - 1 || x == (int) length - 1)
     return 0;
   point = medium + z * area + y * length + x;
   if (point[1] || point[-1] || point[length] || point[-(int) length] ||
@@ -910,7 +914,7 @@ neuron_3D_end (int x, int y, int z)
   register int r, k;
   r = 1 + sqrt (sqr (x - length / 2) + sqr (y - width / 2)
                 + sqr (z - height / 2));
-  if (r >= max_d)
+  if (r >= (int) max_d)
     {
 // PARALLELIZING MUTEX
       g_mutex_lock (mutex);
@@ -919,12 +923,12 @@ neuron_3D_end (int x, int y, int z)
 // END
     }
   k = length;
-  if (width < k)
+  if ((int) width < k)
     k = width;
-  if (height < k)
+  if ((int) height < k)
     k = height;
   k = k / 2 - 1;
-  if (max_d >= k)
+  if ((int) max_d >= k)
     {
 // PARALLELIZING MUTEX
       g_mutex_lock (mutex);
@@ -1465,8 +1469,6 @@ medium_start ()
 void
 fractal ()
 {
-  int i;
-  FILE *file;
   const gsl_rng_type *random_type[N_RANDOM_TYPES] = {
     gsl_rng_mt19937,
     gsl_rng_ranlxs0,
@@ -1481,6 +1483,8 @@ fractal ()
     gsl_rng_taus2,
     gsl_rng_gfsr4
   };
+  FILE *file;
+  unsigned int i;
 
 // PARALLELIZING DATA
   gsl_rng *rng[nthreads];

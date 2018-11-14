@@ -335,7 +335,7 @@ dialog_simulator_help ()
                          "translator-credits",
                          gettext
                          ("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "2.10.12",
+                         "version", "2.10.13",
                          "copyright",
                          "Copyright 2009-2018 Javier Burguete Tolosa",
                          "logo", dialog_simulator->logo,
@@ -362,7 +362,7 @@ dialog_simulator_update ()
 void
 dialog_simulator_progress ()
 {
-  register int k;
+  register unsigned int k;
   register float x;
   if (fractal_3D)
     {
@@ -378,7 +378,9 @@ dialog_simulator_progress ()
             k = width;
           if (height < k)
             k = height;
-          k = k / 2 - 1;
+          k = k / 2;
+					if (k)
+						--k;
           x = fmin (1., max_d / (float) k);
         }
     }

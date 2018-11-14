@@ -144,12 +144,11 @@ FT_Face face;                   ///< FreeType face to draw text.
 void
 logo_new (char *name) ///< Logo PNG file name.
 {
-  unsigned int row_bytes;
-  int i;
-  FILE *file;
   png_struct *png;
   png_info *info;
   png_byte **row_pointers;
+  FILE *file;
+  unsigned int i, row_bytes;
 
   // starting png structs
   png = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
@@ -736,7 +735,7 @@ end_draw:
 
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 2.10.12", 1. - 90. * sx, -0.99, sx, sy, black); 
+  draw_text ("Fractal 2.10.13", 1. - 90. * sx, -0.99, sx, sy, black); 
 
   // Displaying the draw
 #if HAVE_GTKGLAREA
@@ -756,13 +755,12 @@ end_draw:
 void
 draw_save (char *file_name) ///< File name.
 {
-  int i;
-  unsigned int row_bytes, pointers_bytes, pixels_bytes;
-  GLubyte *pixels;
-  FILE *file;
   png_struct *png;
   png_info *info;
   png_byte **row_pointers;
+  GLubyte *pixels;
+  FILE *file;
+  unsigned int i, row_bytes, pointers_bytes, pixels_bytes;
 
   // Creating the PNG header
   png = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
