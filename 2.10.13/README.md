@@ -82,16 +82,14 @@ DragonFly BSD 5.2
 _________________
 Dyson Illumos
 _____________
-Fedora Linux 28
+Fedora Linux 29
 _______________
-FreeBSD 11.1
+FreeBSD 11.2
 ____________
 Manjaro Linux
 _____________
 Microsoft Windows 7
 ___________________
-Microsoft Windows 8.1
-_____________________
 NetBSD 7.0 (with modular xorg)
 ______________________________
 OpenBSD 6.3
@@ -100,8 +98,8 @@ OpenInidiana Hipster
 ____________________
 OpenSUSE Linux Leap 15
 ______________________
-Ubuntu Linux 18.04
-__________________
+Xubuntu Linux 18.10
+___________________
 
 Download this repository and execute on a terminal:
 > $ cd PATH\_TO\_FRACTAL/2.10.13
