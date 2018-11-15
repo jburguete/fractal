@@ -77,7 +77,7 @@ extern GLFWwindow *window;
 	"#  define highp\n" \
 	"#endif\n"
 
-GLuint program_3D;                     ///< 3D program.
+GLuint program_3D;              ///< 3D program.
 GLint uniform_2D_matrix;
 GLint attribute_3D_position;
 GLint attribute_3D_icolor;
@@ -90,7 +90,7 @@ const GLfloat square_texture[8] = {
   0.0, 0.0,
   1.0, 0.0,
   1.0, 1.0,
-}; ///< Square texture vertices.
+};                              ///< Square texture vertices.
 
 GLuint vbo_texture;             ///< Texture vertex buffer object.
 GLuint program_2D_texture;      ///< Texture program.
@@ -118,7 +118,7 @@ const GLfloat logo_vertices[8] = {
   -1.f, -1.f,
   1.f, -1.f,
   1.f, 1.f,
-};                              /// Logo vertices.
+};                              ///< Logo vertices.
 
 GLushort logo_elements[6] = {
   0, 1, 2,
@@ -142,7 +142,7 @@ FT_Face face;                   ///< FreeType face to draw text.
  * Function to read the logo on a PNG file.
  */
 void
-logo_new (char *name) ///< Logo PNG file name.
+logo_new (char *name)           ///< Logo PNG file name.
 {
   png_struct *png;
   png_info *info;
@@ -193,6 +193,7 @@ error1:
 
 /**
  * Function to init the graphic data.
+
  * \return 1 on success, 0 on error.
  */
 int
@@ -221,10 +222,10 @@ draw_init ()
     "{gl_Position = matrix * vec4 (position, 0.f, 1.f);"
     "  t_position = texture_position;}";
   const char *vs_text_source =
-	"attribute highp vec4 position;"
-	"varying highp vec2 textcoord;"
-	"void main ()"
-	"{gl_Position = vec4(position.xy, 0, 1); textcoord = position.zw;}";
+    "attribute highp vec4 position;"
+    "varying highp vec2 textcoord;"
+    "void main ()"
+    "{gl_Position = vec4(position.xy, 0, 1); textcoord = position.zw;}";
   const char *fs_source =
     "varying lowp vec3 fcolor;"
     "void main () {gl_FragColor = vec4 (fcolor, 1.f);}";
@@ -233,17 +234,17 @@ draw_init ()
     "uniform lowp sampler2D texture_logo;"
     "void main () {gl_FragColor = texture2D (texture_logo, t_position);}";
   const char *fs_text_source =
-	"varying highp vec2 textcoord;"
+    "varying highp vec2 textcoord;"
     "uniform lowp sampler2D text;"
     "uniform lowp vec4 color;"
-	"void main ()"
-	"{gl_FragColor = vec4(1, 1, 1, texture2D(text, textcoord).a) * color;}";
+    "void main ()"
+    "{gl_FragColor = vec4(1, 1, 1, texture2D(text, textcoord).a) * color;}";
   const char *vertex_name = "position";
   const char *color_name = "color";
   const char *texture_position_name = "texture_position";
   const char *matrix_name = "matrix";
   const char *texture_logo_name = "texture_logo";
-  const char *text_name ="text";
+  const char *text_name = "text";
   const char *vs_2D_sources[3] = { NULL, INIT_GL_GLES, vs_2D_source };
   const char *vs_3D_sources[3] = { NULL, INIT_GL_GLES, vs_3D_source };
   const char *vs_2D_texture_sources[3]
@@ -321,8 +322,7 @@ draw_init ()
       goto exit_on_error;
     }
 
-  attribute_3D_position
-    = glGetAttribLocation (program_3D, vertex_name);
+  attribute_3D_position = glGetAttribLocation (program_3D, vertex_name);
   if (attribute_3D_position == -1)
     {
       error_message = "could not bind attribute";
@@ -446,8 +446,7 @@ draw_init ()
       goto exit_on_error;
     }
 
-  attribute_text_position
-    = glGetAttribLocation (program_text, vertex_name);
+  attribute_text_position = glGetAttribLocation (program_text, vertex_name);
   if (attribute_text_position == -1)
     {
       error_message = "could not bind attribute";
@@ -466,29 +465,28 @@ draw_init ()
       goto exit_on_error;
     }
 
-  if (FT_New_Face(ft, "/usr/share/fonts/truetype/FreeSans.ttf", 0,
-			      &face)
-      && FT_New_Face(ft, "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 0,
-			      &face)
-      && FT_New_Face(ft, "/usr/share/fonts/TrueType/freefont/FreeSans.ttf", 0,
-			      &face)
-      && FT_New_Face(ft, "/usr/share/fonts/gnu-free/FreeSans.ttf", 0,
-			      &face)
-      && FT_New_Face(ft, "/usr/pkg/share/fonts/X11/TTF/FreeSans.ttf", 0,
-			      &face)
-      && FT_New_Face(ft, "/usr/share/fonts/TTF/FreeSans.ttf", 0,
-			      &face)
-      && FT_New_Face(ft, "/usr/local/share/texmf-dist/fonts/truetype/public"
-				                 "/gnu-freefont/FreeSans.ttf", 0, &face)
-      && FT_New_Face(ft, "/usr/local/share/fonts/freefont/FreeSans.ttf", 0,
-	             &face))
-
+  if (FT_New_Face (ft, "/usr/share/fonts/truetype/FreeSans.ttf", 0,
+                   &face)
+      && FT_New_Face (ft, "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 0,
+                      &face)
+      && FT_New_Face (ft, "/usr/share/fonts/TrueType/freefont/FreeSans.ttf", 0,
+                      &face)
+      && FT_New_Face (ft, "/usr/share/fonts/gnu-free/FreeSans.ttf", 0,
+                      &face)
+      && FT_New_Face (ft, "/usr/pkg/share/fonts/X11/TTF/FreeSans.ttf", 0,
+                      &face)
+      && FT_New_Face (ft, "/usr/share/fonts/TTF/FreeSans.ttf", 0,
+                      &face)
+      && FT_New_Face (ft, "/usr/local/share/texmf-dist/fonts/truetype/public"
+                      "/gnu-freefont/FreeSans.ttf", 0, &face)
+      && FT_New_Face (ft, "/usr/local/share/fonts/freefont/FreeSans.ttf", 0,
+                      &face))
     {
       error_message = "could not open font";
       goto exit_on_error;
     }
-  FT_Set_Pixel_Sizes(face, 0, 12);
-  
+  FT_Set_Pixel_Sizes (face, 0, 12);
+
   glGenBuffers (1, &vbo_logo);
   glBindBuffer (GL_ARRAY_BUFFER, vbo_logo);
   glBufferData (GL_ARRAY_BUFFER, sizeof (logo_vertices), logo_vertices,
@@ -513,7 +511,7 @@ draw_init ()
   return 1;
 
 exit_on_error:
-  printf("ERROR! %s\n", error_message);
+  printf ("ERROR! %s\n", error_message);
 #if DEBUG
   printf ("draw_init: end\n");
   fflush (stdout);
@@ -525,8 +523,8 @@ exit_on_error:
  * Function to updating window data when resizing.
  */
 void
-draw_resize (int width, ///< Graphic window width.
-		         int height) ///< Graphic window height.
+draw_resize (int width,         ///< Graphic window width.
+             int height)        ///< Graphic window height.
 {
   window_width = width;
   window_height = height;
@@ -537,12 +535,12 @@ draw_resize (int width, ///< Graphic window width.
  * Function to draw a text.
  */
 void
-draw_text (char *text, ///< Text string.
-		       float x, ///< x initial coordinate.
-					 float y, ///< y initial coordinate.
-					 float sx, ///< x scale factor.
-					 float sy, ///< y scale factor.
-		       const GLfloat *color) ///< array of RBGA colors.
+draw_text (char *text,          ///< Text string.
+           float x,             ///< x initial coordinate.
+           float y,             ///< y initial coordinate.
+           float sx,            ///< x scale factor.
+           float sy,            ///< y scale factor.
+           const GLfloat * color)       ///< array of RBGA colors.
 {
   float x2, y2, w, h, box[16];
   glUseProgram (program_text);
@@ -553,28 +551,25 @@ draw_text (char *text, ///< Text string.
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-  glUniform4fv(uniform_color, 1, color);
+  glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+  glUniform4fv (uniform_color, 1, color);
   glEnableVertexAttribArray (attribute_text_position);
   glBindBuffer (GL_ARRAY_BUFFER, vbo_text);
-  glVertexAttribPointer(attribute_text_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
+  glVertexAttribPointer (attribute_text_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
   for (; *text; ++text)
     {
-	  if (FT_Load_Char (face, *text, FT_LOAD_RENDER))
-		continue;
-	  glTexImage2D (GL_TEXTURE_2D,
-			        0,
-					GL_ALPHA,
-					face->glyph->bitmap.width,
-			        face->glyph->bitmap.rows,
-					0,
-					GL_ALPHA,
-					GL_UNSIGNED_BYTE,
-					face->glyph->bitmap.buffer);
-	  x2 = x + face->glyph->bitmap_left * sx;
-	  y2 = -y - face->glyph->bitmap_top * sy;
-	  w = face->glyph->bitmap.width * sx;
-	  h = face->glyph->bitmap.rows * sy;
+      if (FT_Load_Char (face, *text, FT_LOAD_RENDER))
+        continue;
+      glTexImage2D (GL_TEXTURE_2D,
+                    0,
+                    GL_ALPHA,
+                    face->glyph->bitmap.width,
+                    face->glyph->bitmap.rows,
+                    0, GL_ALPHA, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
+      x2 = x + face->glyph->bitmap_left * sx;
+      y2 = -y - face->glyph->bitmap_top * sy;
+      w = face->glyph->bitmap.width * sx;
+      h = face->glyph->bitmap.rows * sy;
       box[0] = x2;
       box[1] = -y2;
       box[2] = 0.;
@@ -591,12 +586,12 @@ draw_text (char *text, ///< Text string.
       box[13] = -y2 - h;
       box[14] = 1.;
       box[15] = 1.;
-	  glBufferData(GL_ARRAY_BUFFER, sizeof(box), box, GL_DYNAMIC_DRAW);
-	  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	  x += (face->glyph->advance.x >> 6) * sx;
-	  y += (face->glyph->advance.y >> 6) * sy;
-	}
-	glDisableVertexAttribArray(attribute_text_position);
+      glBufferData (GL_ARRAY_BUFFER, sizeof (box), box, GL_DYNAMIC_DRAW);
+      glDrawArrays (GL_TRIANGLE_STRIP, 0, 4);
+      x += (face->glyph->advance.x >> 6) * sx;
+      y += (face->glyph->advance.y >> 6) * sy;
+    }
+  glDisableVertexAttribArray (attribute_text_position);
 }
 
 /**
@@ -613,7 +608,7 @@ draw ()
     {{0., width, 0.}, {0., 0., 0.}}
   };
   const GLushort square_indices[4] = { 0, 1, 2, 3 };
-  const GLfloat black[4] = {0., 0., 0., 1.};
+  const GLfloat black[4] = { 0., 0., 0., 1. };
   float cp, sp, ct, st, w, h, sx, sy;
   GLuint vbo_square, ibo_square, vbo_points;
 
@@ -735,11 +730,11 @@ end_draw:
 
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 2.10.13", 1. - 90. * sx, -0.99, sx, sy, black); 
+  draw_text ("Fractal 2.10.13", 1. - 90. * sx, -0.99, sx, sy, black);
 
   // Displaying the draw
 #if HAVE_GTKGLAREA
-	gtk_widget_queue_draw (GTK_WIDGET (dialog_simulator->gl_area));
+  gtk_widget_queue_draw (GTK_WIDGET (dialog_simulator->gl_area));
 #elif HAVE_FREEGLUT
   glutSwapBuffers ();
 #elif HAVE_SDL
@@ -753,7 +748,7 @@ end_draw:
  * Function to save the draw in a PNG file.
  */
 void
-draw_save (char *file_name) ///< File name.
+draw_save (char *file_name)     ///< File name.
 {
   png_struct *png;
   png_info *info;

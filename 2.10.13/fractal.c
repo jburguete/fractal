@@ -119,10 +119,11 @@ GMutex mutex[1];                ///< Mutex to lock memory saves.
 
 /**
  * Function to return the square of an unsigned int.
+
  * \return square.
  */
 static inline unsigned int
-sqr (int x) ///< unsigned int.
+sqr (int x)                     ///< unsigned int.
 {
   return x * x;
 }
@@ -131,10 +132,10 @@ sqr (int x) ///< unsigned int.
  * Function to add a point to the array.
  */
 static inline void
-points_add (int x, ///< Point x-coordinate.
-		        int y, ///< Point y-coordinate.
-						int z, ///< Point z-coordinate.
-						unsigned int c) ///< Point color.
+points_add (int x,              ///< Point x-coordinate.
+            int y,              ///< Point y-coordinate.
+            int z,              ///< Point z-coordinate.
+            unsigned int c)     ///< Point color.
 {
   Point3D *p;
   ++npoints;
@@ -149,17 +150,12 @@ points_add (int x, ///< Point x-coordinate.
 }
 
 /**
- * \fn inline void point_2D_move(int *x, int *y, gsl_rng *rng)
- * \brief Function to make a random 2D movement on a point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to make a random 2D movement on a point.
  */
 static inline void
-point_2D_move (int *x, int *y, gsl_rng * rng)
+point_2D_move (int *x,          ///< Point x-coordinate.
+               int *y,          ///< Point y-coordinate.
+               gsl_rng * rng)   ///< Pseudo-random number generator.
 {
   register unsigned int k;
   static const int mx[4] = { 0, 0, 1, -1 }, my[4] =
@@ -171,17 +167,12 @@ point_2D_move (int *x, int *y, gsl_rng * rng)
 }
 
 /**
- * \fn inline void point_2D_move_diagonal(int *x, int *y, gsl_rng *rng)
- * \brief Function to make a random 2D movement on a point enabling diagonals.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to make a random 2D movement on a point enabling diagonals.
  */
 static inline void
-point_2D_move_diagonal (int *x, int *y, gsl_rng * rng)
+point_2D_move_diagonal (int *x, ///< Point x-coordinate.
+                        int *y, ///< Point y-coordinate.
+                        gsl_rng * rng)  ///< Pseudo-random number generator.
 {
   register unsigned int k;
   static const int mx[8] = { 1, 1, 1, 0, -1, -1, -1, 0 }, my[8] =
@@ -193,19 +184,13 @@ point_2D_move_diagonal (int *x, int *y, gsl_rng * rng)
 }
 
 /**
- * \fn inline void point_3D_move(int *x, int *y, int *z, gsl_rng *rng)
- * \brief Function to make a random 3D movement on a point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to make a random 3D movement on a point.
  */
 static inline void
-point_3D_move (int *x, int *y, int *z, gsl_rng * rng)
+point_3D_move (int *x,          ///< Point x-coordinate.
+               int *y,          ///< Point y-coordinate.
+               int *z,          ///< Point z-coordinate.
+               gsl_rng * rng)   ///< Pseudo-random number generator.
 {
   register unsigned int k;
   static const int mx[6] = { 0, 1, -1, 0, 0, 0 }, my[6] =
@@ -220,19 +205,13 @@ point_3D_move (int *x, int *y, int *z, gsl_rng * rng)
 }
 
 /**
- * \fn inline void point_3D_move_diagonal(int *x, int *y, int *z, gsl_rng *rng)
- * \brief Function to make a random 3D movement on a point enabling diagonals.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to make a random 3D movement on a point enabling diagonals.
  */
 static inline void
-point_3D_move_diagonal (int *x, int *y, int *z, gsl_rng * rng)
+point_3D_move_diagonal (int *x, ///< Point x-coordinate.
+                        int *y, ///< Point y-coordinate.
+                        int *z, ///< Point z-coordinate.
+                        gsl_rng * rng)  ///< Pseudo-random number generator.
 {
   register int k;
   static const int mx[26] = {
@@ -253,17 +232,12 @@ point_3D_move_diagonal (int *x, int *y, int *z, gsl_rng * rng)
 }
 
 /**
- * \fn inline void tree_2D_point_new(int *x, int *y, gsl_rng *rng)
- * \brief Function to start a new 2D tree point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to start a new 2D tree point.
  */
 static inline void
-tree_2D_point_new (int *x, int *y, gsl_rng * rng)
+tree_2D_point_new (int *x,      ///< Point x-coordinate.
+                   int *y,      ///< Point y-coordinate.
+                   gsl_rng * rng)       ///< Pseudo-random number generator.
 {
   *x = gsl_rng_uniform_int (rng, width);
   *y = max_d;
@@ -273,26 +247,21 @@ tree_2D_point_new (int *x, int *y, gsl_rng * rng)
 }
 
 /**
- * \fn inline void tree_2D_point_boundary(int *x, int *y, gsl_rng *rng)
- * \brief Function to check the limits of a 2D tree point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to check the limits of a 2D tree point.
  */
 static inline void
-tree_2D_point_boundary (int *x, int *y, gsl_rng * rng)
+tree_2D_point_boundary (int *x, ///< Point x-coordinate.
+                        int *y, ///< Point y-coordinate.
+                        gsl_rng * rng)  ///< Pseudo-random number generator.
 {
-  if (*y < 0 || *y == (int)height)
+  if (*y < 0 || *y == (int) height)
     {
       tree_2D_point_new (x, y, rng);
       return;
     }
   if (*x < 0)
     *x = width - 1;
-  else if (*x == (int)width)
+  else if (*x == (int) width)
     *x = 0;
 #if DEBUG
   printf ("Boundary point x %d y %d\n", *x, *y);
@@ -300,24 +269,21 @@ tree_2D_point_boundary (int *x, int *y, gsl_rng * rng)
 }
 
 /**
- * \fn inline void tree_2D_point_fix(int *x, int *y)
- * \brief Function to fix a 2D tree point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
+ * Function to fix a 2D tree point.
+ *
  * \return 1 on fixing point, 0 on otherwise.
  */
 static inline unsigned int
-tree_2D_point_fix (int x, int y)
+tree_2D_point_fix (int x,       ///< Point x-coordinate.
+                   int y)       ///< Point y-coordinate.
 {
   register unsigned int *point;
 #if DEBUG
   printf ("x=%d y=%d max_d=%d width=%d height=%d\n", x, y, max_d, width,
           height);
 #endif
-  if (y > (int) max_d || x == 0 || y == 0 || x == (int) width - 1 
-			|| y == (int) height - 1)
+  if (y > (int) max_d || x == 0 || y == 0 || x == (int) width - 1
+      || y == (int) height - 1)
     return 0;
   point = medium + y * width + x;
   if (point[1] || point[-1] || point[width] || point[-(int) width])
@@ -337,9 +303,7 @@ tree_2D_point_fix (int x, int y)
 }
 
 /**
- * \fn inline void tree_2D_init()
- * \brief Function to init a 2D tree.
- * \param
+ * Function to init a 2D tree.
  */
 static inline void
 tree_2D_init ()
@@ -348,16 +312,13 @@ tree_2D_init ()
 }
 
 /**
- * \fn inline unsigned int tree_2D_end(int x, int y)
- * \brief Function to check the end a 2D tree.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
+ * Function to check the end a 2D tree.
+ *
  * \return 1 on ending, 0 on continuing.
  */
 static inline unsigned int
-tree_2D_end (int x __attribute__ ((unused)), int y)
+tree_2D_end (int x __attribute__ ((unused)),    ///< Point x-coordinate.
+             int y)             ///< Point y-coordinate.
 {
   if (y == (int) max_d)
     {
@@ -380,19 +341,13 @@ tree_2D_end (int x __attribute__ ((unused)), int y)
 }
 
 /**
- * \fn inline void tree_3D_point_new(int *x, int *y, int *z, gsl_rng *rng)
- * \brief Function to start a new 3D tree point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to start a new 3D tree point.
  */
 static inline void
-tree_3D_point_new (int *x, int *y, int *z, gsl_rng * rng)
+tree_3D_point_new (int *x,      ///< Point x-coordinate.
+                   int *y,      ///< Point y-coordinate.
+                   int *z,      ///< Point z-coordinate.
+                   gsl_rng * rng)       ///< Pseudo-random number generator.
 {
   *x = gsl_rng_uniform_int (rng, length);
   *y = gsl_rng_uniform_int (rng, width);
@@ -403,19 +358,13 @@ tree_3D_point_new (int *x, int *y, int *z, gsl_rng * rng)
 }
 
 /**
- * \fn inline void tree_3D_point_boundary(int *x, int *y, int *z, gsl_rng *rng)
- * \brief Function to check the limits of a 2D tree point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to check the limits of a 2D tree point.
  */
 static inline void
-tree_3D_point_boundary (int *x, int *y, int *z, gsl_rng * rng)
+tree_3D_point_boundary (int *x, ///< Point x-coordinate.
+                        int *y, ///< Point y-coordinate.
+                        int *z, ///< Point z-coordinate.
+                        gsl_rng * rng)  ///< Pseudo-random number generator.
 {
   if (*z < 0 || *z == (int) height)
     {
@@ -436,22 +385,18 @@ tree_3D_point_boundary (int *x, int *y, int *z, gsl_rng * rng)
 }
 
 /**
- * \fn inline unsigned int tree_3D_point_fix(int x, int y, int z)
- * \brief Function to fix a 2D tree point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief point z-coordinate.
+ * Function to fix a 2D tree point.
+ *
  * \return 1 on fixing point, 0 on otherwise.
  */
 static inline unsigned int
-tree_3D_point_fix (int x, int y, int z)
+tree_3D_point_fix (int x,       ///< Point x-coordinate.
+                   int y,       ///< Point y-coordinate.
+                   int z)       ///< point z-coordinate.
 {
   register unsigned int *point;
   if (z > (int) max_d || z == 0 || y == 0 || x == 0 || z == (int) height - 1
-      || y == (int) width - 1 || x == (int)length - 1)
+      || y == (int) width - 1 || x == (int) length - 1)
     return 0;
   point = medium + z * area + y * length + x;
   if (point[1] || point[-1] || point[length] || point[-(int) length]
@@ -469,9 +414,7 @@ tree_3D_point_fix (int x, int y, int z)
 }
 
 /**
- * \fn inline void tree_3D_init()
- * \brief Function to init a 3D tree.
- * \param
+ * Function to init a 3D tree.
  */
 static inline void
 tree_3D_init ()
@@ -492,7 +435,7 @@ tree_3D_init ()
  */
 static inline unsigned int
 tree_3D_end (int x __attribute__ ((unused)), int y __attribute__ ((unused)),
-	           int z)
+             int z)
 {
   if (z == (int) max_d)
     {
@@ -556,8 +499,8 @@ static inline unsigned int
 forest_2D_point_fix (int x, int y, gsl_rng * rng)
 {
   register unsigned int k, *point;
-  if (y > (int) max_d || x == 0 || x == (int) width - 1 
-			|| y == (int) height - 1)
+  if (y > (int) max_d || x == 0 || x == (int) width - 1
+      || y == (int) height - 1)
     return 0;
   point = medium + y * width + x;
   if (y == 0)
@@ -641,8 +584,8 @@ static inline unsigned int forest_3D_point_fix
   (int x, int y, int z, gsl_rng * rng)
 {
   register unsigned int k, *point;
-  if (z > (int) max_d || y == 0 || x == 0 || z == (int) height - 1 
-			|| y == (int) width - 1 || x == (int) length - 1)
+  if (z > (int) max_d || y == 0 || x == 0 || z == (int) height - 1
+      || y == (int) width - 1 || x == (int) length - 1)
     return 0;
   point = medium + z * area + y * length + x;
   if (z == 0)
@@ -843,8 +786,8 @@ neuron_3D_point_new (int *x, int *y, int *z, gsl_rng * rng)
 static inline void neuron_3D_point_boundary
   (int *x, int *y, int *z, gsl_rng * rng)
 {
-  if (*z < 0 || *y < 0 || *x < 0 || *z == (int) height || *y == (int) width 
-			|| *x == (int) length)
+  if (*z < 0 || *y < 0 || *x < 0 || *z == (int) height || *y == (int) width
+      || *x == (int) length)
     {
       neuron_3D_point_new (x, y, z, rng);
 #if DEBUG
@@ -868,8 +811,8 @@ static inline unsigned int
 neuron_3D_point_fix (int x, int y, int z)
 {
   register unsigned int *point;
-  if (z == 0 || y == 0 || x == 0 || z == (int) height - 1 
-			|| y == (int) width - 1 || x == (int) length - 1)
+  if (z == 0 || y == 0 || x == 0 || z == (int) height - 1
+      || y == (int) width - 1 || x == (int) length - 1)
     return 0;
   point = medium + z * area + y * length + x;
   if (point[1] || point[-1] || point[length] || point[-(int) length] ||
@@ -1463,8 +1406,7 @@ medium_start ()
 }
 
 /**
- * \fn void fractal()
- * \brief Function with the main bucle to draw the fractal.
+ * Function with the main bucle to draw the fractal.
  */
 void
 fractal ()
