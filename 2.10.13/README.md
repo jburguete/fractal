@@ -71,35 +71,23 @@ libraries and utilities. You can follow detailed instructions in
 On NetBSD 7.0 you have to do first on the building terminal:
 > $ export PATH=/usr/pkg/gcc5/bin:$PATH"
 
-On OpenBSD 6.3 you have to do first on the building terminal:
-> $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.15
+On OpenBSD 6.4 you have to do first on the building terminal:
+> $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.16
 
 This software has been built and tested in the following operative systems:
-
-Debian 9 (Linux, kFreeBSD and Hurd)
-___________________________________
-DragonFly BSD 5.2
-_________________
-Dyson Illumos
-_____________
-Fedora Linux 29
-_______________
-FreeBSD 11.2
-____________
-Manjaro Linux
-_____________
-Microsoft Windows 7
-___________________
-NetBSD 7.0 (with modular xorg)
-______________________________
-OpenBSD 6.3
-___________
-OpenInidiana Hipster
-____________________
-OpenSUSE Linux Leap 15
-______________________
-Xubuntu Linux 18.10
-___________________
+* Debian 9 (Linux, kFreeBSD and Hurd)
+* DragonFly BSD 5.2
+* Dyson Illumos
+* Fedora Linux 29
+* FreeBSD 11.2
+* Manjaro Linux
+* Microsoft Windows 7
+* Microsoft Windows 10
+* NetBSD 7.0 (with modular xorg)
+* OpenBSD 6.4
+* OpenInidiana Hipster
+* OpenSUSE Linux Leap 15
+* Xubuntu Linux 18.10
 
 Download this repository and execute on a terminal:
 > $ cd PATH\_TO\_FRACTAL/2.10.13
