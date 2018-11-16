@@ -72,7 +72,7 @@ On NetBSD 7.0 you have to do first on the building terminal:
 > $ export PATH=/usr/pkg/gcc5/bin:$PATH"
 
 On OpenBSD 6.4 you have to do first on the building terminal:
-> $ export AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.16
+> $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 This software has been built and tested in the following operative systems:
 * Debian 9 (Linux, kFreeBSD and Hurd)
