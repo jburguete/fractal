@@ -80,6 +80,7 @@ This software has been built and tested in the following operative systems:
 * Dyson Illumos
 * Fedora Linux 29
 * FreeBSD 11.2
+* Linux Mint DE 3
 * Manjaro Linux
 * Microsoft Windows 7
 * Microsoft Windows 10
@@ -95,6 +96,9 @@ Download this repository and execute on a terminal:
 > $ ./build
 >
 > $ strip fractal (optional: to make a final version)
+
+Probably, it can be built in other systems, distributions, or versions but it
+has not been tested.
 
 MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
