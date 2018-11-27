@@ -174,7 +174,8 @@ logo_new (char *name)           ///< Logo PNG file name.
   logo.width = png_get_image_width (png, info);
   logo.height = png_get_image_height (png, info);
   row_bytes = png_get_rowbytes (png, info);
-  logo.image = (GLubyte *) g_malloc (row_bytes * logo.height);
+  logo.size = row_bytes * logo.height;
+  logo.image = (GLubyte *) g_slice_alloc (logo.size);
   if (!logo.image)
     goto error2;
   row_pointers = png_get_rows (png, info);
@@ -189,6 +190,15 @@ error2:
 error1:
   // freeing memory
   png_destroy_read_struct (&png, &info, NULL);
+}
+
+/**
+ * Function to free the memory used by the logo.
+ */
+void
+logo_destroy ()
+{
+  g_slice_free1 (logo.size, logo.image);
 }
 
 /**
@@ -730,7 +740,7 @@ end_draw:
 
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 2.10.13", 1. - 90. * sx, -0.99, sx, sy, black);
+  draw_text ("Fractal 2.10.14", 1. - 90. * sx, -0.99, sx, sy, black);
 
   // Displaying the draw
 #if HAVE_GTKGLAREA
@@ -803,7 +813,7 @@ draw_save (char *file_name)     ///< File name.
 
   // Saving the pixels in the PNG order
   pointers_bytes = window_height * sizeof (png_byte *);
-  row_pointers = (png_byte **) malloc (pointers_bytes);
+  row_pointers = (png_byte **) g_slice_alloc (pointers_bytes);
   for (i = 0; i < window_height; ++i)
     {
       row_pointers[i] = (png_byte *) g_slice_alloc (row_bytes);

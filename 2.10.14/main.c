@@ -64,9 +64,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "simulator.h"
 
 #if HAVE_SDL
-SDL_Window *window; ///< SDL window.
+SDL_Window *window;             ///< SDL window.
 #elif HAVE_GLFW
-GLFWwindow *window; ///< GLFW window.
+GLFWwindow *window;             ///< GLFW window.
 #endif
 
 /**
@@ -92,7 +92,7 @@ main_loop ()
 
 #elif HAVE_SDL
 
-	while (1)
+  while (1)
     {
       while (gtk_events_pending ())
         gtk_main_iteration ();
@@ -129,8 +129,8 @@ main_loop ()
  * \return 0 on success.
  */
 int
-main (int argn, ///< Arguments number.
-		  char **argc) ///< Array of arguments.
+main (int argn,                 ///< Arguments number.
+      char **argc)              ///< Array of arguments.
 {
   GLenum glew_status;
 
@@ -213,10 +213,10 @@ main (int argn, ///< Arguments number.
 
   // Initing FreeType
   if (FT_Init_FreeType (&ft))
-  {
-    printf("ERROR! could not init freetype library\n");
-    return 1;
-  }
+    {
+      printf ("ERROR! could not init freetype library\n");
+      return 1;
+    }
 
   // Initing GTK+
 #if DEBUG
@@ -251,7 +251,7 @@ main (int argn, ///< Arguments number.
       return 1;
     }
 
-	// Initing drawing data
+  // Initing drawing data
 #if DEBUG
   printf ("Initing drawing data\n");
   fflush (stdout);
@@ -262,7 +262,7 @@ main (int argn, ///< Arguments number.
   set_perspective ();
   dialog_simulator_update ();
 
-	// Main loop
+  // Main loop
 #if DEBUG
   printf ("Main loop\n");
   fflush (stdout);
@@ -274,6 +274,7 @@ main (int argn, ///< Arguments number.
   glfwDestroyWindow (window);
   glfwTerminate ();
 #endif
+  logo_destroy ();
 
   return 0;
 }

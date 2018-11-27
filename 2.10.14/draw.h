@@ -43,6 +43,7 @@ typedef struct
 {
   unsigned int width;           ///< Width.
   unsigned int height;          ///< Height.
+  unsigned int size;            ///< Size in bytes.
   GLubyte *image;               ///< Image bytes.
 } Logo;
 
@@ -52,6 +53,7 @@ extern Logo logo;
 extern FT_Library ft;
 
 void logo_new (char *name);
+void logo_destroy ();
 
 int draw_init ();
 void draw_resize (int width, int height);
