@@ -68,8 +68,8 @@ On Microsoft Windows systems you have to install
 libraries and utilities. You can follow detailed instructions in
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
 
-On NetBSD 7.0 you have to do first on the building terminal:
-> $ export PATH=/usr/pkg/gcc5/bin:$PATH"
+On NetBSD 8.0 you have to do first on the building terminal:
+> $ export PATH=/usr/pkg/gcc8/bin:$PATH"
 
 On OpenBSD 6.4 you have to do first on the building terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
@@ -84,10 +84,11 @@ This software has been built and tested in the following operative systems:
 * Manjaro Linux
 * Microsoft Windows 7
 * Microsoft Windows 10
-* NetBSD 7.0 (with modular xorg)
+* NetBSD 8.0 (from source with modular xorg)
 * OpenBSD 6.4
 * OpenInidiana Hipster
 * OpenSUSE Linux Leap 15
+* Ubuntu Linux 18.04
 * Xubuntu Linux 18.10
 
 Download this repository and execute on a terminal:
