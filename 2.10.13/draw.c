@@ -78,10 +78,10 @@ extern GLFWwindow *window;
 	"#endif\n"
 
 GLuint program_3D;              ///< 3D program.
-GLint uniform_2D_matrix;
-GLint attribute_3D_position;
-GLint attribute_3D_icolor;
-GLint uniform_3D_matrix;
+GLint uniform_2D_matrix;        ///< 2D constant matrix.
+GLint attribute_3D_position;    ///< 3D variable position
+GLint attribute_3D_icolor;      ///< 3D variable color identifier.
+GLint uniform_3D_matrix;        ///< 3D constant matrix.
 unsigned int window_width = 480;        ///< Graphic window width.
 unsigned int window_height = 480;       ///< Graphic window height.
 
@@ -95,9 +95,9 @@ const GLfloat square_texture[8] = {
 GLuint vbo_texture;             ///< Texture vertex buffer object.
 GLuint program_2D_texture;      ///< Texture program.
 GLuint id_texture;              ///< Texture identifier.
-GLint uniform_texture;
-GLint attribute_texture;
-GLint attribute_texture_position;
+GLint uniform_texture;          ///< Texture constant.
+GLint attribute_texture;        ///< Texture variable.
+GLint attribute_texture_position;       ///< Texture variable position.
 
 GLfloat projection_matrix[16] = {
   1., 0., 0., 0.,
@@ -132,9 +132,9 @@ Logo logo;                      ///< Logo data.
 GLuint vbo_text;                ///< Text vertex buffer object.
 GLuint program_text;            ///< Text program
 GLuint id_text;                 ///< Text identitifier.
-GLint attribute_text_position;
-GLint uniform_text;
-GLint uniform_color;
+GLint attribute_text_position;  ///< Text variable position.
+GLint uniform_text;             ///< Text constant.
+GLint uniform_color;            ///< Color constant.
 FT_Library ft;                  ///< FreeType data.
 FT_Face face;                   ///< FreeType face to draw text.
 

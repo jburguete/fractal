@@ -68,7 +68,8 @@ On Microsoft Windows systems you have to install
 libraries and utilities. You can follow detailed instructions in
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
 
-On NetBSD 8.0 you have to do first on the building terminal:
+On NetBSD 8.0, to compile with last GCC version you have to do first on the
+building terminal:
 > $ export PATH=/usr/pkg/gcc8/bin:$PATH"
 
 On OpenBSD 6.4 you have to do first on the building terminal:
@@ -88,13 +89,13 @@ This software has been built and tested in the following operative systems:
 * OpenBSD 6.4
 * OpenInidiana Hipster
 * OpenSUSE Linux Leap 15
-* Ubuntu Linux 18.04
+* Ubuntu Mate Linux 18.04
 * Xubuntu Linux 18.10
 
 Download this repository and execute on a terminal:
 > $ cd PATH\_TO\_FRACTAL/2.10.13
 >
-> $ ./build
+> $ sh build.sh
 >
 > $ strip fractal (optional: to make a final version)
 
