@@ -23,8 +23,19 @@ dll = $(dlldir)libatk-1.0-0.dll $(dlldir)libbz2-1.dll $(dlldir)libcairo-2.dll \
 	$(dlldir)libpixman-1-0.dll $(dlldir)libpng16-16.dll \
 	$(dlldir)libwinpthread-1.dll $(dlldir)zlib1.dll
 png = logo.png logo2.png
+pgo = @PGO@
 pgoobjs = fractal.pgo draw.pgo simulator.o main.o @icon@
-
+ifeq ($(pgo), 1)
+	fractaldep = fractalpgo
+	drawdep = fractalpgo
+	pgogen = -fprofile-generate
+	pgouse = -fprofile-use -fprofile-correction
+else
+	fractaldep = fractal.c fractal.h draw.h $(configs)
+	drawdep = draw.c fractal.h draw.h $(configs)
+	pgogen =
+	pgouse =
+endif
 es = es/LC_MESSAGES/
 fr = fr/LC_MESSAGES/
 
@@ -40,23 +51,23 @@ CC = @CC@ @STD@ @LTO@ @ccflags@ #-pg
 all: fractal po/fractal.pot po/$(es)fractal.mo po/$(fr)fractal.mo
 
 fractal: $(objs)
-	$(CC) -fprofile-use -fprofile-correction $(objs) $(LDFLAGS) -o fractal
+	$(CC) $(pgouse) $(objs) $(LDFLAGS) -o fractal
 
 fractalpgo: $(pgoobjs)
-	$(CC) -fprofile-generate $(pgoobjs) $(LDFLAGS) -o fractalpgo
+	$(CC) $(pgogen) $(pgoobjs) $(LDFLAGS) -o fractalpgo
 	./fractalpgo
 
 fractal.pgo: fractal.c fractal.h draw.h $(configs)
-	$(CC) $(CFLAGS) -fprofile-generate fractal.c -o fractal.pgo
+	$(CC) $(CFLAGS) $(pgogen) fractal.c -o fractal.pgo
 
-fractal.o: fractalpgo
-	$(CC) $(CFLAGS) -fprofile-use -fprofile-correction fractal.c -o fractal.o
+fractal.o: $(fractaldep)
+	$(CC) $(CFLAGS) $(pgouse) fractal.c -o fractal.o
 
 draw.pgo: draw.c fractal.h draw.h $(configs)
-	$(CC) $(CFLAGS) -fprofile-generate draw.c -o draw.pgo
+	$(CC) $(CFLAGS) $(pgogen) draw.c -o draw.pgo
 
-draw.o: fractalpgo
-	$(CC) $(CFLAGS) -fprofile-use -fprofile-correction draw.c -o draw.o
+draw.o: $(drawdep)
+	$(CC) $(CFLAGS) $(pgouse) draw.c -o draw.o
 
 simulator.o: simulator.c fractal.h draw.h simulator.h $(configs)
 	$(CC) $(CFLAGS) simulator.c -o simulator.o

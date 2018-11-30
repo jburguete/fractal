@@ -67,7 +67,7 @@ AC_LANG([C])
 PKG_PROG_PKG_CONFIG
 AC_MSG_NOTICE([Compiler: $CC])
 $CC -v
-if test $win = 1; then
+if test "x$win" = "x1"; then
 	AC_CHECK_TOOL(WINDRES, windres)
 fi
 
@@ -77,7 +77,7 @@ compiler=$CC
 CC="$CC -flto"
 AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [lto=1], [lto=0])
 CC=$compiler
-if test $lto = 0; then
+if test "x$lto" = "x0"; then
 	AC_MSG_NOTICE("checking for -flto... no")
 	AC_SUBST(LTO, "")
 else
@@ -88,13 +88,13 @@ fi
 CC="$CC -std=gnu11"
 AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [std=1], [std=0])
 CC=$compiler
-if test $std = 0; then
+if test "x$std" = "x0"; then
 	AC_MSG_NOTICE("checking for -std=gnu11... no")
 	CC="$CC -std=gnu99"
 	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [std=1],
 		[std=0])
 	CC=$compiler
-	if test $std = 0; then
+	if test "x$std" = "x0"; then
 		AC_MSG_NOTICE("checking for -std=gnu99... no")
 		AC_SUBST(STD, "")
 	else
@@ -106,12 +106,28 @@ else
 	AC_SUBST(STD, "-std=gnu11")
 fi
 
-if test $win = 0; then
+AC_ARG_WITH([pgo],
+	AS_HELP_STRING([--with-pgo], [Build using PGO]))
+if test "x$with_pgo" = "xyes"; then
+	CC="$CC -fprofile-generate"
+	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [pgo=1],
+		[pgo=0])
+	CC=$compiler
+	if test "x$pgo" = "x0"; then
+		AC_MSG_NOTICE("checking for PGO... no")
+		AC_SUBST(PGO, "0")
+	else
+		AC_MSG_NOTICE("checking for PGO... yes")
+		AC_SUBST(PGO, "1")
+	fi
+fi
+
+if test "x$win" = "x0"; then
 	CC="$CC -march=native"
 	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [native=1],
 		[native=0])
 	CC=$compiler
-	if test $native = 0; then
+	if test "x$native" = "x0"; then
 		AC_MSG_NOTICE("checking for -march=native... no")
 		AC_SUBST(NATIVE, "")
 	else
