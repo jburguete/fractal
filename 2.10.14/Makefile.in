@@ -23,13 +23,15 @@ dll = $(dlldir)libatk-1.0-0.dll $(dlldir)libbz2-1.dll $(dlldir)libcairo-2.dll \
 	$(dlldir)libpixman-1-0.dll $(dlldir)libpng16-16.dll \
 	$(dlldir)libwinpthread-1.dll $(dlldir)zlib1.dll
 png = logo.png logo2.png
+pgoobjs = fractal.pgo draw.pgo simulator.o main.o @icon@
 
 es = es/LC_MESSAGES/
 fr = fr/LC_MESSAGES/
 
-CFLAGS = -c -Wall -Wextra -O3 -D_FORTIFY_SOURCE=2 @NATIVE@ @CFLAGS@ \
-	@GSL_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ @PNG_CFLAGS@ @GTK_CFLAGS@ \
-	@FREETYPE_CFLAGS@ @GLEW_CFLAGS@ @SDL_CFLAGS@ @GLFW_CFLAGS@ @GRAPHIC@
+CFLAGS = @NATIVE@ @CFLAGS@ @GSL_CFLAGS@ @GTHREAD_CFLAGS@ @GLIB_CFLAGS@ \
+		 @PNG_CFLAGS@ @GTK_CFLAGS@ @FREETYPE_CFLAGS@ @GLEW_CFLAGS@ \
+		 @SDL_CFLAGS@ @GLFW_CFLAGS@ @GRAPHIC@ -c -Wall -Wextra -O3 \
+		 -D_FORTIFY_SOURCE=2
 LDFLAGS = @LDFLAGS@ @LIBS@ @GSL_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ @PNG_LIBS@ \
 	@GTK_LIBS@ @FREETYPE_LIBS@ @GLEW_LIBS@ @SDL_LIBS@ @GLFW_LIBS@
 
@@ -38,19 +40,29 @@ CC = @CC@ @STD@ @LTO@ @ccflags@ #-pg
 all: fractal po/fractal.pot po/$(es)fractal.mo po/$(fr)fractal.mo
 
 fractal: $(objs)
-	$(CC) $(objs) $(LDFLAGS) -o fractal
+	$(CC) -fprofile-use -fprofile-correction $(objs) $(LDFLAGS) -o fractal
 
-fractal.o: fractal.c fractal.h draw.h $(configs)
-	$(CC) $(CFLAGS) fractal.c -o fractal.o $(flags_fast)
+fractalpgo: $(pgoobjs)
+	$(CC) -fprofile-generate $(pgoobjs) $(LDFLAGS) -o fractalpgo
+	./fractalpgo
 
-draw.o: draw.c fractal.h draw.h $(configs)
-	$(CC) $(CFLAGS) draw.c -o draw.o $(flags_fast)
+fractal.pgo: fractal.c fractal.h draw.h $(configs)
+	$(CC) $(CFLAGS) -fprofile-generate fractal.c -o fractal.pgo
+
+fractal.o: fractalpgo
+	$(CC) $(CFLAGS) -fprofile-use -fprofile-correction fractal.c -o fractal.o
+
+draw.pgo: draw.c fractal.h draw.h $(configs)
+	$(CC) $(CFLAGS) -fprofile-generate draw.c -o draw.pgo
+
+draw.o: fractalpgo
+	$(CC) $(CFLAGS) -fprofile-use -fprofile-correction draw.c -o draw.o
 
 simulator.o: simulator.c fractal.h draw.h simulator.h $(configs)
-	$(CC) $(CFLAGS) simulator.c -o simulator.o $(flags_small)
+	$(CC) $(CFLAGS) simulator.c -o simulator.o
 
 main.o: main.c fractal.h draw.h simulator.h $(configs)
-	$(CC) $(CFLAGS) main.c -o main.o $(flags_small)
+	$(CC) $(CFLAGS) main.c -o main.o
 
 @icon@: fractal.rc fractal.ico
 	@WINDRES@ fractal.rc -o @icon@
