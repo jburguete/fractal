@@ -33,8 +33,6 @@ ifeq ($(pgo), 1)
 else
 	fractaldep = fractal.c fractal.h draw.h $(configs)
 	drawdep = draw.c fractal.h draw.h $(configs)
-	pgogen =
-	pgouse =
 endif
 es = es/LC_MESSAGES/
 fr = fr/LC_MESSAGES/
@@ -50,7 +48,7 @@ CC = @CC@ @STD@ @LTO@ @ccflags@ #-pg
 
 all: fractal po/fractal.pot po/$(es)fractal.mo po/$(fr)fractal.mo
 
-fractal: $(objs)
+fractal: $(objs) fractal.gcda draw.gcda
 	$(CC) $(pgouse) $(objs) $(LDFLAGS) -o fractal
 
 fractalpgo: $(pgoobjs)
