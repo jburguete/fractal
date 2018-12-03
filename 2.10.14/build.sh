@@ -1,5 +1,5 @@
 aclocal
 autoconf
 automake --add-missing
-./configure --with-freeglut
+./configure --with-freeglut --with-pgo
 make
