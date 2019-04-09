@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.10.14\n"
+"Project-Id-Version: 2.10.16\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-14 15:52+0100\n"
+"POT-Creation-Date: 2019-04-09 16:27+0200\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,161 +17,165 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: simulator.c:106 simulator.c:419 simulator.c:492
+#: simulator.c:106 simulator.c:422 simulator.c:495
 msgid "Save graphical"
 msgstr "Guardar gráfica"
 
-#: simulator.c:108 simulator.c:266
+#: simulator.c:108 simulator.c:269
 msgid "_OK"
 msgstr "_Aceptar"
 
-#: simulator.c:109 simulator.c:268 simulator.c:422
+#: simulator.c:108 simulator.c:271 simulator.c:425
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: simulator.c:152
+#: simulator.c:151
 msgid "_Tree"
 msgstr "Á_rbol"
 
-#: simulator.c:152
+#: simulator.c:151
 msgid "_Forest"
 msgstr "_Bosque"
 
-#: simulator.c:152
+#: simulator.c:151
 msgid "_Neuron"
 msgstr "_Neurona"
 
-#: simulator.c:168
+#: simulator.c:167
 msgid "_Default"
 msgstr "_Defecto"
 
-#: simulator.c:168
+#: simulator.c:167
 msgid "_Clock based"
 msgstr "_Basdo en reloj"
 
-#: simulator.c:168
+#: simulator.c:167
 msgid "_Fixed"
 msgstr "_Fijo"
 
-#: simulator.c:172
+#: simulator.c:171
 msgid "_Diagonal movement"
 msgstr "Movimiento _diagonal"
 
-#: simulator.c:176
+#: simulator.c:175
 msgid "Length"
 msgstr "Longitud"
 
-#: simulator.c:177
+#: simulator.c:176
 msgid "Width"
 msgstr "Anchura"
 
-#: simulator.c:178
+#: simulator.c:177
 msgid "Height"
 msgstr "Altura"
 
-#: simulator.c:179
+#: simulator.c:178
 msgid "Random seed"
 msgstr "Semilla de números aleatorios"
 
-#: simulator.c:201
+#: simulator.c:179
+msgid "Threads number"
+msgstr "Número de tareas"
+
+#: simulator.c:203
 msgid "Fractal type"
 msgstr "Tipo de fractal"
 
-#: simulator.c:206
+#: simulator.c:208
 msgid "_Animate"
 msgstr "_Animar"
 
-#: simulator.c:223
+#: simulator.c:224
 msgid "Random algorithm"
 msgstr "Algoritmo de números aleatorios"
 
-#: simulator.c:241
+#: simulator.c:242
 msgid "Random seed type"
 msgstr "Tipo de semilla de números aleatorios"
 
-#: simulator.c:262
+#: simulator.c:265
 msgid "Options"
 msgstr "Opciones"
 
-#: simulator.c:332
+#: simulator.c:336
 msgid ""
 "A program growing fractals to benchmark parallelization and drawing libraries"
 msgstr ""
 "Un programa que usa crecimiento de fractales para analizar paralelización y "
 "librerías gráficas"
 
-#: simulator.c:337
+#: simulator.c:340
 msgid "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 msgstr "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 
-#: simulator.c:342
+#: simulator.c:345
 msgid "Website"
 msgstr "Sitio web"
 
-#: simulator.c:423
+#: simulator.c:426
 msgid "_Open"
 msgstr "_Abrir"
 
-#: simulator.c:483
+#: simulator.c:486
 msgid "_Options"
 msgstr "_Opciones"
 
-#: simulator.c:484
+#: simulator.c:487
 msgid "S_tart"
 msgstr "_Comenzar"
 
-#: simulator.c:485
+#: simulator.c:488
 msgid "Sto_p"
 msgstr "_Parar"
 
-#: simulator.c:486
+#: simulator.c:489
 msgid "_Save"
 msgstr "_Guardar"
 
-#: simulator.c:487
+#: simulator.c:490
 msgid "_Help"
 msgstr "A_yuda"
 
-#: simulator.c:488
+#: simulator.c:491
 msgid "E_xit"
 msgstr "_Salir"
 
-#: simulator.c:489
+#: simulator.c:492
 msgid "Fractal options"
 msgstr "Opciones de fractal"
 
-#: simulator.c:490
+#: simulator.c:493
 msgid "Start fractal growing"
 msgstr "Iniciar crecimiento fractal"
 
-#: simulator.c:491
+#: simulator.c:494
 msgid "Stop fractal growing"
 msgstr "Parar crecimiento fractal"
 
-#: simulator.c:493
+#: simulator.c:496
 msgid "Help"
 msgstr "Ayuda"
 
-#: simulator.c:494
+#: simulator.c:497
 msgid "Exit"
 msgstr "Salir"
 
-#: simulator.c:550
+#: simulator.c:553
 msgid "Calculating time"
 msgstr "Tiempo de cálculo"
 
-#: simulator.c:556
+#: simulator.c:559
 msgid "Progress"
 msgstr "Progreso"
 
-#: simulator.c:570
+#: simulator.c:573
 msgid "Horizontal perspective angle (º)"
 msgstr "Ángulo de perspectiva horizontal (º)"
 
-#: simulator.c:572
+#: simulator.c:575
 msgid "Vertical perspective angle (º)"
 msgstr "Ángulo de perspectiva vertical (º)"
 
-#: simulator.c:600
+#: simulator.c:603
 msgid "Fractal growing"
 msgstr "Crecimiento fractal"

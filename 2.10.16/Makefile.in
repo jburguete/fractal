@@ -77,7 +77,7 @@ main.o: main.c fractal.h draw.h simulator.h $(configs)
 	@WINDRES@ fractal.rc -o @icon@
 
 po/fractal.pot: Makefile $(src)
-	@gnu@xgettext -d fractal -o po/fractal.pot --from-code=UTF-8 $(src)
+	@gnu@xgettext -k_ -d fractal -o po/fractal.pot --from-code=UTF-8 $(src)
 	msgmerge -U po/$(es)fractal.po po/fractal.pot
 	msgmerge -U po/$(fr)fractal.po po/fractal.pot
 	vim -p po/$(es)fractal.po po/$(fr)fractal.po

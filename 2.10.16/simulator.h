@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2018, Javier Burguete Tolosa.
+Copyright 2009-2019, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,10 +30,13 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file simulator.h
  * \brief Header file to define the windows data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2018, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2019, Javier Burguete Tolosa.
  */
 #ifndef SIMULATOR__H
 #define SIMULATOR__H 1
+
+#define _(str) (gettext (str))
+///< Macro to define a gettext function simplification.
 
 /**
  * /struct DialogOptions
@@ -45,11 +48,14 @@ typedef struct
   GtkLabel *label_width;        ///< GtkLabel to show the width label.
   GtkLabel *label_height;       ///< GtkLabel to show the height label.
   GtkLabel *label_seed;         ///< GtkLabel to show the seed label.
+	GtkLabel *label_nthreads;     ///< GtkLabel to show the threads number label.
   GtkSpinButton *entry_length;  ///< GtkSpinButton to set the medium length.
   GtkSpinButton *entry_width;   ///< GtkSpinButton to set the medium width.
   GtkSpinButton *entry_height;  ///< GtkSpinButton to set the medium height.
   GtkSpinButton *entry_seed;
   ///< GtkSpinButton to set the random numbers generator seed.
+  GtkSpinButton *entry_nthreads;
+	///< GtkSpinButton to set the threads number.
   GtkCheckButton *button_diagonal;
   ///< GtkButton to allow diagonal movements.
   GtkCheckButton *button_3D;

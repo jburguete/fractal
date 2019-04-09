@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2018, Javier Burguete Tolosa.
+Copyright 2009-2019, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file fractal.c
  * \brief Source file to define the fractal data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2018, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2019, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -82,7 +82,7 @@ unsigned int npoints = 0;       ///< Number of points.
 unsigned int random_algorithm = 0;
   ///< Type of random numbers generator algorithm.
 unsigned int random_seed_type = 1;      ///< Type of random seed.
-unsigned long random_seed = 7007L;      ///< Random seed.
+unsigned long random_seed = SEED;       ///< Random seed.
 void *(*parallel_fractal) (gsl_rng * rng);
   ///< Pointer to the function to calculate the fractal.
 
@@ -158,9 +158,7 @@ point_2D_move (int *x,          ///< Point x-coordinate.
                gsl_rng * rng)   ///< Pseudo-random number generator.
 {
   register unsigned int k;
-  static const int mx[4] = { 0, 0, 1, -1 }, my[4] =
-  {
-  1, -1, 0, 0};
+  static const int mx[4] = { 0, 0, 1, -1 }, my[4] = { 1, -1, 0, 0 };
   k = gsl_rng_uniform_int (rng, 4);
   *x += mx[k];
   *y += my[k];
@@ -175,9 +173,8 @@ point_2D_move_diagonal (int *x, ///< Point x-coordinate.
                         gsl_rng * rng)  ///< Pseudo-random number generator.
 {
   register unsigned int k;
-  static const int mx[8] = { 1, 1, 1, 0, -1, -1, -1, 0 }, my[8] =
-  {
-  1, 0, -1, -1, -1, 0, 1, 1};
+  static const int mx[8] = { 1, 1, 1, 0, -1, -1, -1, 0 },
+    my[8] = { 1, 0, -1, -1, -1, 0, 1, 1 };
   k = gsl_rng_uniform_int (rng, 8);
   *x += mx[k];
   *y += my[k];
@@ -193,11 +190,8 @@ point_3D_move (int *x,          ///< Point x-coordinate.
                gsl_rng * rng)   ///< Pseudo-random number generator.
 {
   register unsigned int k;
-  static const int mx[6] = { 0, 1, -1, 0, 0, 0 }, my[6] =
-  {
-  0, 0, 0, 1, -1, 0}, mz[6] =
-  {
-  1, 0, 0, 0, 0, -1};
+  static const int mx[6] = { 0, 1, -1, 0, 0, 0 },
+    my[6] = { 0, 0, 0, 1, -1, 0 }, mz[6] = { 1, 0, 0, 0, 0, -1 };
   k = gsl_rng_uniform_int (rng, 6);
   *x += mx[k];
   *y += my[k];
@@ -218,13 +212,13 @@ point_3D_move_diagonal (int *x, ///< Point x-coordinate.
     1, 1, 1, 0, 0, 0, -1, -1, -1,
     1, 1, 1, 0, 0, -1, -1, -1,
     1, 1, 1, 0, 0, 0, -1, -1, -1
-  }, my[26] =
-  {
-  1, 0, -1, 1, 0, -1, 1, 0, -1,
-      1, 0, -1, 1, -1, 1, 0, -1, 1, 0, -1, 1, 0, -1, 1, 0, -1}, mz[26] =
-  {
-  1, 1, 1, 1, 1, 1, 1, 1, 1,
-      0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  }, my[26] = {
+    1, 0, -1, 1, 0, -1, 1, 0, -1,
+    1, 0, -1, 1, -1, 1, 0, -1, 1, 0, -1, 1, 0, -1, 1, 0, -1
+  }, mz[26] = {
+    1, 1, 1, 1, 1, 1, 1, 1, 1,
+    0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1
+  };
   k = gsl_rng_uniform_int (rng, 26);
   *x += mx[k];
   *y += my[k];
@@ -317,8 +311,7 @@ tree_2D_init ()
  * \return 1 on ending, 0 on continuing.
  */
 static inline unsigned int
-tree_2D_end (int x __attribute__ ((unused)),    ///< Point x-coordinate.
-             int y)             ///< Point y-coordinate.
+tree_2D_end (int y)             ///< Point y-coordinate.
 {
   if (y == (int) max_d)
     {
@@ -423,19 +416,12 @@ tree_3D_init ()
 }
 
 /**
- * \fn inline unsigned int tree_3D_end(int x, int y, int z)
- * \brief Function to check the end a 3D tree.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
+ * Function to check the end a 3D tree.
+ * 
  * \return 1 on ending, 0 on continuing.
  */
 static inline unsigned int
-tree_3D_end (int x __attribute__ ((unused)), int y __attribute__ ((unused)),
-             int z)
+tree_3D_end (int z)             ///< Point z-coordinate.
 {
   if (z == (int) max_d)
     {
@@ -458,17 +444,13 @@ tree_3D_end (int x __attribute__ ((unused)), int y __attribute__ ((unused)),
 }
 
 /**
- * \fn inline void forest_2D_point_boundary(int *x, int *y, gsl_rng *rng)
- * \brief Function to check the limits of a 2D forest point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to check the limits of a 2D forest point.
  */
 static inline void
-forest_2D_point_boundary (int *x, int *y, gsl_rng * rng)
+forest_2D_point_boundary (int *x,       ///< Point x-coordinate.
+                          int *y,       ///< Point y-coordinate.
+                          gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   if (*y == (int) height || *y < 0)
     {
@@ -485,18 +467,14 @@ forest_2D_point_boundary (int *x, int *y, gsl_rng * rng)
 }
 
 /**
- * \fn inline unsigned int forest_2D_point_fix(int x, int y, gsl_rng *rng)
- * \brief Function to fix a 2D forest point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to fix a 2D forest point.
+ *
  * \return 1 on fixing point, 0 on otherwise.
  */
 static inline unsigned int
-forest_2D_point_fix (int x, int y, gsl_rng * rng)
+forest_2D_point_fix (int x,     ///< Point x-coordinate.
+                     int y,     ///< Point y-coordinate.
+                     gsl_rng * rng)     ///< Pseudo-random number generator.
 {
   register unsigned int k, *point;
   if (y > (int) max_d || x == 0 || x == (int) width - 1
@@ -533,20 +511,14 @@ forest:
 }
 
 /**
- * \fn inline void forest_3D_point_boundary(int *x, int *y, int *z, \
- *   gsl_rng *rng)
- * \brief Function to check the limits of a 3D forest point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to check the limits of a 3D forest point.
  */
-static inline void forest_3D_point_boundary
-  (int *x, int *y, int *z, gsl_rng * rng)
+static inline void
+forest_3D_point_boundary (int *x,       ///< Point x-coordinate.
+                          int *y,       ///< Point y-coordinate.
+                          int *z,       ///< Point z-coordinate.
+                          gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   if (*z == (int) height || *z < 0)
     {
@@ -567,21 +539,15 @@ static inline void forest_3D_point_boundary
 }
 
 /**
- * \fn inline unsigned int forest_3D_point_fix(int x, int y, int z, \
- *   gsl_rng *rng)
- * \brief Function to fix a 3D forest point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to fix a 3D forest point.
+ *
  * \return 1 on fixing point, 0 on otherwise.
  */
-static inline unsigned int forest_3D_point_fix
-  (int x, int y, int z, gsl_rng * rng)
+static inline unsigned int
+forest_3D_point_fix (int x,     ///< Point x-coordinate.
+                     int y,     ///< Point y-coordinate.
+                     int z,     ///< Point z-coordinate.
+                     gsl_rng * rng)     ///< Pseudo-random number generator.
 {
   register unsigned int k, *point;
   if (z > (int) max_d || y == 0 || x == 0 || z == (int) height - 1
@@ -624,17 +590,12 @@ forest:
 }
 
 /**
- * \fn inline void neuron_2D_point_new(int *x, int *y, gsl_rng *rng)
- * \brief Function to start a new 2D neuron point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to start a new 2D neuron point.
  */
 static inline void
-neuron_2D_point_new (int *x, int *y, gsl_rng * rng)
+neuron_2D_point_new (int *x,    ///< Point x-coordinate.
+                     int *y,    ///< Point y-coordinate.
+                     gsl_rng * rng)     ///< Pseudo-random number generator.
 {
   register double angle;
   angle = 2 * M_PI * gsl_rng_uniform (rng);
@@ -646,17 +607,13 @@ neuron_2D_point_new (int *x, int *y, gsl_rng * rng)
 }
 
 /**
- * \fn inline void neuron_2D_point_boundary(int *x, int *y, gsl_rng *rng)
- * \brief Function to check the limits of a 2D neuron point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to check the limits of a 2D neuron point.
  */
 static inline void
-neuron_2D_point_boundary (int *x, int *y, gsl_rng * rng)
+neuron_2D_point_boundary (int *x,       ///< Point x-coordinate.
+                          int *y,       ///< Point y-coordinate.
+                          gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   if (*y < 0 || *y == (int) height || *x < 0 || *x == (int) width)
     {
@@ -668,16 +625,13 @@ neuron_2D_point_boundary (int *x, int *y, gsl_rng * rng)
 }
 
 /**
- * \fn inline unsigned int neuron_2D_point_fix(int x, int y)
- * \brief Function to fix a 2D neuron point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
+ * Function to fix a 2D neuron point.
+ *
  * \return 1 on fixing point, 0 on otherwise.
  */
 static inline unsigned int
-neuron_2D_point_fix (int x, int y)
+neuron_2D_point_fix (int x,     ///< Point x-coordinate.
+                     int y)     ///< Point y-coordinate.
 {
   register unsigned int *point;
   if (x == 0 || y == 0 || x == (int) width - 1 || y == (int) height - 1)
@@ -697,9 +651,7 @@ neuron_2D_point_fix (int x, int y)
 }
 
 /**
- * \fn inline void neuron_2D_init()
- * \brief Function to init a 2D neuron.
- * \param
+ * Function to init a 2D neuron.
  */
 static inline void
 neuron_2D_init ()
@@ -708,16 +660,13 @@ neuron_2D_init ()
 }
 
 /**
- * \fn inline unsigned int neuron_2D_end(int x, int y)
- * \brief Function to check the end a 2D neuron.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
+ * Function to check the end a 2D neuron.
+ *
  * \return 1 on ending, 0 on continuing.
  */
 static inline unsigned int
-neuron_2D_end (int x, int y)
+neuron_2D_end (int x,           ///< Point x-coordinate.
+               int y)           ///< Point y-coordinate.
 {
   register int r, k;
   r = 1 + round (sqrt (sqr (x - width / 2) + sqr (y - height / 2)));
@@ -747,19 +696,13 @@ neuron_2D_end (int x, int y)
 }
 
 /**
- * \fn inline void neuron_3D_point_new(int *x, int *y, int *z, gsl_rng *rng)
- * \brief Function to start a new 3D neuron point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to start a new 3D neuron point.
  */
 static inline void
-neuron_3D_point_new (int *x, int *y, int *z, gsl_rng * rng)
+neuron_3D_point_new (int *x,    ///< Point x-coordinate.
+                     int *y,    ///< Point y-coordinate.
+                     int *z,    ///< Point z-coordinate.
+                     gsl_rng * rng)     ///< Pseudo-random number generator.
 {
   register double theta, phi;
   theta = M_PI * gsl_rng_uniform (rng);
@@ -773,18 +716,14 @@ neuron_3D_point_new (int *x, int *y, int *z, gsl_rng * rng)
 }
 
 /**
- * \fn inline void neuron_3D_point_boundary(int *x, int *y, int *z, \
- *   gsl_rng *rng)
- * \brief Function to check the limits of a 3D neuron point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to check the limits of a 3D neuron point.
  */
-static inline void neuron_3D_point_boundary
-  (int *x, int *y, int *z, gsl_rng * rng)
+static inline void
+neuron_3D_point_boundary (int *x,       ///< Point x-coordinate.
+                          int *y,       ///< Point y-coordinate.
+                          int *z,       ///< Point z-coordinate.
+                          gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   if (*z < 0 || *y < 0 || *x < 0 || *z == (int) height || *y == (int) width
       || *x == (int) length)
@@ -797,18 +736,14 @@ static inline void neuron_3D_point_boundary
 }
 
 /**
- * \fn inline unsigned int neuron_3D_point_fix(int x, int y, int z)
- * \brief Function to fix a 3D neuron point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
+ * Function to fix a 3D neuron point.
+ *
  * \return 1 on fixing point, 0 on otherwise.
  */
 static inline unsigned int
-neuron_3D_point_fix (int x, int y, int z)
+neuron_3D_point_fix (int x,     ///< Point x-coordinate.
+                     int y,     ///< Point y-coordinate.
+                     int z)     ///< Point z-coordinate.
 {
   register unsigned int *point;
   if (z == 0 || y == 0 || x == 0 || z == (int) height - 1
@@ -830,9 +765,7 @@ neuron_3D_point_fix (int x, int y, int z)
 }
 
 /**
- * \fn inline void neuron_3D_init()
- * \brief Function to init a 3D neuron.
- * \param
+ * Function to init a 3D neuron.
  */
 static inline void
 neuron_3D_init ()
@@ -841,18 +774,14 @@ neuron_3D_init ()
 }
 
 /**
- * \fn inline unsigned int neuron_3D_end(int x, int y, int z)
- * \brief Function to check the end a 3D neuron.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
+ * Function to check the end a 3D neuron.
+ *
  * \return 1 on ending, 0 on continuing.
  */
 static inline unsigned int
-neuron_3D_end (int x, int y, int z)
+neuron_3D_end (int x,           ///< Point x-coordinate.
+               int y,           ///< Point y-coordinate.
+               int z)           ///< Point z-coordinate.
 {
   register int r, k;
   r = 1 + sqrt (sqr (x - length / 2) + sqr (y - width / 2)
@@ -884,8 +813,7 @@ neuron_3D_end (int x, int y, int z)
 }
 
 /**
- * \fn void fractal_stop()
- * \brief Function to stop the fractal simulation.
+ * Function to stop the fractal simulation.
  */
 void
 fractal_stop ()
@@ -900,14 +828,12 @@ fractal_stop ()
 // PARALLELIZED FUNCTIONS
 
 /**
- * \fn void* parallel_fractal_tree_2D(gsl_rng *rng)
- * \brief Function to create a 2D fractal tree.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 2D fractal tree.
+ *
  * \return NULL.
  */
 void *
-parallel_fractal_tree_2D (gsl_rng * rng)
+parallel_fractal_tree_2D (gsl_rng * rng)        ///< Pseudo-random number generator.
 {
   int x, y;
   long t0;
@@ -940,7 +866,7 @@ parallel_fractal_tree_2D (gsl_rng * rng)
 #endif
       if (animating && time (NULL) > t0)
         break;
-      if (tree_2D_end (x, y))
+      if (tree_2D_end (y))
         fractal_stop ();
     }
   while (!breaking);
@@ -949,14 +875,13 @@ parallel_fractal_tree_2D (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_tree_3D(gsl_rng *rng)
- * \brief Function to create a 3D fractal tree.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 3D fractal tree.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_tree_3D (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y, z;
   long t0;
@@ -971,7 +896,7 @@ parallel_fractal_tree_3D (gsl_rng * rng)
         }
       if (animating && time (NULL) > t0)
         break;
-      if (tree_3D_end (x, y, z))
+      if (tree_3D_end (z))
         fractal_stop ();
     }
   while (!breaking);
@@ -980,14 +905,13 @@ parallel_fractal_tree_3D (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_forest_2D(gsl_rng *rng)
- * \brief Function to create a 2D fractal forest.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 2D fractal forest.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_forest_2D (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y;
   long t0;
@@ -1002,7 +926,7 @@ parallel_fractal_forest_2D (gsl_rng * rng)
         }
       if (animating && time (NULL) > t0)
         break;
-      if (tree_2D_end (x, y))
+      if (tree_2D_end (y))
         fractal_stop ();
     }
   while (!breaking);
@@ -1011,14 +935,13 @@ parallel_fractal_forest_2D (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_forest_3D(gsl_rng *rng)
- * \brief Function to create a 3D fractal forest.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 3D fractal forest.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_forest_3D (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y, z;
   long t0;
@@ -1033,7 +956,7 @@ parallel_fractal_forest_3D (gsl_rng * rng)
         }
       if (animating && time (NULL) > t0)
         break;
-      if (tree_3D_end (x, y, z))
+      if (tree_3D_end (z))
         fractal_stop ();
     }
   while (!breaking);
@@ -1042,14 +965,13 @@ parallel_fractal_forest_3D (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_neuron_2D(gsl_rng *rng)
- * \brief Function to create a 2D fractal neuron.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 2D fractal neuron.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_neuron_2D (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y;
   long t0;
@@ -1073,14 +995,13 @@ parallel_fractal_neuron_2D (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_neuron_3D(gsl_rng *rng)
- * \brief Function to create a 3D fractal neuron.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 3D fractal neuron.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_neuron_3D (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y, z;
   long t0;
@@ -1104,14 +1025,13 @@ parallel_fractal_neuron_3D (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_tree_2D_diagonal(gsl_rng *rng)
- * \brief Function to create a 2D fractal tree with diagonal movements.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 2D fractal tree with diagonal movements.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_tree_2D_diagonal (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y;
   long t0;
@@ -1126,7 +1046,7 @@ parallel_fractal_tree_2D_diagonal (gsl_rng * rng)
         }
       if (animating && time (NULL) > t0)
         break;
-      if (tree_2D_end (x, y))
+      if (tree_2D_end (y))
         fractal_stop ();
     }
   while (!breaking);
@@ -1135,14 +1055,13 @@ parallel_fractal_tree_2D_diagonal (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_tree_3D_diagonal(gsl_rng *rng)
- * \brief Function to create a 3D fractal tree with diagonal movements.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 3D fractal tree with diagonal movements.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_tree_3D_diagonal (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y, z;
   long t0;
@@ -1157,7 +1076,7 @@ parallel_fractal_tree_3D_diagonal (gsl_rng * rng)
         }
       if (animating && time (NULL) > t0)
         break;
-      if (tree_3D_end (x, y, z))
+      if (tree_3D_end (z))
         fractal_stop ();
     }
   while (!breaking);
@@ -1166,14 +1085,13 @@ parallel_fractal_tree_3D_diagonal (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_forest_2D_diagonal(gsl_rng *rng)
- * \brief Function to create a 2D fractal forest with diagonal movements.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 2D fractal forest with diagonal movements.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_forest_2D_diagonal (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y;
   long t0;
@@ -1188,7 +1106,7 @@ parallel_fractal_forest_2D_diagonal (gsl_rng * rng)
         }
       if (animating && time (NULL) > t0)
         break;
-      if (tree_2D_end (x, y))
+      if (tree_2D_end (y))
         fractal_stop ();
     }
   while (!breaking);
@@ -1197,14 +1115,13 @@ parallel_fractal_forest_2D_diagonal (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_forest_3D_diagonal(gsl_rng *rng)
- * \brief Function to create a 3D fractal forest with diagonal movements.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 3D fractal forest with diagonal movements.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_forest_3D_diagonal (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y, z;
   long t0;
@@ -1219,7 +1136,7 @@ parallel_fractal_forest_3D_diagonal (gsl_rng * rng)
         }
       if (animating && time (NULL) > t0)
         break;
-      if (tree_3D_end (x, y, z))
+      if (tree_3D_end (z))
         fractal_stop ();
     }
   while (!breaking);
@@ -1228,14 +1145,13 @@ parallel_fractal_forest_3D_diagonal (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_neuron_2D_diagonal(gsl_rng *rng)
- * \brief Function to create a 2D fractal neuron with diagonal movements.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 2D fractal neuron with diagonal movements.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_neuron_2D_diagonal (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y;
   long t0;
@@ -1259,14 +1175,13 @@ parallel_fractal_neuron_2D_diagonal (gsl_rng * rng)
 }
 
 /**
- * \fn void* parallel_fractal_neuron_3D_diagonal(gsl_rng *rng)
- * \brief Function to create a 3D fractal neuron with diagonal movements.
- * \param rng
- * \brief Pseudo-random number generator.
+ * Function to create a 3D fractal neuron with diagonal movements.
+ *
  * \return NULL.
  */
 void *
 parallel_fractal_neuron_3D_diagonal (gsl_rng * rng)
+///< Pseudo-random number generator.
 {
   int x, y, z;
   long t0;
@@ -1292,8 +1207,7 @@ parallel_fractal_neuron_3D_diagonal (gsl_rng * rng)
 //END OF PARALLELIZED FUNCTIONS
 
 /**
- * \fn void medium_start()
- * \brief Function to start the fractal functions and data.
+ * Function to start the fractal functions and data.
  */
 void
 medium_start ()

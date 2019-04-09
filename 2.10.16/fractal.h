@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2018, Javier Burguete Tolosa.
+Copyright 2009-2019, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file fractal.h
  * \brief Header file to define the fractal data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2018, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2019, Javier Burguete Tolosa.
  */
 #ifndef FRACTAL__H
 #define FRACTAL__H 1
@@ -57,10 +57,7 @@ typedef struct
   float c[3];                   ///< color vector.
 } Point3D;
 
-/**
- * \enum FractalType
- * \brief An enum to define fractal types.
- */
+///> An enum to define fractal types.
 enum FractalType
 {
   FRACTAL_TYPE_TREE = 0,        ///< Tree fractal type.
@@ -71,10 +68,7 @@ enum FractalType
 #define N_FRACTAL_TYPES (FRACTAL_TYPE_NEURON + 1)
   ///< Macro to define the number of fractal types.
 
-/**
- * \enum RandomType
- * \brief An enum to define random algorithm types.
- */
+///> An enum to define random algorithm types.
 enum RandomType
 {
   RANDOM_TYPE_MT19937 = 0,
@@ -106,10 +100,7 @@ enum RandomType
 #define N_RANDOM_TYPES (RANDOM_TYPE_GFSR4 + 1)
   ///< Macro to define the number of random numbers generator algorithm types.
 
-/**
- * \enum RandomSeedType
- * \brief A enum to define random seed types.
- */
+///> An enum to define random seed types.
 enum RandomSeedType
 {
   RANDOM_SEED_TYPE_DEFAULT = 0, ///< default random seed.
@@ -145,21 +136,14 @@ extern unsigned long random_seed;
 extern void *(*parallel_fractal) (gsl_rng * rng);
 
 /**
- * \fn inline void perspective(int x, int y, int z, float *X, float *Y)
- * \brief Function the set the perspective of a point.
- * \param x
- * \brief Point x-coordinate.
- * \param y
- * \brief Point y-coordinate.
- * \param z
- * \brief Point z-coordinate.
- * \param X
- * \brief Perspective X-coordinate.
- * \param Y
- * \brief Perspective Y-coordinate.
+ * Function the set the perspective of a point.
  */
 static inline void
-perspective (int x, int y, int z, float *X, float *Y)
+perspective (int x,             ///< Point x-coordinate.
+             int y,             ///< Point y-coordinate.
+             int z,             ///< Point z-coordinate.
+             float *X,          ///< Perspective X-coordinate.
+             float *Y)          ///< Perspective Y-coordinate.
 {
   *X = x * cos (phi) - y * sin (phi);
   *Y = z * sin (theta) + (y * cos (phi) + x * sin (phi)) * cos (theta);
