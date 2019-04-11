@@ -52,7 +52,7 @@ fractal: $(objs) fractal.gcda draw.gcda
 
 fractalpgo: $(pgoobjs)
 	$(CC) $(pgogen) $(pgoobjs) $(LDFLAGS) -o fractalpgo
-	./fractalpgo
+	./fractalpgo tests/tree.xml
 
 fractal.pgo: fractal.c fractal.h draw.h $(configs)
 	$(CC) $(CFLAGS) $(pgogen) fractal.c -o fractal.pgo

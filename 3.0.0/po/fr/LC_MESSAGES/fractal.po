@@ -19,59 +19,51 @@ msgstr ""
 
 #: fractal.c:1417
 msgid "Unable to parse the input file"
-msgstr ""
+msgstr "On peut pas analyser le fichier d'entrée"
 
 #: fractal.c:1423
 msgid "Bad XML root node"
-msgstr ""
+msgstr "Node XML source incorrect"
 
 #: fractal.c:1429
 msgid "Bad width"
-msgstr ""
+msgstr "Largeur incorrecte"
 
 #: fractal.c:1436
-#, fuzzy
 msgid "Bad height"
-msgstr "Hauteur"
+msgstr "Hauteur incorrecte"
 
 #: fractal.c:1443
-#, fuzzy
 msgid "Bad length"
-msgstr "Longueur"
+msgstr "Longueur incorrecte"
 
 #: fractal.c:1450
-#, fuzzy
 msgid "Bad random seed"
-msgstr "Graine aléatoire"
+msgstr "Graine aléatoire incorrecte"
 
 #: fractal.c:1458
-#, fuzzy
 msgid "Bad threads number"
-msgstr "Nombre de fils"
+msgstr "Nombre de fils incorrect"
 
 #: fractal.c:1468
-#, fuzzy
 msgid "Bad diagonal movement"
-msgstr "_Mouvement diagonal"
+msgstr "Mouvement diagonal incorrect"
 
 #: fractal.c:1479
 msgid "Bad 3D"
-msgstr ""
+msgstr "3D incorrect"
 
 #: fractal.c:1492
-#, fuzzy
 msgid "Unknown fractal type"
-msgstr "Type de fractal"
+msgstr "Type de fractal inconnu"
 
 #: fractal.c:1505
-#, fuzzy
 msgid "Unknown random seed type"
-msgstr "Type de graine aléatoire"
+msgstr "Type de graine aléatoire inconnu"
 
 #: fractal.c:1536
-#, fuzzy
 msgid "Unknown random algorithm"
-msgstr "Algorithme aléatoire"
+msgstr "Algorithme aléatoire inconnu"
 
 #: simulator.c:138
 msgid "_Tree"
@@ -91,11 +83,11 @@ msgstr "_Défaut"
 
 #: simulator.c:154
 msgid "_Clock based"
-msgstr "Basé á l'horloge"
+msgstr "_Basé á l'horloge"
 
 #: simulator.c:154
 msgid "_Fixed"
-msgstr "Fixé"
+msgstr "_Fixé"
 
 #: simulator.c:158
 msgid "_Diagonal movement"
@@ -107,7 +99,7 @@ msgstr "Longueur"
 
 #: simulator.c:163
 msgid "Width"
-msgstr "Large"
+msgstr "Largeur"
 
 #: simulator.c:164
 msgid "Height"

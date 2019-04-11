@@ -19,59 +19,51 @@ msgstr ""
 
 #: fractal.c:1417
 msgid "Unable to parse the input file"
-msgstr ""
+msgstr "No se pudo abrir el fichero de entrada"
 
 #: fractal.c:1423
 msgid "Bad XML root node"
-msgstr ""
+msgstr "Nodo XML raíz incorrecto"
 
 #: fractal.c:1429
 msgid "Bad width"
-msgstr ""
+msgstr "Anchura incorrecta"
 
 #: fractal.c:1436
-#, fuzzy
 msgid "Bad height"
-msgstr "Altura"
+msgstr "Altura incorrecta"
 
 #: fractal.c:1443
-#, fuzzy
 msgid "Bad length"
-msgstr "Longitud"
+msgstr "Longitud incorrecta"
 
 #: fractal.c:1450
-#, fuzzy
 msgid "Bad random seed"
-msgstr "Semilla de números aleatorios"
+msgstr "Semilla de números aleatorios incorrecta"
 
 #: fractal.c:1458
-#, fuzzy
 msgid "Bad threads number"
-msgstr "Número de tareas"
+msgstr "Número de tareas incorrecto"
 
 #: fractal.c:1468
-#, fuzzy
 msgid "Bad diagonal movement"
-msgstr "Movimiento _diagonal"
+msgstr "Movimiento diagonal incorrecto"
 
 #: fractal.c:1479
 msgid "Bad 3D"
-msgstr ""
+msgstr "3D incorrecto"
 
 #: fractal.c:1492
-#, fuzzy
 msgid "Unknown fractal type"
-msgstr "Tipo de fractal"
+msgstr "Tipo de fractal desconocido"
 
 #: fractal.c:1505
-#, fuzzy
 msgid "Unknown random seed type"
-msgstr "Tipo de semilla de números aleatorios"
+msgstr "Tipo de semilla de números aleatorios desconocido"
 
 #: fractal.c:1536
-#, fuzzy
 msgid "Unknown random algorithm"
-msgstr "Algoritmo de números aleatorios"
+msgstr "Algoritmo de números aleatorios desconocido"
 
 #: simulator.c:138
 msgid "_Tree"
