@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT(fractal, [2.10.16])
+AC_INIT(fractal, [3.0.0])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -140,12 +140,13 @@ fi
 AC_SEARCH_LIBS([sqrt], [m])
 AC_SEARCH_LIBS([textdomain], [intl])
 PKG_CHECK_MODULES([GSL], [gsl])
+PKG_CHECK_MODULES([XML], [libxml-2.0])
 PKG_CHECK_MODULES([GLIB], [glib-2.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
-PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 PKG_CHECK_MODULES([PNG], [libpng])
 PKG_CHECK_MODULES([FREETYPE], [freetype2])
 PKG_CHECK_MODULES([GLEW], [glew])
+PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 AC_SEARCH_LIBS([glViewport], [GL opengl32])
 
 # Checks for GtkGLArea, FreeGLUT, GLFW or SDL to draw the graphic window

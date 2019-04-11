@@ -149,8 +149,10 @@ perspective (int x,             ///< Point x-coordinate.
   *Y = z * sin (theta) + (y * cos (phi) + x * sin (phi)) * cos (theta);
 }
 
+int threads_number ();
 void fractal_stop ();
 void medium_start ();
+int fractal_input (char *filename);
 void fractal ();
 
 #endif

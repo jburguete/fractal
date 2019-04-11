@@ -544,7 +544,7 @@ draw_resize (int width,         ///< Graphic window width.
 /**
  * Function to draw a text.
  */
-void
+static inline void
 draw_text (char *text,          ///< Text string.
            float x,             ///< x initial coordinate.
            float y,             ///< y initial coordinate.
@@ -740,7 +740,7 @@ end_draw:
 
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 2.10.16", 1. - 90. * sx, -0.99, sx, sy, black);
+  draw_text ("Fractal 3.0.0", 1. - 90. * sx, -0.99, sx, sy, black);
 
   // Displaying the draw
 #if HAVE_GTKGLAREA
@@ -752,96 +752,4 @@ end_draw:
 #elif HAVE_GLFW
   glfwSwapBuffers (window);
 #endif
-}
-
-/**
- * Function to save the draw in a PNG file.
- */
-void
-draw_save (char *file_name)     ///< File name.
-{
-  png_struct *png;
-  png_info *info;
-  png_byte **row_pointers;
-  GLubyte *pixels;
-  FILE *file;
-  unsigned int i, row_bytes, pointers_bytes, pixels_bytes;
-
-  // Creating the PNG header
-  png = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-  if (!png)
-    return;
-  info = png_create_info_struct (png);
-  if (!info)
-    return;
-  file = fopen (file_name, "wb");
-  if (!file)
-    return;
-  if (setjmp (png_jmpbuf (png)))
-    {
-      printf ("Error png_init_io\n");
-      exit (0);
-    }
-  png_init_io (png, file);
-  if (setjmp (png_jmpbuf (png)))
-    {
-      printf ("Error png_set_IHDR\n");
-      exit (0);
-    }
-  png_set_IHDR (png,
-                info,
-                window_width,
-                window_height,
-                8,
-                PNG_COLOR_TYPE_RGBA,
-                PNG_INTERLACE_NONE,
-                PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
-  if (setjmp (png_jmpbuf (png)))
-    {
-      printf ("Error png_write_info\n");
-      exit (0);
-    }
-  png_write_info (png, info);
-
-  // Getting the OpenGL pixels
-  glViewport (0, 0, window_width, window_height);
-  row_bytes = 4 * window_width;
-  pixels_bytes = row_bytes * window_height;
-  pixels = (GLubyte *) g_slice_alloc (pixels_bytes);
-  glReadPixels (0, 0, window_width, window_height, GL_RGBA, GL_UNSIGNED_BYTE,
-                pixels);
-
-  // Saving the pixels in the PNG order
-  pointers_bytes = window_height * sizeof (png_byte *);
-  row_pointers = (png_byte **) g_slice_alloc (pointers_bytes);
-  for (i = 0; i < window_height; ++i)
-    {
-      row_pointers[i] = (png_byte *) g_slice_alloc (row_bytes);
-      memcpy (row_pointers[i], pixels + (window_height - 1 - i) * row_bytes,
-              row_bytes);
-    }
-  if (setjmp (png_jmpbuf (png)))
-    {
-      printf ("Error png_write_image\n");
-      exit (0);
-    }
-  png_write_image (png, row_pointers);
-
-  // Freeing memory
-  for (i = 0; i < window_height; ++i)
-    g_slice_free1 (row_bytes, row_pointers[i]);
-  g_slice_free1 (pointers_bytes, row_pointers);
-  g_slice_free1 (pixels_bytes, pixels);
-
-  // Saving the file
-  if (setjmp (png_jmpbuf (png)))
-    {
-      printf ("Error png_write_end\n");
-      exit (0);
-    }
-  png_write_end (png, NULL);
-  fclose (file);
-
-  // Freeing memory
-  png_destroy_write_struct (&png, &info);
 }

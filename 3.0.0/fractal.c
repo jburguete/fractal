@@ -38,19 +38,25 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <math.h>
 #include <time.h>
 #include <gsl/gsl_rng.h>
+#include <libxml/parser.h>
 #include <glib.h>
-#include <gtk/gtk.h>
+#ifdef G_OS_WIN32
+#include <windows.h>
+#endif
+#include <libintl.h>
 #include <GL/glew.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#include <gtk/gtk.h>
 #include "config.h"
 #include "fractal.h"
-#include "draw.h"
 #include "simulator.h"
 
-unsigned int width = 320;       ///< Medium width.
-unsigned int height = 200;      ///< Medium height.
-unsigned int length = 320;      ///< Medium length.
+extern void draw ();
+
+unsigned int width = WIDTH;     ///< Medium width.
+unsigned int height = HEIGHT;   ///< Medium height.
+unsigned int length = LENGTH;   ///< Medium length.
 unsigned int area;              ///< Medium area.
 unsigned int medium_bytes;      ///< Number of bytes used by the medium.
 unsigned int breaking = 0;      ///< 1 on breaking, 0 otherwise.
@@ -61,7 +67,7 @@ unsigned int fractal_type = FRACTAL_TYPE_TREE;  ///< Fractal type.
 unsigned int fractal_points = 0;        ///< Fractal points number.
 unsigned int fractal_3D = 0;    ///< 1 on 3D fractals, 0 on 2D fractals.
 unsigned int fractal_diagonal = 0;
-  ///< 1 on diagonal point movement, 0 otherwise.
+///< 1 on diagonal point movement, 0 otherwise.
 
 unsigned long t0;               ///< Computational time.
 
@@ -80,11 +86,11 @@ Point3D *point = NULL;          ///< Array of 3D points.
 unsigned int npoints = 0;       ///< Number of points.
 
 unsigned int random_algorithm = 0;
-  ///< Type of random numbers generator algorithm.
+///< Type of random numbers generator algorithm.
 unsigned int random_seed_type = 1;      ///< Type of random seed.
 unsigned long random_seed = SEED;       ///< Random seed.
 void *(*parallel_fractal) (gsl_rng * rng);
-  ///< Pointer to the function to calculate the fractal.
+///< Pointer to the function to calculate the fractal.
 
 const float color3f[16][3] = {
   {0., 0., 0.},
@@ -126,6 +132,23 @@ static inline unsigned int
 sqr (int x)                     ///< unsigned int.
 {
   return x * x;
+}
+
+/**
+ * Function to get the number of cores of the CPU.
+ *
+ * \return CPU number of cores.
+ */
+int
+threads_number ()
+{
+#ifdef G_OS_WIN32
+  SYSTEM_INFO sysinfo;
+  GetSystemInfo (&sysinfo);
+  return sysinfo.dwNumberOfProcessors;
+#else
+  return (int) sysconf (_SC_NPROCESSORS_CONF);
+#endif
 }
 
 /**
@@ -833,7 +856,8 @@ fractal_stop ()
  * \return NULL.
  */
 void *
-parallel_fractal_tree_2D (gsl_rng * rng)        ///< Pseudo-random number generator.
+parallel_fractal_tree_2D (gsl_rng * rng)        
+///< Pseudo-random number generator.
 {
   int x, y;
   long t0;
@@ -1317,6 +1341,210 @@ medium_start ()
             }
         }
     }
+}
+
+/**
+ * Function to get an unsigned integer numver of a XML node property.
+ *
+ * \return Unsigned integer number value.
+ */
+static unsigned int
+xml_node_get_uint_with_default (xmlNode * node, ///< XML node.
+		                            const xmlChar * prop, ///< XML property.
+																unsigned int default_value, ///< Default value.
+									              int *error_code) ///< Error code.
+{
+	unsigned int i = 0;
+	xmlChar *buffer;
+	buffer = xmlGetProp (node, prop);
+	*error_code = 0;
+	if (!buffer)
+		return default_value;
+	else
+	  {
+			if (sscanf ((char *) buffer, "%u", &i) != 1)
+				*error_code = 1;
+			xmlFree (buffer);
+		}
+	return i;
+}
+
+/**
+ * Function to get an unsigned long integer numver of a XML node property.
+ *
+ * \return Unsigned long integer number value.
+ */
+static unsigned long
+xml_node_get_ulong_with_default (xmlNode * node, ///< XML node.
+		                             const xmlChar * prop, ///< XML property.
+																 unsigned long default_value, 
+																 ///< Default value.
+									               int *error_code) ///< Error code.
+{
+	unsigned long i = 0l;
+	xmlChar *buffer;
+	buffer = xmlGetProp (node, prop);
+	*error_code = 0;
+	if (!buffer)
+		return default_value;
+	else
+	  {
+			if (sscanf ((char *) buffer, "%lu", &i) != 1)
+				*error_code = 1;
+			xmlFree (buffer);
+		}
+	return i;
+}
+
+/**
+ * Function to open the fractal data on a file.
+ *
+ * \return 1 on success, 0 on error.
+ */
+int
+fractal_input (char *filename) ///< File name.
+{
+  xmlDoc *doc;
+	xmlNode *node;
+	xmlChar *buffer;
+	const char *error_message;
+	int error_code;
+	buffer = NULL;
+	xmlKeepBlanksDefault (0);
+	doc = xmlParseFile ((const char *) filename);
+	if (!doc)
+	  {
+			error_message = _("Unable to parse the input file");
+			goto exit_on_error;
+		}
+	node = xmlDocGetRootElement (doc);
+	if (!node || xmlStrcmp (node->name, XML_FRACTAL))
+	  {
+			error_message = _("Bad XML root node");
+			goto exit_on_error;
+		}
+  width = xml_node_get_uint_with_default (node, XML_WIDTH, WIDTH, &error_code);
+	if (error_code)
+	  {
+		  error_message = _("Bad width");
+			goto exit_on_error;
+		}
+  height 
+		= xml_node_get_uint_with_default (node, XML_HEIGHT, HEIGHT, &error_code);
+	if (error_code)
+	  {
+		  error_message = _("Bad height");
+			goto exit_on_error;
+		}
+  length 
+		= xml_node_get_uint_with_default (node, XML_LENGTH, LENGTH, &error_code);
+	if (error_code)
+	  {
+		  error_message = _("Bad length");
+			goto exit_on_error;
+		}
+  random_seed 
+		= xml_node_get_ulong_with_default (node, XML_SEED, SEED, &error_code);
+	if (error_code)
+	  {
+		  error_message = _("Bad random seed");
+			goto exit_on_error;
+		}
+  nthreads 
+		= xml_node_get_uint_with_default (node, XML_THREADS, threads_number (),
+				                              &error_code);
+	if (!nthreads || error_code)
+	  {
+		  error_message = _("Bad threads number");
+			goto exit_on_error;
+		}
+	buffer = xmlGetProp (node, XML_DIAGONAL);
+	if (!buffer || !xmlStrcmp(buffer, XML_NO))
+		fractal_diagonal = 0;
+	else if (!xmlStrcmp(buffer, XML_YES))
+		fractal_diagonal = 1;
+	else
+	  {
+		  error_message = _("Bad diagonal movement");
+			goto exit_on_error;
+		}
+	xmlFree (buffer);
+	buffer = xmlGetProp (node, XML_3D);
+	if (!buffer || !xmlStrcmp(buffer, XML_NO))
+		fractal_3D = 0;
+	else if (!xmlStrcmp(buffer, XML_YES))
+		fractal_3D = 1;
+	else
+	  {
+		  error_message = _("Bad 3D");
+			goto exit_on_error;
+		}
+	xmlFree (buffer);
+	buffer = xmlGetProp (node, XML_TYPE);
+	if (!buffer || !xmlStrcmp(buffer, XML_TREE))
+		fractal_type = FRACTAL_TYPE_TREE;
+	else if (!xmlStrcmp(buffer, XML_FOREST))
+		fractal_type = FRACTAL_TYPE_FOREST;
+	else if (!xmlStrcmp(buffer, XML_NEURON))
+		fractal_type = FRACTAL_TYPE_NEURON;
+	else
+	  {
+		  error_message = _("Unknown fractal type");
+			goto exit_on_error;
+		}
+	xmlFree (buffer);
+	buffer = xmlGetProp (node, XML_RANDOM_SEED);
+	if (!buffer || !xmlStrcmp(buffer, XML_DEFAULT))
+		random_seed_type = RANDOM_SEED_TYPE_DEFAULT;
+	else if (!xmlStrcmp(buffer, XML_CLOCK))
+		random_seed_type = RANDOM_SEED_TYPE_CLOCK;
+	else if (!xmlStrcmp(buffer, XML_FIXED))
+		random_seed_type = RANDOM_SEED_TYPE_FIXED;
+	else
+	  {
+		  error_message = _("Unknown random seed type");
+			goto exit_on_error;
+		}
+	xmlFree (buffer);
+	buffer = xmlGetProp (node, XML_RANDOM_TYPE);
+	if (!buffer || !xmlStrcmp(buffer, XML_MT19937))
+		random_algorithm = 0;
+	else if (!xmlStrcmp(buffer, XML_RANLXS0))
+		random_algorithm = 1;
+	else if (!xmlStrcmp(buffer, XML_RANLXS1))
+		random_algorithm = 2;
+	else if (!xmlStrcmp(buffer, XML_RANLXS2))
+		random_algorithm = 3;
+	else if (!xmlStrcmp(buffer, XML_RANLXD1))
+		random_algorithm = 4;
+	else if (!xmlStrcmp(buffer, XML_RANLXD2))
+		random_algorithm = 5;
+	else if (!xmlStrcmp(buffer, XML_RANLUX))
+		random_algorithm = 6;
+	else if (!xmlStrcmp(buffer, XML_RANLUX389))
+		random_algorithm = 7;
+	else if (!xmlStrcmp(buffer, XML_CMRG))
+		random_algorithm = 8;
+	else if (!xmlStrcmp(buffer, XML_MRG))
+		random_algorithm = 9;
+	else if (!xmlStrcmp(buffer, XML_TAUS2))
+		random_algorithm = 10;
+	else if (!xmlStrcmp(buffer, XML_GFSR4))
+		random_algorithm = 11;
+	else
+	  {
+		  error_message = _("Unknown random algorithm");
+			goto exit_on_error;
+		}
+	xmlFree (buffer);
+	xmlFreeDoc (doc);
+	return 1;
+
+exit_on_error:
+  show_error (error_message);
+	xmlFree (buffer);
+	xmlFreeDoc (doc);
+	return 0;
 }
 
 /**

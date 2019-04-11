@@ -37,9 +37,10 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-#include <libintl.h>
 #include <gsl/gsl_rng.h>
 #include <glib.h>
+#include <libintl.h>
+#include <png.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <gtk/gtk.h>
@@ -90,41 +91,27 @@ set_perspective ()
 }
 
 /**
- * Function to show a dialog to save the graphical view in a PNG file.
+ * Function to show an error message
  */
 void
-dialog_draw_save ()
+show_error (const char *message)
 {
-  char *buffer = NULL;
-  GtkFileFilter *filter;
-  GtkFileChooserDialog *dlg;
-  filter = gtk_file_filter_new ();
-  gtk_file_filter_set_name (filter, "PNG file");
-  gtk_file_filter_add_pattern (filter, "*.png");
-  gtk_file_filter_add_pattern (filter, "*.PNG");
-  dlg = (GtkFileChooserDialog *) gtk_file_chooser_dialog_new
-    (_("Save graphical"), dialog_simulator->window,
-     GTK_FILE_CHOOSER_ACTION_SAVE,
-     _("_OK"), GTK_RESPONSE_CANCEL, _("_Cancel"), GTK_RESPONSE_OK, NULL);
-  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dlg), filter);
-  gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dlg), 1);
-  if (gtk_dialog_run ((GtkDialog *) dlg) == GTK_RESPONSE_OK)
-    buffer = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dlg));
-  gtk_widget_destroy (GTK_WIDGET (dlg));
-  if (buffer)
-    {
-      draw ();
-      while (gtk_events_pending ())
-        gtk_main_iteration ();
-      draw_save (buffer);
-      g_free (buffer);
-    }
+	GtkMessageDialog *dlg;
+	dlg = (GtkMessageDialog *) 
+		gtk_message_dialog_new (dialog_simulator->window,
+				                    GTK_DIALOG_DESTROY_WITH_PARENT,
+														GTK_MESSAGE_ERROR,
+														GTK_BUTTONS_CLOSE,
+														"%s",
+														message);
+	gtk_dialog_run (GTK_DIALOG (dlg));
+	gtk_widget_destroy (GTK_WIDGET (dlg));
 }
 
 /**
  * Function to update the enabled fractal characteristics.
  */
-void
+static void
 dialog_options_update ()
 {
   int i;
@@ -143,7 +130,7 @@ dialog_options_update ()
 /**
  * Function to create a dialog to set the fractal options.
  */
-void
+static void
 dialog_options_create ()
 {
   int i;
@@ -178,11 +165,11 @@ dialog_options_create ()
   dlg->label_seed = (GtkLabel *) gtk_label_new (_("Random seed"));
   dlg->label_nthreads = (GtkLabel *) gtk_label_new (_("Threads number"));
   dlg->entry_length =
-    (GtkSpinButton *) gtk_spin_button_new_with_range (320., 2400., 1.);
+    (GtkSpinButton *) gtk_spin_button_new_with_range (32., 2400., 1.);
   dlg->entry_width =
-    (GtkSpinButton *) gtk_spin_button_new_with_range (320., 2400., 1.);
+    (GtkSpinButton *) gtk_spin_button_new_with_range (32., 2400., 1.);
   dlg->entry_height =
-    (GtkSpinButton *) gtk_spin_button_new_with_range (200., 2400., 1.);
+    (GtkSpinButton *) gtk_spin_button_new_with_range (20., 2400., 1.);
   dlg->entry_seed =
     (GtkSpinButton *) gtk_spin_button_new_with_range (0., 4294967295., 1.);
   dlg->entry_nthreads =
@@ -323,7 +310,7 @@ dialog_options_create ()
 /**
  * Function to show a help dialog.
  */
-void
+static void
 dialog_simulator_help ()
 {
   gchar *authors[] = {
@@ -338,7 +325,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "2.10.16",
+                         "version", "3.0.0",
                          "copyright",
                          "Copyright 2009-2019 Javier Burguete Tolosa",
                          "logo", dialog_simulator->logo,
@@ -413,7 +400,7 @@ dialog_simulator_progress ()
 /**
  * Function to save the graphical view on a PNG file.
  */
-void
+static void
 dialog_simulator_save ()
 {
   char *filename = NULL;
@@ -437,13 +424,13 @@ dialog_simulator_save ()
 
 #if HAVE_GTKGLAREA
 
-void
+static void
 dialog_simulator_draw_init (GtkGLArea * gl_area)
 {
   gtk_gl_area_make_current (gl_area);
 }
 
-void
+static void
 dialog_simulator_draw_render ()
 {
   draw ();
@@ -454,7 +441,7 @@ dialog_simulator_draw_render ()
 /**
  * Function to close the GLFW window.
  */
-void
+static void
 window_close ()
 {
   glfwSetWindowShouldClose (window, GL_TRUE);

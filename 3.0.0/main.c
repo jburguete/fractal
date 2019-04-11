@@ -41,9 +41,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <libintl.h>
 #include <gsl/gsl_rng.h>
 #include <glib.h>
-#ifdef G_OS_WIN32
-#include <windows.h>
-#endif
+#include <png.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <gtk/gtk.h>
@@ -134,14 +132,14 @@ main (int argn,                 ///< Arguments number.
 {
   GLenum glew_status;
 
+	if (argn > 2)
+	  {
+	   	printf ("Bad arguments number\n");
+	    return 1;
+		}
+
 // PARALELLIZING INIT
-#ifdef G_OS_WIN32
-  SYSTEM_INFO sysinfo;
-  GetSystemInfo (&sysinfo);
-  nthreads = sysinfo.dwNumberOfProcessors;
-#else
-  nthreads = (int) sysconf (_SC_NPROCESSORS_CONF);
-#endif
+  nthreads = threads_number ();
 // END
 
   // Initing locales
@@ -259,7 +257,14 @@ main (int argn,                 ///< Arguments number.
   if (!draw_init ())
     return 1;
 
+	// Opening input file
+	if (argn == 2 && !fractal_input (argc[1]))
+	  return 1;
+
+	// Updating view
   set_perspective ();
+	if (argn == 2)
+		fractal ();
   dialog_simulator_update ();
 
   // Main loop

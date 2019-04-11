@@ -122,11 +122,8 @@ extern DialogOptions dialog_options[1];
 extern DialogSimulator dialog_simulator[1];
 
 void set_perspective ();
+void show_error (const char *message);
 
-void dialog_options_update ();
-void dialog_options_create ();
-
-void dialog_simulator_help ();
 void dialog_simulator_update ();
 void dialog_simulator_progress ();
 void dialog_simulator_create ();
