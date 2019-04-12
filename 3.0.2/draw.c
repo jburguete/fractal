@@ -740,7 +740,7 @@ end_draw:
 
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 3.0.1", 1. - 90. * sx, -0.99, sx, sy, black);
+  draw_text ("Fractal 3.0.2", 1. - 90. * sx, -0.99, sx, sy, black);
 
   // Displaying the draw
 #if HAVE_GTKGLAREA

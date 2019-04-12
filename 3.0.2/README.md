@@ -1,4 +1,4 @@
-FRACTAL (3.0.1 version)
+FRACTAL (3.0.2 version)
 =======================
 
 A program growing fractals to benchmark parallelization and drawing libraries.
@@ -93,7 +93,7 @@ This software has been built and tested in the following operative systems:
 * Xubuntu Linux 18.10
 
 Download this repository and execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.0.1
+> $ cd PATH\_TO\_FRACTAL/3.0.2
 >
 > $ sh build.sh
 >
@@ -106,7 +106,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.0.1
+> $ cd PATH\_TO\_FRACTAL/3.0.2
 >
 > $ doxygen
 >

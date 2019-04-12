@@ -132,11 +132,11 @@ main (int argn,                 ///< Arguments number.
 {
   GLenum glew_status;
 
-	if (argn > 2)
-	  {
-	   	printf ("Bad arguments number\n");
-	    return 1;
-		}
+  if (argn > 2)
+    {
+      printf ("Bad arguments number\n");
+      return 1;
+    }
 
 // PARALELLIZING INIT
   nthreads = threads_number ();
@@ -257,14 +257,14 @@ main (int argn,                 ///< Arguments number.
   if (!draw_init ())
     return 1;
 
-	// Opening input file
-	if (argn == 2 && !fractal_input (argc[1]))
-	  return 1;
+  // Opening input file
+  if (argn == 2 && !fractal_input (argc[1]))
+    return 1;
 
-	// Updating view
+  // Updating view
   set_perspective ();
-	if (argn == 2)
-		fractal ();
+  if (argn == 2)
+    fractal ();
   dialog_simulator_update ();
 
   // Main loop

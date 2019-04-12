@@ -48,14 +48,14 @@ typedef struct
   GtkLabel *label_width;        ///< GtkLabel to show the width label.
   GtkLabel *label_height;       ///< GtkLabel to show the height label.
   GtkLabel *label_seed;         ///< GtkLabel to show the seed label.
-	GtkLabel *label_nthreads;     ///< GtkLabel to show the threads number label.
+  GtkLabel *label_nthreads;     ///< GtkLabel to show the threads number label.
   GtkSpinButton *entry_length;  ///< GtkSpinButton to set the medium length.
   GtkSpinButton *entry_width;   ///< GtkSpinButton to set the medium width.
   GtkSpinButton *entry_height;  ///< GtkSpinButton to set the medium height.
   GtkSpinButton *entry_seed;
   ///< GtkSpinButton to set the random numbers generator seed.
   GtkSpinButton *entry_nthreads;
-	///< GtkSpinButton to set the threads number.
+  ///< GtkSpinButton to set the threads number.
   GtkCheckButton *button_diagonal;
   ///< GtkButton to allow diagonal movements.
   GtkCheckButton *button_3D;
@@ -90,8 +90,8 @@ typedef struct
   ///< GtkToolButton to set the fractal options.
   GtkToolButton *button_start;  ///< GtkToolButton to run the simulation.
   GtkToolButton *button_stop;   ///< GtkToolButton to stop the simulation.
-  GtkToolButton *button_save;   
-	///< GtkToolButton to save the view in a PNG file.
+  GtkToolButton *button_save;
+  ///< GtkToolButton to save the view in a PNG file.
   GtkToolButton *button_help;   ///< GtkToolButton to show a help dialog.
   GtkToolButton *button_exit;   ///< GtkToolButton to exit.
   GtkToolbar *toolbar;          ///< GtkToolbar containing the tool items.
@@ -113,7 +113,7 @@ typedef struct
   GdkPixbuf *logo;              ///< GdkPixbuf containing the main logo.
   GdkPixbuf *logo_min;          ///< GdkPixbuf containing the reduced logo.
 #if HAVE_GTKGLAREA
-	GtkGLArea *gl_area;           ///< GtkGLArea to draw the graphics.
+  GtkGLArea *gl_area;           ///< GtkGLArea to draw the graphics.
 #endif
   GtkWindow *window;            ///< GtkWindow to show the main windows.
 } DialogSimulator;

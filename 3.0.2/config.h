@@ -37,11 +37,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define DEBUG 0                 ///< Macro to debug the code.
 
-#define HEIGHT 200 /// Macro to set the default medium height.
-#define LENGTH 320 /// Macro to set the default medium length.
+#define HEIGHT 200              /// Macro to set the default medium height.
+#define LENGTH 320              /// Macro to set the default medium length.
 #define SEED 7007L
 ///< Macro to set the default pseudo-random number generator seed.
-#define WIDTH 320 /// Macro to set the default medium width.
+#define WIDTH 320               /// Macro to set the default medium width.
 
 #define XML_3D          (const xmlChar *)"iii-d"
 ///< iii-d XML label.

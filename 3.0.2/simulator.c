@@ -96,16 +96,14 @@ set_perspective ()
 void
 show_error (const char *message)
 {
-	GtkMessageDialog *dlg;
-	dlg = (GtkMessageDialog *) 
-		gtk_message_dialog_new (dialog_simulator->window,
-				                    GTK_DIALOG_DESTROY_WITH_PARENT,
-														GTK_MESSAGE_ERROR,
-														GTK_BUTTONS_CLOSE,
-														"%s",
-														message);
-	gtk_dialog_run (GTK_DIALOG (dlg));
-	gtk_widget_destroy (GTK_WIDGET (dlg));
+  GtkMessageDialog *dlg;
+  dlg = (GtkMessageDialog *)
+    gtk_message_dialog_new (dialog_simulator->window,
+                            GTK_DIALOG_DESTROY_WITH_PARENT,
+                            GTK_MESSAGE_ERROR,
+                            GTK_BUTTONS_CLOSE, "%s", message);
+  gtk_dialog_run (GTK_DIALOG (dlg));
+  gtk_widget_destroy (GTK_WIDGET (dlg));
 }
 
 /**
@@ -325,7 +323,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.0.1",
+                         "version", "3.0.2",
                          "copyright",
                          "Copyright 2009-2019 Javier Burguete Tolosa",
                          "logo", dialog_simulator->logo,
