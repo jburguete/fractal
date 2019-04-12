@@ -1,2 +1,2 @@
 <?xml version="1.0"?>
-<fractal width="32" height="32" animate="no" threads="2"/>
+<fractal width="128" height="128" animate="no" threads="2"/>

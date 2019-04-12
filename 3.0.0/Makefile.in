@@ -8,6 +8,8 @@ modir = $(sysdir)share/locale/
 objs = fractal.o draw.o simulator.o main.o @icon@
 src = fractal.h draw.h simulator.h fractal.c draw.c simulator.c main.c
 configs = config.h Makefile
+tests = tests/tree.xml tests/forest.xml tests/neuron.xml tests/tree-3d.xml \
+	tests/forest-3d.xml tests/neuron-3d.xml
 dll = $(dlldir)libatk-1.0-0.dll $(dlldir)libbz2-1.dll $(dlldir)libcairo-2.dll \
 	$(dlldir)libcairo-gobject-2.dll $(dlldir)libexpat-1.dll \
 	$(dlldir)libffi-6.dll $(dlldir)libfontconfig-1.dll \
@@ -50,9 +52,14 @@ all: fractal po/fractal.pot po/$(es)fractal.mo po/$(fr)fractal.mo
 fractal: $(objs) fractal.gcda draw.gcda
 	$(CC) $(pgouse) $(objs) $(LDFLAGS) -o fractal
 
-fractalpgo: $(pgoobjs)
+fractalpgo: $(pgoobjs) $(tests)
 	$(CC) $(pgogen) $(pgoobjs) $(LDFLAGS) -o fractalpgo
 	./fractalpgo tests/tree.xml
+	./fractalpgo tests/forest.xml
+	./fractalpgo tests/neuron.xml
+	./fractalpgo tests/tree-3d.xml
+	./fractalpgo tests/forest-3d.xml
+	./fractalpgo tests/neuron-3d.xml
 
 fractal.pgo: fractal.c fractal.h draw.h $(configs)
 	$(CC) $(CFLAGS) $(pgogen) fractal.c -o fractal.pgo

@@ -43,8 +43,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///< Macro to set the default pseudo-random number generator seed.
 #define WIDTH 320 /// Macro to set the default medium width.
 
-#define XML_3D          (const xmlChar *)"3d"
-///< 3d XML label.
+#define XML_3D          (const xmlChar *)"iii-d"
+///< iii-d XML label.
 #define XML_ANIMATE     (const xmlChar *)"animate"
 ///< animate XML label.
 #define XML_CLOCK       (const xmlChar *)"clock"

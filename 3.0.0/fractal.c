@@ -1480,6 +1480,17 @@ fractal_input (char *filename) ///< File name.
 			goto exit_on_error;
 		}
 	xmlFree (buffer);
+	buffer = xmlGetProp (node, XML_ANIMATE);
+	if (!buffer || !xmlStrcmp(buffer, XML_YES))
+		animating = 1;
+	else if (!xmlStrcmp(buffer, XML_NO))
+		animating = 0;
+	else
+	  {
+		  error_message = _("Bad animation");
+			goto exit_on_error;
+		}
+	xmlFree (buffer);
 	buffer = xmlGetProp (node, XML_TYPE);
 	if (!buffer || !xmlStrcmp(buffer, XML_TREE))
 		fractal_type = FRACTAL_TYPE_TREE;
