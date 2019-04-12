@@ -729,7 +729,7 @@ neuron_3D_point_new (int *x,    ///< Point x-coordinate.
 {
   double c1, s1, c2, s2;
   sincos (2. * M_PI * gsl_rng_uniform (rng), &s1, &c1);
-  sincos (M_PI * (0.5 - gsl_rng_uniform (rng)), &s2, &c2);
+  sincos (asin (2. * gsl_rng_uniform (rng) - 1), &s2, &c2);
   *x = length / 2 + max_d * c1 * c2;
   *y = width / 2 + max_d * s1 * c2;
   *z = height / 2 + max_d * s2;
