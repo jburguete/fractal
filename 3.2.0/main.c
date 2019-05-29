@@ -123,7 +123,8 @@ main_loop ()
 }
 
 /**
- * Main function
+ * Main function.
+ *
  * \return 0 on success.
  */
 int
