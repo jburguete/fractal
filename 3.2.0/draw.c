@@ -296,7 +296,7 @@ draw_init ()
     }
 
 #if DEBUG
-  printf ("draw_init: compiling 2D vertex shader");
+  printf ("draw_init: compiling 2D vertex shader\n");
   fflush (stdout);
 #endif
   fs_sources[0] = version;
@@ -628,6 +628,11 @@ draw ()
   draw_resize (graphic_width, graphic_height);
 #endif
 
+#if DEBUG
+  printf ("draw: start\n");
+  fflush (stdout);
+#endif
+
   // Drawing a white background
   glClearColor (1., 1., 1., 0.);
   glClear (GL_COLOR_BUFFER_BIT);
@@ -751,5 +756,10 @@ end_draw:
   SDL_GL_SwapWindow (window);
 #elif HAVE_GLFW
   glfwSwapBuffers (window);
+#endif
+
+#if DEBUG
+  printf ("draw: end\n");
+  fflush (stdout);
 #endif
 }

@@ -35,7 +35,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef CONFIG__H
 #define CONFIG__H 1
 
-#define DEBUG 0                 ///< Macro to debug the code.
+#define DEBUG 1                 ///< Macro to debug the code.
 
 #define HEIGHT 200              /// Macro to set the default medium height.
 #define LENGTH 320              /// Macro to set the default medium length.

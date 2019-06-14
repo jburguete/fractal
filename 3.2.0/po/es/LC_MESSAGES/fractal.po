@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-12 17:15+0200\n"
+"POT-Creation-Date: 2019-06-14 05:39+0200\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -160,7 +160,7 @@ msgstr "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 msgid "Website"
 msgstr "Sitio web"
 
-#: simulator.c:407 simulator.c:480
+#: simulator.c:407 simulator.c:486
 msgid "Save graphical"
 msgstr "Guardar gráfica"
 
@@ -168,66 +168,66 @@ msgstr "Guardar gráfica"
 msgid "_Open"
 msgstr "_Abrir"
 
-#: simulator.c:471
+#: simulator.c:477
 msgid "_Options"
 msgstr "_Opciones"
 
-#: simulator.c:472
+#: simulator.c:478
 msgid "S_tart"
 msgstr "_Comenzar"
 
-#: simulator.c:473
+#: simulator.c:479
 msgid "Sto_p"
 msgstr "_Parar"
 
-#: simulator.c:474
+#: simulator.c:480
 msgid "_Save"
 msgstr "_Guardar"
 
-#: simulator.c:475
+#: simulator.c:481
 msgid "_Help"
 msgstr "A_yuda"
 
-#: simulator.c:476
+#: simulator.c:482
 msgid "E_xit"
 msgstr "_Salir"
 
-#: simulator.c:477
+#: simulator.c:483
 msgid "Fractal options"
 msgstr "Opciones de fractal"
 
-#: simulator.c:478
+#: simulator.c:484
 msgid "Start fractal growing"
 msgstr "Iniciar crecimiento fractal"
 
-#: simulator.c:479
+#: simulator.c:485
 msgid "Stop fractal growing"
 msgstr "Parar crecimiento fractal"
 
-#: simulator.c:481
+#: simulator.c:487
 msgid "Help"
 msgstr "Ayuda"
 
-#: simulator.c:482
+#: simulator.c:488
 msgid "Exit"
 msgstr "Salir"
 
-#: simulator.c:538
+#: simulator.c:544
 msgid "Calculating time"
 msgstr "Tiempo de cálculo"
 
-#: simulator.c:544
+#: simulator.c:550
 msgid "Progress"
 msgstr "Progreso"
 
-#: simulator.c:558
+#: simulator.c:564
 msgid "Horizontal perspective angle (º)"
 msgstr "Ángulo de perspectiva horizontal (º)"
 
-#: simulator.c:560
+#: simulator.c:566
 msgid "Vertical perspective angle (º)"
 msgstr "Ángulo de perspectiva vertical (º)"
 
-#: simulator.c:588
+#: simulator.c:594
 msgid "Fractal growing"
 msgstr "Crecimiento fractal"

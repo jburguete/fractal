@@ -425,7 +425,13 @@ dialog_simulator_save ()
 static void
 dialog_simulator_draw_init (GtkGLArea * gl_area)
 {
+#if DEBUG
+  printf ("dialog_simulator_draw_init: start\n");
+#endif
   gtk_gl_area_make_current (gl_area);
+#if DEBUG
+  printf ("dialog_simulator_draw_init: end\n");
+#endif
 }
 
 static void
