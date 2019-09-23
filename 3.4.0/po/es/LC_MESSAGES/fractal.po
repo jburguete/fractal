@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.2.0\n"
+"Project-Id-Version: 3.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-14 05:39+0200\n"
+"POT-Creation-Date: 2019-09-23 17:05+0200\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,55 +17,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: fractal.c:1417
+#: fractal.c:1418
 msgid "Unable to parse the input file"
 msgstr "No se pudo abrir el fichero de entrada"
 
-#: fractal.c:1423
+#: fractal.c:1424
 msgid "Bad XML root node"
 msgstr "Nodo XML raíz incorrecto"
 
-#: fractal.c:1429
+#: fractal.c:1430
 msgid "Bad width"
 msgstr "Anchura incorrecta"
 
-#: fractal.c:1436
+#: fractal.c:1437
 msgid "Bad height"
 msgstr "Altura incorrecta"
 
-#: fractal.c:1443
+#: fractal.c:1444
 msgid "Bad length"
 msgstr "Longitud incorrecta"
 
-#: fractal.c:1450
+#: fractal.c:1451
 msgid "Bad random seed"
 msgstr "Semilla de números aleatorios incorrecta"
 
-#: fractal.c:1458
+#: fractal.c:1459
 msgid "Bad threads number"
 msgstr "Número de tareas incorrecto"
 
-#: fractal.c:1468
+#: fractal.c:1469
 msgid "Bad diagonal movement"
 msgstr "Movimiento diagonal incorrecto"
 
-#: fractal.c:1479
+#: fractal.c:1480
 msgid "Bad 3D"
 msgstr "3D incorrecto"
 
-#: fractal.c:1490
+#: fractal.c:1491
 msgid "Bad animation"
 msgstr "Animación incorrecta"
 
-#: fractal.c:1503
+#: fractal.c:1504
 msgid "Unknown fractal type"
 msgstr "Tipo de fractal desconocido"
 
-#: fractal.c:1516
+#: fractal.c:1517
 msgid "Unknown random seed type"
 msgstr "Tipo de semilla de números aleatorios desconocido"
 
-#: fractal.c:1547
+#: fractal.c:1548
 msgid "Unknown random algorithm"
 msgstr "Algoritmo de números aleatorios desconocido"
 

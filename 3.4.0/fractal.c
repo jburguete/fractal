@@ -40,6 +40,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <gsl/gsl_rng.h>
 #include <libxml/parser.h>
 #include <glib.h>
+#include <glibtop.h>
+#include <glibtop/close.h>
 #ifdef G_OS_WIN32
 #include <windows.h>
 #endif
@@ -142,13 +144,12 @@ sqr (int x)                     ///< unsigned int.
 int
 threads_number ()
 {
-#ifdef G_OS_WIN32
-  SYSTEM_INFO sysinfo;
-  GetSystemInfo (&sysinfo);
-  return sysinfo.dwNumberOfProcessors;
-#else
-  return (int) sysconf (_SC_NPROCESSORS_CONF);
-#endif
+  int ncores;
+  glibtop *top;
+  top = glibtop_init ();
+  ncores = top->ncpu + 1;
+  glibtop_close ();
+  return ncores;
 }
 
 /**
