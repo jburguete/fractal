@@ -61,7 +61,7 @@ else
 fi
 
 # Checks for programs
-AC_PROG_CC([gcc-8 gcc8 gcc7 gcc6 gcc5 gcc49 gcc48 egcc gcc clang])
+AC_PROG_CC([gcc-9 gcc-8 gcc8 gcc7 gcc6 gcc5 gcc49 gcc48 egcc gcc clang])
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG

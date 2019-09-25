@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 3.4.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-23 17:05+0200\n"
+"POT-Creation-Date: 2019-09-25 03:48+0200\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -160,7 +160,7 @@ msgstr "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 msgid "Website"
 msgstr "Site web"
 
-#: simulator.c:407 simulator.c:486
+#: simulator.c:407 simulator.c:487
 msgid "Save graphical"
 msgstr "Saver graphique"
 
@@ -168,66 +168,66 @@ msgstr "Saver graphique"
 msgid "_Open"
 msgstr "_Ouvrir"
 
-#: simulator.c:477
+#: simulator.c:478
 msgid "_Options"
 msgstr "_Options"
 
-#: simulator.c:478
+#: simulator.c:479
 msgid "S_tart"
 msgstr "_Commencer"
 
-#: simulator.c:479
+#: simulator.c:480
 msgid "Sto_p"
 msgstr "A_rrêter"
 
-#: simulator.c:480
+#: simulator.c:481
 msgid "_Save"
 msgstr "_Enregistrer"
 
-#: simulator.c:481
+#: simulator.c:482
 msgid "_Help"
 msgstr "_Aide"
 
-#: simulator.c:482
+#: simulator.c:483
 msgid "E_xit"
 msgstr "_Sortir"
 
-#: simulator.c:483
+#: simulator.c:484
 msgid "Fractal options"
 msgstr "Options du fractal"
 
-#: simulator.c:484
+#: simulator.c:485
 msgid "Start fractal growing"
 msgstr "Commencer croissance fractal"
 
-#: simulator.c:485
+#: simulator.c:486
 msgid "Stop fractal growing"
 msgstr "Arrêter croissance fractal"
 
-#: simulator.c:487
+#: simulator.c:488
 msgid "Help"
 msgstr "Aide"
 
-#: simulator.c:488
+#: simulator.c:489
 msgid "Exit"
 msgstr "Quitter"
 
-#: simulator.c:544
+#: simulator.c:545
 msgid "Calculating time"
 msgstr "Temp de calcul"
 
-#: simulator.c:550
+#: simulator.c:551
 msgid "Progress"
 msgstr "Progrès"
 
-#: simulator.c:564
+#: simulator.c:565
 msgid "Horizontal perspective angle (º)"
 msgstr "Angle de perspective horizontale (º)"
 
-#: simulator.c:566
+#: simulator.c:567
 msgid "Vertical perspective angle (º)"
 msgstr "Angle de perspective verticale (º)"
 
-#: simulator.c:594
+#: simulator.c:595
 msgid "Fractal growing"
 msgstr "Croissance fractal"

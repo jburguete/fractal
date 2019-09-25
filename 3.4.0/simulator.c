@@ -429,6 +429,7 @@ dialog_simulator_draw_init (GtkGLArea * gl_area)
   printf ("dialog_simulator_draw_init: start\n");
 #endif
   gtk_gl_area_make_current (gl_area);
+  draw_init ();
 #if DEBUG
   printf ("dialog_simulator_draw_init: end\n");
 #endif

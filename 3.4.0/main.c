@@ -131,8 +131,6 @@ int
 main (int argn,                 ///< Arguments number.
       char **argc)              ///< Array of arguments.
 {
-  GLenum glew_status;
-
   if (argn > 2)
     {
       printf ("Bad arguments number\n");
@@ -238,18 +236,7 @@ main (int argn,                 ///< Arguments number.
 #endif
   dialog_simulator_create (dialog_simulator);
 
-  // Initing GLEW
-#if DEBUG
-  printf ("Initing GLEW\n");
-  fflush (stdout);
-#endif
-  glew_status = glewInit ();
-  if (glew_status != GLEW_OK)
-    {
-      printf ("ERROR! glewInit: %s\n", glewGetErrorString (glew_status));
-      return 1;
-    }
-
+#if !HAVE_GTKGLAREA
   // Initing drawing data
 #if DEBUG
   printf ("Initing drawing data\n");
@@ -257,6 +244,7 @@ main (int argn,                 ///< Arguments number.
 #endif
   if (!draw_init ())
     return 1;
+#endif
 
   // Opening input file
   if (argn == 2 && !fractal_input (argc[1]))

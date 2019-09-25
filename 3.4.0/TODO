@@ -1,2 +1,4 @@
 - Make GtkGLArea graphic version work
 - Enable OpenGL ES
+- Update OpenGL version
+- Force minimum graphical window size.

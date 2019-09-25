@@ -267,11 +267,24 @@ draw_init ()
   const char *error_message;
   GLint k;
   GLuint vs, fs;
+  GLenum glew_status;
 
 #if DEBUG
   printf ("draw_init: start\n");
   fflush (stdout);
 #endif
+
+  // Initing GLEW
+#if DEBUG
+  printf ("Initing GLEW\n");
+  fflush (stdout);
+#endif
+  glew_status = glewInit ();
+  if (glew_status != GLEW_OK)
+    {
+      printf ("ERROR! glewInit: %s\n", glewGetErrorString (glew_status));
+      return 0;
+    }
 
   // OpenGL properties
   glEnable (GL_BLEND);
