@@ -650,9 +650,19 @@ draw ()
   glClearColor (1., 1., 1., 0.);
   glClear (GL_COLOR_BUFFER_BIT);
 
+#if DEBUG
+  printf ("draw: ending if no fractal\n");
+  fflush (stdout);
+#endif
+
   // Ending if no fractal
   if (!medium)
     goto end_draw;
+
+#if DEBUG
+  printf ("draw: checking the fractal type\n");
+  fflush (stdout);
+#endif
 
   // Checking if 3D or 2D fractal
   glUseProgram (program_3D);
@@ -712,6 +722,11 @@ draw ()
       glUniformMatrix4fv (uniform_3D_matrix, 1, GL_FALSE, projection_matrix);
     }
 
+#if DEBUG
+  printf ("draw: drawing the fractal points\n");
+  fflush (stdout);
+#endif
+
   // Drawing the fractal points
   glGenBuffers (1, &vbo_points);
   glBindBuffer (GL_ARRAY_BUFFER, vbo_points);
@@ -732,6 +747,11 @@ draw ()
   glDisableVertexAttribArray (attribute_3D_position);
 
 end_draw:
+
+#if DEBUG
+  printf ("draw: drawing the logo\n");
+  fflush (stdout);
+#endif
 
   // Drawing the logo
   cp = ((float) logo.width) / window_width;
@@ -756,9 +776,20 @@ end_draw:
   glDisableVertexAttribArray (attribute_3D_position);
   glDisableVertexAttribArray (attribute_texture_position);
 
+#if DEBUG
+  printf ("draw: displaying the program version\n");
+  fflush (stdout);
+#endif
+
+  // Displaying the program version
   sx = 2. / window_width;
   sy = 2. / window_height;
   draw_text ("Fractal 3.4.1", 1. - 90. * sx, -0.99, sx, sy, black);
+
+#if DEBUG
+  printf ("draw: displaying the draw\n");
+  fflush (stdout);
+#endif
 
   // Displaying the draw
 #if HAVE_GTKGLAREA
