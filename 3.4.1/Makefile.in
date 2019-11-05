@@ -1,3 +1,4 @@
+.PHONY: dist strip clean
 basedir = @basedir@
 sysdir = @sysdir@
 bindir = $(basedir)bin/
@@ -113,6 +114,9 @@ dist: $(name) $(dll)
 		$(modir)$(fr)gettext-runtime.mo $(modir)$(fr)glib20.mo \
 		$(modir)$(fr)gtk30.mo $(modir)$(fr)gtk30-properties.mo \
 		$(modir)$(fr)libiconv.mo po/$(fr)fractal.mo $(bindir)po/$(fr)
+
+strip:
+	strip fractal
 
 clean:
 	rm -rf *.m4 *.cache *.scan *.log config.status Makefile *.o *.ico fractal \
