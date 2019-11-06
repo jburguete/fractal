@@ -496,6 +496,8 @@ draw_init ()
                       &face)
       && FT_New_Face (ft, "/usr/share/fonts/gnu-free/FreeSans.ttf", 0,
                       &face)
+      && FT_New_Face (ft, "/usr/share/fonts/gnu-free/FreeSans.otf", 0,
+                      &face)
       && FT_New_Face (ft, "/usr/pkg/share/fonts/X11/TTF/FreeSans.ttf", 0,
                       &face)
       && FT_New_Face (ft, "/usr/share/fonts/TTF/FreeSans.ttf", 0,
@@ -784,7 +786,7 @@ end_draw:
   // Displaying the program version
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 3.4.1", 1. - 90. * sx, -0.99, sx, sy, black);
+  draw_text ("Fractal 3.4.2", 1. - 90. * sx, -0.99, sx, sy, black);
 
 #if DEBUG
   printf ("draw: displaying the draw\n");

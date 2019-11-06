@@ -51,6 +51,7 @@ extern unsigned int window_width;
 extern unsigned int window_height;
 extern Logo logo;
 extern FT_Library ft;
+extern FT_Face face;
 
 void logo_new (char *name);
 void logo_destroy ();
