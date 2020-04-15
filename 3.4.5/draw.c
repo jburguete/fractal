@@ -43,8 +43,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <gtk/gtk.h>
-
-// Enabling OpenGL
 #include <GL/glew.h>
 #if HAVE_FREEGLUT
 #include <GL/freeglut.h>
@@ -59,6 +57,7 @@ extern GLFWwindow *window;
 #include "config.h"
 #include "fractal.h"
 #include "image.h"
+#include "text.h"
 #include "draw.h"
 #include "simulator.h"
 
@@ -76,16 +75,8 @@ GLfloat projection_matrix[16] = {
   0., 0., 0., 1.
 };                              ///< Projection matrix.
 
-GLuint vbo_text;                ///< Text vertex buffer object.
-GLuint program_text;            ///< Text program
-GLuint id_text;                 ///< Text identitifier.
-GLint attribute_text_position;  ///< Text variable position.
-GLint uniform_text;             ///< Text constant.
-GLint uniform_color;            ///< Color constant.
-FT_Library ft;                  ///< FreeType data.
-FT_Face face;                   ///< FreeType face to draw text.
-
 Image *logo;                    ///< Logo data.
+Text text[1];                   ///< Text data.
 
 /**
  * Function to init the graphic data.
@@ -109,31 +100,17 @@ draw_init ()
     "uniform highp mat4 matrix;"
     "void main ()"
     "{gl_Position = matrix * vec4 (position, 1.f); fcolor = color;}";
-  const char *vs_text_source =
-    "attribute highp vec4 position;"
-    "varying highp vec2 textcoord;"
-    "void main ()"
-    "{gl_Position = vec4(position.xy, 0, 1); textcoord = position.zw;}";
   const char *fs_source =
     "varying lowp vec3 fcolor;"
     "void main () {gl_FragColor = vec4 (fcolor, 1.f);}";
-  const char *fs_text_source =
-    "varying highp vec2 textcoord;"
-    "uniform lowp sampler2D text;"
-    "uniform lowp vec4 color;"
-    "void main ()"
-    "{gl_FragColor = vec4(1, 1, 1, texture2D(text, textcoord).a) * color;}";
   const char *vertex_name = "position";
   const char *color_name = "color";
   const char *matrix_name = "matrix";
-  const char *text_name = "text";
-  const char *vs_2D_sources[3] = { NULL, INIT_GL_GLES, vs_2D_source };
-  const char *vs_3D_sources[3] = { NULL, INIT_GL_GLES, vs_3D_source };
-  const char *vs_text_sources[3] = { NULL, INIT_GL_GLES, vs_text_source };
-  const char *fs_sources[3] = { NULL, INIT_GL_GLES, fs_source };
-  const char *fs_text_sources[3] = { NULL, INIT_GL_GLES, fs_text_source };
   // GLSL version
   const char *version = "#version 120\n";       // OpenGL 2.1
+  const char *vs_2D_sources[3] = { version, INIT_GL_GLES, vs_2D_source };
+  const char *vs_3D_sources[3] = { version, INIT_GL_GLES, vs_3D_source };
+  const char *fs_sources[3] = { version, INIT_GL_GLES, fs_source };
   const char *error_message;
   GLint k;
   GLuint vs, fs;
@@ -161,20 +138,9 @@ draw_init ()
   glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 #if DEBUG
-  printf ("draw_init: initing logo\n");
-  fflush (stdout);
-#endif
-  if (!image_init (logo))
-    {
-      error_message = "unable to init the logo";
-      goto exit_on_error;
-    }
-
-#if DEBUG
   printf ("draw_init: compiling 2D vertex shader\n");
   fflush (stdout);
 #endif
-  vs_2D_sources[0] = version;
   vs = glCreateShader (GL_VERTEX_SHADER);
   glShaderSource (vs, 3, vs_2D_sources, NULL);
   glCompileShader (vs);
@@ -189,7 +155,6 @@ draw_init ()
   printf ("draw_init: compiling 2D vertex shader\n");
   fflush (stdout);
 #endif
-  fs_sources[0] = version;
   fs = glCreateShader (GL_FRAGMENT_SHADER);
   glShaderSource (fs, 3, fs_sources, NULL);
   glCompileShader (fs);
@@ -200,7 +165,6 @@ draw_init ()
       goto exit_on_error;
     }
 
-  vs_3D_sources[0] = version;
   vs = glCreateShader (GL_VERTEX_SHADER);
   glShaderSource (vs, 3, vs_3D_sources, NULL);
   glCompileShader (vs);
@@ -243,66 +207,25 @@ draw_init ()
       goto exit_on_error;
     }
 
-  vs_text_sources[0] = version;
-  vs = glCreateShader (GL_VERTEX_SHADER);
-  glShaderSource (vs, 3, vs_text_sources, NULL);
-  glCompileShader (vs);
-  glGetShaderiv (vs, GL_COMPILE_STATUS, &k);
-  if (!k)
+#if DEBUG
+  printf ("draw_init: initing logo\n");
+  fflush (stdout);
+#endif
+  if (!image_init (logo))
     {
-      error_message = "unable to compile the 2D text vertex shader";
+      error_message = "unable to init the logo";
       goto exit_on_error;
     }
 
-  fs_text_sources[0] = version;
-  fs = glCreateShader (GL_FRAGMENT_SHADER);
-  glShaderSource (fs, 3, fs_text_sources, NULL);
-  glCompileShader (fs);
-  glGetShaderiv (fs, GL_COMPILE_STATUS, &k);
-  if (!k)
+#if DEBUG
+  printf ("draw_init: initing text\n");
+  fflush (stdout);
+#endif
+  if (!text_init (text))
     {
-      error_message = "unable to compile the 2D text fragment shader";
+      error_message = "unable to init the text";
       goto exit_on_error;
     }
-
-  program_text = glCreateProgram ();
-  glAttachShader (program_text, vs);
-  glAttachShader (program_text, fs);
-  glLinkProgram (program_text);
-  glGetProgramiv (program_text, GL_LINK_STATUS, &k);
-  if (!k)
-    {
-      error_message = "unable to link the program 2D text";
-      goto exit_on_error;
-    }
-
-  attribute_text_position = glGetAttribLocation (program_text, vertex_name);
-  if (attribute_text_position == -1)
-    {
-      error_message = "could not bind attribute";
-      goto exit_on_error;
-    }
-  uniform_text = glGetUniformLocation (program_text, text_name);
-  if (uniform_text == -1)
-    {
-      error_message = "could not bind text uniform";
-      goto exit_on_error;
-    }
-  uniform_color = glGetUniformLocation (program_text, color_name);
-  if (uniform_color == -1)
-    {
-      error_message = "could not bind color uniform";
-      goto exit_on_error;
-    }
-
-  if (FT_New_Face (ft, FONT, 0, &face))
-    {
-      error_message = "could not open font";
-      goto exit_on_error;
-    }
-  FT_Set_Pixel_Sizes (face, 0, 12);
-
-  glGenBuffers (1, &vbo_text);
 
 #if DEBUG
   printf ("draw_init: end\n");
@@ -332,69 +255,6 @@ draw_resize (int width,         ///< Graphic window width.
 }
 
 /**
- * Function to draw a text.
- */
-static inline void
-draw_text (char *text,          ///< Text string.
-           float x,             ///< x initial coordinate.
-           float y,             ///< y initial coordinate.
-           float sx,            ///< x scale factor.
-           float sy,            ///< y scale factor.
-           const GLfloat * color)       ///< array of RBGA colors.
-{
-  float x2, y2, w, h, box[16];
-  glUseProgram (program_text);
-  glGenTextures (1, &id_text);
-  glBindTexture (GL_TEXTURE_2D, id_text);
-  glUniform1i (uniform_text, 0);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
-  glUniform4fv (uniform_color, 1, color);
-  glEnableVertexAttribArray (attribute_text_position);
-  glBindBuffer (GL_ARRAY_BUFFER, vbo_text);
-  glVertexAttribPointer (attribute_text_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
-  for (; *text; ++text)
-    {
-      if (FT_Load_Char (face, *text, FT_LOAD_RENDER))
-        continue;
-      glTexImage2D (GL_TEXTURE_2D,
-                    0,
-                    GL_ALPHA,
-                    face->glyph->bitmap.width,
-                    face->glyph->bitmap.rows,
-                    0, GL_ALPHA, GL_UNSIGNED_BYTE, face->glyph->bitmap.buffer);
-      x2 = x + face->glyph->bitmap_left * sx;
-      y2 = -y - face->glyph->bitmap_top * sy;
-      w = face->glyph->bitmap.width * sx;
-      h = face->glyph->bitmap.rows * sy;
-      box[0] = x2;
-      box[1] = -y2;
-      box[2] = 0.;
-      box[3] = 0.;
-      box[4] = x2 + w;
-      box[5] = -y2;
-      box[6] = 1.;
-      box[7] = 0.;
-      box[8] = x2;
-      box[9] = -y2 - h;
-      box[10] = 0.;
-      box[11] = 1.;
-      box[12] = x2 + w;
-      box[13] = -y2 - h;
-      box[14] = 1.;
-      box[15] = 1.;
-      glBufferData (GL_ARRAY_BUFFER, sizeof (box), box, GL_DYNAMIC_DRAW);
-      glDrawArrays (GL_TRIANGLE_STRIP, 0, 4);
-      x += (face->glyph->advance.x >> 6) * sx;
-      y += (face->glyph->advance.y >> 6) * sy;
-    }
-  glDisableVertexAttribArray (attribute_text_position);
-}
-
-/**
  * Function to draw the fractal.
  */
 void
@@ -411,16 +271,18 @@ draw ()
   const GLfloat black[4] = { 0., 0., 0., 1. };
   float cp, sp, ct, st, w, h, sx, sy;
   GLuint vbo_square, ibo_square, vbo_points;
-
 #if HAVE_GLFW
   int graphic_width, graphic_height;
-  glfwGetFramebufferSize (window, &graphic_width, &graphic_height);
-  draw_resize (graphic_width, graphic_height);
 #endif
 
 #if DEBUG
   printf ("draw: start\n");
   fflush (stdout);
+#endif
+
+#if HAVE_GLFW
+  glfwGetFramebufferSize (window, &graphic_width, &graphic_height);
+  draw_resize (graphic_width, graphic_height);
 #endif
 
   // Drawing a white background
@@ -541,7 +403,7 @@ end_draw:
   // Displaying the program version
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 3.4.4", 1. - 90. * sx, -0.99, sx, sy, black);
+  text_draw (text, "Fractal 3.4.5", 1. - 90. * sx, -0.99, sx, sy, black);
 
 #if DEBUG
   printf ("draw: displaying the draw\n");

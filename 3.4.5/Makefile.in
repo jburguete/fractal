@@ -6,9 +6,9 @@ icondir = $(basedir)share/icons/
 dlldir = $(sysdir)bin/
 modir = $(sysdir)share/locale/
 
-objs = fractal.o image.o draw.o simulator.o main.o @icon@
-src = fractal.h image.h draw.h simulator.h fractal.c image.c draw.c \
-	simulator.c main.c
+objs = fractal.o image.o text.o draw.o simulator.o main.o @icon@
+src = fractal.h image.h text.h draw.h simulator.h fractal.c image.c text.c \
+	draw.c simulator.c main.c
 configs = config.h Makefile
 tests = tests/tree.xml tests/forest.xml tests/neuron.xml tests/tree-3d.xml \
 	tests/forest-3d.xml tests/neuron-3d.xml
@@ -28,17 +28,19 @@ dll = $(dlldir)libatk-1.0-0.dll $(dlldir)libbz2-1.dll $(dlldir)libcairo-2.dll \
 	$(dlldir)libwinpthread-1.dll $(dlldir)zlib1.dll
 png = image.png image2.png
 pgo = @PGO@
-pgoobjs = fractal.pgo image.pgo draw.pgo simulator.o main.o @icon@
+pgoobjs = fractal.pgo image.pgo text.pgo draw.pgo simulator.o main.o @icon@
 ifeq ($(pgo), 1)
-	fractaldep = fractalpgo fractal.gcda image.gcda draw.gcda
+	fractaldep = fractalpgo fractal.gcda image.gcda text.gcda draw.gcda
 	imagedep = fractalpgo
+	textdep = fractalpgo
 	drawdep = fractalpgo
 	pgogen = -fprofile-generate
 	pgouse = -fprofile-use -fprofile-correction
 else
 	fractaldep = fractal.c fractal.h draw.h $(configs)
 	imagedep = image.c image.h $(configs)
-	drawdep = draw.c fractal.h image.h draw.h $(configs)
+	textdep = text.c image.h text.h $(configs)
+	drawdep = draw.c fractal.h text.h image.h draw.h $(configs)
 endif
 es = es/LC_MESSAGES/
 fr = fr/LC_MESSAGES/
@@ -55,7 +57,7 @@ CC = @CC@ @STD@ @LTO@ @ccflags@ #-pg
 
 all: fractal po/fractal.pot po/$(es)fractal.mo po/$(fr)fractal.mo
 
-fractal: $(objs) fractal.gcda draw.gcda
+fractal: $(objs) fractal.gcda image.gcda text.gcda draw.gcda
 	$(CC) $(pgouse) $(objs) $(LDFLAGS) -o fractal
 
 fractalpgo: $(pgoobjs) $(tests)
@@ -79,16 +81,22 @@ image.pgo: image.c image.h $(configs)
 image.o: $(imagedep)
 	$(CC) $(CFLAGS) $(pgouse) image.c -o image.o
 
-draw.pgo: draw.c fractal.h image.h draw.h $(configs)
+text.pgo: text.c image.h text.h $(configs)
+	$(CC) $(CFLAGS) $(pgogen) text.c -o text.pgo
+
+text.o: $(textdep)
+	$(CC) $(CFLAGS) $(pgouse) text.c -o text.o
+
+draw.pgo: draw.c fractal.h image.h text.h draw.h $(configs)
 	$(CC) $(CFLAGS) $(pgogen) draw.c -o draw.pgo
 
 draw.o: $(drawdep)
 	$(CC) $(CFLAGS) $(pgouse) draw.c -o draw.o
 
-simulator.o: simulator.c fractal.h image.h draw.h simulator.h $(configs)
+simulator.o: simulator.c fractal.h image.h text.h draw.h simulator.h $(configs)
 	$(CC) $(CFLAGS) simulator.c -o simulator.o
 
-main.o: main.c fractal.h image.h draw.h simulator.h $(configs)
+main.o: main.c fractal.h image.h text.h draw.h simulator.h $(configs)
 	$(CC) $(CFLAGS) main.c -o main.o
 
 @icon@: fractal.rc fractal.ico

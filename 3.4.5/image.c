@@ -37,8 +37,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string.h>
 #include <glib.h>
 #include <png.h>
-
-// Enabling OpenGL
 #include <GL/glew.h>
 
 #include "config.h"
@@ -80,6 +78,11 @@ image_new (char *name)          ///< Image PNG file name.
   png_byte **row_pointers;
   FILE *file;
   unsigned int i, row_bytes;
+
+#if DEBUG
+  printf ("image_new: start\n");
+  fflush (stdout);
+#endif
 
   // initing image
   image = NULL;
@@ -136,16 +139,11 @@ error1:
   // freeing memory
   png_destroy_read_struct (&png, &info, NULL);
 
+#if DEBUG
+  printf ("image_new: end\n");
+  fflush (stdout);
+#endif
   return image;
-}
-
-/**
- * Function to free the memory used by the image.
- */
-void
-image_destroy (Image * image)   ///< Image struct.
-{
-  g_slice_free1 (image->size, image->image);
 }
 
 /**
@@ -172,10 +170,12 @@ image_init (Image * image)      ///< Image struct.
   const char *texture_name = "texture_image";
   const char *texture_position_name = "texture_position";
   const char *matrix_name = "matrix";
-  const char *vs_texture_sources[3] = { NULL, INIT_GL_GLES, vs_texture_source };
-  const char *fs_texture_sources[3] = { NULL, INIT_GL_GLES, fs_texture_source };
-  // GLSL version
   const char *version = "#version 120\n";       // OpenGL 2.1
+  const char *vs_texture_sources[3] =
+    { version, INIT_GL_GLES, vs_texture_source };
+  const char *fs_texture_sources[3] =
+    { version, INIT_GL_GLES, fs_texture_source };
+  // GLSL version
   const char *error_message;
   GLint k;
   GLuint vs, fs;
@@ -185,7 +185,6 @@ image_init (Image * image)      ///< Image struct.
   fflush (stdout);
 #endif
 
-  vs_texture_sources[0] = version;
   vs = glCreateShader (GL_VERTEX_SHADER);
   glShaderSource (vs, 3, vs_texture_sources, NULL);
   glCompileShader (vs);
@@ -196,7 +195,6 @@ image_init (Image * image)      ///< Image struct.
       goto exit_on_error;
     }
 
-  fs_texture_sources[0] = version;
   fs = glCreateShader (GL_FRAGMENT_SHADER);
   glShaderSource (fs, 3, fs_texture_sources, NULL);
   glCompileShader (fs);
@@ -292,6 +290,25 @@ exit_on_error:
   fflush (stdout);
 #endif
   return 0;
+}
+
+/**
+ * Function to free the memory used by the image.
+ */
+void
+image_destroy (Image * image)   ///< Image struct.
+{
+#if DEBUG
+  printf ("image_destroy: start\n");
+  fflush (stdout);
+#endif
+
+  g_slice_free1 (image->size, image->image);
+
+#if DEBUG
+  printf ("image_destroy: end\n");
+  fflush (stdout);
+#endif
 }
 
 /**

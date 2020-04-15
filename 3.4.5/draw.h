@@ -37,10 +37,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 extern unsigned int window_width;
 extern unsigned int window_height;
-extern FT_Library ft;
-extern FT_Face face;
 extern Image *logo;
-
+extern Text text[1];
 
 int draw_init ();
 void draw_resize (int width, int height);

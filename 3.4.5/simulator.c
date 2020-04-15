@@ -44,8 +44,6 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <gtk/gtk.h>
-
-// Enabling OpenGL containers
 #include <GL/glew.h>
 #if HAVE_FREEGLUT
 #include <GL/freeglut.h>
@@ -59,6 +57,7 @@ extern GLFWwindow *window;
 #include "config.h"
 #include "fractal.h"
 #include "image.h"
+#include "text.h"
 #include "draw.h"
 #include "simulator.h"
 
@@ -324,7 +323,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.4",
+                         "version", "3.4.5",
                          "copyright",
                          "Copyright 2009-2020 Javier Burguete Tolosa",
                          "logo", dialog_simulator->logo,

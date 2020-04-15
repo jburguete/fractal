@@ -44,10 +44,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <png.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include FT_MODULE_H
 #include <gtk/gtk.h>
-
-// Enabling OpenGL containers
 #include <GL/glew.h>
 #if HAVE_FREEGLUT
 #include <GL/freeglut.h>
@@ -60,6 +57,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "config.h"
 #include "fractal.h"
 #include "image.h"
+#include "text.h"
 #include "draw.h"
 #include "simulator.h"
 
@@ -210,13 +208,6 @@ main (int argn,                 ///< Arguments number.
 
 #endif
 
-  // Initing FreeType
-  if (FT_Init_FreeType (&ft))
-    {
-      printf ("ERROR! could not init freetype library\n");
-      return 1;
-    }
-
   // Initing GTK+
 #if DEBUG
   printf ("Initing GTK+\n");
@@ -271,8 +262,7 @@ main (int argn,                 ///< Arguments number.
   glfwTerminate ();
 #endif
   image_destroy (logo);
-  FT_Done_Face (face);
-  FT_Done_Library (ft);
+  text_destroy (text);
 
   return 0;
 }

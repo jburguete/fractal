@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT(fractal, [3.4.4])
+AC_INIT(fractal, [3.4.5])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -188,7 +188,7 @@ AC_CHECK_FUNCS([sqrt cos sin])
 
 # Check for font
 font=`find /usr -type f -iname freesans.ttf`
-if text "x$font" = "x"; then
+if test "x$font" = "x"; then
 	AC_MSG_ERROR([FreeSans font not found])
 else
 	AC_MSG_NOTICE([Font: $font])
