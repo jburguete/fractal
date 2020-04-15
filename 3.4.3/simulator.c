@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2019, Javier Burguete Tolosa.
+Copyright 2009-2020, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file simulator.c
  * \brief Source file to define the windows data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2019, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2020, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -323,9 +323,9 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.2",
+                         "version", "3.4.3",
                          "copyright",
-                         "Copyright 2009-2019 Javier Burguete Tolosa",
+                         "Copyright 2009-2020 Javier Burguete Tolosa",
                          "logo", dialog_simulator->logo,
                          "website-label", _("Website"),
                          "website", "https://github.com/jburguete/fractal",

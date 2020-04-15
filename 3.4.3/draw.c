@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2019, Javier Burguete Tolosa.
+Copyright 2009-2020, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file draw.c
  * \brief Source file to define the drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2019, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2020, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -58,46 +58,16 @@ extern GLFWwindow *window;
 
 #include "config.h"
 #include "fractal.h"
+#include "logo.h"
 #include "draw.h"
 #include "simulator.h"
 
-/**
- * Macro to enable OpenGL ES.
- */
-#define INIT_GL_GLES \
-	"#ifdef GL_ES\n" \
-	"#  ifdef GL_FRAGMENT_PRECISION_HIGH\n" \
-	"     precision highp float;\n" \
-	"#  else\n" \
-	"     precision mediump float;\n" \
-	"#  endif\n" \
-	"#else\n" \
-	"#  define lowp\n" \
-	"#  define mediump\n" \
-	"#  define highp\n" \
-	"#endif\n"
-
 GLuint program_3D;              ///< 3D program.
-GLint uniform_2D_matrix;        ///< 2D constant matrix.
 GLint attribute_3D_position;    ///< 3D variable position
 GLint attribute_3D_icolor;      ///< 3D variable color identifier.
 GLint uniform_3D_matrix;        ///< 3D constant matrix.
 unsigned int window_width = 480;        ///< Graphic window width.
 unsigned int window_height = 480;       ///< Graphic window height.
-
-const GLfloat square_texture[8] = {
-  0.0, 1.0,
-  0.0, 0.0,
-  1.0, 0.0,
-  1.0, 1.0,
-};                              ///< Square texture vertices.
-
-GLuint vbo_texture;             ///< Texture vertex buffer object.
-GLuint program_2D_texture;      ///< Texture program.
-GLuint id_texture;              ///< Texture identifier.
-GLint uniform_texture;          ///< Texture constant.
-GLint attribute_texture;        ///< Texture variable.
-GLint attribute_texture_position;       ///< Texture variable position.
 
 GLfloat projection_matrix[16] = {
   1., 0., 0., 0.,
@@ -105,29 +75,6 @@ GLfloat projection_matrix[16] = {
   0., 0, 0., 0.,
   0., 0., 0., 1.
 };                              ///< Projection matrix.
-
-GLfloat logo_matrix[16] = {
-  1.f, 0.f, 0.f, 0.f,
-  0.f, 1.f, 0.f, 0.f,
-  0.f, 0.f, 1.f, 0.f,
-  0.f, 0.f, -1.f, 1.f
-};                              ///< Logo projection matrix.
-
-const GLfloat logo_vertices[8] = {
-  -1.f, 1.f,
-  -1.f, -1.f,
-  1.f, -1.f,
-  1.f, 1.f,
-};                              ///< Logo vertices.
-
-GLushort logo_elements[6] = {
-  0, 1, 2,
-  2, 3, 0
-};                              ///< Logo element indices.
-
-GLuint vbo_logo;                ///< Logo vertices buffer object.
-GLuint ibo_logo;                ///< Logo indices buffer object.
-Logo logo;                      ///< Logo data.
 
 GLuint vbo_text;                ///< Text vertex buffer object.
 GLuint program_text;            ///< Text program
@@ -137,69 +84,6 @@ GLint uniform_text;             ///< Text constant.
 GLint uniform_color;            ///< Color constant.
 FT_Library ft;                  ///< FreeType data.
 FT_Face face;                   ///< FreeType face to draw text.
-
-/**
- * Function to read the logo on a PNG file.
- */
-void
-logo_new (char *name)           ///< Logo PNG file name.
-{
-  png_struct *png;
-  png_info *info;
-  png_byte **row_pointers;
-  FILE *file;
-  unsigned int i, row_bytes;
-
-  // starting png structs
-  png = png_create_read_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-  info = png_create_info_struct (png);
-
-  // opening file
-  file = fopen (name, "rb");
-  if (!file)
-    goto error1;
-
-  // reading file and transforming to 8 bits RGBA format
-  if (setjmp (png_jmpbuf (png)))
-    goto error2;
-  png_init_io (png, file);
-  if (setjmp (png_jmpbuf (png)))
-    goto error2;
-  png_read_png (png,
-                info,
-                PNG_TRANSFORM_STRIP_16 | PNG_TRANSFORM_PACKING |
-                PNG_TRANSFORM_EXPAND, NULL);
-
-  // copying pixels in the OpenGL order
-  logo.width = png_get_image_width (png, info);
-  logo.height = png_get_image_height (png, info);
-  row_bytes = png_get_rowbytes (png, info);
-  logo.size = row_bytes * logo.height;
-  logo.image = (GLubyte *) g_slice_alloc (logo.size);
-  if (!logo.image)
-    goto error2;
-  row_pointers = png_get_rows (png, info);
-  for (i = 0; i < logo.height; i++)
-    memcpy (logo.image + (row_bytes * (logo.height - 1 - i)),
-            row_pointers[i], row_bytes);
-
-error2:
-  // closing file
-  fclose (file);
-
-error1:
-  // freeing memory
-  png_destroy_read_struct (&png, &info, NULL);
-}
-
-/**
- * Function to free the memory used by the logo.
- */
-void
-logo_destroy ()
-{
-  g_slice_free1 (logo.size, logo.image);
-}
 
 /**
  * Function to init the graphic data.
@@ -223,14 +107,6 @@ draw_init ()
     "uniform highp mat4 matrix;"
     "void main ()"
     "{gl_Position = matrix * vec4 (position, 1.f); fcolor = color;}";
-  const char *vs_2D_texture_source =
-    "attribute highp vec2 position;"
-    "attribute highp vec2 texture_position;"
-    "varying highp vec2 t_position;"
-    "uniform highp mat4 matrix;"
-    "void main ()"
-    "{gl_Position = matrix * vec4 (position, 0.f, 1.f);"
-    "  t_position = texture_position;}";
   const char *vs_text_source =
     "attribute highp vec4 position;"
     "varying highp vec2 textcoord;"
@@ -239,10 +115,6 @@ draw_init ()
   const char *fs_source =
     "varying lowp vec3 fcolor;"
     "void main () {gl_FragColor = vec4 (fcolor, 1.f);}";
-  const char *fs_texture_source =
-    "varying highp vec2 t_position;"
-    "uniform lowp sampler2D texture_logo;"
-    "void main () {gl_FragColor = texture2D (texture_logo, t_position);}";
   const char *fs_text_source =
     "varying highp vec2 textcoord;"
     "uniform lowp sampler2D text;"
@@ -251,19 +123,15 @@ draw_init ()
     "{gl_FragColor = vec4(1, 1, 1, texture2D(text, textcoord).a) * color;}";
   const char *vertex_name = "position";
   const char *color_name = "color";
-  const char *texture_position_name = "texture_position";
   const char *matrix_name = "matrix";
-  const char *texture_logo_name = "texture_logo";
   const char *text_name = "text";
   const char *vs_2D_sources[3] = { NULL, INIT_GL_GLES, vs_2D_source };
   const char *vs_3D_sources[3] = { NULL, INIT_GL_GLES, vs_3D_source };
-  const char *vs_2D_texture_sources[3]
-    = { NULL, INIT_GL_GLES, vs_2D_texture_source };
   const char *vs_text_sources[3] = { NULL, INIT_GL_GLES, vs_text_source };
   const char *fs_sources[3] = { NULL, INIT_GL_GLES, fs_source };
-  const char *fs_texture_sources[3] = { NULL, INIT_GL_GLES, fs_texture_source };
   const char *fs_text_sources[3] = { NULL, INIT_GL_GLES, fs_text_source };
-  const char *version;
+  // GLSL version
+  const char *version = "#version 120\n";       // OpenGL 2.1
   const char *error_message;
   GLint k;
   GLuint vs, fs;
@@ -290,8 +158,15 @@ draw_init ()
   glEnable (GL_BLEND);
   glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-  // GLSL version
-  version = "#version 120\n";   // OpenGL 2.1
+#if DEBUG
+  printf ("draw_init: initing logo\n");
+  fflush (stdout);
+#endif
+  if (!logo_init (logo))
+    {
+      error_message = "unable to init the logo";
+      goto exit_on_error;
+    }
 
 #if DEBUG
   printf ("draw_init: compiling 2D vertex shader\n");
@@ -363,76 +238,6 @@ draw_init ()
   if (uniform_3D_matrix == -1)
     {
       error_message = "could not bind uniform";
-      goto exit_on_error;
-    }
-
-  vs_2D_texture_sources[0] = version;
-  vs = glCreateShader (GL_VERTEX_SHADER);
-  glShaderSource (vs, 3, vs_2D_texture_sources, NULL);
-  glCompileShader (vs);
-  glGetShaderiv (vs, GL_COMPILE_STATUS, &k);
-  if (!k)
-    {
-      error_message = "unable to compile the 2D texture vertex shader";
-      goto exit_on_error;
-    }
-
-  fs_texture_sources[0] = version;
-  fs = glCreateShader (GL_FRAGMENT_SHADER);
-  glShaderSource (fs, 3, fs_texture_sources, NULL);
-  glCompileShader (fs);
-  glGetShaderiv (fs, GL_COMPILE_STATUS, &k);
-  if (!k)
-    {
-      error_message = "unable to compile the 2D texture fragment shader";
-      goto exit_on_error;
-    }
-
-  program_2D_texture = glCreateProgram ();
-  glAttachShader (program_2D_texture, vs);
-  glAttachShader (program_2D_texture, fs);
-  glLinkProgram (program_2D_texture);
-  glGetProgramiv (program_2D_texture, GL_LINK_STATUS, &k);
-  if (!k)
-    {
-      error_message = "unable to link the program 2D texture";
-      goto exit_on_error;
-    }
-
-  glActiveTexture (GL_TEXTURE0);
-  glGenTextures (1, &id_texture);
-  glBindTexture (GL_TEXTURE_2D, id_texture);
-  glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexImage2D (GL_TEXTURE_2D,  // target
-                0,              // level, 0 = base, no minimap,
-                GL_RGBA,        // internalformat
-                logo.width,     // width
-                logo.height,    // height
-                0,              // border, always 0 in OpenGL ES
-                GL_RGBA,        // format
-                GL_UNSIGNED_BYTE,       // type
-                logo.image);
-
-  attribute_texture = glGetAttribLocation (program_2D_texture, vertex_name);
-  if (attribute_texture == -1)
-    {
-      error_message = "could not bind attribute";
-      goto exit_on_error;
-    }
-
-  attribute_texture_position
-    = glGetAttribLocation (program_2D_texture, texture_position_name);
-  if (attribute_texture_position == -1)
-    {
-      error_message = "could not bind attribute";
-      goto exit_on_error;
-    }
-
-  uniform_texture
-    = glGetUniformLocation (program_2D_texture, texture_logo_name);
-  if (uniform_texture == -1)
-    {
-      error_message = "could not bind texture uniform";
       goto exit_on_error;
     }
 
@@ -511,21 +316,6 @@ draw_init ()
       goto exit_on_error;
     }
   FT_Set_Pixel_Sizes (face, 0, 12);
-
-  glGenBuffers (1, &vbo_logo);
-  glBindBuffer (GL_ARRAY_BUFFER, vbo_logo);
-  glBufferData (GL_ARRAY_BUFFER, sizeof (logo_vertices), logo_vertices,
-                GL_STATIC_DRAW);
-
-  glGenBuffers (1, &ibo_logo);
-  glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, ibo_logo);
-  glBufferData (GL_ELEMENT_ARRAY_BUFFER, sizeof (logo_elements), logo_elements,
-                GL_STATIC_DRAW);
-
-  glGenBuffers (1, &vbo_texture);
-  glBindBuffer (GL_ARRAY_BUFFER, vbo_texture);
-  glBufferData (GL_ARRAY_BUFFER, sizeof (square_texture), square_texture,
-                GL_STATIC_DRAW);
 
   glGenBuffers (1, &vbo_text);
 
@@ -756,27 +546,7 @@ end_draw:
 #endif
 
   // Drawing the logo
-  cp = ((float) logo.width) / window_width;
-  sp = ((float) logo.height) / window_height;
-  logo_matrix[0] = cp;
-  logo_matrix[5] = sp;
-  logo_matrix[12] = cp - 1.f;
-  logo_matrix[13] = sp - 1.f;
-  glUseProgram (program_2D_texture);
-  glUniformMatrix4fv (uniform_2D_matrix, 1, GL_FALSE, logo_matrix);
-  glUniform1i (uniform_texture, 0);
-  glBindTexture (GL_TEXTURE_2D, id_texture);
-  glBindBuffer (GL_ARRAY_BUFFER, vbo_texture);
-  glEnableVertexAttribArray (attribute_texture_position);
-  glVertexAttribPointer (attribute_texture_position,
-                         2, GL_FLOAT, GL_FALSE, 0, 0);
-  glBindBuffer (GL_ARRAY_BUFFER, vbo_logo);
-  glEnableVertexAttribArray (attribute_texture);
-  glVertexAttribPointer (attribute_texture, 2, GL_FLOAT, GL_FALSE, 0, 0);
-  glBindBuffer (GL_ELEMENT_ARRAY_BUFFER, ibo_logo);
-  glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, 0);
-  glDisableVertexAttribArray (attribute_3D_position);
-  glDisableVertexAttribArray (attribute_texture_position);
+  logo_draw (logo, window_width, window_height);
 
 #if DEBUG
   printf ("draw: displaying the program version\n");
@@ -786,7 +556,7 @@ end_draw:
   // Displaying the program version
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 3.4.2", 1. - 90. * sx, -0.99, sx, sy, black);
+  draw_text ("Fractal 3.4.3", 1. - 90. * sx, -0.99, sx, sy, black);
 
 #if DEBUG
   printf ("draw: displaying the draw\n");

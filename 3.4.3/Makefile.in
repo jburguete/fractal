@@ -1,4 +1,4 @@
-.PHONY: dist strip clean
+.PHONY: dist clean
 basedir = @basedir@
 sysdir = @sysdir@
 bindir = $(basedir)bin/
@@ -6,8 +6,9 @@ icondir = $(basedir)share/icons/
 dlldir = $(sysdir)bin/
 modir = $(sysdir)share/locale/
 
-objs = fractal.o draw.o simulator.o main.o @icon@
-src = fractal.h draw.h simulator.h fractal.c draw.c simulator.c main.c
+objs = fractal.o logo.o draw.o simulator.o main.o @icon@
+src = fractal.h logo.h draw.h simulator.h fractal.c logo.c draw.c simulator.c \
+	main.c
 configs = config.h Makefile
 tests = tests/tree.xml tests/forest.xml tests/neuron.xml tests/tree-3d.xml \
 	tests/forest-3d.xml tests/neuron-3d.xml
@@ -27,15 +28,17 @@ dll = $(dlldir)libatk-1.0-0.dll $(dlldir)libbz2-1.dll $(dlldir)libcairo-2.dll \
 	$(dlldir)libwinpthread-1.dll $(dlldir)zlib1.dll
 png = logo.png logo2.png
 pgo = @PGO@
-pgoobjs = fractal.pgo draw.pgo simulator.o main.o @icon@
+pgoobjs = fractal.pgo logo.pgo draw.pgo simulator.o main.o @icon@
 ifeq ($(pgo), 1)
-	fractaldep = fractalpgo fractal.gcda draw.gcda
+	fractaldep = fractalpgo fractal.gcda logo.gcda draw.gcda
+	logodep = fractalpgo
 	drawdep = fractalpgo
 	pgogen = -fprofile-generate
 	pgouse = -fprofile-use -fprofile-correction
 else
 	fractaldep = fractal.c fractal.h draw.h $(configs)
-	drawdep = draw.c fractal.h draw.h $(configs)
+	logodep = logo.c logo.h $(configs)
+	drawdep = draw.c fractal.h logo.h draw.h $(configs)
 endif
 es = es/LC_MESSAGES/
 fr = fr/LC_MESSAGES/
@@ -70,7 +73,13 @@ fractal.pgo: fractal.c fractal.h draw.h $(configs)
 fractal.o: $(fractaldep)
 	$(CC) $(CFLAGS) $(pgouse) fractal.c -o fractal.o
 
-draw.pgo: draw.c fractal.h draw.h $(configs)
+logo.pgo: logo.c logo.h $(configs)
+	$(CC) $(CFLAGS) $(pgogen) logo.c -o logo.pgo
+
+logo.o: $(logodep)
+	$(CC) $(CFLAGS) $(pgouse) logo.c -o logo.o
+
+draw.pgo: draw.c fractal.h logo.h draw.h $(configs)
 	$(CC) $(CFLAGS) $(pgogen) draw.c -o draw.pgo
 
 draw.o: $(drawdep)
@@ -79,7 +88,7 @@ draw.o: $(drawdep)
 simulator.o: simulator.c fractal.h draw.h simulator.h $(configs)
 	$(CC) $(CFLAGS) simulator.c -o simulator.o
 
-main.o: main.c fractal.h draw.h simulator.h $(configs)
+main.o: main.c fractal.h logo.h draw.h simulator.h $(configs)
 	$(CC) $(CFLAGS) main.c -o main.o
 
 @icon@: fractal.rc fractal.ico
@@ -115,7 +124,7 @@ dist: $(name) $(dll)
 		$(modir)$(fr)gtk30.mo $(modir)$(fr)gtk30-properties.mo \
 		$(modir)$(fr)libiconv.mo po/$(fr)fractal.mo $(bindir)po/$(fr)
 
-strip:
+strip: fractal
 	strip fractal
 
 clean:

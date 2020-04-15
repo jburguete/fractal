@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2019, Javier Burguete Tolosa.
+Copyright 2009-2020, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,31 +30,15 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file draw.h
  * \brief Header file to define the drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2019, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2020, Javier Burguete Tolosa.
  */
 #ifndef DRAW__H
 #define DRAW__H 1
 
-/**
- * \struct Logo
- * \brief A struct to define the logo.
- */
-typedef struct
-{
-  unsigned int width;           ///< Width.
-  unsigned int height;          ///< Height.
-  unsigned int size;            ///< Size in bytes.
-  GLubyte *image;               ///< Image bytes.
-} Logo;
-
 extern unsigned int window_width;
 extern unsigned int window_height;
-extern Logo logo;
 extern FT_Library ft;
 extern FT_Face face;
-
-void logo_new (char *name);
-void logo_destroy ();
 
 int draw_init ();
 void draw_resize (int width, int height);
