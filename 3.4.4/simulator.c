@@ -58,6 +58,7 @@ extern GLFWwindow *window;
 
 #include "config.h"
 #include "fractal.h"
+#include "image.h"
 #include "draw.h"
 #include "simulator.h"
 
@@ -323,7 +324,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.3",
+                         "version", "3.4.4",
                          "copyright",
                          "Copyright 2009-2020 Javier Burguete Tolosa",
                          "logo", dialog_simulator->logo,

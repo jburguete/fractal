@@ -108,5 +108,4 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define XML_YES         (const xmlChar *)"yes"
 ///< yes XML label.
 
-
 #endif

@@ -58,7 +58,7 @@ extern GLFWwindow *window;
 
 #include "config.h"
 #include "fractal.h"
-#include "logo.h"
+#include "image.h"
 #include "draw.h"
 #include "simulator.h"
 
@@ -84,6 +84,8 @@ GLint uniform_text;             ///< Text constant.
 GLint uniform_color;            ///< Color constant.
 FT_Library ft;                  ///< FreeType data.
 FT_Face face;                   ///< FreeType face to draw text.
+
+Image *logo;                    ///< Logo data.
 
 /**
  * Function to init the graphic data.
@@ -162,7 +164,7 @@ draw_init ()
   printf ("draw_init: initing logo\n");
   fflush (stdout);
 #endif
-  if (!logo_init (logo))
+  if (!image_init (logo))
     {
       error_message = "unable to init the logo";
       goto exit_on_error;
@@ -293,24 +295,7 @@ draw_init ()
       goto exit_on_error;
     }
 
-  if (FT_New_Face (ft, "/usr/share/fonts/truetype/FreeSans.ttf", 0,
-                   &face)
-      && FT_New_Face (ft, "/usr/share/fonts/truetype/freefont/FreeSans.ttf", 0,
-                      &face)
-      && FT_New_Face (ft, "/usr/share/fonts/TrueType/freefont/FreeSans.ttf", 0,
-                      &face)
-      && FT_New_Face (ft, "/usr/share/fonts/gnu-free/FreeSans.ttf", 0,
-                      &face)
-      && FT_New_Face (ft, "/usr/share/fonts/gnu-free/FreeSans.otf", 0,
-                      &face)
-      && FT_New_Face (ft, "/usr/pkg/share/fonts/X11/TTF/FreeSans.ttf", 0,
-                      &face)
-      && FT_New_Face (ft, "/usr/share/fonts/TTF/FreeSans.ttf", 0,
-                      &face)
-      && FT_New_Face (ft, "/usr/local/share/texmf-dist/fonts/truetype/public"
-                      "/gnu-freefont/FreeSans.ttf", 0, &face)
-      && FT_New_Face (ft, "/usr/local/share/fonts/freefont/FreeSans.ttf", 0,
-                      &face))
+  if (FT_New_Face (ft, FONT, 0, &face))
     {
       error_message = "could not open font";
       goto exit_on_error;
@@ -546,7 +531,7 @@ end_draw:
 #endif
 
   // Drawing the logo
-  logo_draw (logo, window_width, window_height);
+  image_draw (logo, window_width, window_height);
 
 #if DEBUG
   printf ("draw: displaying the program version\n");
@@ -556,7 +541,7 @@ end_draw:
   // Displaying the program version
   sx = 2. / window_width;
   sy = 2. / window_height;
-  draw_text ("Fractal 3.4.3", 1. - 90. * sx, -0.99, sx, sy, black);
+  draw_text ("Fractal 3.4.4", 1. - 90. * sx, -0.99, sx, sy, black);
 
 #if DEBUG
   printf ("draw: displaying the draw\n");

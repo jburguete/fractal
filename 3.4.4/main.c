@@ -59,7 +59,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "config.h"
 #include "fractal.h"
-#include "logo.h"
+#include "image.h"
 #include "draw.h"
 #include "simulator.h"
 
@@ -229,7 +229,7 @@ main (int argn,                 ///< Arguments number.
   printf ("Initing logo\n");
   fflush (stdout);
 #endif
-  logo = logo_new ("logo.png");
+  logo = image_new ("logo.png");
 
   // Creating the main GTK+ window
 #if DEBUG
@@ -270,7 +270,7 @@ main (int argn,                 ///< Arguments number.
   glfwDestroyWindow (window);
   glfwTerminate ();
 #endif
-  logo_destroy (logo);
+  image_destroy (logo);
   FT_Done_Face (face);
   FT_Done_Library (ft);
 

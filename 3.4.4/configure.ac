@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT(fractal, [3.4.3])
+AC_INIT(fractal, [3.4.4])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -185,6 +185,15 @@ AC_TYPE_SIZE_T
 
 # Checks for library functions.
 AC_CHECK_FUNCS([sqrt cos sin])
+
+# Check for font
+font=`find /usr -type f -iname freesans.ttf`
+if text "x$font" = "x"; then
+	AC_MSG_ERROR([FreeSans font not found])
+else
+	AC_MSG_NOTICE([Font: $font])
+	AC_SUBST(FONT, "-DFONT=\\\"$font\\\"")
+fi
 
 # Output
 AC_CONFIG_FILES([Makefile])

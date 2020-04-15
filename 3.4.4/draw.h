@@ -39,6 +39,8 @@ extern unsigned int window_width;
 extern unsigned int window_height;
 extern FT_Library ft;
 extern FT_Face face;
+extern Image *logo;
+
 
 int draw_init ();
 void draw_resize (int width, int height);
