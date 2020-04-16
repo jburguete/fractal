@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.4.5\n"
+"Project-Id-Version: 3.4.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 18:56+0200\n"
+"POT-Creation-Date: 2020-04-16 19:09+0200\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,217 +17,217 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: fractal.c:1418
+#: fractal.c:1407
 msgid "Unable to parse the input file"
 msgstr "No se pudo abrir el fichero de entrada"
 
-#: fractal.c:1424
+#: fractal.c:1413
 msgid "Bad XML root node"
 msgstr "Nodo XML raíz incorrecto"
 
-#: fractal.c:1430
+#: fractal.c:1419
 msgid "Bad width"
 msgstr "Anchura incorrecta"
 
-#: fractal.c:1437
+#: fractal.c:1426
 msgid "Bad height"
 msgstr "Altura incorrecta"
 
-#: fractal.c:1444
+#: fractal.c:1433
 msgid "Bad length"
 msgstr "Longitud incorrecta"
 
-#: fractal.c:1451
+#: fractal.c:1440
 msgid "Bad random seed"
 msgstr "Semilla de números aleatorios incorrecta"
 
-#: fractal.c:1459
+#: fractal.c:1448
 msgid "Bad threads number"
 msgstr "Número de tareas incorrecto"
 
-#: fractal.c:1469
+#: fractal.c:1458
 msgid "Bad diagonal movement"
 msgstr "Movimiento diagonal incorrecto"
 
-#: fractal.c:1480
+#: fractal.c:1469
 msgid "Bad 3D"
 msgstr "3D incorrecto"
 
-#: fractal.c:1491
+#: fractal.c:1480
 msgid "Bad animation"
 msgstr "Animación incorrecta"
 
-#: fractal.c:1504
+#: fractal.c:1493
 msgid "Unknown fractal type"
 msgstr "Tipo de fractal desconocido"
 
-#: fractal.c:1517
+#: fractal.c:1506
 msgid "Unknown random seed type"
 msgstr "Tipo de semilla de números aleatorios desconocido"
 
-#: fractal.c:1548
+#: fractal.c:1537
 msgid "Unknown random algorithm"
 msgstr "Algoritmo de números aleatorios desconocido"
 
-#: simulator.c:136
+#: simulator.c:157
 msgid "_Tree"
 msgstr "Á_rbol"
 
-#: simulator.c:136
+#: simulator.c:157
 msgid "_Forest"
 msgstr "_Bosque"
 
-#: simulator.c:136
+#: simulator.c:157
 msgid "_Neuron"
 msgstr "_Neurona"
 
-#: simulator.c:152
+#: simulator.c:173
 msgid "_Default"
 msgstr "_Defecto"
 
-#: simulator.c:152
+#: simulator.c:173
 msgid "_Clock based"
 msgstr "_Basdo en reloj"
 
-#: simulator.c:152
+#: simulator.c:173
 msgid "_Fixed"
 msgstr "_Fijo"
 
-#: simulator.c:156
+#: simulator.c:177
 msgid "_Diagonal movement"
 msgstr "Movimiento _diagonal"
 
-#: simulator.c:160
+#: simulator.c:181
 msgid "Length"
 msgstr "Longitud"
 
-#: simulator.c:161
+#: simulator.c:182
 msgid "Width"
 msgstr "Anchura"
 
-#: simulator.c:162
+#: simulator.c:183
 msgid "Height"
 msgstr "Altura"
 
-#: simulator.c:163
+#: simulator.c:184
 msgid "Random seed"
 msgstr "Semilla de números aleatorios"
 
-#: simulator.c:164
+#: simulator.c:185
 msgid "Threads number"
 msgstr "Número de tareas"
 
-#: simulator.c:188
+#: simulator.c:209
 msgid "Fractal type"
 msgstr "Tipo de fractal"
 
-#: simulator.c:193
+#: simulator.c:214
 msgid "_Animate"
 msgstr "_Animar"
 
-#: simulator.c:209
+#: simulator.c:230
 msgid "Random algorithm"
 msgstr "Algoritmo de números aleatorios"
 
-#: simulator.c:227
+#: simulator.c:248
 msgid "Random seed type"
 msgstr "Tipo de semilla de números aleatorios"
 
-#: simulator.c:250
+#: simulator.c:271
 msgid "Options"
 msgstr "Opciones"
 
-#: simulator.c:254
+#: simulator.c:275
 msgid "_OK"
 msgstr "_Aceptar"
 
-#: simulator.c:256 simulator.c:410
+#: simulator.c:277 simulator.c:432
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: simulator.c:321
+#: simulator.c:342
 msgid ""
 "A program growing fractals to benchmark parallelization and drawing libraries"
 msgstr ""
 "Un programa que usa crecimiento de fractales para analizar paralelización y "
 "librerías gráficas"
 
-#: simulator.c:325
+#: simulator.c:346
 msgid "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 msgstr "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 
-#: simulator.c:330
+#: simulator.c:351
 msgid "Website"
 msgstr "Sitio web"
 
-#: simulator.c:407 simulator.c:487
+#: simulator.c:429 simulator.c:503
 msgid "Save graphical"
 msgstr "Guardar gráfica"
 
-#: simulator.c:411
+#: simulator.c:433
 msgid "_Open"
 msgstr "_Abrir"
 
-#: simulator.c:478
+#: simulator.c:494
 msgid "_Options"
 msgstr "_Opciones"
 
-#: simulator.c:479
+#: simulator.c:495
 msgid "S_tart"
 msgstr "_Comenzar"
 
-#: simulator.c:480
+#: simulator.c:496
 msgid "Sto_p"
 msgstr "_Parar"
 
-#: simulator.c:481
+#: simulator.c:497
 msgid "_Save"
 msgstr "_Guardar"
 
-#: simulator.c:482
+#: simulator.c:498
 msgid "_Help"
 msgstr "A_yuda"
 
-#: simulator.c:483
+#: simulator.c:499
 msgid "E_xit"
 msgstr "_Salir"
 
-#: simulator.c:484
+#: simulator.c:500
 msgid "Fractal options"
 msgstr "Opciones de fractal"
 
-#: simulator.c:485
+#: simulator.c:501
 msgid "Start fractal growing"
 msgstr "Iniciar crecimiento fractal"
 
-#: simulator.c:486
+#: simulator.c:502
 msgid "Stop fractal growing"
 msgstr "Parar crecimiento fractal"
 
-#: simulator.c:488
+#: simulator.c:504
 msgid "Help"
 msgstr "Ayuda"
 
-#: simulator.c:489
+#: simulator.c:505
 msgid "Exit"
 msgstr "Salir"
 
-#: simulator.c:545
+#: simulator.c:561
 msgid "Calculating time"
 msgstr "Tiempo de cálculo"
 
-#: simulator.c:551
+#: simulator.c:567
 msgid "Progress"
 msgstr "Progreso"
 
-#: simulator.c:565
+#: simulator.c:581
 msgid "Horizontal perspective angle (º)"
 msgstr "Ángulo de perspectiva horizontal (º)"
 
-#: simulator.c:567
+#: simulator.c:583
 msgid "Vertical perspective angle (º)"
 msgstr "Ángulo de perspectiva vertical (º)"
 
-#: simulator.c:595
+#: simulator.c:611
 msgid "Fractal growing"
 msgstr "Crecimiento fractal"

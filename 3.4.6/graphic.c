@@ -27,16 +27,16 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * \file draw.c
- * \brief Source file to define the drawing data and functions.
+ * \file graphic.c
+ * \brief Source file to define the graphic drawing data and functions.
  * \author Javier Burguete Tolosa.
  * \copyright Copyright 2009-2020, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
-#include <time.h>
 #include <gsl/gsl_rng.h>
 #include <glib.h>
 #include <png.h>
@@ -44,39 +44,15 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include FT_FREETYPE_H
 #include <gtk/gtk.h>
 #include <GL/glew.h>
-#if HAVE_FREEGLUT
-#include <GL/freeglut.h>
-#elif HAVE_SDL
-#include <SDL.h>
-extern SDL_Window *window;
-#elif HAVE_GLFW
-#include <GLFW/glfw3.h>
-extern GLFWwindow *window;
-#endif
 
 #include "config.h"
 #include "fractal.h"
 #include "image.h"
 #include "text.h"
-#include "draw.h"
-#include "simulator.h"
+#include "graphic.h"
 
-GLuint program_3D;              ///< 3D program.
-GLint attribute_3D_position;    ///< 3D variable position
-GLint attribute_3D_icolor;      ///< 3D variable color identifier.
-GLint uniform_3D_matrix;        ///< 3D constant matrix.
 unsigned int window_width = 480;        ///< Graphic window width.
 unsigned int window_height = 480;       ///< Graphic window height.
-
-GLfloat projection_matrix[16] = {
-  1., 0., 0., 0.,
-  0, 1., 0., 0.,
-  0., 0, 0., 0.,
-  0., 0., 0., 1.
-};                              ///< Projection matrix.
-
-Image *logo;                    ///< Logo data.
-Text text[1];                   ///< Text data.
 
 /**
  * Function to init the graphic data.
@@ -84,8 +60,15 @@ Text text[1];                   ///< Text data.
  * \return 1 on success, 0 on error.
  */
 int
-draw_init ()
+graphic_init (Graphic * graphic,        ///< Draw struct.
+              char *logo_name)  ///< Logo PNG file name.
 {
+  const GLfloat projection_matrix[16] = {
+    1., 0., 0., 0.,
+    0, 1., 0., 0.,
+    0., 0, 0., 0.,
+    0., 0., 0., 1.
+  };
   const char *vs_2D_source =
     "attribute highp vec2 position;"
     "attribute lowp vec3 color;"
@@ -117,7 +100,7 @@ draw_init ()
   GLenum glew_status;
 
 #if DEBUG
-  printf ("draw_init: start\n");
+  printf ("graphic_init: start\n");
   fflush (stdout);
 #endif
 
@@ -133,12 +116,8 @@ draw_init ()
       return 0;
     }
 
-  // OpenGL properties
-  glEnable (GL_BLEND);
-  glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 #if DEBUG
-  printf ("draw_init: compiling 2D vertex shader\n");
+  printf ("graphic_init: compiling 2D vertex shader\n");
   fflush (stdout);
 #endif
   vs = glCreateShader (GL_VERTEX_SHADER);
@@ -152,7 +131,7 @@ draw_init ()
     }
 
 #if DEBUG
-  printf ("draw_init: compiling 2D vertex shader\n");
+  printf ("graphic_init: compiling 2D vertex shader\n");
   fflush (stdout);
 #endif
   fs = glCreateShader (GL_FRAGMENT_SHADER);
@@ -175,60 +154,76 @@ draw_init ()
       goto exit_on_error;
     }
 
-  program_3D = glCreateProgram ();
-  glAttachShader (program_3D, vs);
-  glAttachShader (program_3D, fs);
-  glLinkProgram (program_3D);
-  glGetProgramiv (program_3D, GL_LINK_STATUS, &k);
+  graphic->program_3D = glCreateProgram ();
+  glAttachShader (graphic->program_3D, vs);
+  glAttachShader (graphic->program_3D, fs);
+  glLinkProgram (graphic->program_3D);
+  glGetProgramiv (graphic->program_3D, GL_LINK_STATUS, &k);
   if (!k)
     {
       error_message = "unable to link the program 3D";
       goto exit_on_error;
     }
 
-  attribute_3D_position = glGetAttribLocation (program_3D, vertex_name);
-  if (attribute_3D_position == -1)
+  graphic->attribute_3D_position
+    = glGetAttribLocation (graphic->program_3D, vertex_name);
+  if (graphic->attribute_3D_position == -1)
     {
       error_message = "could not bind attribute";
       goto exit_on_error;
     }
 
-  attribute_3D_icolor = glGetAttribLocation (program_3D, color_name);
-  if (attribute_3D_icolor == -1)
+  graphic->attribute_3D_color
+    = glGetAttribLocation (graphic->program_3D, color_name);
+  if (graphic->attribute_3D_color == -1)
     {
       error_message = "could not bind attribute";
       goto exit_on_error;
     }
 
-  uniform_3D_matrix = glGetUniformLocation (program_3D, matrix_name);
-  if (uniform_3D_matrix == -1)
+  graphic->uniform_3D_matrix
+    = glGetUniformLocation (graphic->program_3D, matrix_name);
+  if (graphic->uniform_3D_matrix == -1)
     {
       error_message = "could not bind uniform";
       goto exit_on_error;
     }
 
-#if DEBUG
-  printf ("draw_init: initing logo\n");
-  fflush (stdout);
-#endif
-  if (!image_init (logo))
-    {
-      error_message = "unable to init the logo";
-      goto exit_on_error;
-    }
+  memcpy (graphic->projection_matrix, projection_matrix, 16 * sizeof (GLfloat));
 
 #if DEBUG
-  printf ("draw_init: initing text\n");
+  printf ("graphic_init: initing logo\n");
   fflush (stdout);
 #endif
-  if (!text_init (text))
+  if (logo_name)
+    {
+      graphic->logo = image_new (logo_name);
+      if (!graphic->logo)
+        {
+          error_message = "unable to open the logo";
+          goto exit_on_error;
+        }
+      if (!image_init (graphic->logo))
+        {
+          error_message = "unable to init the logo";
+          goto exit_on_error;
+        }
+    }
+  else
+    graphic->logo = NULL;
+
+#if DEBUG
+  printf ("graphic_init: initing text\n");
+  fflush (stdout);
+#endif
+  if (!text_init (graphic->text))
     {
       error_message = "unable to init the text";
       goto exit_on_error;
     }
 
 #if DEBUG
-  printf ("draw_init: end\n");
+  printf ("graphic_init: end\n");
   fflush (stdout);
 #endif
   return 1;
@@ -236,32 +231,38 @@ draw_init ()
 exit_on_error:
   printf ("ERROR! %s\n", error_message);
 #if DEBUG
-  printf ("draw_init: end\n");
+  printf ("graphic_init: end\n");
   fflush (stdout);
 #endif
   return 0;
 }
 
 /**
- * Function to updating window data when resizing.
+ * Function to free the memory used by graphic drawing functions.
  */
 void
-draw_resize (int width,         ///< Graphic window width.
-             int height)        ///< Graphic window height.
+graphic_destroy (Graphic * graphic)     ///< Graphic struct.
 {
-  window_width = width;
-  window_height = height;
-  glViewport (0, 0, width, height);
+#if DEBUG
+  printf ("graphic_destroy: start\n");
+  fflush (stdout);
+#endif
+  text_destroy (graphic->text);
+  image_destroy (graphic->logo);
+#if DEBUG
+  printf ("graphic_destroy: end\n");
+  fflush (stdout);
+#endif
 }
 
 /**
  * Function to draw the fractal.
  */
 void
-draw ()
+graphic_render (Graphic * graphic)      ///< Graphic struct.
 {
   // Rectangle matrix
-  Point3D square_vertices[4] = {
+  const Point3D square_vertices[4] = {
     {{0., 0., 0.}, {0., 0., 0.}},
     {{length, 0., 0.}, {0., 0., 0.}},
     {{length, width, 0.}, {0., 0., 0.}},
@@ -271,18 +272,10 @@ draw ()
   const GLfloat black[4] = { 0., 0., 0., 1. };
   float cp, sp, ct, st, w, h, sx, sy;
   GLuint vbo_square, ibo_square, vbo_points;
-#if HAVE_GLFW
-  int graphic_width, graphic_height;
-#endif
 
 #if DEBUG
-  printf ("draw: start\n");
+  printf ("graphic_render: start\n");
   fflush (stdout);
-#endif
-
-#if HAVE_GLFW
-  glfwGetFramebufferSize (window, &graphic_width, &graphic_height);
-  draw_resize (graphic_width, graphic_height);
 #endif
 
   // Drawing a white background
@@ -290,7 +283,7 @@ draw ()
   glClear (GL_COLOR_BUFFER_BIT);
 
 #if DEBUG
-  printf ("draw: ending if no fractal\n");
+  printf ("graphic_render: ending if no fractal\n");
   fflush (stdout);
 #endif
 
@@ -299,29 +292,28 @@ draw ()
     goto end_draw;
 
 #if DEBUG
-  printf ("draw: checking the fractal type\n");
+  printf ("graphic_render: checking the fractal type\n");
   fflush (stdout);
 #endif
 
   // Checking if 3D or 2D fractal
-  glUseProgram (program_3D);
+  glUseProgram (graphic->program_3D);
   if (fractal_3D)
     {
       // Projection matrix
-      sp = sinf (phi);
-      cp = cosf (phi);
-      st = sinf (theta);
-      ct = cosf (theta);
-      w = xmax - xmin;
-      h = ymax - ymin;
-      projection_matrix[0] = 2. * cp / w;
-      projection_matrix[1] = 2. * ct * sp / h;
-      projection_matrix[4] = -2. * sp / w;
-      projection_matrix[5] = 2. * ct * cp / h;
-      projection_matrix[9] = 2. * st / h;
-      projection_matrix[12] = -1.;
-      projection_matrix[13] = -1. - 2. * ymin / h;
-      glUniformMatrix4fv (uniform_3D_matrix, 1, GL_FALSE, projection_matrix);
+      sincosf (graphic->phi, &sp, &cp);
+      sincosf (graphic->theta, &st, &ct);
+      w = graphic->xmax - graphic->xmin;
+      h = graphic->ymax - graphic->ymin;
+      graphic->projection_matrix[0] = 2. * cp / w;
+      graphic->projection_matrix[1] = 2. * ct * sp / h;
+      graphic->projection_matrix[4] = -2. * sp / w;
+      graphic->projection_matrix[5] = 2. * ct * cp / h;
+      graphic->projection_matrix[9] = 2. * st / h;
+      graphic->projection_matrix[12] = -1.;
+      graphic->projection_matrix[13] = -1. - 2. * graphic->ymin / h;
+      glUniformMatrix4fv (graphic->uniform_3D_matrix, 1, GL_FALSE,
+                          graphic->projection_matrix);
 
       // Drawing a black rectangle
       glGenBuffers (1, &vbo_square);
@@ -333,11 +325,11 @@ draw ()
       glBufferData (GL_ELEMENT_ARRAY_BUFFER, sizeof (square_indices),
                     square_indices, GL_DYNAMIC_DRAW);
       glBindBuffer (GL_ARRAY_BUFFER, vbo_square);
-      glEnableVertexAttribArray (attribute_3D_position);
-      glVertexAttribPointer (attribute_3D_position,
+      glEnableVertexAttribArray (graphic->attribute_3D_position);
+      glVertexAttribPointer (graphic->attribute_3D_position,
                              3, GL_FLOAT, GL_FALSE, sizeof (Point3D), NULL);
-      glEnableVertexAttribArray (attribute_3D_icolor);
-      glVertexAttribPointer (attribute_3D_icolor,
+      glEnableVertexAttribArray (graphic->attribute_3D_color);
+      glVertexAttribPointer (graphic->attribute_3D_color,
                              3,
                              GL_FLOAT,
                              GL_FALSE,
@@ -347,22 +339,24 @@ draw ()
       glDrawElements (GL_LINE_LOOP, 4, GL_UNSIGNED_SHORT, 0);
       glDeleteBuffers (1, &ibo_square);
       glDeleteBuffers (1, &vbo_square);
-      glDisableVertexAttribArray (attribute_3D_icolor);
-      glDisableVertexAttribArray (attribute_3D_position);
+      glDisableVertexAttribArray (graphic->attribute_3D_color);
+      glDisableVertexAttribArray (graphic->attribute_3D_position);
 
     }
   else
     {
       // Projection matrix
-      projection_matrix[0] = 2. / width;
-      projection_matrix[5] = 2. / height;
-      projection_matrix[12] = projection_matrix[13] = -1.;
-      projection_matrix[1] = projection_matrix[4] = projection_matrix[9] = 0.;
-      glUniformMatrix4fv (uniform_3D_matrix, 1, GL_FALSE, projection_matrix);
+      graphic->projection_matrix[0] = 2. / width;
+      graphic->projection_matrix[5] = 2. / height;
+      graphic->projection_matrix[12] = graphic->projection_matrix[13] = -1.;
+      graphic->projection_matrix[1] = graphic->projection_matrix[4]
+        = graphic->projection_matrix[9] = 0.;
+      glUniformMatrix4fv (graphic->uniform_3D_matrix, 1, GL_FALSE,
+                          graphic->projection_matrix);
     }
 
 #if DEBUG
-  printf ("draw: drawing the fractal points\n");
+  printf ("graphic_render: drawing the fractal points\n");
   fflush (stdout);
 #endif
 
@@ -371,58 +365,157 @@ draw ()
   glBindBuffer (GL_ARRAY_BUFFER, vbo_points);
   glBufferData (GL_ARRAY_BUFFER, npoints * sizeof (Point3D), point,
                 GL_DYNAMIC_DRAW);
-  glEnableVertexAttribArray (attribute_3D_position);
-  glVertexAttribPointer (attribute_3D_position,
+  glEnableVertexAttribArray (graphic->attribute_3D_position);
+  glVertexAttribPointer (graphic->attribute_3D_position,
                          3, GL_FLOAT, GL_FALSE, sizeof (Point3D), NULL);
-  glEnableVertexAttribArray (attribute_3D_icolor);
-  glVertexAttribPointer (attribute_3D_icolor,
+  glEnableVertexAttribArray (graphic->attribute_3D_color);
+  glVertexAttribPointer (graphic->attribute_3D_color,
                          3,
                          GL_FLOAT,
                          GL_FALSE,
                          sizeof (Point3D), (GLvoid *) offsetof (Point3D, c));
   glDrawArrays (GL_POINTS, 0, npoints);
   glDeleteBuffers (1, &vbo_points);
-  glDisableVertexAttribArray (attribute_3D_icolor);
-  glDisableVertexAttribArray (attribute_3D_position);
+  glDisableVertexAttribArray (graphic->attribute_3D_color);
+  glDisableVertexAttribArray (graphic->attribute_3D_position);
 
 end_draw:
 
+  // OpenGL properties
+  glEnable (GL_BLEND);
+  glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 #if DEBUG
-  printf ("draw: drawing the logo\n");
+  printf ("graphic_render: drawing the logo\n");
   fflush (stdout);
 #endif
 
   // Drawing the logo
-  image_draw (logo, window_width, window_height);
+  image_draw (graphic->logo, window_width, window_height);
 
 #if DEBUG
-  printf ("draw: displaying the program version\n");
+  printf ("graphic_render: displaying the program version\n");
   fflush (stdout);
 #endif
 
   // Displaying the program version
   sx = 2. / window_width;
   sy = 2. / window_height;
-  text_draw (text, "Fractal 3.4.5", 1. - 90. * sx, -0.99, sx, sy, black);
+  text_draw (graphic->text, "Fractal 3.4.5", 1. - 90. * sx, -0.99, sx, sy,
+             black);
+
+  // Disabling OpenGL properties
+  glDisable (GL_BLEND);
 
 #if DEBUG
-  printf ("draw: displaying the draw\n");
+  printf ("graphic_render: displaying the draw\n");
   fflush (stdout);
 #endif
 
-  // Displaying the draw
-#if HAVE_GTKGLAREA
-  gtk_widget_queue_draw (GTK_WIDGET (dialog_simulator->gl_area));
-#elif HAVE_FREEGLUT
-  glutSwapBuffers ();
-#elif HAVE_SDL
-  SDL_GL_SwapWindow (window);
-#elif HAVE_GLFW
-  glfwSwapBuffers (window);
+#if DEBUG
+  printf ("graphic_render: end\n");
+  fflush (stdout);
 #endif
+}
+
+/**
+ * Function to save the draw in a PNG file.
+ */
+void
+graphic_save (char *file_name)  ///< File name.
+{
+  png_struct *png;
+  png_info *info;
+  png_byte **row_pointers;
+  GLubyte *pixels;
+  FILE *file;
+  unsigned int i, row_bytes, pointers_bytes, pixels_bytes;
 
 #if DEBUG
-  printf ("draw: end\n");
+  printf ("graphic_save: start\n");
+  fflush (stdout);
+#endif
+
+  // Creating the PNG header
+  png = png_create_write_struct (PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+  if (!png)
+    return;
+  info = png_create_info_struct (png);
+  if (!info)
+    return;
+  file = fopen (file_name, "wb");
+  if (!file)
+    return;
+  if (setjmp (png_jmpbuf (png)))
+    {
+      printf ("Error png_init_io\n");
+      exit (0);
+    }
+  png_init_io (png, file);
+  if (setjmp (png_jmpbuf (png)))
+    {
+      printf ("Error png_set_IHDR\n");
+      exit (0);
+    }
+  png_set_IHDR (png,
+                info,
+                window_width,
+                window_height,
+                8,
+                PNG_COLOR_TYPE_RGBA,
+                PNG_INTERLACE_NONE,
+                PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+  if (setjmp (png_jmpbuf (png)))
+    {
+      printf ("Error png_write_info\n");
+      exit (0);
+    }
+  png_write_info (png, info);
+
+  // Getting the OpenGL pixels
+  glViewport (0, 0, window_width, window_height);
+  row_bytes = 4 * window_width;
+  pixels_bytes = row_bytes * window_height;
+  pixels = (GLubyte *) g_slice_alloc (pixels_bytes);
+  glReadPixels (0, 0, window_width, window_height, GL_RGBA, GL_UNSIGNED_BYTE,
+                pixels);
+
+  // Saving the pixels in the PNG order
+  pointers_bytes = window_height * sizeof (png_byte *);
+  row_pointers = (png_byte **) g_slice_alloc (pointers_bytes);
+  for (i = 0; i < window_height; ++i)
+    {
+      row_pointers[i] = (png_byte *) g_slice_alloc (row_bytes);
+      memcpy (row_pointers[i], pixels + (window_height - 1 - i) * row_bytes,
+              row_bytes);
+    }
+  if (setjmp (png_jmpbuf (png)))
+    {
+      printf ("Error png_write_image\n");
+      exit (0);
+    }
+  png_write_image (png, row_pointers);
+
+  // Freeing memory
+  for (i = 0; i < window_height; ++i)
+    g_slice_free1 (row_bytes, row_pointers[i]);
+  g_slice_free1 (pointers_bytes, row_pointers);
+  g_slice_free1 (pixels_bytes, pixels);
+
+  // Saving the file
+  if (setjmp (png_jmpbuf (png)))
+    {
+      printf ("Error png_write_end\n");
+      exit (0);
+    }
+  png_write_end (png, NULL);
+  fclose (file);
+
+  // Freeing memory
+  png_destroy_write_struct (&png, &info);
+
+#if DEBUG
+  printf ("graphic_save: end\n");
   fflush (stdout);
 #endif
 }

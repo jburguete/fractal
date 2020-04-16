@@ -58,6 +58,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "fractal.h"
 #include "image.h"
 #include "text.h"
+#include "graphic.h"
 #include "draw.h"
 #include "simulator.h"
 
@@ -215,19 +216,12 @@ main (int argn,                 ///< Arguments number.
 #endif
   gtk_init (&argn, &argc);
 
-  // Initing logo
-#if DEBUG
-  printf ("Initing logo\n");
-  fflush (stdout);
-#endif
-  logo = image_new ("logo.png");
-
   // Creating the main GTK+ window
 #if DEBUG
   printf ("Creating simulator dialog\n");
   fflush (stdout);
 #endif
-  dialog_simulator_create (dialog_simulator);
+  dialog_simulator_create ();
 
 #if !HAVE_GTKGLAREA
   // Initing drawing data
@@ -235,7 +229,7 @@ main (int argn,                 ///< Arguments number.
   printf ("Initing drawing data\n");
   fflush (stdout);
 #endif
-  if (!draw_init ())
+  if (!graphic_init (graphic, "logo.png"))
     return 1;
 #endif
 
@@ -244,7 +238,6 @@ main (int argn,                 ///< Arguments number.
     return 1;
 
   // Updating view
-  set_perspective ();
   if (argn == 2)
     fractal ();
   dialog_simulator_update ();
@@ -261,8 +254,7 @@ main (int argn,                 ///< Arguments number.
   glfwDestroyWindow (window);
   glfwTerminate ();
 #endif
-  image_destroy (logo);
-  text_destroy (text);
+  graphic_destroy (graphic);
 
   return 0;
 }

@@ -58,6 +58,7 @@ extern GLFWwindow *window;
 #include "fractal.h"
 #include "image.h"
 #include "text.h"
+#include "graphic.h"
 #include "draw.h"
 #include "simulator.h"
 
@@ -65,27 +66,47 @@ extern GLFWwindow *window;
 SDL_Event exit_event[1];
 #endif
 
+static float phid = -45.;       ///< Horizontal perspective angle (in degrees).
+static float thetad = 80.;      ///< Vertical perspective angle (in degrees).
+
+/**
+ * Function the set the perspective of a point.
+ */
+static void
+perspective (int x,             ///< Point x-coordinate.
+             int y,             ///< Point y-coordinate.
+             int z,             ///< Point z-coordinate.
+             float *X,          ///< Perspective X-coordinate.
+             float *Y)          ///< Perspective Y-coordinate.
+{
+  float cp, sp, st, ct;
+  sincosf (graphic->phi, &sp, &cp);
+  sincosf (graphic->theta, &st, &ct);
+  *X = x * cp - y * sp;
+  *Y = z * st + (y * cp + x * sp) * ct;
+}
+
 /**
  * Function to set the view perspective.
  */
-void
+static void
 set_perspective ()
 {
   float k1, k2;
   phid = gtk_range_get_value (GTK_RANGE (dialog_simulator->hscale));
   thetad = gtk_range_get_value (GTK_RANGE (dialog_simulator->vscale));
-  phi = phid * M_PI / 180.;
-  theta = thetad * M_PI / 180.;
+  graphic->phi = phid * M_PI / 180.;
+  graphic->theta = thetad * M_PI / 180.;
   if (fractal_3D)
     {
       perspective (0, 0, 0, &k1, &k2);
-      xmin = k1;
+      graphic->xmin = k1;
       perspective (length, width, 0, &k1, &k2);
-      xmax = k1;
+      graphic->xmax = k1;
       perspective (length, 0, 0, &k1, &k2);
-      ymin = k2;
+      graphic->ymin = k2;
       perspective (0, width, height, &k1, &k2);
-      ymax = k2;
+      graphic->ymax = k2;
     }
   draw ();
 }
@@ -323,7 +344,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.5",
+                         "version", "3.4.6",
                          "copyright",
                          "Copyright 2009-2020 Javier Burguete Tolosa",
                          "logo", dialog_simulator->logo,
@@ -342,6 +363,7 @@ dialog_simulator_update ()
     (GTK_WIDGET (dialog_simulator->button_start), !simulating);
   gtk_widget_set_sensitive
     (GTK_WIDGET (dialog_simulator->button_stop), simulating);
+  set_perspective ();
 }
 
 /**
@@ -415,7 +437,7 @@ dialog_simulator_save ()
   gtk_widget_destroy (GTK_WIDGET (dlg));
   if (filename)
     {
-      draw_save (filename);
+      graphic_save (filename);
       g_free (filename);
     }
 }
@@ -429,16 +451,10 @@ dialog_simulator_draw_init (GtkGLArea * gl_area)
   printf ("dialog_simulator_draw_init: start\n");
 #endif
   gtk_gl_area_make_current (gl_area);
-  draw_init ();
+  graphic_init (graphic, "logo.png");
 #if DEBUG
   printf ("dialog_simulator_draw_init: end\n");
 #endif
-}
-
-static void
-dialog_simulator_draw_render ()
-{
-  draw ();
 }
 
 #elif HAVE_GLFW
@@ -583,7 +599,7 @@ dialog_simulator_create ()
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->gl_area), 0, 4, 3, 1);
   g_signal_connect (dlg->gl_area, "realize",
                     (GCallback) dialog_simulator_draw_init, NULL);
-  g_signal_connect (dlg->gl_area, "render", dialog_simulator_draw_render, NULL);
+  g_signal_connect (dlg->gl_area, "render", draw, NULL);
 #endif
 
   dlg->logo = gtk_image_get_pixbuf

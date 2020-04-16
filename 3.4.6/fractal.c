@@ -35,6 +35,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include <time.h>
 #include <gsl/gsl_rng.h>
@@ -66,21 +67,11 @@ unsigned int simulating = 0;    ///< 1 on simulating, 0 otherwise.
 unsigned int animating = 1;     ///< 1 on animating, 0 otherwise.
 
 unsigned int fractal_type = FRACTAL_TYPE_TREE;  ///< Fractal type.
-unsigned int fractal_points = 0;        ///< Fractal points number.
 unsigned int fractal_3D = 0;    ///< 1 on 3D fractals, 0 on 2D fractals.
 unsigned int fractal_diagonal = 0;
 ///< 1 on diagonal point movement, 0 otherwise.
 
 unsigned long t0;               ///< Computational time.
-
-float xmin;                     ///< Minimun x-coordinate of the view.
-float xmax;                     ///< Maximun x-coordinate of the view.
-float ymin;                     ///< Minimun y-coordinate of the view.
-float ymax;                     ///< Maximun y-coordinate of the view.
-float phi;                      ///< Horizontal perspective angle (in radians).
-float theta;                    ///< Vertical perspective angle (in radians).
-float phid = -45.;              ///< Horizontal perspective angle (in degrees).
-float thetad = 80.;             ///< Vertical perspective angle (in degrees).
 
 unsigned int max_d = 0;         ///< Maximum fractal size.
 unsigned int *medium = NULL;    ///< Array of fractal points.
@@ -91,10 +82,10 @@ unsigned int random_algorithm = 0;
 ///< Type of random numbers generator algorithm.
 unsigned int random_seed_type = 1;      ///< Type of random seed.
 unsigned long random_seed = SEED;       ///< Random seed.
-void *(*parallel_fractal) (gsl_rng * rng);
+static void *(*parallel_fractal) (gsl_rng * rng);
 ///< Pointer to the function to calculate the fractal.
 
-const float color3f[16][3] = {
+static const float color3f[16][3] = {
   {0., 0., 0.},
   {1., 0., 0.},
   {0., 1., 0.},
@@ -168,9 +159,7 @@ points_add (int x,              ///< Point x-coordinate.
   p->r[0] = x;
   p->r[1] = y;
   p->r[2] = z;
-  p->c[0] = color3f[c][0];
-  p->c[1] = color3f[c][1];
-  p->c[2] = color3f[c][2];
+  memcpy (p->c, color3f[c], 3 * sizeof (float));
 }
 
 /**

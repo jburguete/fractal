@@ -116,38 +116,18 @@ extern unsigned int nthreads;
 extern GMutex mutex[1];
 // END
 
-extern unsigned int fractal_type, fractal_points, fractal_3D, fractal_diagonal;
+extern unsigned int fractal_type, fractal_3D, fractal_diagonal;
 extern unsigned int width, height, length, area, breaking, simulating,
   animating;
 extern unsigned long t0;
-
-extern float xmin, xmax, ymin, ymax, phid, thetad, phi, theta;
 
 extern unsigned int max_d;
 extern unsigned int *medium;
 extern Point3D *point;
 extern unsigned int npoints;
 
-extern const float color3f[16][3];
-
 extern unsigned int random_algorithm, random_seed_type;
 extern unsigned long random_seed;
-
-extern void *(*parallel_fractal) (gsl_rng * rng);
-
-/**
- * Function the set the perspective of a point.
- */
-static inline void
-perspective (int x,             ///< Point x-coordinate.
-             int y,             ///< Point y-coordinate.
-             int z,             ///< Point z-coordinate.
-             float *X,          ///< Perspective X-coordinate.
-             float *Y)          ///< Perspective Y-coordinate.
-{
-  *X = x * cos (phi) - y * sin (phi);
-  *Y = z * sin (theta) + (y * cos (phi) + x * sin (phi)) * cos (theta);
-}
 
 int threads_number ();
 void fractal_stop ();

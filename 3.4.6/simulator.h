@@ -121,7 +121,6 @@ typedef struct
 extern DialogOptions dialog_options[1];
 extern DialogSimulator dialog_simulator[1];
 
-void set_perspective ();
 void show_error (const char *message);
 
 void dialog_simulator_update ();
