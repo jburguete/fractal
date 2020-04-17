@@ -24,6 +24,7 @@ libraries to compile)
 * [gsl](http://www.gnu.org/software/gsl) (to generate pseudo-random numbers)
 * [gettext](http://www.gnu.org/software/gettext) (to work with different
 locales)
+* [libxml](http://xmlsoft.org) (to read input files)
 * [libgtop](https://github.com/GNOME/libgtop) (to get the processors number)
 * [glib](https://developer.gnome.org/glib) (extended utilities of C to work with
 data, lists, mapped files, regular expressions, using multicores in shared
@@ -75,6 +76,7 @@ FILES
 * Doxyfile: configuration file to generate doxygen documentation.
 * po/es/LC\_MESSAGES/fractal.po: spanish language file.
 * po/fr/LC\_MESSAGES/fractal.po: french language file.
+* tests/\*.ml: several test input files.
 * TODO: development tasks file.
 
 BUILDING AND EXECUTING INSTRUCTIONS
@@ -122,6 +124,10 @@ has not been tested.
 
 To execute the program do on a terminal:
 > $ ./fractal
+or, if used an input file:
+> $ ./fractal input\_file
+
+Several input file examples are in the tests directory.
 
 MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
