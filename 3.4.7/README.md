@@ -77,8 +77,8 @@ FILES
 * po/fr/LC\_MESSAGES/fractal.po: french language file.
 * TODO: development tasks file.
 
-BUILDING INSTRUCTIONS
----------------------
+BUILDING AND EXECUTING INSTRUCTIONS
+-----------------------------------
 
 On Microsoft Windows systems you have to install
 [MSYS2](http://sourceforge.net/projects/msys2) and the required
@@ -113,11 +113,15 @@ Download this repository and execute on a terminal:
 > $ cd PATH\_TO\_FRACTAL/3.4.7
 >
 > $ sh build.sh
->
-> $ strip fractal (optional: to make a final version)
+
+Optionally to make a final version:
+> $ make strip
 
 Probably, it can be built in other systems, distributions, or versions but it
 has not been tested.
+
+To execute the program do on a terminal:
+> $ ./fractal
 
 MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
