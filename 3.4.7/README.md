@@ -76,7 +76,7 @@ FILES
 * Doxyfile: configuration file to generate doxygen documentation.
 * po/es/LC\_MESSAGES/fractal.po: spanish language file.
 * po/fr/LC\_MESSAGES/fractal.po: french language file.
-* tests/\*.ml: several test input files.
+* tests/\*.xml: several test input files.
 * TODO: development tasks file.
 
 BUILDING AND EXECUTING INSTRUCTIONS
