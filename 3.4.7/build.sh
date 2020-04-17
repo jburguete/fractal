@@ -1,7 +1,7 @@
 aclocal
 autoconf
 automake --add-missing
-./configure --with-freeglut --with-pgo
+./configure --with-gtkglarea --with-pgo
 if test -x "`command -v gmake`"; then 
 	gmake 
 else

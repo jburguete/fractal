@@ -50,10 +50,10 @@ endif
 es = es/LC_MESSAGES/
 fr = fr/LC_MESSAGES/
 
-CFLAGS = @FONT@ @NATIVE@ @CFLAGS@ @GSL_CFLAGS@ @XML_CFLAGS@ @GTHREAD_CFLAGS@ \
-	@GLIB_CFLAGS@ @GTOP_CFLAGS@ @PNG_CFLAGS@ @FREETYPE_CFLAGS@ @GLEW_CFLAGS@ \
-	@SDL_CFLAGS@ @GLFW_CFLAGS@ @GTK_CFLAGS@ @GRAPHIC@ -c -Wall -Wextra -O3 \
-	-D_FORTIFY_SOURCE=2
+CFLAGS = @SINCOS@ @SINCOSF@ @FONT@ @NATIVE@ @CFLAGS@ @GSL_CFLAGS@ @XML_CFLAGS@ \
+	@GTHREAD_CFLAGS@ @GLIB_CFLAGS@ @GTOP_CFLAGS@ @PNG_CFLAGS@ @FREETYPE_CFLAGS@ \
+	@GLEW_CFLAGS@ @SDL_CFLAGS@ @GLFW_CFLAGS@ @GTK_CFLAGS@ @GRAPHIC@ -c -Wall \
+	-Wextra -O3 -D_FORTIFY_SOURCE=2
 LDFLAGS = @LDFLAGS@ @LIBS@ @GSL_LIBS@ @XML_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ \
 	@GTOP_LIBS@ @PNG_LIBS@ @FREETYPE_LIBS@ @GLEW_LIBS@ @SDL_LIBS@ @GLFW_LIBS@ \
 	@GTK_LIBS@
@@ -145,7 +145,7 @@ dist: $(name) $(dll)
 		$(modir)$(fr)gtk30.mo $(modir)$(fr)gtk30-properties.mo \
 		$(modir)$(fr)libiconv.mo po/$(fr)fractal.mo $(bindir)po/$(fr)
 
-strip: fractal
+strip: fractal po/fractal.pot po/$(es)fractal.mo po/$(fr)fractal.mo
 	strip fractal
 
 clean:

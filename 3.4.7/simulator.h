@@ -114,6 +114,9 @@ typedef struct
   GdkPixbuf *logo_min;          ///< GdkPixbuf containing the reduced logo.
 #if HAVE_GTKGLAREA
   GtkGLArea *gl_area;           ///< GtkGLArea to draw the graphics.
+#if WINDOW_GLAREA
+  GtkWindow *window_gl;         ///< GtkWindow to contain the GtkGLArea widget.
+#endif
 #endif
   GtkWindow *window;            ///< GtkWindow to show the main windows.
 } DialogSimulator;

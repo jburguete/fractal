@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT(fractal, [3.4.6])
+AC_INIT(fractal, [3.4.7])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -55,7 +55,7 @@ elif test `uname -s` = "DragonFly"; then
 	CPPFLAGS="$CPPFLAGS -I/usr/local/include"
 elif test `uname -s` = "SunOS"; then
 	AC_MSG_NOTICE([SunOS])
-	AC_SUBST(gnu,[/usr/gnu/bin/])
+	AC_SUBST(gnu, [/usr/gnu/bin/])
 else
 	AC_MSG_NOTICE([Unix type system])
 fi
@@ -171,20 +171,26 @@ else
 			AC_SUBST(GRAPHIC, "-DHAVE_SDL=1")
 			PKG_CHECK_MODULES([SDL], [sdl2])
 		else
-			AC_SUBST(GRAPHIC, "-DHAVE_GTKGLAREA=1")
+			AC_SUBST(GRAPHIC, "-DHAVE_GTKGLAREA=1 -DWINDOW_GLAREA=1")
 		fi
 	fi
 fi
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h unistd.h libintl.h])
+AC_CHECK_HEADERS([stdlib.h unistd.h libintl.h], ,
+	AC_MSG_ERROR([No standard headers]))
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
 AC_TYPE_SIZE_T
 
 # Checks for library functions.
-AC_CHECK_FUNCS([sqrt cos sin])
+AC_CHECK_FUNCS([round sqrt cos sin sinf cosf], ,
+	AC_MSG_ERROR([No standard mathematical functions]))
+AC_CHECK_FUNC([sincos], [sincos=1], [sincos=0]) 
+AC_CHECK_FUNC([sincosf], [sincosf=1], [sincosf=0])
+AC_SUBST(SINCOS, [-DHAVE_SINCOS=$sincos])
+AC_SUBST(SINCOSF, [-DHAVE_SINCOSF=$sincosf])
 
 # Check for font
 font=`find /usr -type f -iname freesans.ttf`

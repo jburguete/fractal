@@ -1,12 +1,13 @@
-FRACTAL (3.4.6 version)
+FRACTAL (3.4.7 version)
 =======================
 
-A program growing fractals to benchmark parallelization and drawing libraries.
+A program using growing fractals to benchmark parallelization and drawing
+libraries.
 
 WARNING
 -------
 
-This program is a benchmark on parallelization. It uses intensively the CPU.
+This program is a benchmark on parallelization. It uses intensively the CPU!
 
 TOOLS AND LIBRARIES REQUIRED TO BUILD THE EXECUTABLE
 ----------------------------------------------------
@@ -23,15 +24,23 @@ libraries to compile)
 * [gsl](http://www.gnu.org/software/gsl) (to generate pseudo-random numbers)
 * [gettext](http://www.gnu.org/software/gettext) (to work with different
 locales)
+* [libgtop](https://github.com/GNOME/libgtop) (to get the processors number)
 * [glib](https://developer.gnome.org/glib) (extended utilities of C to work with
 data, lists, mapped files, regular expressions, using multicores in shared
 memory machines, ...)
-* [gtk+3](http://www.gtk.org) (to create the interactive GUI tool)
+* [gtk3](http://www.gtk.org) (to create the interactive GUI tool)
 * [glew](http://glew.sourceforge.net) (to use advanced OpenGL functions to draw
 graphics)
-* [freeglut](http://freeglut.sourceforge.net), [sdl2](https://www.libsdl.org) or
-[glfw](http://www.glfw.org) (interaction with OpenGL to draw graphics)
 * [png](http://www.libpng.org) (to work with PNG files)
+
+OPTIONAL LIBRARIES TO BUILD THE EXECUTABLE
+----------------------------------------------------
+
+The following libraries can be used as alternative to the GtkGLArea widget of
+the GTK library to interact with OpenGL to draw graphics:
+* [freeglut](http://freeglut.sourceforge.net)
+* [sdl2](https://www.libsdl.org)
+* [glfw](http://www.glfw.org)
 
 OPTIONAL TOOLS TO BUILD THE REFERENCE MANUAL
 --------------------------------------------
@@ -43,11 +52,18 @@ generate documentation)
 FILES
 -----
 
+* build.sh: simplified building script.
 * configure.ac: configure generator.
 * Makefile.in: Makefile generator.
 * config.h: config header file.
 * fractal.h: fractal calculations header file.
 * fractal.c: fractal calculations source file.
+* image.h: image drawing header file.
+* image.c: image drawing source file.
+* text.h: text drawing header file.
+* text.c: text drawing source file.
+* graphic.h: graphic drawing header file.
+* graphic.c: graphic drawing source file.
 * draw.h: drawing header file.
 * draw.c: drawing source file.
 * simulator.h: interface header file.
@@ -59,6 +75,7 @@ FILES
 * Doxyfile: configuration file to generate doxygen documentation.
 * po/es/LC\_MESSAGES/fractal.po: spanish language file.
 * po/fr/LC\_MESSAGES/fractal.po: french language file.
+* TODO: development tasks file.
 
 BUILDING INSTRUCTIONS
 ---------------------
@@ -93,7 +110,7 @@ This software has been built and tested in the following operative systems:
 * Xubuntu Linux 18.10
 
 Download this repository and execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.4.6
+> $ cd PATH\_TO\_FRACTAL/3.4.7
 >
 > $ sh build.sh
 >
@@ -106,7 +123,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.4.6
+> $ cd PATH\_TO\_FRACTAL/3.4.7
 >
 > $ doxygen
 >

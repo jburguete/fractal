@@ -339,14 +339,15 @@ dialog_simulator_help ()
   gtk_show_about_dialog (dialog_simulator->window,
                          "program_name", "Fractal",
                          "comments",
-                         _("A program growing fractals to benchmark "
+                         _("A program using growing fractals to benchmark "
                            "parallelization and drawing libraries"),
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.6",
+                         "version", "3.4.7",
                          "copyright",
                          "Copyright 2009-2020 Javier Burguete Tolosa",
+                         "license-type", GTK_LICENSE_BSD,
                          "logo", dialog_simulator->logo,
                          "website-label", _("Website"),
                          "website", "https://github.com/jburguete/fractal",
@@ -596,10 +597,17 @@ dialog_simulator_create ()
   dlg->gl_area = (GtkGLArea *) gtk_gl_area_new ();
   gtk_widget_set_size_request (GTK_WIDGET (dlg->gl_area),
                                window_width, window_height);
-  gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->gl_area), 0, 4, 3, 1);
   g_signal_connect (dlg->gl_area, "realize",
                     (GCallback) dialog_simulator_draw_init, NULL);
   g_signal_connect (dlg->gl_area, "render", draw, NULL);
+#if WINDOW_GLAREA
+  dlg->window_gl = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_container_add (GTK_CONTAINER (dlg->window_gl), GTK_WIDGET (dlg->gl_area));
+  g_signal_connect (dlg->window_gl, "delete_event", gtk_main_quit, NULL);
+  gtk_widget_show_all (GTK_WIDGET (dlg->window_gl));
+#else
+  gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->gl_area), 0, 4, 3, 1);
+#endif
 #endif
 
   dlg->logo = gtk_image_get_pixbuf
