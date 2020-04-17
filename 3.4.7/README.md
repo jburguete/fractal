@@ -124,6 +124,7 @@ has not been tested.
 
 To execute the program do on a terminal:
 > $ ./fractal
+
 or, if used an input file:
 > $ ./fractal input\_file
 
