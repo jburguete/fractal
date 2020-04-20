@@ -35,6 +35,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef DRAW__H
 #define DRAW__H 1
 
+#if HAVE_SDL
+extern SDL_Window *window;
+#elif HAVE_GLFW
+extern GLFWwindow *window;
+#endif
 extern Graphic graphic[1];
 
 void draw_resize (int width, int height);

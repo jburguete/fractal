@@ -48,10 +48,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <GL/freeglut.h>
 #elif HAVE_SDL
 #include <SDL.h>
-extern SDL_Window *window;
 #elif HAVE_GLFW
 #include <GLFW/glfw3.h>
-extern GLFWwindow *window;
 #endif
 
 #include "config.h"
@@ -68,16 +66,23 @@ Graphic graphic[1];             ///< Graphic data.
  * Function to resize the draw.
  */
 void
-draw_resize (int width,         ///< Graphic window width.
-             int height)        ///< Graphic window height.
+draw_resize (int w,             ///< Graphic window width.
+             int h)             ///< Graphic window height.
 {
 #if DEBUG
   printf ("draw_resize: start\n");
   fflush (stdout);
 #endif
-  window_width = width;
-  window_height = height;
-  glViewport (0, 0, width, height);
+  if ((unsigned int) w < width)
+    w = width;
+  if ((unsigned int) h < height)
+    h = height;
+#if HAVE_FREEGLUT
+  glutReshapeWindow (w, h);
+#endif
+  window_width = w;
+  window_height = h;
+  glViewport (0, 0, w, h);
 #if DEBUG
   printf ("draw_resize: end\n");
   fflush (stdout);

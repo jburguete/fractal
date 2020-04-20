@@ -344,7 +344,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.7",
+                         "version", "3.4.8",
                          "copyright",
                          "Copyright 2009-2020 Javier Burguete Tolosa",
                          "license-type", GTK_LICENSE_BSD,
@@ -608,6 +608,11 @@ dialog_simulator_create ()
 #else
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->gl_area), 0, 4, 3, 1);
 #endif
+#elif HAVE_SDL
+  SDL_SetWindowMinimumSize (window, window_width, window_height);
+#elif HAVE_GLFW
+  glfwSetWindowSizeLimits (window, window_width, window_height, GLFW_DONT_CARE,
+                           GLFW_DONT_CARE);
 #endif
 
   dlg->logo = gtk_image_get_pixbuf
