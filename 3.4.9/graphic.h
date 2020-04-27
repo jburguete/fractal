@@ -50,7 +50,7 @@ typedef struct
   float ymax;                   ///< Maximum y-coordinate.
   float phi;                    ///< Horizontal perspective angle (in radians).
   float theta;                  ///< Vertical perspective angle (in radians).
-  GLint attribute_3D_position;  ///< 3D variable position
+  GLint attribute_3D_position;  ///< 3D variable position.
   GLint attribute_3D_color;     ///< 3D variable color identifier.
   GLint uniform_3D_matrix;      ///< 3D constant matrix.
   GLuint program_3D;            ///< 3D program.

@@ -92,6 +92,7 @@ text_init (Text * text)         ///< Text struct data.
   glGetShaderiv (fs, GL_COMPILE_STATUS, &k);
   if (!k)
     {
+      glDeleteShader (vs);
       error_message = "unable to compile the 2D text fragment shader";
       goto exit_on_error;
     }
@@ -100,6 +101,8 @@ text_init (Text * text)         ///< Text struct data.
   glAttachShader (text->program, vs);
   glAttachShader (text->program, fs);
   glLinkProgram (text->program);
+  glDeleteShader (fs);
+  glDeleteShader (vs);
   glGetProgramiv (text->program, GL_LINK_STATUS, &k);
   if (!k)
     {
@@ -160,6 +163,7 @@ text_destroy (Text * text)      ///< Text struct data.
 
   FT_Done_Face (text->face);
   FT_Done_Library (text->ft);
+  glDeleteProgram (text->program);
 
 #if DEBUG
   printf ("text_destroy: end\n");
@@ -203,6 +207,14 @@ text_draw (Text * text,         ///< Text struct data.
   glBindBuffer (GL_ARRAY_BUFFER, text->vbo);
   glVertexAttribPointer (text->attribute_position, 4, GL_FLOAT, GL_FALSE, 0, 0);
   face = text->face;
+  box[2] = 0.f;
+  box[3] = 0.f;
+  box[6] = 1.f;
+  box[7] = 0.f;
+  box[10] = 0.f;
+  box[11] = 1.f;
+  box[14] = 1.f;
+  box[15] = 1.f;
   for (; *string; ++string)
     {
       if (FT_Load_Char (face, *string, FT_LOAD_RENDER))
@@ -219,20 +231,12 @@ text_draw (Text * text,         ///< Text struct data.
       h = face->glyph->bitmap.rows * sy;
       box[0] = x2;
       box[1] = -y2;
-      box[2] = 0.;
-      box[3] = 0.;
       box[4] = x2 + w;
       box[5] = -y2;
-      box[6] = 1.;
-      box[7] = 0.;
       box[8] = x2;
       box[9] = -y2 - h;
-      box[10] = 0.;
-      box[11] = 1.;
       box[12] = x2 + w;
       box[13] = -y2 - h;
-      box[14] = 1.;
-      box[15] = 1.;
       glBufferData (GL_ARRAY_BUFFER, sizeof (box), box, GL_DYNAMIC_DRAW);
       glDrawArrays (GL_TRIANGLE_STRIP, 0, 4);
       x += (face->glyph->advance.x >> 6) * sx;

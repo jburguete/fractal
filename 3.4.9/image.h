@@ -79,7 +79,7 @@ typedef struct
 Image *image_new (char *name);
 void image_destroy (Image * image);
 int image_init (Image * image);
-void image_draw (Image * image, unsigned int window_width,
-                 unsigned int window_height);
+void image_draw (Image * image, unsigned int x, unsigned int y,
+                 unsigned int window_width, unsigned int window_height);
 
 #endif

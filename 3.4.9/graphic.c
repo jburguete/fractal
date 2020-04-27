@@ -69,13 +69,6 @@ graphic_init (Graphic * graphic,        ///< Draw struct.
     0., 0, 0., 0.,
     0., 0., 0., 1.
   };
-  const char *vs_2D_source =
-    "attribute highp vec2 position;"
-    "attribute lowp vec3 color;"
-    "varying lowp vec3 fcolor;"
-    "uniform highp mat4 matrix;"
-    "void main ()"
-    "{gl_Position = matrix * vec4 (position, 0.f, 1.f); fcolor = color;}";
   const char *vs_3D_source =
     "attribute highp vec3 position;"
     "attribute lowp vec3 color;"
@@ -91,7 +84,6 @@ graphic_init (Graphic * graphic,        ///< Draw struct.
   const char *matrix_name = "matrix";
   // GLSL version
   const char *version = "#version 120\n";       // OpenGL 2.1
-  const char *vs_2D_sources[3] = { version, INIT_GL_GLES, vs_2D_source };
   const char *vs_3D_sources[3] = { version, INIT_GL_GLES, vs_3D_source };
   const char *fs_sources[3] = { version, INIT_GL_GLES, fs_source };
   const char *error_message;
@@ -117,21 +109,7 @@ graphic_init (Graphic * graphic,        ///< Draw struct.
     }
 
 #if DEBUG
-  printf ("graphic_init: compiling 2D vertex shader\n");
-  fflush (stdout);
-#endif
-  vs = glCreateShader (GL_VERTEX_SHADER);
-  glShaderSource (vs, 3, vs_2D_sources, NULL);
-  glCompileShader (vs);
-  glGetShaderiv (vs, GL_COMPILE_STATUS, &k);
-  if (!k)
-    {
-      error_message = "unable to compile the 2D vertex shader";
-      goto exit_on_error;
-    }
-
-#if DEBUG
-  printf ("graphic_init: compiling 2D vertex shader\n");
+  printf ("graphic_init: compiling fragment shader\n");
   fflush (stdout);
 #endif
   fs = glCreateShader (GL_FRAGMENT_SHADER);
@@ -144,12 +122,17 @@ graphic_init (Graphic * graphic,        ///< Draw struct.
       goto exit_on_error;
     }
 
+#if DEBUG
+  printf ("graphic_init: compiling 3D vertex shader\n");
+  fflush (stdout);
+#endif
   vs = glCreateShader (GL_VERTEX_SHADER);
   glShaderSource (vs, 3, vs_3D_sources, NULL);
   glCompileShader (vs);
   glGetShaderiv (vs, GL_COMPILE_STATUS, &k);
   if (!k)
     {
+      glDeleteShader (fs);
       error_message = "unable to compile the 3D vertex shader";
       goto exit_on_error;
     }
@@ -158,6 +141,8 @@ graphic_init (Graphic * graphic,        ///< Draw struct.
   glAttachShader (graphic->program_3D, vs);
   glAttachShader (graphic->program_3D, fs);
   glLinkProgram (graphic->program_3D);
+  glDeleteShader (vs);
+  glDeleteShader (fs);
   glGetProgramiv (graphic->program_3D, GL_LINK_STATUS, &k);
   if (!k)
     {
@@ -391,7 +376,7 @@ end_draw:
 #endif
 
   // Drawing the logo
-  image_draw (graphic->logo, window_width, window_height);
+  image_draw (graphic->logo, 0, 0, window_width, window_height);
 
 #if DEBUG
   printf ("graphic_render: displaying the program version\n");
@@ -401,7 +386,7 @@ end_draw:
   // Displaying the program version
   sx = 2. / window_width;
   sy = 2. / window_height;
-  text_draw (graphic->text, "Fractal 3.4.8", 1. - 90. * sx, -0.99, sx, sy,
+  text_draw (graphic->text, "Fractal 3.4.9", 1. - 90. * sx, -0.99, sx, sy,
              black);
 
   // Disabling OpenGL properties

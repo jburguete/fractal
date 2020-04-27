@@ -54,7 +54,7 @@ image_new (char *name)          ///< Image PNG file name.
     1.f, 0.f, 0.f, 0.f,
     0.f, 1.f, 0.f, 0.f,
     0.f, 0.f, 1.f, 0.f,
-    0.f, 0.f, -1.f, 1.f
+    0.f, 0.f, 0.f, 1.f
   };
   const GLfloat vertices[8] = {
     -1.f, 1.f,
@@ -126,6 +126,8 @@ image_new (char *name)          ///< Image PNG file name.
   for (i = 0; i < image->height; i++)
     memcpy (image->image + (row_bytes * (image->height - 1 - i)),
             row_pointers[i], row_bytes);
+
+  // setting up matrices and vertices
   memcpy (image->matrix, matrix, 16 * sizeof (GLfloat));
   memcpy (image->vertices, vertices, 8 * sizeof (GLfloat));
   memcpy (image->square_texture, square_texture, 8 * sizeof (GLfloat));
@@ -170,12 +172,12 @@ image_init (Image * image)      ///< Image struct.
   const char *texture_name = "texture_image";
   const char *texture_position_name = "texture_position";
   const char *matrix_name = "matrix";
+  // GLSL version
   const char *version = "#version 120\n";       // OpenGL 2.1
   const char *vs_texture_sources[3] =
     { version, INIT_GL_GLES, vs_texture_source };
   const char *fs_texture_sources[3] =
     { version, INIT_GL_GLES, fs_texture_source };
-  // GLSL version
   const char *error_message;
   GLint k;
   GLuint vs, fs;
@@ -201,6 +203,7 @@ image_init (Image * image)      ///< Image struct.
   glGetShaderiv (fs, GL_COMPILE_STATUS, &k);
   if (!k)
     {
+      glDeleteShader (vs);
       error_message = "unable to compile the texture fragment shader";
       goto exit_on_error;
     }
@@ -209,6 +212,8 @@ image_init (Image * image)      ///< Image struct.
   glAttachShader (image->program_texture, vs);
   glAttachShader (image->program_texture, fs);
   glLinkProgram (image->program_texture);
+  glDeleteShader (fs);
+  glDeleteShader (vs);
   glGetProgramiv (image->program_texture, GL_LINK_STATUS, &k);
   if (!k)
     {
@@ -303,6 +308,7 @@ image_destroy (Image * image)   ///< Image struct.
   fflush (stdout);
 #endif
 
+  glDeleteProgram (image->program_texture);
   g_slice_free1 (image->size, image->image);
 
 #if DEBUG
@@ -316,6 +322,8 @@ image_destroy (Image * image)   ///< Image struct.
  */
 void
 image_draw (Image * image,      ///< Image struct.
+            unsigned int x,     ///< Draw x-coordinate.
+            unsigned int y,     ///< Draw y-coordinate.
             unsigned int window_width,  ///< Window width.
             unsigned int window_height) ///< Window height.
 {
@@ -324,8 +332,8 @@ image_draw (Image * image,      ///< Image struct.
   sp = ((float) image->height) / window_height;
   image->matrix[0] = cp;
   image->matrix[5] = sp;
-  image->matrix[12] = cp - 1.f;
-  image->matrix[13] = sp - 1.f;
+  image->matrix[12] = cp - 1.f + (2.f * x) / window_width;
+  image->matrix[13] = sp - 1.f + (2.f * y) / window_height;
   glUseProgram (image->program_texture);
   glUniformMatrix4fv (image->uniform_matrix, 1, GL_FALSE, image->matrix);
   glUniform1i (image->uniform_texture, 0);
