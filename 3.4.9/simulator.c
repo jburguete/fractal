@@ -600,6 +600,7 @@ dialog_simulator_create ()
   g_signal_connect (dlg->gl_area, "realize",
                     (GCallback) dialog_simulator_draw_init, NULL);
   g_signal_connect (dlg->gl_area, "render", draw, NULL);
+	g_signal_connect (dlg->gl_area, "resize", (GCallback) resize, NULL);
 #if WINDOW_GLAREA
   dlg->window_gl = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_container_add (GTK_CONTAINER (dlg->window_gl), GTK_WIDGET (dlg->gl_area));

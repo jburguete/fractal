@@ -326,7 +326,6 @@ graphic_render (Graphic * graphic)      ///< Graphic struct.
       glDeleteBuffers (1, &vbo_square);
       glDisableVertexAttribArray (graphic->attribute_3D_color);
       glDisableVertexAttribArray (graphic->attribute_3D_position);
-
     }
   else
     {
@@ -384,10 +383,10 @@ end_draw:
 #endif
 
   // Displaying the program version
-  sx = 2. / window_width;
-  sy = 2. / window_height;
-  text_draw (graphic->text, "Fractal 3.4.9", 1. - 90. * sx, -0.99, sx, sy,
-             black);
+  sx = 0.15 * 12. / window_width;
+  sy = 0.15 * 12. / window_height;
+  text_draw (graphic->text, "Fractal 3.4.9", 0.99 - 5. * 13. * sx, -0.99,
+			       sx, sy, black);
 
   // Disabling OpenGL properties
   glDisable (GL_BLEND);

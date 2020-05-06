@@ -89,6 +89,16 @@ draw_resize (int w,             ///< Graphic window width.
 #endif
 }
 
+#if HAVE_GTKGLAREA
+void
+resize (GtkGLArea *gl_area __attribute__ ((unused)),
+		    int w,
+				int h)
+{
+	draw_resize (w, h);
+}
+#endif
+
 /**
  * Function to render graphics.
  */
