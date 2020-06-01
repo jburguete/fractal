@@ -7,6 +7,7 @@ AM_INIT_AUTOMAKE
 AC_MSG_NOTICE([Build: $build])
 AC_MSG_NOTICE([Host: $host])
 win=0
+native=1
 if test $host = "x86_64-w64-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 64 bits])
 	CPPFLAGS="$CPPFLAGS -I/mingw/include"
@@ -48,7 +49,8 @@ elif test `uname -s` = "NetBSD"; then
 elif test `uname -s` = "OpenBSD"; then
 	AC_MSG_NOTICE([OpenBSD])
 	LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
-	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
+	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include -I/usr/local/include"
+	native=0
 elif test `uname -s` = "DragonFly"; then
 	AC_MSG_NOTICE([DragonFly BSD])
 	LDFLAGS="$LDFLAGS -L/usr/local/lib"
@@ -58,6 +60,9 @@ elif test `uname -s` = "SunOS"; then
 	AC_SUBST(gnu, [/usr/gnu/bin/])
 else
 	AC_MSG_NOTICE([Unix type system])
+fi
+if test "x$win" = "x1"; then
+	native=0
 fi
 
 # Checks for programs
@@ -122,7 +127,7 @@ if test "x$with_pgo" = "xyes"; then
 	fi
 fi
 
-if test "x$win" = "x0"; then
+if test "x$native" = "x1"; then
 	CC="$CC -march=native"
 	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [native=1],
 		[native=0])
