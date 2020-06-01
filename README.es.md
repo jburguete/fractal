@@ -96,11 +96,11 @@ On Microsoft Windows systems you have to install
 libraries and utilities. You can follow detailed instructions in
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
 
-On NetBSD 8.0, to compile with last GCC version you have to do first on the
+On NetBSD 9.0, to compile with last GCC version you have to do first on the
 building terminal:
-> $ export PATH=/usr/pkg/gcc8/bin:$PATH"
+> $ export PATH=/usr/pkg/gcc9/bin:$PATH"
 
-On OpenBSD 6.4 you have to do first on the building terminal:
+On OpenBSD 6.7 you have to do first on the building terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 This software has been built and tested in the following operative systems:
@@ -108,12 +108,12 @@ This software has been built and tested in the following operative systems:
 * DragonFly BSD 5.2
 * Dyson Illumos
 * Fedora Linux 29
-* FreeBSD 11.2
+* FreeBSD 12.1
 * Linux Mint DE 3
 * Manjaro Linux
 * Microsoft Windows 10
-* NetBSD 8.0 (from source with modular xorg)
-* OpenBSD 6.4
+* NetBSD 9.0
+* OpenBSD 6.7
 * OpenInidiana Hipster
 * OpenSUSE Linux Leap 15
 * Ubuntu Mate Linux 18.04
