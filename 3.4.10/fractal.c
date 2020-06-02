@@ -38,11 +38,16 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string.h>
 #include <math.h>
 #include <time.h>
+#if HAVE_SYSINFO
+#include <sys/sysinfo.h>
+#endif
 #include <gsl/gsl_rng.h>
 #include <libxml/parser.h>
 #include <glib.h>
+#if HAVE_GTOP
 #include <glibtop.h>
 #include <glibtop/close.h>
+#endif
 #ifdef G_OS_WIN32
 #include <windows.h>
 #endif
@@ -135,12 +140,22 @@ sqr (int x)                     ///< unsigned int.
 int
 threads_number ()
 {
+#if HAVE_GTOP
   int ncores;
   glibtop *top;
   top = glibtop_init ();
   ncores = top->ncpu + 1;
   glibtop_close ();
   return ncores;
+#elif HAVE_GET_NPROCS
+  return get_nprocs ();
+#elif defined(G_OS_WIN32)
+  SYSTEM_INFO sysinfo;
+  GetSystemInfo (&sysinfo);
+  return sysinfo.dwNumberOfProcessors;
+#else
+  return (int) sysconf (_SC_NPROCESSORS_ONLN);
+#endif
 }
 
 /**

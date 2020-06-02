@@ -1,5 +1,5 @@
 AC_PREREQ([2.67])
-AC_INIT(fractal, [3.4.9])
+AC_INIT(fractal, [3.4.10])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -152,7 +152,7 @@ PKG_CHECK_MODULES([GSL], [gsl])
 PKG_CHECK_MODULES([XML], [libxml-2.0])
 PKG_CHECK_MODULES([GLIB], [glib-2.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
-PKG_CHECK_MODULES([GTOP], [libgtop-2.0])
+PKG_CHECK_MODULES([GTOP], [libgtop-2.0], AC_SUBST(NCORES, "-DHAVE_GTOP=1"))
 PKG_CHECK_MODULES([PNG], [libpng])
 PKG_CHECK_MODULES([FREETYPE], [freetype2])
 PKG_CHECK_MODULES([GLEW], [glew])
@@ -188,6 +188,7 @@ fi
 # Checks for header files.
 AC_CHECK_HEADERS([stdlib.h unistd.h libintl.h], ,
 	AC_MSG_ERROR([No standard headers]))
+AC_CHECK_HEADER([sys/sysinfo.h], AC_SUBST(SYSINFO, "-DHAVE_SYSINFO=1"))
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE

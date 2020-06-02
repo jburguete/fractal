@@ -385,7 +385,7 @@ end_draw:
   // Displaying the program version
   sx = 0.15 * 12. / window_width;
   sy = 0.15 * 12. / window_height;
-  text_draw (graphic->text, "Fractal 3.4.9", 0.99 - 5. * 13. * sx, -0.99,
+  text_draw (graphic->text, "Fractal 3.4.10", 0.99 - 5. * 13. * sx, -0.99,
 			       sx, sy, black);
 
   // Disabling OpenGL properties
