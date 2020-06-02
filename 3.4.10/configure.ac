@@ -203,11 +203,12 @@ AC_SUBST(SINCOS, [-DHAVE_SINCOS=$sincos])
 AC_SUBST(SINCOSF, [-DHAVE_SINCOSF=$sincosf])
 
 # Check for font
+AC_MSG_NOTICE([searching FreeMono font])
 font=`find /usr -type f -iname freemono.otf`
 if test "x$font" = "x"; then
 	font=`find /usr -type f -iname freemono.ttf`
 	if test "x$font" = "x"; then
-		AC_MSG_ERROR([FreeSans font not found])
+		AC_MSG_ERROR([font not found])
 	fi
 fi
 AC_MSG_NOTICE([Font: $font])
