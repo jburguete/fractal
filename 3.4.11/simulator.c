@@ -344,7 +344,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.10",
+                         "version", "3.4.11",
                          "copyright",
                          "Copyright 2009-2020 Javier Burguete Tolosa",
                          "license-type", GTK_LICENSE_BSD,
@@ -373,6 +373,7 @@ dialog_simulator_update ()
 void
 dialog_simulator_progress ()
 {
+  GMainContext *context;
   register unsigned int k;
   register float x;
   if (fractal_3D)
@@ -414,8 +415,9 @@ dialog_simulator_progress ()
   gtk_progress_bar_set_fraction (dialog_simulator->progress, x);
   gtk_spin_button_set_value
     (dialog_simulator->entry_time, difftime (time (NULL), t0));
-  while (gtk_events_pending ())
-    gtk_main_iteration ();
+  context = g_main_context_default ();
+  while (g_main_context_pending (context))
+    g_main_context_iteration (context, 0);
 }
 
 /**
@@ -488,7 +490,9 @@ dialog_simulator_create ()
 #endif
 
   dlg = dialog_simulator;
-#if HAVE_SDL
+#if HAVE_GTKGLAREA
+  dlg->loop = g_main_loop_new (NULL, 0);
+#elif HAVE_SDL
   exit_event->type = SDL_QUIT;
 #endif
 
@@ -549,7 +553,8 @@ dialog_simulator_create ()
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_exit), tip_exit);
   gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_exit), -1);
 #if HAVE_GTKGLAREA
-  g_signal_connect (dlg->button_exit, "clicked", gtk_main_quit, NULL);
+  g_signal_connect_swapped (dlg->button_exit, "clicked",
+                            (GCallback) g_main_loop_quit, dlg->loop);
 #elif HAVE_FREEGLUT
   g_signal_connect (dlg->button_exit, "clicked", glutLeaveMainLoop, NULL);
 #elif HAVE_SDL
@@ -600,11 +605,12 @@ dialog_simulator_create ()
   g_signal_connect (dlg->gl_area, "realize",
                     (GCallback) dialog_simulator_draw_init, NULL);
   g_signal_connect (dlg->gl_area, "render", draw, NULL);
-	g_signal_connect (dlg->gl_area, "resize", (GCallback) resize, NULL);
+  g_signal_connect (dlg->gl_area, "resize", (GCallback) resize, NULL);
 #if WINDOW_GLAREA
   dlg->window_gl = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_container_add (GTK_CONTAINER (dlg->window_gl), GTK_WIDGET (dlg->gl_area));
-  g_signal_connect (dlg->window_gl, "delete_event", gtk_main_quit, NULL);
+  g_signal_connect_swapped (dlg->window_gl, "delete_event",
+                            (GCallback) g_main_loop_quit, dlg->loop);
   gtk_widget_show_all (GTK_WIDGET (dlg->window_gl));
 #else
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->gl_area), 0, 4, 3, 1);
@@ -627,7 +633,8 @@ dialog_simulator_create ()
   gtk_container_add (GTK_CONTAINER (dlg->window), GTK_WIDGET (dlg->grid));
   gtk_widget_show_all (GTK_WIDGET (dlg->window));
 #if HAVE_GTKGLAREA
-  g_signal_connect (dlg->window, "delete_event", gtk_main_quit, NULL);
+  g_signal_connect_swapped (dlg->window, "delete_event",
+                            (GCallback) g_main_loop_quit, dlg->loop);
 #elif HAVE_FREEGLUT
   g_signal_connect (dlg->window, "delete_event", glutLeaveMainLoop, NULL);
 #elif HAVE_SDL

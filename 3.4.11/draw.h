@@ -44,7 +44,7 @@ extern Graphic graphic[1];
 
 void draw_resize (int width, int height);
 #if HAVE_GTKGLAREA
-void resize (GtkGLArea *gl_area, int w, int h);
+void resize (GtkGLArea * gl_area, int w, int h);
 #endif
 
 void draw ();

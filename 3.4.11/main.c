@@ -74,9 +74,6 @@ GLFWwindow *window;             ///< GLFW window.
 void
 main_loop ()
 {
-#if HAVE_SDL
-  SDL_Event event[1];
-#endif
 
 #if HAVE_FREEGLUT
 
@@ -91,10 +88,13 @@ main_loop ()
 
 #elif HAVE_SDL
 
+  SDL_Event event[1];
+  GMainContext *context;
+  context = g_main_context_default ();
   while (1)
     {
-      while (gtk_events_pending ())
-        gtk_main_iteration ();
+      while (g_main_context_pending (context))
+        g_main_context_iteration (context, 0);
       while (SDL_PollEvent (event))
         {
           if (event->type == SDL_QUIT)
@@ -108,17 +108,20 @@ main_loop ()
 
 #elif HAVE_GLFW
 
+  GMainContext *context;
+  context = g_main_context_default ();
   while (!glfwWindowShouldClose (window))
     {
-      while (gtk_events_pending ())
-        gtk_main_iteration ();
+      while (g_main_context_pending (context))
+        g_main_context_iteration (context, 0);
       glfwPollEvents ();
       draw ();
     }
 
 #else
 
-  gtk_main ();
+  g_main_loop_run (dialog_simulator->loop);
+  g_main_loop_unref (dialog_simulator->loop);
 
 #endif
 }

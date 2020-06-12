@@ -1,5 +1,5 @@
-AC_PREREQ([2.67])
-AC_INIT(fractal, [3.4.10])
+AC_PREREQ([2.69])
+AC_INIT(fractal, [3.4.11])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -70,7 +70,7 @@ if test "x$win" = "x1"; then
 fi
 
 # Checks for programs
-AC_PROG_CC([gcc-9 gcc9 gcc-8 gcc8 gcc7 gcc6 gcc5 gcc49 gcc48 egcc gcc clang])
+AC_PROG_CC([gcc-10 gcc10 gcc-9 gcc9 gcc-8 gcc8 gcc-7 gcc7 egcc gcc clang])
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG

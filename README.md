@@ -1,4 +1,4 @@
-FRACTAL (3.4.10 version)
+FRACTAL (3.4.11 version)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
@@ -119,7 +119,7 @@ This software has been built and tested in the following operative systems:
 * Xubuntu Linux 18.10
 
 Download this repository and execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.4.10
+> $ cd PATH\_TO\_FRACTAL/3.4.11
 >
 > $ sh build.sh
 
@@ -141,7 +141,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.4.10
+> $ cd PATH\_TO\_FRACTAL/3.4.11
 >
 > $ doxygen
 >
