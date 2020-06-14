@@ -68,6 +68,7 @@ typedef struct
   ///< Array of GtkRadioButtons to set the random numbers generator algoritm.
   GtkRadioButton *array_seeds[N_RANDOM_SEED_TYPES];
   ///< Array of GtkRadioButtons to set the random seed type.
+	GtkImage *logo;               ///< GtkImage to show the fractal logo.
   GtkFrame *frame_fractal;      ///< GtkFrame to show the fractal types.
   GtkFrame *frame_algorithm;
   ///< GtkFrame to show the random number generator algorithms.
@@ -77,6 +78,7 @@ typedef struct
   ///< GtkGrid to group the random numbers generator algorithms.
   GtkGrid *grid_seed;           ///< GtkGrid to group the random seed types.
   GtkGrid *grid;                ///< GtkGrid to group the widgets.
+	GtkHeaderBar *bar;            ///< GtkHeader to show the window title.
   GtkDialog *dialog;            ///< GtkDialog to show the options window.
 } DialogOptions;
 
@@ -119,7 +121,7 @@ typedef struct
   GtkWindow *window_gl;         ///< GtkWindow to contain the GtkGLArea widget.
 #endif
 #endif
-  GtkWindow *window;            ///< GtkWindow to show the main windows.
+  GtkWindow *window;            ///< GtkWindow to show the main window.
 } DialogSimulator;
 
 extern DialogOptions dialog_options[1];

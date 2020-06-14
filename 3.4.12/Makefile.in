@@ -41,7 +41,7 @@ ifeq ($(pgo), 1)
 	pgouse = -fprofile-use -fprofile-correction
 	exedep = $(objs) $(fractaldep)
 else
-	fractaldep = fractal.c fractal.h draw.h $(configs)
+	fractaldep = fractal.c fractal.h simulator.h draw.h $(configs)
 	imagedep = image.c image.h $(configs)
 	textdep = text.c image.h text.h $(configs)
 	graphicdep = graphic.c fractal.h image.h text.h graphic.h $(configs)
@@ -76,7 +76,8 @@ fractalpgo: $(pgoobjs) $(tests)
 	./fractalpgo tests/forest-3d.xml
 	./fractalpgo tests/neuron-3d.xml
 
-fractal.pgo: fractal.c fractal.h image.h text.h graphic.h draw.h $(configs)
+fractal.pgo: fractal.c fractal.h simulator.h image.h text.h graphic.h draw.h \
+	$(configs)
 	$(CC) $(CFLAGS) $(pgogen) fractal.c -o fractal.pgo
 
 fractal.o: $(fractaldep)

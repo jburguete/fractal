@@ -255,6 +255,7 @@ graphic_render (Graphic * graphic)      ///< Graphic struct.
   };
   const GLushort square_indices[4] = { 0, 1, 2, 3 };
   const GLfloat black[4] = { 0., 0., 0., 1. };
+	const char *str_version = "Fractal 3.4.12";
   float cp, sp, ct, st, w, h, sx, sy;
   GLuint vbo_square, ibo_square, vbo_points;
 
@@ -385,8 +386,8 @@ end_draw:
   // Displaying the program version
   sx = 0.15 * 12. / window_width;
   sy = 0.15 * 12. / window_height;
-  text_draw (graphic->text, "Fractal 3.4.11", 0.99 - 5. * 13. * sx, -0.99,
-             sx, sy, black);
+  text_draw (graphic->text, (char *) str_version,
+             0.99 - 5. * strlen (str_version) * sx, -0.99, sx, sy, black);
 
   // Disabling OpenGL properties
   glDisable (GL_BLEND);

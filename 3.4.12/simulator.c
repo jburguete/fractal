@@ -267,8 +267,16 @@ dialog_options_create ()
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->label_nthreads), 0, 10, 1, 1);
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->entry_nthreads), 1, 10, 1, 1);
 
+  dlg->logo = (GtkImage *) gtk_image_new_from_file ("logo2.png");
+
+	dlg->bar = (GtkHeaderBar *) gtk_header_bar_new ();
+	gtk_header_bar_set_title (dlg->bar, _("Options"));
+	gtk_header_bar_set_subtitle (dlg->bar, _("Set the fractal options"));
+	gtk_header_bar_set_show_close_button (dlg->bar, 1);
+	gtk_header_bar_pack_start (dlg->bar, GTK_WIDGET (dlg->logo));
+
   dlg->dialog
-    = (GtkDialog *) gtk_dialog_new_with_buttons (_("Options"),
+    = (GtkDialog *) gtk_dialog_new_with_buttons (NULL,
                                                  dialog_simulator->window,
                                                  GTK_DIALOG_MODAL |
                                                  GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -276,6 +284,7 @@ dialog_options_create ()
                                                  GTK_RESPONSE_OK,
                                                  _("_Cancel"),
                                                  GTK_RESPONSE_CANCEL, NULL);
+	gtk_window_set_titlebar (GTK_WINDOW (dlg->dialog), GTK_WIDGET (dlg->bar));
   gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (dlg->dialog)),
                      GTK_WIDGET (dlg->grid));
   gtk_widget_show_all (GTK_WIDGET (dlg->dialog));
@@ -344,7 +353,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.11",
+                         "version", "3.4.12",
                          "copyright",
                          "Copyright 2009-2020 Javier Burguete Tolosa",
                          "license-type", GTK_LICENSE_BSD,
@@ -509,6 +518,11 @@ dialog_simulator_create ()
   tip_help = _("Help");
   tip_exit = _("Exit");
 
+  dlg->logo = gtk_image_get_pixbuf
+    (GTK_IMAGE (gtk_image_new_from_file ("logo.png")));
+  dlg->logo_min = gtk_image_get_pixbuf
+    (GTK_IMAGE (gtk_image_new_from_file ("logo2.png")));
+
   dlg->toolbar = (GtkToolbar *) gtk_toolbar_new ();
 
   dlg->button_options = (GtkToolButton *) gtk_tool_button_new
@@ -516,8 +530,8 @@ dialog_simulator_create ()
      ("preferences-system", GTK_ICON_SIZE_SMALL_TOOLBAR), str_options);
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_options), tip_options);
   gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_options), -1);
-  g_signal_connect
-    (dlg->button_options, "clicked", dialog_options_create, NULL);
+  g_signal_connect_swapped
+    (dlg->button_options, "clicked", dialog_options_create, dlg->logo_min);
 
   dlg->button_start = (GtkToolButton *) gtk_tool_button_new
     (gtk_image_new_from_icon_name
@@ -608,6 +622,7 @@ dialog_simulator_create ()
   g_signal_connect (dlg->gl_area, "resize", (GCallback) resize, NULL);
 #if WINDOW_GLAREA
   dlg->window_gl = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_icon (dlg->window_gl, dlg->logo_min);
   gtk_container_add (GTK_CONTAINER (dlg->window_gl), GTK_WIDGET (dlg->gl_area));
   g_signal_connect_swapped (dlg->window_gl, "delete_event",
                             (GCallback) g_main_loop_quit, dlg->loop);
@@ -621,11 +636,6 @@ dialog_simulator_create ()
   glfwSetWindowSizeLimits (window, window_width, window_height, GLFW_DONT_CARE,
                            GLFW_DONT_CARE);
 #endif
-
-  dlg->logo = gtk_image_get_pixbuf
-    (GTK_IMAGE (gtk_image_new_from_file ("logo.png")));
-  dlg->logo_min = gtk_image_get_pixbuf
-    (GTK_IMAGE (gtk_image_new_from_file ("logo2.png")));
 
   dlg->window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (dlg->window, _("Fractal growing"));
