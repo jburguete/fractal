@@ -49,8 +49,10 @@ else
 		$(configs)
 	exedep = $(objs)
 endif
-es = es/LC_MESSAGES/
-fr = fr/LC_MESSAGES/
+es = po/es/LC_MESSAGES/
+fr = po/fr/LC_MESSAGES/
+pot = po/fractal.pot
+locales = $(es)fractal.mo $(fr)fractal.mo
 
 CFLAGS = @SINCOS@ @SINCOSF@ @FONT@ @NATIVE@ @CFLAGS@ @GSL_CFLAGS@ @XML_CFLAGS@ \
 	@GTHREAD_CFLAGS@ @GLIB_CFLAGS@ @GTOP_CFLAGS@ @PNG_CFLAGS@ @FREETYPE_CFLAGS@ \
@@ -62,7 +64,7 @@ LDFLAGS = @LDFLAGS@ @LIBS@ @GSL_LIBS@ @XML_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ \
 
 CC = @CC@ @STD@ @LTO@ @ccflags@ #-pg
 
-all: fractal po/fractal.pot po/$(es)fractal.mo po/$(fr)fractal.mo
+all: fractal $(locales)
 
 fractal: $(exedep)
 	$(CC) $(pgouse) $(objs) $(LDFLAGS) -o fractal
@@ -118,17 +120,24 @@ main.o: main.c fractal.h image.h text.h graphic.h draw.h simulator.h $(configs)
 @icon@: fractal.rc fractal.ico
 	@WINDRES@ fractal.rc -o @icon@
 
-po/fractal.pot: Makefile $(src)
-	@gnu@xgettext -k_ -d fractal -o po/fractal.pot --from-code=UTF-8 $(src)
-	msgmerge -U po/$(es)fractal.po po/fractal.pot
-	msgmerge -U po/$(fr)fractal.po po/fractal.pot
-	vim -p po/$(es)fractal.po po/$(fr)fractal.po
+lang = es fr
+$(pot): Makefile $(src)
+	if ! test -d po; then mkdir po; fi
+	@gnu@xgettext -k_ -d fractal -o $(pot) --from-code=UTF-8 $(src)
+	$(foreach i,$(lang), \
+		if ! test -d $($i); then mkdir -p $($i); fi; \
+		if ! test -f $($i)fractal.po; then \
+			@gnu@msginit -l $i -i $(pot) -o $($i)fractal.po --no-translator; \
+		else \
+			@gnu@msgmerge -U $($i)fractal.po $(pot); \
+		fi; \
+		vim -p $($i)fractal.po;)
 
-po/$(es)fractal.mo: po/$(es)fractal.po po/fractal.pot
-	@gnu@msgfmt -c -v -o po/$(es)fractal.mo po/$(es)fractal.po
+$(es)fractal.mo: $(es)fractal.po $(pot)
+	@gnu@msgfmt -c -v -o $(es)fractal.mo $(es)fractal.po
 
-po/$(fr)fractal.mo: po/$(fr)fractal.po po/fractal.pot
-	@gnu@msgfmt -c -v -o po/$(fr)fractal.mo po/$(fr)fractal.po
+$(fr)fractal.mo: $(fr)fractal.po $(pot)
+	@gnu@msgfmt -c -v -o $(fr)fractal.mo $(fr)fractal.po
 
 ## Making Microsoft Windows distribution
 dist: $(name) $(dll)
