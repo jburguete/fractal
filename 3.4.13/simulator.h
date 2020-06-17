@@ -78,7 +78,7 @@ typedef struct
   ///< GtkGrid to group the random numbers generator algorithms.
   GtkGrid *grid_seed;           ///< GtkGrid to group the random seed types.
   GtkGrid *grid;                ///< GtkGrid to group the widgets.
-	GtkHeaderBar *bar;            ///< GtkHeader to show the window title.
+  GtkHeaderBar *bar;            ///< GtkHeader to show the window title.
   GtkDialog *dialog;            ///< GtkDialog to show the options window.
 } DialogOptions;
 
@@ -88,15 +88,13 @@ typedef struct
  */
 typedef struct
 {
-  GtkToolButton *button_options;
-  ///< GtkToolButton to set the fractal options.
-  GtkToolButton *button_start;  ///< GtkToolButton to run the simulation.
-  GtkToolButton *button_stop;   ///< GtkToolButton to stop the simulation.
-  GtkToolButton *button_save;
-  ///< GtkToolButton to save the view in a PNG file.
-  GtkToolButton *button_help;   ///< GtkToolButton to show a help dialog.
-  GtkToolButton *button_exit;   ///< GtkToolButton to exit.
-  GtkToolbar *toolbar;          ///< GtkToolbar containing the tool items.
+  GtkButton *button_options;///< GtkButton to set the fractal options.
+  GtkButton *button_start;  ///< GtkButton to run the simulation.
+  GtkButton *button_stop;   ///< GtkButton to stop the simulation.
+  GtkButton *button_save;  ///< GtkButton to save the view in a PNG file.
+  GtkButton *button_help;   ///< GtkButton to show a help dialog.
+  GtkButton *button_exit;   ///< GtkButton to exit.
+  GtkBox *box;          ///< GtkBox containing the tool buttons.
   GtkLabel *label_time;
   ///< GtkLabel to show the computational time label.
   GtkLabel *label_horizontal;

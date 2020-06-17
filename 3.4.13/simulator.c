@@ -353,7 +353,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.12",
+                         "version", "3.4.13",
                          "copyright",
                          "Copyright 2009-2020 Javier Burguete Tolosa",
                          "license-type", GTK_LICENSE_BSD,
@@ -488,8 +488,6 @@ window_close ()
 void
 dialog_simulator_create ()
 {
-  static char *str_exit, *str_options, *str_start, *str_stop, *str_save,
-    *str_help;
   static char *tip_exit, *tip_options, *tip_start, *tip_stop, *tip_save,
     *tip_help;
   DialogSimulator *dlg;
@@ -505,12 +503,6 @@ dialog_simulator_create ()
   exit_event->type = SDL_QUIT;
 #endif
 
-  str_options = _("_Options");
-  str_start = _("S_tart");
-  str_stop = _("Sto_p");
-  str_save = _("_Save");
-  str_help = _("_Help");
-  str_exit = _("E_xit");
   tip_options = _("Fractal options");
   tip_start = _("Start fractal growing");
   tip_stop = _("Stop fractal growing");
@@ -523,49 +515,46 @@ dialog_simulator_create ()
   dlg->logo_min = gtk_image_get_pixbuf
     (GTK_IMAGE (gtk_image_new_from_file ("logo2.png")));
 
-  dlg->toolbar = (GtkToolbar *) gtk_toolbar_new ();
+  dlg->box = (GtkBox *) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
-  dlg->button_options = (GtkToolButton *) gtk_tool_button_new
-    (gtk_image_new_from_icon_name
-     ("preferences-system", GTK_ICON_SIZE_SMALL_TOOLBAR), str_options);
+  dlg->button_options = (GtkButton *)
+    gtk_button_new_from_icon_name ("preferences-system",
+		                   GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_options), tip_options);
-  gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_options), -1);
+  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_options), 0, 1, 0);
   g_signal_connect_swapped
     (dlg->button_options, "clicked", dialog_options_create, dlg->logo_min);
 
-  dlg->button_start = (GtkToolButton *) gtk_tool_button_new
-    (gtk_image_new_from_icon_name
-     ("system-run", GTK_ICON_SIZE_SMALL_TOOLBAR), str_start);
+  dlg->button_start = (GtkButton *)
+    gtk_button_new_from_icon_name ("system-run", GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_start), tip_start);
-  gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_start), -1);
+  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_start), 0 ,1, 0);
   g_signal_connect (dlg->button_start, "clicked", fractal, NULL);
 
-  dlg->button_stop = (GtkToolButton *) gtk_tool_button_new
-    (gtk_image_new_from_icon_name
-     ("process-stop", GTK_ICON_SIZE_SMALL_TOOLBAR), str_stop);
+  dlg->button_stop = (GtkButton *)
+    gtk_button_new_from_icon_name ("process-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_stop), tip_stop);
-  gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_stop), -1);
+  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_stop), 0, 1, 0);
   g_signal_connect (dlg->button_stop, "clicked", fractal_stop, NULL);
 
-  dlg->button_save = (GtkToolButton *) gtk_tool_button_new
-    (gtk_image_new_from_icon_name
-     ("document-save", GTK_ICON_SIZE_SMALL_TOOLBAR), str_save);
+  dlg->button_save = (GtkButton *)
+    gtk_button_new_from_icon_name ("document-save",
+		                   GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_save), tip_save);
-  gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_save), -1);
+  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_save), 0, 1, 0);
   g_signal_connect (dlg->button_save, "clicked", dialog_simulator_save, NULL);
 
-  dlg->button_help = (GtkToolButton *) gtk_tool_button_new
-    (gtk_image_new_from_icon_name
-     ("help-about", GTK_ICON_SIZE_SMALL_TOOLBAR), str_help);
+  dlg->button_help = (GtkButton *)
+    gtk_button_new_from_icon_name ("help-about", GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_help), tip_help);
-  gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_help), -1);
+  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_help), 0, 1, 0);
   g_signal_connect (dlg->button_help, "clicked", dialog_simulator_help, NULL);
 
-  dlg->button_exit = (GtkToolButton *) gtk_tool_button_new
-    (gtk_image_new_from_icon_name
-     ("application-exit", GTK_ICON_SIZE_SMALL_TOOLBAR), str_exit);
+  dlg->button_exit = (GtkButton *) 
+    gtk_button_new_from_icon_name ("application-exit",
+		                   GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_exit), tip_exit);
-  gtk_toolbar_insert (dlg->toolbar, GTK_TOOL_ITEM (dlg->button_exit), -1);
+  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_exit), 0, 1, 0);
 #if HAVE_GTKGLAREA
   g_signal_connect_swapped (dlg->button_exit, "clicked",
                             (GCallback) g_main_loop_quit, dlg->loop);
@@ -603,7 +592,7 @@ dialog_simulator_create ()
     (_("Vertical perspective angle (º)"));
 
   dlg->grid = (GtkGrid *) gtk_grid_new ();
-  gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->toolbar), 0, 0, 3, 1);
+  gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->box), 0, 0, 3, 1);
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->progress), 0, 1, 1, 1);
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->label_time), 1, 1, 1, 1);
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->entry_time), 2, 1, 1, 1);
