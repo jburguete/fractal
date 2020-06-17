@@ -35,6 +35,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include <glib.h>
 #include <png.h>
 #include <GL/glew.h>
