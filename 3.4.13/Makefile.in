@@ -127,9 +127,9 @@ $(pot): Makefile $(src)
 	$(foreach i,$(lang), \
 		if ! test -d $($i); then mkdir -p $($i); fi; \
 		if ! test -f $($i)fractal.po; then \
-			@gnu@msginit -l $i -i $(pot) -o $($i)fractal.po --no-translator; \
+			msginit -l $i -i $(pot) -o $($i)fractal.po --no-translator; \
 		else \
-			@gnu@msgmerge -U $($i)fractal.po $(pot); \
+			msgmerge -U $($i)fractal.po $(pot); \
 		fi; \
 		vim -p $($i)fractal.po;)
 
