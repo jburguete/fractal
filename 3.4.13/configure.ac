@@ -66,6 +66,7 @@ else
 fi
 if test "x$win" = "x1"; then
 	native=0
+	AC_SUBST(EXE, [.exe])
 fi
 
 # Checks for programs
@@ -151,7 +152,8 @@ PKG_CHECK_MODULES([GSL], [gsl])
 PKG_CHECK_MODULES([XML], [libxml-2.0])
 PKG_CHECK_MODULES([GLIB], [glib-2.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
-PKG_CHECK_MODULES([GTOP], [libgtop-2.0], AC_SUBST(NCORES, "-DHAVE_GTOP=1"))
+PKG_CHECK_MODULES([GTOP], [libgtop-2.0], AC_SUBST(NCORES, "-DHAVE_GTOP=1"),
+	AC_MSG_NOTICE("No libgtop"))
 PKG_CHECK_MODULES([PNG], [libpng])
 PKG_CHECK_MODULES([FREETYPE], [freetype2])
 PKG_CHECK_MODULES([GLEW], [glew])

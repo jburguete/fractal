@@ -64,10 +64,10 @@ LDFLAGS = @LDFLAGS@ @LIBS@ @GSL_LIBS@ @XML_LIBS@ @GTHREAD_LIBS@ @GLIB_LIBS@ \
 
 CC = @CC@ @STD@ @LTO@ @ccflags@ #-pg
 
-all: fractal $(locales)
+all: fractal@EXE@ $(locales)
 
-fractal: $(exedep)
-	$(CC) $(pgouse) $(objs) $(LDFLAGS) -o fractal
+fractal@EXE@: $(exedep)
+	$(CC) $(pgouse) $(objs) $(LDFLAGS) -o fractal@EXE@
 
 fractalpgo: $(pgoobjs) $(tests)
 	$(CC) $(pgogen) $(pgoobjs) $(LDFLAGS) -o fractalpgo
@@ -157,8 +157,8 @@ dist: $(name) $(dll)
 		$(modir)$(fr)gtk30.mo $(modir)$(fr)gtk30-properties.mo \
 		$(modir)$(fr)libiconv.mo po/$(fr)fractal.mo $(bindir)po/$(fr)
 
-strip: fractal $(pot) $(es)fractal.mo $(fr)fractal.mo
-	strip fractal
+strip: fractal@EXE@ $(pot) $(es)fractal.mo $(fr)fractal.mo
+	strip fractal@EXE@
 
 clean:
 	rm -rf *.m4 *.cache *.scan *.log config.status Makefile *.o *.pgo \
