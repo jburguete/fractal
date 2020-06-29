@@ -154,7 +154,7 @@ msgid ""
 "A program using growing fractals to benchmark parallelization and drawing "
 "libraries"
 msgstr ""
-"Un programme utilisant croissance de fractals comme banc d'essais pour "
+"Un programme qu'utilise croissance de fractals comme banc d'essais pour "
 "parallèlization et bibliothèques graphiques"
 
 #: simulator.c:355

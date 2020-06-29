@@ -2,6 +2,7 @@ FRACTAL (3.4.13 version)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
+:fr:[français](README.fr.md)
 
 A program using growing fractals to benchmark parallelization and drawing
 libraries.
@@ -9,54 +10,13 @@ libraries.
 WARNING!
 --------
 
-This program is a benchmark on parallelization. It uses intensively the CPU!
+This program is a benchmark on parallelization. **It uses intensively the CPU!**
 
 AUTHORS
 -------
 
 * Javier Burguete Tolosa
   [jburguete@eead.csic.es](mailto:jburguete@eead.csic.es).
-
-TOOLS AND LIBRARIES REQUIRED TO BUILD THE EXECUTABLE
-----------------------------------------------------
-
-* [gcc](https://gcc.gnu.org) or [clang](http://clang.llvm.org) to compile the
-  source code
-* [make](http://www.gnu.org/software/make) to build the executable file
-* [autoconf](http://www.gnu.org/software/autoconf) to generate the Makefile in
-  different operative systems
-* [automake](http://www.gnu.org/software/automake) to check the operative
-  system
-* [pkg-config](http://www.freedesktop.org/wiki/Software/pkg-config) to find the
-  libraries to compile
-* [gsl](http://www.gnu.org/software/gsl) to generate pseudo-random numbers
-* [gettext](http://www.gnu.org/software/gettext) to work with different
-  international codes and languages
-* [libxml](http://xmlsoft.org) to read input files
-* [libgtop](https://github.com/GNOME/libgtop) to get the processors number
-* [glib](https://developer.gnome.org/glib) extended utilities of C to work with
-  data, lists, mapped files, regular expressions, using multicores in shared
-  memory machines, ...
-* [png](http://www.libpng.org) to work with PNG files
-* [glew](http://glew.sourceforge.net) to use advanced OpenGL functions to draw
-  graphics
-* [gtk3](http://www.gtk.org) to create the interactive GUI tool
-
-OPTIONAL LIBRARIES TO BUILD THE EXECUTABLE
-------------------------------------------
-
-The following libraries can be used as alternative to the GtkGLArea widget of
-the GTK library to interact with OpenGL to draw graphics:
-* [freeglut](http://freeglut.sourceforge.net)
-* [sdl2](https://www.libsdl.org)
-* [glfw](http://www.glfw.org)
-
-OPTIONAL TOOLS TO BUILD THE REFERENCE MANUAL
---------------------------------------------
-
-* [doxygen](http://www.stack.nl/~dimitri/doxygen) (standard comments format to
-generate documentation)
-* [latex](https://www.latex-project.org/) (to build the PDF manuals)
 
 FILES
 -----
@@ -87,6 +47,49 @@ FILES
 * tests/\*.xml: several test input files.
 * TODO: development tasks file.
 
+TOOLS AND LIBRARIES REQUIRED TO BUILD THE EXECUTABLE
+----------------------------------------------------
+
+* [gcc](https://gcc.gnu.org) or [clang](http://clang.llvm.org) to compile the
+  source code
+* [make](http://www.gnu.org/software/make) to build the executable file
+* [autoconf](http://www.gnu.org/software/autoconf) to generate the Makefile in
+  different operative systems
+* [automake](http://www.gnu.org/software/automake) to check the operative
+  system
+* [pkg-config](http://www.freedesktop.org/wiki/Software/pkg-config) to find the
+  libraries to compile
+* [gsl](http://www.gnu.org/software/gsl) to generate pseudo-random numbers
+* [gettext](http://www.gnu.org/software/gettext) to work with different
+  international codes and languages
+* [libxml](http://xmlsoft.org) to read input files
+* [glib](https://developer.gnome.org/glib) extended utilities of C to work with
+  data, lists, mapped files, regular expressions, using multicores in shared
+  memory machines, ...
+* [png](http://www.libpng.org) to work with PNG files
+* [glew](http://glew.sourceforge.net) to use advanced OpenGL functions to draw
+  graphics
+* [gtk3](http://www.gtk.org) to create the interactive GUI tool
+
+OPTIONAL LIBRARIES TO BUILD THE EXECUTABLE
+------------------------------------------
+
+The following libraries can be used as alternative to the GtkGLArea widget of
+the GTK library to interact with OpenGL to draw graphics:
+* [freeglut](http://freeglut.sourceforge.net)
+* [sdl2](https://www.libsdl.org)
+* [glfw](http://www.glfw.org)
+
+Moreover,  to get the processors characteristics:
+* [libgtop](https://github.com/GNOME/libgtop)
+
+OPTIONAL TOOLS TO BUILD THE REFERENCE MANUAL
+--------------------------------------------
+
+* [doxygen](http://www.stack.nl/~dimitri/doxygen) (standard comments format to
+generate documentation)
+* [latex](https://www.latex-project.org/) (to build the PDF manuals)
+
 BUILDING AND EXECUTING INSTRUCTIONS
 -----------------------------------
 
@@ -95,28 +98,15 @@ On Microsoft Windows systems you have to install
 libraries and utilities. You can follow detailed instructions in
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
 
-On NetBSD 9.0, to compile with last GCC version you have to do first on the
+On NetBSD 9.0, to compile with last GCC version, you have to do first on the
 building terminal:
 > $ export PATH=/usr/pkg/gcc9/bin:$PATH"
+To do permanent this change the following line can be added to the ".profile"
+file in the user root directory:
+> PATH="/usr/pkg/gcc9/bin:$PATH"
 
 On OpenBSD 6.7 you have to do first on the building terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
-
-This software has been built and tested in the following operative systems:
-* Debian 9 (Linux, kFreeBSD and Hurd)
-* DragonFly BSD 5.2
-* Dyson Illumos
-* Fedora Linux 29
-* FreeBSD 12.1
-* Linux Mint DE 3
-* Manjaro Linux
-* Microsoft Windows 10
-* NetBSD 9.0
-* OpenBSD 6.7
-* OpenInidiana Hipster
-* OpenSUSE Linux Leap 15
-* Ubuntu Mate Linux 18.04
-* Xubuntu Linux 18.10
 
 Download this repository and execute on a terminal:
 > $ cd PATH\_TO\_FRACTAL/3.4.13
@@ -126,9 +116,6 @@ Download this repository and execute on a terminal:
 Optionally to make a final version:
 > $ make strip
 
-Probably, it can be built in other systems, distributions or versions but it has
-not been tested.
-
 To execute the program do on a terminal:
 > $ ./fractal
 
@@ -136,6 +123,27 @@ or, if used an input file:
 > $ ./fractal input\_file
 
 Several input file examples are in the **tests** directory.
+
+This software has been built and tested in the following operative systems:
+* Arch Linux
+* Debian 10 (Linux)
+* Devuan Linux 3
+* Dragonfly BSD 5.8
+* Dyson Illumos
+* Fedora Linux 32
+* FreeBSD 12.1
+* Linux Mint DE 4
+* MacOS Catalina + Homebrew
+* Manjaro Linux
+* Microsoft Windows 10 + MSYS2
+* NetBSD 9.0
+* OpenBSD 6.7
+* OpenInidiana Hipster
+* OpenSUSE Linux Leap 15
+* Xubuntu Linux 20.04
+
+Probably, it can be built in other systems, distributions or versions but it has
+not been tested.
 
 MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
