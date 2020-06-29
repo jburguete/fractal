@@ -41,6 +41,9 @@ elif test $host = "i686-pc-mingw32"; then
 	AC_SUBST(sysdir, [/mingw32/])
 	AC_SUBST(basedir, [win32/])
 	win=1
+elif test `uname -s` = "Darwin"; then
+	AC_MSG_NOTICE([MacOS])
+	LDFLAGS="$LDFLAGS -L/System/Library/Frameworks -framework GLUT -framework OpenGL"
 elif test `uname -s` = "NetBSD"; then
 	AC_MSG_NOTICE([NetBSD])
 	LDFLAGS="$LDFLAGS -L/usr/pkg/lib"
@@ -187,7 +190,7 @@ else
 fi
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h unistd.h libintl.h], ,
+AC_CHECK_HEADERS([stdlib.h unistd.h], ,
 	AC_MSG_ERROR([No standard headers]))
 AC_CHECK_HEADER([sys/sysinfo.h], AC_SUBST(SYSINFO, "-DHAVE_SYSINFO=1"))
 
