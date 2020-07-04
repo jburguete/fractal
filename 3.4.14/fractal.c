@@ -1349,7 +1349,7 @@ medium_start ()
 }
 
 /**
- * Function to get an unsigned integer numver of a XML node property.
+ * Function to get an unsigned integer number of a XML node property.
  *
  * \return Unsigned integer number value.
  */
@@ -1375,7 +1375,7 @@ xml_node_get_uint_with_default (xmlNode * node, ///< XML node.
 }
 
 /**
- * Function to get an unsigned long integer numver of a XML node property.
+ * Function to get an unsigned long integer number of a XML node property.
  *
  * \return Unsigned long integer number value.
  */

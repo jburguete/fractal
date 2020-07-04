@@ -1,4 +1,4 @@
-FRACTAL (versión 3.4.13)
+FRACTAL (versión 3.4.14)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
@@ -111,9 +111,43 @@ Avec OpenBSD 6.7 on doit faire avant dans le terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Téléchargez ce dépôt et exécutez dans un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.13
+> $ cd RUTA\_DE\_FRACTAL/3.4.14
 >
 > $ sh build.sh
+
+Ce script (build.sh) essai de construire l'exécutable an utilisant PGO (Profile
+Guided Optimization) mais c'échoue dans some systèmes. Dans ce cas il faut
+fair:
+> $ cd RUTA\_DE\_FRACTAL/3.4.14
+>
+> $ aclocal
+>
+> $ autoconf
+>
+> $ automake --add-missing
+>
+> $ ./configure
+>
+> $ make
+
+Par défaut, le programme utilise le widget GtkGLArea de la bibliothèque GTK3.
+Ce widget échoue dans machines virtuals (QEMU et Virtualbox). Pour utiliser
+d'autres bibliothèques graphiques on peut faire:
+* FreeGLUT
+> $ ./configure --with-freeglut
+>
+> $ make
+* GLFW
+> $ ./configure --with-glfw
+>
+> $ make
+* SDL2
+> $ ./configure --with-sdl
+>
+> $ make
+
+Le fichier Makefile utilise characteristiques uniques du programme GNU make.
+En systèmes BSD il faut changer le command **make** pour **gmake**.
 
 Éventuellement pour faire une version finale:
 > $ make strip
@@ -152,7 +186,7 @@ POUR FAIRE LE MANUEL D'INSTRUCTIONS (latex/refman.pdf file)
 -----------------------------------------------------------
 
 Exécutez dans un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.13
+> $ cd RUTA\_DE\_FRACTAL/3.4.14
 >
 > $ doxygen
 >
