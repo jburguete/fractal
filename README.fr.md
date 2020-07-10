@@ -168,6 +168,7 @@ d'exploitation:
 * Dragonfly BSD 5.8
 * Dyson Illumos
 * Fedora Linux 32
+* Gentoo Linux
 * FreeBSD 12.1
 * Linux Mint DE 4
 * MacOS Catalina + Homebrew

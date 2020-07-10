@@ -132,6 +132,7 @@ This software has been built and tested in the following operative systems:
 * Dyson Illumos
 * Fedora Linux 32
 * FreeBSD 12.1
+* Gentoo Linux
 * Linux Mint DE 4
 * MacOS Catalina + Homebrew
 * Manjaro Linux
