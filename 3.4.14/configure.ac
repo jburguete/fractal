@@ -41,6 +41,23 @@ elif test $host = "i686-pc-mingw32"; then
 	AC_SUBST(sysdir, [/mingw32/])
 	AC_SUBST(basedir, [win32/])
 	win=1
+elif test $host = "x86_64-pc-cygwin"; then
+	AC_MSG_NOTICE([Microsoft Windows 64 bits])
+	AC_SUBST(ccflags, "-march=corei7 -mfpmath=sse -msse3 -mwindows")
+	AC_SUBST(libgcc, "libgcc_s_seh-1")
+	AC_SUBST(icon, [logo.o])
+	AC_SUBST(sysdir, [/mingw64/])
+	AC_SUBST(basedir, [win64/])
+	win=1
+elif test $host = "i686-pc-cygwin"; then
+	AC_MSG_NOTICE([Microsoft Windows 32 bits])
+	LDFLAGS="$LDFLAGS -lfreeglut -lopengl32"
+	AC_SUBST(ccflags, "-march=pentium4 -mfpmath=sse -msse2 -mwindows")
+	AC_SUBST(libgcc, "libgcc_s_dw2-1")
+	AC_SUBST(icon, [logo.o])
+	AC_SUBST(sysdir, [/mingw32/])
+	AC_SUBST(basedir, [win32/])
+	win=1
 elif test `uname -s` = "Darwin"; then
 	AC_MSG_NOTICE([MacOS])
 	LDFLAGS="$LDFLAGS -L/System/Library/Frameworks -framework GLUT -framework OpenGL"
