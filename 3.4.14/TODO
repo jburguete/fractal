@@ -1,1 +1,4 @@
 - Enable OpenGL ES
+- Enable different movement probabilities
+- Enable obstacles
+- Enable coagulation algorithm
