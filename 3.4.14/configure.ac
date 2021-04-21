@@ -103,6 +103,27 @@ fi
 # Checks for compiler flags
 compiler=$CC
 
+# Checking -march=native compiler flag
+AC_ARG_WITH([native],
+	AS_HELP_STRING([--with-native],
+		[Build using -march=native compiler flag]))
+if test "x$with_native" = "xyes"; then
+	if test "x$native" = "x1"; then
+		CC="$CC -march=native"
+		AC_TRY_LINK([],
+			[int main(int argc, char **argv){return 0;}], [arch=1],
+			[arch=0])
+		CC=$compiler
+		if test $arch = 0; then
+			AC_MSG_NOTICE([checking for -march=native... no])
+			AC_SUBST(ARCH, "")
+		else
+			AC_MSG_NOTICE([checking for -march=native... yes])
+			AC_SUBST(ARCH, "-march=native")
+		fi
+	fi
+fi
+
 CC="$CC -flto"
 AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [lto=1], [lto=0])
 CC=$compiler
