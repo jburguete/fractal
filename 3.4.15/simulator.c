@@ -2,17 +2,17 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2020, Javier Burguete Tolosa.
+Copyright 2009-2021, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-	list of conditions and the following disclaimer.
+  list of conditions and the following disclaimer.
 
 2. Redistributions in binary form must reproduce the above copyright notice,
-	this list of conditions and the following disclaimer in the documentation
-	and/or other materials provided with the distribution.
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY Javier Burguete Tolosa ``AS IS'' AND ANY EXPRESS
 OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file simulator.c
  * \brief Source file to define the windows data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2020, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -115,7 +115,7 @@ set_perspective ()
  * Function to show an error message
  */
 void
-show_error (const char *message)
+show_error (const char *message)        ///< Error message string.
 {
   GtkMessageDialog *dlg;
   dlg = (GtkMessageDialog *)
@@ -123,8 +123,15 @@ show_error (const char *message)
                             GTK_DIALOG_DESTROY_WITH_PARENT,
                             GTK_MESSAGE_ERROR,
                             GTK_BUTTONS_CLOSE, "%s", message);
-  gtk_dialog_run (GTK_DIALOG (dlg));
-  gtk_widget_destroy (GTK_WIDGET (dlg));
+#if !GTK4
+  gtk_widget_show_all (GTK_WIDGET (dlg));
+  g_signal_connect_swapped (dlg, "response", G_CALLBACK (gtk_widget_destroy),
+                            GTK_WIDGET (dlg));
+#else
+  gtk_widget_show (GTK_WIDGET (dlg));
+  g_signal_connect_swapped (dlg, "response", G_CALLBACK (gtk_window_destroy),
+                            GTK_WINDOW (dlg));
+#endif
 }
 
 /**
@@ -135,15 +142,60 @@ dialog_options_update ()
 {
   int i;
   DialogOptions *dlg = dialog_options;
-  i = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dlg->button_3D));
+  i = gtk_check_button_get_active (dlg->button_3D);
   gtk_widget_set_sensitive (GTK_WIDGET (dlg->label_length), i);
   gtk_widget_set_sensitive (GTK_WIDGET (dlg->entry_length), i);
   for (i = 0; i < N_RANDOM_SEED_TYPES; ++i)
-    if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dlg->array_seeds[i])))
+    if (gtk_check_button_get_active (dlg->array_seeds[i]))
       break;
   i = (i == RANDOM_SEED_TYPE_FIXED) ? 1 : 0;
   gtk_widget_set_sensitive (GTK_WIDGET (dlg->label_seed), i);
   gtk_widget_set_sensitive (GTK_WIDGET (dlg->entry_seed), i);
+}
+
+/**
+ * Function to close a dialog to set the fractal options.
+ */
+static void
+dialog_options_close (DialogOptions * dlg,      ///< DialogOptions struct.
+                      int response_id)  ///< Response identifier.
+{
+  unsigned int i;
+  if (response_id == GTK_RESPONSE_OK)
+    {
+      fractal_diagonal = gtk_check_button_get_active (dlg->button_diagonal);
+      fractal_3D = gtk_check_button_get_active (dlg->button_3D);
+      for (i = 0; i < N_FRACTAL_TYPES; ++i)
+        if (gtk_check_button_get_active (dlg->array_fractals[i]))
+          fractal_type = i;
+      length = gtk_spin_button_get_value_as_int (dlg->entry_length);
+      width = gtk_spin_button_get_value_as_int (dlg->entry_width);
+      height = gtk_spin_button_get_value_as_int (dlg->entry_height);
+#if HAVE_GTKGLAREA
+      gtk_widget_set_size_request (GTK_WIDGET (dialog_simulator->gl_area),
+                                   width, height);
+#endif
+      random_seed = gtk_spin_button_get_value_as_int (dlg->entry_seed);
+      nthreads = gtk_spin_button_get_value_as_int (dlg->entry_nthreads);
+      animating = gtk_check_button_get_active (dlg->button_animate);
+      for (i = 0; i < N_RANDOM_TYPES; ++i)
+        if (gtk_check_button_get_active (dlg->array_algorithms[i]))
+          random_algorithm = i;
+      for (i = 0; i < N_RANDOM_SEED_TYPES; ++i)
+        if (gtk_check_button_get_active (dlg->array_seeds[i]))
+          random_seed_type = i;
+      medium_start ();
+      set_perspective ();
+      breaking = 1;
+    }
+  else if (response_id == GTK_RESPONSE_CANCEL);
+  else
+    return;
+#if !GTK4
+  gtk_widget_destroy (GTK_WIDGET (dlg->dialog));
+#else
+  gtk_window_destroy (GTK_WINDOW (dlg->dialog));
+#endif
 }
 
 /**
@@ -152,7 +204,7 @@ dialog_options_update ()
 static void
 dialog_options_create ()
 {
-  int i;
+  unsigned int i;
   const char *array_fractals[N_FRACTAL_TYPES] =
     { _("_Tree"), _("_Forest"), _("_Neuron") };
   const char *array_algorithms[N_RANDOM_TYPES] = {
@@ -172,6 +224,11 @@ dialog_options_create ()
   const char *array_seeds[N_RANDOM_SEED_TYPES] =
     { _("_Default"), _("_Clock based"), _("_Fixed") };
   DialogOptions *dlg = dialog_options;
+#if !GTK4
+  GtkContainer *content;
+#else
+  GtkBox *content;
+#endif
 
   dlg->button_diagonal = (GtkCheckButton *) gtk_check_button_new_with_mnemonic
     (_("_Diagonal movement"));
@@ -198,56 +255,69 @@ dialog_options_create ()
   dlg->array_fractals[0] = NULL;
   for (i = 0; i < N_FRACTAL_TYPES; ++i)
     {
+#if !GTK4
       dlg->array_fractals[i] =
         (GtkRadioButton *) gtk_radio_button_new_with_mnemonic_from_widget
         (dlg->array_fractals[0], array_fractals[i]);
+#else
+      dlg->array_fractals[i] = (GtkCheckButton *)
+        gtk_check_button_new_with_mnemonic (array_fractals[i]);
+      gtk_check_button_set_group (dlg->array_fractals[i],
+                                  dlg->array_fractals[0]);
+#endif
       gtk_grid_attach (dlg->grid_fractal, GTK_WIDGET (dlg->array_fractals[i]),
                        0, i, 1, 1);
     }
-  gtk_toggle_button_set_active
-    (GTK_TOGGLE_BUTTON (dlg->array_fractals[fractal_type]), 1);
+  gtk_check_button_set_active (dlg->array_fractals[fractal_type], 1);
   dlg->frame_fractal = (GtkFrame *) gtk_frame_new (_("Fractal type"));
-  gtk_container_add (GTK_CONTAINER (dlg->frame_fractal),
-                     GTK_WIDGET (dlg->grid_fractal));
+  gtk_frame_set_child (dlg->frame_fractal, GTK_WIDGET (dlg->grid_fractal));
 
   dlg->button_animate = (GtkCheckButton *) gtk_check_button_new_with_mnemonic
     (_("_Animate"));
-  gtk_toggle_button_set_active
-    (GTK_TOGGLE_BUTTON (dlg->button_animate), animating);
+  gtk_check_button_set_active (dlg->button_animate, animating);
 
   dlg->grid_algorithm = (GtkGrid *) gtk_grid_new ();
   dlg->array_algorithms[0] = NULL;
   for (i = 0; i < N_RANDOM_TYPES; ++i)
     {
+#if !GTK4
       dlg->array_algorithms[i] =
         (GtkRadioButton *) gtk_radio_button_new_with_mnemonic_from_widget
         (dlg->array_algorithms[0], array_algorithms[i]);
+#else
+      dlg->array_algorithms[i] = (GtkCheckButton *)
+        gtk_check_button_new_with_mnemonic (array_algorithms[i]);
+      gtk_check_button_set_group (dlg->array_algorithms[i],
+                                  dlg->array_algorithms[0]);
+#endif
       gtk_grid_attach (dlg->grid_algorithm,
                        GTK_WIDGET (dlg->array_algorithms[i]), 0, i, 1, 1);
     }
-  gtk_toggle_button_set_active
-    (GTK_TOGGLE_BUTTON (dlg->array_algorithms[random_algorithm]), 1);
+  gtk_check_button_set_active (dlg->array_algorithms[random_algorithm], 1);
   dlg->frame_algorithm = (GtkFrame *) gtk_frame_new (_("Random algorithm"));
-  gtk_container_add (GTK_CONTAINER (dlg->frame_algorithm),
-                     GTK_WIDGET (dlg->grid_algorithm));
+  gtk_frame_set_child (dlg->frame_algorithm, GTK_WIDGET (dlg->grid_algorithm));
 
   dlg->grid_seed = (GtkGrid *) gtk_grid_new ();
   dlg->array_seeds[0] = NULL;
   for (i = 0; i < N_RANDOM_SEED_TYPES; ++i)
     {
+#if !GTK4
       dlg->array_seeds[i] =
         (GtkRadioButton *) gtk_radio_button_new_with_mnemonic_from_widget
         (dlg->array_seeds[0], array_seeds[i]);
+#else
+      dlg->array_seeds[i] = (GtkCheckButton *)
+        gtk_check_button_new_with_mnemonic (array_seeds[i]);
+      gtk_check_button_set_group (dlg->array_seeds[i], dlg->array_seeds[0]);
+#endif
       gtk_grid_attach (dlg->grid_seed, GTK_WIDGET (dlg->array_seeds[i]),
                        0, i, 1, 1);
       g_signal_connect (dlg->array_seeds[i], "clicked", dialog_options_update,
                         NULL);
     }
-  gtk_toggle_button_set_active
-    (GTK_TOGGLE_BUTTON (dlg->array_seeds[random_seed_type]), 1);
+  gtk_check_button_set_active (dlg->array_seeds[random_seed_type], 1);
   dlg->frame_seed = (GtkFrame *) gtk_frame_new (_("Random seed type"));
-  gtk_container_add (GTK_CONTAINER (dlg->frame_seed),
-                     GTK_WIDGET (dlg->grid_seed));
+  gtk_frame_set_child (dlg->frame_seed, GTK_WIDGET (dlg->grid_seed));
 
   dlg->grid = (GtkGrid *) gtk_grid_new ();
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->button_diagonal), 0, 0, 2, 1);
@@ -269,11 +339,13 @@ dialog_options_create ()
 
   dlg->logo = (GtkImage *) gtk_image_new_from_file ("logo2.png");
 
-	dlg->bar = (GtkHeaderBar *) gtk_header_bar_new ();
-	gtk_header_bar_set_title (dlg->bar, _("Options"));
-	gtk_header_bar_set_subtitle (dlg->bar, _("Set the fractal options"));
-	gtk_header_bar_set_show_close_button (dlg->bar, 1);
-	gtk_header_bar_pack_start (dlg->bar, GTK_WIDGET (dlg->logo));
+  dlg->bar = (GtkHeaderBar *) gtk_header_bar_new ();
+#if !GTK4
+  gtk_header_bar_set_title (dlg->bar, _("Options"));
+  gtk_header_bar_set_subtitle (dlg->bar, _("Set the fractal options"));
+  gtk_header_bar_set_show_close_button (dlg->bar, 1);
+#endif
+  gtk_header_bar_pack_start (dlg->bar, GTK_WIDGET (dlg->logo));
 
   dlg->dialog
     = (GtkDialog *) gtk_dialog_new_with_buttons (NULL,
@@ -284,14 +356,20 @@ dialog_options_create ()
                                                  GTK_RESPONSE_OK,
                                                  _("_Cancel"),
                                                  GTK_RESPONSE_CANCEL, NULL);
-	gtk_window_set_titlebar (GTK_WINDOW (dlg->dialog), GTK_WIDGET (dlg->bar));
-  gtk_container_add (GTK_CONTAINER (gtk_dialog_get_content_area (dlg->dialog)),
-                     GTK_WIDGET (dlg->grid));
+  gtk_window_set_titlebar (GTK_WINDOW (dlg->dialog), GTK_WIDGET (dlg->bar));
+#if !GTK4
+  content = (GtkContainer *) gtk_dialog_get_content_area (dlg->dialog);
+  gtk_container_add (content, GTK_WIDGET (dlg->grid));
   gtk_widget_show_all (GTK_WIDGET (dlg->dialog));
+#else
+  gtk_window_set_title (GTK_WINDOW (dlg->dialog), _("Options"));
+  content = (GtkBox *) gtk_dialog_get_content_area (dlg->dialog);
+  gtk_box_append (content, GTK_WIDGET (dlg->grid));
+  gtk_widget_show (GTK_WIDGET (dlg->dialog));
+#endif
 
-  gtk_toggle_button_set_active
-    ((GtkToggleButton *) dlg->button_diagonal, fractal_diagonal);
-  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dlg->button_3D), fractal_3D);
+  gtk_check_button_set_active (dlg->button_diagonal, fractal_diagonal);
+  gtk_check_button_set_active (dlg->button_3D, fractal_3D);
   gtk_spin_button_set_value (dlg->entry_length, length);
   gtk_spin_button_set_value (dlg->entry_width, width);
   gtk_spin_button_set_value (dlg->entry_height, height);
@@ -299,40 +377,8 @@ dialog_options_create ()
   gtk_spin_button_set_value (dlg->entry_nthreads, nthreads);
   dialog_options_update ();
 
-  if (gtk_dialog_run (dlg->dialog) == GTK_RESPONSE_OK)
-    {
-      fractal_diagonal = gtk_toggle_button_get_active
-        (GTK_TOGGLE_BUTTON (dlg->button_diagonal));
-      fractal_3D =
-        gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dlg->button_3D));
-      for (i = 0; i < N_FRACTAL_TYPES; ++i)
-        if (gtk_toggle_button_get_active
-            (GTK_TOGGLE_BUTTON (dlg->array_fractals[i])))
-          fractal_type = i;
-      length = gtk_spin_button_get_value_as_int (dlg->entry_length);
-      width = gtk_spin_button_get_value_as_int (dlg->entry_width);
-      height = gtk_spin_button_get_value_as_int (dlg->entry_height);
-#if HAVE_GTKGLAREA
-      gtk_widget_set_size_request (GTK_WIDGET (dialog_simulator->gl_area),
-                                   width, height);
-#endif
-      random_seed = gtk_spin_button_get_value_as_int (dlg->entry_seed);
-      nthreads = gtk_spin_button_get_value_as_int (dlg->entry_nthreads);
-      animating = gtk_toggle_button_get_active
-        (GTK_TOGGLE_BUTTON (dlg->button_animate));
-      for (i = 0; i < N_RANDOM_TYPES; ++i)
-        if (gtk_toggle_button_get_active
-            (GTK_TOGGLE_BUTTON (dlg->array_algorithms[i])))
-          random_algorithm = i;
-      for (i = 0; i < N_RANDOM_SEED_TYPES; ++i)
-        if (gtk_toggle_button_get_active
-            (GTK_TOGGLE_BUTTON (dlg->array_seeds[i])))
-          random_seed_type = i;
-      medium_start ();
-      set_perspective ();
-      breaking = 1;
-    }
-  gtk_widget_destroy (GTK_WIDGET (dlg->dialog));
+  g_signal_connect_swapped (dlg->dialog, "response",
+                            G_CALLBACK (dialog_options_close), dlg);
 }
 
 /**
@@ -353,9 +399,9 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.14",
+                         "version", "3.4.15",
                          "copyright",
-                         "Copyright 2009-2020 Javier Burguete Tolosa",
+                         "Copyright 2009-2021 Javier Burguete Tolosa",
                          "license-type", GTK_LICENSE_BSD,
                          "logo", dialog_simulator->logo,
                          "website-label", _("Website"),
@@ -430,12 +476,36 @@ dialog_simulator_progress ()
 }
 
 /**
+ * Function to close the dialog to save the graphical view.
+ */
+static void
+dialog_simulator_graphic_close (GtkFileChooserDialog * dlg,
+                                ///< GtkFileChooserDialog struct.
+                                int response_id)       ///< Response identifier.
+{
+  char *filename;
+  if (response_id == GTK_RESPONSE_ACCEPT)
+    filename = gtk_file_chooser_get_current_name (GTK_FILE_CHOOSER (dlg));
+  else
+    filename = NULL;
+#if !GTK4
+  gtk_widget_destroy (GTK_WIDGET (dlg));
+#else
+  gtk_window_destroy (GTK_WINDOW (dlg));
+#endif
+  if (filename)
+    {
+      graphic_save (filename);
+      g_free (filename);
+    }
+}
+
+/**
  * Function to save the graphical view on a PNG file.
  */
 static void
-dialog_simulator_save ()
+dialog_simulator_graphic_save ()
 {
-  char *filename = NULL;
   GtkFileChooserDialog *dlg;
   dlg = (GtkFileChooserDialog *)
     gtk_file_chooser_dialog_new (_("Save graphical"),
@@ -443,15 +513,14 @@ dialog_simulator_save ()
                                  GTK_FILE_CHOOSER_ACTION_SAVE,
                                  _("_Cancel"), GTK_RESPONSE_CANCEL,
                                  _("_Open"), GTK_RESPONSE_ACCEPT, NULL);
+#if !GTK4
   gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dlg), 1);
-  if (gtk_dialog_run (GTK_DIALOG (dlg)) == GTK_RESPONSE_ACCEPT)
-    filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dlg));
-  gtk_widget_destroy (GTK_WIDGET (dlg));
-  if (filename)
-    {
-      graphic_save (filename);
-      g_free (filename);
-    }
+  gtk_widget_show_all (GTK_WIDGET (dlg));
+#else
+  gtk_widget_show (GTK_WIDGET (dlg));
+#endif
+  g_signal_connect (dlg, "response",
+                    G_CALLBACK (dialog_simulator_graphic_close), NULL);
 }
 
 #if HAVE_GTKGLAREA
@@ -510,51 +579,80 @@ dialog_simulator_create ()
   tip_help = _("Help");
   tip_exit = _("Exit");
 
+#if !GTK4
   dlg->logo = gtk_image_get_pixbuf
     (GTK_IMAGE (gtk_image_new_from_file ("logo.png")));
   dlg->logo_min = gtk_image_get_pixbuf
     (GTK_IMAGE (gtk_image_new_from_file ("logo2.png")));
+#else
+  dlg->logo = gtk_image_get_paintable
+    (GTK_IMAGE (gtk_image_new_from_file ("logo.png")));
+  dlg->logo_min = gtk_image_get_paintable
+    (GTK_IMAGE (gtk_image_new_from_file ("logo2.png")));
+#endif
 
   dlg->box = (GtkBox *) gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
 
   dlg->button_options = (GtkButton *)
-    gtk_button_new_from_icon_name ("preferences-system",
-		                   GTK_ICON_SIZE_SMALL_TOOLBAR);
+#if !GTK4
+    gtk_button_new_from_icon_name ("preferences-system", GTK_ICON_SIZE_BUTTON);
+#else
+    gtk_button_new_from_icon_name ("preferences-system");
+#endif
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_options), tip_options);
-  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_options), 0, 1, 0);
+  gtk_box_append (dlg->box, GTK_WIDGET (dlg->button_options));
   g_signal_connect_swapped
     (dlg->button_options, "clicked", dialog_options_create, dlg->logo_min);
 
   dlg->button_start = (GtkButton *)
-    gtk_button_new_from_icon_name ("system-run", GTK_ICON_SIZE_SMALL_TOOLBAR);
+#if !GTK4
+    gtk_button_new_from_icon_name ("system-run", GTK_ICON_SIZE_BUTTON);
+#else
+    gtk_button_new_from_icon_name ("system-run");
+#endif
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_start), tip_start);
-  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_start), 0 ,1, 0);
+  gtk_box_append (dlg->box, GTK_WIDGET (dlg->button_start));
   g_signal_connect (dlg->button_start, "clicked", fractal, NULL);
 
   dlg->button_stop = (GtkButton *)
-    gtk_button_new_from_icon_name ("process-stop", GTK_ICON_SIZE_SMALL_TOOLBAR);
+#if !GTK4
+    gtk_button_new_from_icon_name ("process-stop", GTK_ICON_SIZE_BUTTON);
+#else
+    gtk_button_new_from_icon_name ("process-stop");
+#endif
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_stop), tip_stop);
-  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_stop), 0, 1, 0);
+  gtk_box_append (dlg->box, GTK_WIDGET (dlg->button_stop));
   g_signal_connect (dlg->button_stop, "clicked", fractal_stop, NULL);
 
   dlg->button_save = (GtkButton *)
-    gtk_button_new_from_icon_name ("document-save",
-		                   GTK_ICON_SIZE_SMALL_TOOLBAR);
+#if !GTK4
+    gtk_button_new_from_icon_name ("document-save", GTK_ICON_SIZE_BUTTON);
+#else
+    gtk_button_new_from_icon_name ("document-save");
+#endif
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_save), tip_save);
-  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_save), 0, 1, 0);
-  g_signal_connect (dlg->button_save, "clicked", dialog_simulator_save, NULL);
+  gtk_box_append (dlg->box, GTK_WIDGET (dlg->button_save));
+  g_signal_connect (dlg->button_save, "clicked", dialog_simulator_graphic_save,
+                    NULL);
 
   dlg->button_help = (GtkButton *)
-    gtk_button_new_from_icon_name ("help-about", GTK_ICON_SIZE_SMALL_TOOLBAR);
+#if !GTK4
+    gtk_button_new_from_icon_name ("help-about", GTK_ICON_SIZE_BUTTON);
+#else
+    gtk_button_new_from_icon_name ("help-about");
+#endif
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_help), tip_help);
-  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_help), 0, 1, 0);
+  gtk_box_append (dlg->box, GTK_WIDGET (dlg->button_help));
   g_signal_connect (dlg->button_help, "clicked", dialog_simulator_help, NULL);
 
-  dlg->button_exit = (GtkButton *) 
-    gtk_button_new_from_icon_name ("application-exit",
-		                   GTK_ICON_SIZE_SMALL_TOOLBAR);
+  dlg->button_exit = (GtkButton *)
+#if !GTK4
+    gtk_button_new_from_icon_name ("application-exit", GTK_ICON_SIZE_BUTTON);
+#else
+    gtk_button_new_from_icon_name ("application-exit");
+#endif
   gtk_widget_set_tooltip_text (GTK_WIDGET (dlg->button_exit), tip_exit);
-  gtk_box_pack_start (dlg->box, GTK_WIDGET (dlg->button_exit), 0, 1, 0);
+  gtk_box_append (dlg->box, GTK_WIDGET (dlg->button_exit));
 #if HAVE_GTKGLAREA
   g_signal_connect_swapped (dlg->button_exit, "clicked",
                             (GCallback) g_main_loop_quit, dlg->loop);
@@ -610,12 +708,20 @@ dialog_simulator_create ()
   g_signal_connect (dlg->gl_area, "render", draw, NULL);
   g_signal_connect (dlg->gl_area, "resize", (GCallback) resize, NULL);
 #if WINDOW_GLAREA
+#if !GTK4
   dlg->window_gl = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_icon (dlg->window_gl, dlg->logo_min);
   gtk_container_add (GTK_CONTAINER (dlg->window_gl), GTK_WIDGET (dlg->gl_area));
   g_signal_connect_swapped (dlg->window_gl, "delete_event",
                             (GCallback) g_main_loop_quit, dlg->loop);
   gtk_widget_show_all (GTK_WIDGET (dlg->window_gl));
+#else
+  dlg->window_gl = (GtkWindow *) gtk_window_new ();
+  gtk_window_set_child (dlg->window_gl, GTK_WIDGET (dlg->gl_area));
+  g_signal_connect_swapped (dlg->window_gl, "close-request",
+                            (GCallback) g_main_loop_quit, dlg->loop);
+  gtk_widget_show (GTK_WIDGET (dlg->window_gl));
+#endif
 #else
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->gl_area), 0, 4, 3, 1);
 #endif
@@ -626,11 +732,11 @@ dialog_simulator_create ()
                            GLFW_DONT_CARE);
 #endif
 
+#if !GTK4
   dlg->window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (dlg->window, _("Fractal growing"));
   gtk_window_set_icon (dlg->window, dlg->logo_min);
   gtk_container_add (GTK_CONTAINER (dlg->window), GTK_WIDGET (dlg->grid));
-  gtk_widget_show_all (GTK_WIDGET (dlg->window));
 #if HAVE_GTKGLAREA
   g_signal_connect_swapped (dlg->window, "delete_event",
                             (GCallback) g_main_loop_quit, dlg->loop);
@@ -641,6 +747,25 @@ dialog_simulator_create ()
                             (void (*)) SDL_PushEvent, exit_event);
 #elif HAVE_GLFW
   g_signal_connect (dlg->window, "delete_event", (void (*)) window_close, NULL);
+#endif
+  gtk_widget_show_all (GTK_WIDGET (dlg->window));
+#else
+  dlg->window = (GtkWindow *) gtk_window_new ();
+  gtk_window_set_title (dlg->window, _("Fractal growing"));
+  gtk_window_set_child (dlg->window, GTK_WIDGET (dlg->grid));
+#if HAVE_GTKGLAREA
+  g_signal_connect_swapped (dlg->window, "close-request",
+                            (GCallback) g_main_loop_quit, dlg->loop);
+#elif HAVE_FREEGLUT
+  g_signal_connect (dlg->window, "close-request", glutLeaveMainLoop, NULL);
+#elif HAVE_SDL
+  g_signal_connect_swapped (dlg->window, "close-request",
+                            (void (*)) SDL_PushEvent, exit_event);
+#elif HAVE_GLFW
+  g_signal_connect (dlg->window, "close-request", (void (*)) window_close,
+                    NULL);
+#endif
+  gtk_widget_show (GTK_WIDGET (dlg->window));
 #endif
 
 #if DEBUG

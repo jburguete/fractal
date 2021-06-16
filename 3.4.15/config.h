@@ -2,17 +2,17 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2020, Javier Burguete Tolosa.
+Copyright 2009-2021, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-	list of conditions and the following disclaimer.
+  list of conditions and the following disclaimer.
 
 2. Redistributions in binary form must reproduce the above copyright notice,
-	this list of conditions and the following disclaimer in the documentation
-	and/or other materials provided with the distribution.
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY Javier Burguete Tolosa ``AS IS'' AND ANY EXPRESS
 OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file config.h
  * \brief Header file to define basic configuration and compilation options.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2020, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
  */
 #ifndef CONFIG__H
 #define CONFIG__H 1
@@ -85,11 +85,11 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///< ranlxs1 XML label.
 #define XML_RANLXS2     (const xmlChar *)"ranlxs2"
 ///< ranlxs2 XML label.
-#define XML_RANLXD1	    (const xmlChar *)"ranlxd1"
+#define XML_RANLXD1      (const xmlChar *)"ranlxd1"
 ///< ranlxd1 XML label.
-#define XML_RANLXD2	    (const xmlChar *)"ranlxd2"
+#define XML_RANLXD2      (const xmlChar *)"ranlxd2"
 ///< ranlxd2 XML label.
-#define XML_RANLUX 	    (const xmlChar *)"ranlux"
+#define XML_RANLUX       (const xmlChar *)"ranlux"
 ///< ranlux XML label.
 #define XML_RANLUX389   (const xmlChar *)"ranlux389"
 ///< ranlux389 XML label.
@@ -124,6 +124,20 @@ sincosf (float x, float *s, float *c)
   *s = sinf (x);
   *c = cosf (x);
 }
+#endif
+
+#if !GTK4
+
+#define gtk_box_append(box, child) (gtk_box_pack_start(box, child, 0, 0, 0))
+#define gtk_check_button_get_active(button) \
+  (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button)))
+#define gtk_check_button_set_active(button, active) \
+  (gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), active))
+#define gtk_file_chooser_get_filename gtk_file_chooser_get_current_name
+#define gtk_frame_set_child(frame, child) \
+  (gtk_container_add(GTK_CONTAINER(frame), child))
+#define gtk_window_destroy(window) (gtk_widget_destroy(GTK_WIDGET(window)))
+
 #endif
 
 #endif

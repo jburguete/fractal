@@ -2,17 +2,17 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2020, Javier Burguete Tolosa.
+Copyright 2009-2021, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-	list of conditions and the following disclaimer.
+  list of conditions and the following disclaimer.
 
 2. Redistributions in binary form must reproduce the above copyright notice,
-	this list of conditions and the following disclaimer in the documentation
-	and/or other materials provided with the distribution.
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY Javier Burguete Tolosa ``AS IS'' AND ANY EXPRESS
 OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file image.h
  * \brief Header file to define the image data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2020, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
  */
 #ifndef IMAGE__H
 #define IMAGE__H 1
@@ -39,17 +39,17 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * Macro to enable OpenGL ES.
  */
 #define INIT_GL_GLES \
-	"#ifdef GL_ES\n" \
-	"#  ifdef GL_FRAGMENT_PRECISION_HIGH\n" \
-	"     precision highp float;\n" \
-	"#  else\n" \
-	"     precision mediump float;\n" \
-	"#  endif\n" \
-	"#else\n" \
-	"#  define lowp\n" \
-	"#  define mediump\n" \
-	"#  define highp\n" \
-	"#endif\n"
+  "#ifdef GL_ES\n" \
+  "#  ifdef GL_FRAGMENT_PRECISION_HIGH\n" \
+  "     precision highp float;\n" \
+  "#  else\n" \
+  "     precision mediump float;\n" \
+  "#  endif\n" \
+  "#else\n" \
+  "#  define lowp\n" \
+  "#  define mediump\n" \
+  "#  define highp\n" \
+  "#endif\n"
 
 /**
  * \struct Image

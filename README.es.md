@@ -1,4 +1,4 @@
-FRACTAL (versión 3.4.14)
+FRACTAL (versión 3.4.15)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
@@ -105,17 +105,17 @@ Si se quiere hacer permanente tambien se puede añadir en el fichero ".profile"
 de la carpeta raíz del usuario la línea:
 > PATH="/usr/pkg/gcc9/bin:$PATH"
 
-En OpenBSD 6.8 hay que hacer primero en el terminal de construcción:
+En OpenBSD 6.9 hay que hacer primero en el terminal de construcción:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Descárguese este repositorio y ejecútese en un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.14
+> $ cd RUTA\_DE\_FRACTAL/3.4.15
 >
 > $ sh build.sh
 
 Este script (build.sh) trata de construir el ejecutable con usando PGO (Profile
 Guided Optimization) que falla en algunos sistemas. En ese caso hágase:
-> $ cd RUTA\_DE\_FRACTAL/3.4.14
+> $ cd RUTA\_DE\_FRACTAL/3.4.15
 >
 > $ aclocal
 >
@@ -163,18 +163,18 @@ operativos:
 * Debian 10 (Linux)
 * Devuan Linux 3
 * Dragonfly BSD 5.8.3
-* Fedora Linux 33
-* FreeBSD 12.2
+* Fedora Linux 34
+* FreeBSD 13.0
 * Gentoo Linux
 * Linux Mint DE 4
 * MacOS Catalina + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10 + MSYS2
 * NetBSD 9.1
-* OpenBSD 6.8
+* OpenBSD 6.9
 * OpenInidiana Hipster
-* OpenSUSE Linux Leap 15
-* Xubuntu Linux 20.10
+* OpenSUSE Linux Leap 15.2
+* Ubuntu Linux 21.04
 
 Probablemente, puede construirse en otros sistemas, distribuciones o versiones
 pero no ha sido probado.
@@ -183,7 +183,7 @@ PARA HACER EL MANUAL DE INSTRUCCIONES (latex/refman.pdf file)
 -------------------------------------------------------------
 
 Ejecutar en un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.14
+> $ cd RUTA\_DE\_FRACTAL/3.4.15
 >
 > $ doxygen
 >

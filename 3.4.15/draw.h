@@ -2,17 +2,17 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2020, Javier Burguete Tolosa.
+Copyright 2009-2021, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-	list of conditions and the following disclaimer.
+  list of conditions and the following disclaimer.
 
 2. Redistributions in binary form must reproduce the above copyright notice,
-	this list of conditions and the following disclaimer in the documentation
-	and/or other materials provided with the distribution.
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY Javier Burguete Tolosa ``AS IS'' AND ANY EXPRESS
 OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
@@ -27,32 +27,26 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * \file text.h
- * \brief Header file to define the text drawing data and functions.
+ * \file draw.h
+ * \brief Header file to define the drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2020, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
  */
-#ifndef TEXT__H
-#define TEXT__H 1
+#ifndef DRAW__H
+#define DRAW__H 1
 
-/**
- * \struct Text
- * Struct to define data to draw text.
- */
-typedef struct
-{
-  FT_Library ft;                ///< FreeType data.
-  FT_Face face;                 ///< FreeType face to draw text.
-  GLint attribute_position;     ///< Text variable position.
-  GLint uniform_text;           ///< Text constant.
-  GLint uniform_color;          ///< Color constant.
-  GLuint vbo;                   ///< Text vertex buffer object.
-  GLuint program;               ///< Text program.
-} Text;
+#if HAVE_SDL
+extern SDL_Window *window;
+#elif HAVE_GLFW
+extern GLFWwindow *window;
+#endif
+extern Graphic graphic[1];
 
-int text_init (Text * text);
-void text_destroy (Text * text);
-void text_draw (Text * text, char *string, float x, float y, float sx, float sy,
-                const GLfloat * color);
+void draw_resize (int width, int height);
+#if HAVE_GTKGLAREA
+void resize (GtkGLArea * gl_area, int w, int h);
+#endif
+
+void draw ();
 
 #endif

@@ -1,5 +1,5 @@
 AC_PREREQ([2.69])
-AC_INIT(fractal, [3.4.14])
+AC_INIT(fractal, [3.4.15])
 
 # Checks for operative systems
 AC_CANONICAL_SYSTEM
@@ -198,8 +198,20 @@ PKG_CHECK_MODULES([GTOP], [libgtop-2.0], AC_SUBST(NCORES, "-DHAVE_GTOP=1"),
 PKG_CHECK_MODULES([PNG], [libpng])
 PKG_CHECK_MODULES([FREETYPE], [freetype2])
 PKG_CHECK_MODULES([GLEW], [glew])
-PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 AC_SEARCH_LIBS([glViewport], [GL opengl32])
+AC_ARG_WITH([gtk],
+	AS_HELP_STRING([--with-gtk],
+		[Build using a version of GTK (3 (--with-gtk=3 or 
+		 4 (--with-gtk=4))]))
+if test "x$with_gtk" = "x4"; then
+	PKG_CHECK_MODULES([GTK], [gtk4], [gtk4=1], [gtk4=0])
+fi
+if test $gtk4 = 1; then
+	AC_SUBST(GTK4, "-DGTK4=1")
+else
+	AC_SUBST(GTK4, "-DGTK4=0")
+	PKG_CHECK_MODULES([GTK], [gtk+-3.0])
+fi
 
 # Checks for GtkGLArea, FreeGLUT, GLFW or SDL to draw the graphic window
 AC_ARG_WITH([gtkglarea],

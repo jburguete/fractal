@@ -1,4 +1,4 @@
-FRACTAL (3.4.14 version)
+FRACTAL (3.4.15 version)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
@@ -105,11 +105,11 @@ To do permanent this change the following line can be added to the ".profile"
 file in the user root directory:
 > PATH="/usr/pkg/gcc9/bin:$PATH"
 
-On OpenBSD 6.8 you have to do first on the building terminal:
+On OpenBSD 6.9 you have to do first on the building terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Download this repository and execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.4.14
+> $ cd PATH\_TO\_FRACTAL/3.4.15
 >
 > $ sh build.sh
 
@@ -129,18 +129,18 @@ This software has been built and tested in the following operative systems:
 * Debian 10 (Linux)
 * Devuan Linux 3
 * Dragonfly BSD 5.8.3
-* Fedora Linux 33
-* FreeBSD 12.2
+* Fedora Linux 34
+* FreeBSD 13.0
 * Gentoo Linux
 * Linux Mint DE 4
 * MacOS Catalina + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10 + MSYS2
 * NetBSD 9.1
-* OpenBSD 6.8
+* OpenBSD 6.9
 * OpenInidiana Hipster
 * OpenSUSE Linux Leap 15
-* Xubuntu Linux 20.10
+* Ubuntu Linux 21.04
 
 Probably, it can be built in other systems, distributions or versions but it has
 not been tested.
@@ -149,7 +149,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.4.14
+> $ cd PATH\_TO\_FRACTAL/3.4.15
 >
 > $ doxygen
 >

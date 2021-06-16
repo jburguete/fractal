@@ -2,17 +2,17 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2020, Javier Burguete Tolosa.
+Copyright 2009-2021, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-	list of conditions and the following disclaimer.
+  list of conditions and the following disclaimer.
 
 2. Redistributions in binary form must reproduce the above copyright notice,
-	this list of conditions and the following disclaimer in the documentation
-	and/or other materials provided with the distribution.
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY Javier Burguete Tolosa ``AS IS'' AND ANY EXPRESS
 OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file simulator.h
  * \brief Header file to define the windows data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2020, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
  */
 #ifndef SIMULATOR__H
 #define SIMULATOR__H 1
@@ -62,13 +62,22 @@ typedef struct
   ///< GtkButton to set 2D / 3D fractals.
   GtkCheckButton *button_animate;
   ///< GtkButton to set graphical animation.
+#if !GTK4
   GtkRadioButton *array_fractals[N_FRACTAL_TYPES];
   ///< Array of GtkRadioButtons to set the fractal type.
   GtkRadioButton *array_algorithms[N_RANDOM_TYPES];
   ///< Array of GtkRadioButtons to set the random numbers generator algoritm.
   GtkRadioButton *array_seeds[N_RANDOM_SEED_TYPES];
   ///< Array of GtkRadioButtons to set the random seed type.
-	GtkImage *logo;               ///< GtkImage to show the fractal logo.
+#else
+  GtkCheckButton *array_fractals[N_FRACTAL_TYPES];
+  ///< Array of GtkRadioButtons to set the fractal type.
+  GtkCheckButton *array_algorithms[N_RANDOM_TYPES];
+  ///< Array of GtkRadioButtons to set the random numbers generator algoritm.
+  GtkCheckButton *array_seeds[N_RANDOM_SEED_TYPES];
+  ///< Array of GtkRadioButtons to set the random seed type.
+#endif
+  GtkImage *logo;               ///< GtkImage to show the fractal logo.
   GtkFrame *frame_fractal;      ///< GtkFrame to show the fractal types.
   GtkFrame *frame_algorithm;
   ///< GtkFrame to show the random number generator algorithms.
@@ -88,13 +97,13 @@ typedef struct
  */
 typedef struct
 {
-  GtkButton *button_options;///< GtkButton to set the fractal options.
-  GtkButton *button_start;  ///< GtkButton to run the simulation.
-  GtkButton *button_stop;   ///< GtkButton to stop the simulation.
-  GtkButton *button_save;  ///< GtkButton to save the view in a PNG file.
-  GtkButton *button_help;   ///< GtkButton to show a help dialog.
-  GtkButton *button_exit;   ///< GtkButton to exit.
-  GtkBox *box;          ///< GtkBox containing the tool buttons.
+  GtkButton *button_options;    ///< GtkButton to set the fractal options.
+  GtkButton *button_start;      ///< GtkButton to run the simulation.
+  GtkButton *button_stop;       ///< GtkButton to stop the simulation.
+  GtkButton *button_save;       ///< GtkButton to save the view in a PNG file.
+  GtkButton *button_help;       ///< GtkButton to show a help dialog.
+  GtkButton *button_exit;       ///< GtkButton to exit.
+  GtkBox *box;                  ///< GtkBox containing the tool buttons.
   GtkLabel *label_time;
   ///< GtkLabel to show the computational time label.
   GtkLabel *label_horizontal;
@@ -110,8 +119,13 @@ typedef struct
   GtkScale *vscale;
   ///< GtkProgressBar to show the fractal growing progress.
   GtkGrid *grid;                ///< GtkGrid to pack all widgets.
+#if !GTK4
   GdkPixbuf *logo;              ///< GdkPixbuf containing the main logo.
   GdkPixbuf *logo_min;          ///< GdkPixbuf containing the reduced logo.
+#else
+  GdkPaintable *logo;           ///< GdkPixbuf containing the main logo.
+  GdkPaintable *logo_min;       ///< GdkPixbuf containing the reduced logo.
+#endif
 #if HAVE_GTKGLAREA
   GtkGLArea *gl_area;           ///< GtkGLArea to draw the graphics.
   GMainLoop *loop;              ///< GMainLoop to do the main loop.

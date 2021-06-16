@@ -1,4 +1,4 @@
-FRACTAL (versión 3.4.14)
+FRACTAL (versión 3.4.15)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
@@ -107,18 +107,18 @@ Pour faire le changement permanent on peut ajouter à la dernière ligne di
 fichier ".profile" dans le répertoire racine du utilisateur:
 > PATH="/usr/pkg/gcc9/bin:$PATH"
 
-Avec OpenBSD 6.8 on doit faire avant dans le terminal:
+Avec OpenBSD 6.9 on doit faire avant dans le terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Téléchargez ce dépôt et exécutez dans un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.14
+> $ cd RUTA\_DE\_FRACTAL/3.4.15
 >
 > $ sh build.sh
 
 Ce script (build.sh) essai de construire l'exécutable an utilisant PGO (Profile
 Guided Optimization) mais c'échoue dans some systèmes. Dans ce cas il faut
 fair:
-> $ cd RUTA\_DE\_FRACTAL/3.4.14
+> $ cd RUTA\_DE\_FRACTAL/3.4.15
 >
 > $ aclocal
 >
@@ -166,18 +166,18 @@ d'exploitation:
 * Debian 10 (Linux)
 * Devuan Linux 3
 * Dragonfly BSD 5.8.3
-* Fedora Linux 33
+* Fedora Linux 34
 * Gentoo Linux
-* FreeBSD 12.2
+* FreeBSD 13.0
 * Linux Mint DE 4
 * MacOS Catalina + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10 + MSYS2
 * NetBSD 9.1
-* OpenBSD 6.8
+* OpenBSD 6.9
 * OpenInidiana Hipster
-* OpenSUSE Linux Leap 15
-* Xubuntu Linux 20.10
+* OpenSUSE Linux Leap 15.2
+* Ubuntu Linux 21.04
 
 Peut être qu'on puisse construire le programme en autres systèmes, distributions
 ou versions, mais ça n'a pas été prouvé.
@@ -186,7 +186,7 @@ POUR FAIRE LE MANUEL D'INSTRUCTIONS (latex/refman.pdf file)
 -----------------------------------------------------------
 
 Exécutez dans un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.14
+> $ cd RUTA\_DE\_FRACTAL/3.4.15
 >
 > $ doxygen
 >

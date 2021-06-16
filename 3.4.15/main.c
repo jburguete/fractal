@@ -2,17 +2,17 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2020, Javier Burguete Tolosa.
+Copyright 2009-2021, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
 1. Redistributions of source code must retain the above copyright notice, this
-	list of conditions and the following disclaimer.
+  list of conditions and the following disclaimer.
 
 2. Redistributions in binary form must reproduce the above copyright notice,
-	this list of conditions and the following disclaimer in the documentation
-	and/or other materials provided with the distribution.
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
 
 THIS SOFTWARE IS PROVIDED BY Javier Burguete Tolosa ``AS IS'' AND ANY EXPRESS
 OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file main.c
  * \brief Source file to define the main function.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2020, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -69,6 +69,18 @@ GLFWwindow *window;             ///< GLFW window.
 #endif
 
 /**
+ * Function to do one main loop iteration.
+ */
+void
+main_iteration ()
+{
+  GMainContext *context;
+  context = g_main_context_default ();
+  while (g_main_context_pending (context))
+    g_main_context_iteration (context, 0);
+}
+
+/**
  * Function to do the main loop.
  */
 void
@@ -78,7 +90,7 @@ main_loop ()
 #if HAVE_FREEGLUT
 
   // Passing the GTK+ signals to the FreeGLUT main loop
-  glutIdleFunc ((void (*)) gtk_main_iteration);
+  glutIdleFunc (main_iteration);
   // Setting our draw resize function as the FreeGLUT reshape function
   glutReshapeFunc (draw_resize);
   // Setting our draw function as the FreeGLUT display function
@@ -89,12 +101,9 @@ main_loop ()
 #elif HAVE_SDL
 
   SDL_Event event[1];
-  GMainContext *context;
-  context = g_main_context_default ();
   while (1)
     {
-      while (g_main_context_pending (context))
-        g_main_context_iteration (context, 0);
+      main_iteration ();
       while (SDL_PollEvent (event))
         {
           if (event->type == SDL_QUIT)
@@ -108,12 +117,9 @@ main_loop ()
 
 #elif HAVE_GLFW
 
-  GMainContext *context;
-  context = g_main_context_default ();
   while (!glfwWindowShouldClose (window))
     {
-      while (g_main_context_pending (context))
-        g_main_context_iteration (context, 0);
+      main_iteration ();
       glfwPollEvents ();
       draw ();
     }
@@ -217,7 +223,11 @@ main (int argn,                 ///< Arguments number.
   printf ("Initing GTK+\n");
   fflush (stdout);
 #endif
+#if !GTK4
   gtk_init (&argn, &argc);
+#else
+  gtk_init ();
+#endif
 
   // Creating the main GTK+ window
 #if DEBUG
