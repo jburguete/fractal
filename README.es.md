@@ -1,4 +1,4 @@
-FRACTAL (versión 3.4.15)
+FRACTAL (versión 3.4.16)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
@@ -109,13 +109,13 @@ En OpenBSD 7.0 hay que hacer primero en el terminal de construcción:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Descárguese este repositorio y ejecútese en un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.15
+> $ cd RUTA\_DE\_FRACTAL/3.4.16
 >
 > $ sh build.sh
 
 Este script (build.sh) trata de construir el ejecutable con usando PGO (Profile
 Guided Optimization) que falla en algunos sistemas. En ese caso hágase:
-> $ cd RUTA\_DE\_FRACTAL/3.4.15
+> $ cd RUTA\_DE\_FRACTAL/3.4.16
 >
 > $ aclocal
 >
@@ -183,7 +183,7 @@ PARA HACER EL MANUAL DE INSTRUCCIONES (latex/refman.pdf file)
 -------------------------------------------------------------
 
 Ejecutar en un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.15
+> $ cd RUTA\_DE\_FRACTAL/3.4.16
 >
 > $ doxygen
 >

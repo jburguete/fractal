@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2021, Javier Burguete Tolosa.
+Copyright 2009-2022, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file draw.c
  * \brief Source file to define the drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2022, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -91,9 +91,10 @@ draw_resize (int w,             ///< Graphic window width.
 
 #if HAVE_GTKGLAREA
 void
-resize (GtkGLArea * gl_area __attribute__((unused)), int w, int h)
+resize (GtkGLArea * gl_area, int w, int h)
 {
   draw_resize (w, h);
+  gtk_widget_queue_draw (GTK_WIDGET (gl_area));
 }
 #endif
 

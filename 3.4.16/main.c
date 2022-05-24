@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2021, Javier Burguete Tolosa.
+Copyright 2009-2022, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file main.c
  * \brief Source file to define the main function.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2022, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -62,11 +62,15 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "draw.h"
 #include "simulator.h"
 
-#if HAVE_SDL
+#if HAVE_FREEGLUT
+int window;                     ///< FreeGLUT window.
+#elif HAVE_SDL
 SDL_Window *window;             ///< SDL window.
+SDL_GLContext *sdl_context;     ///< SDL context.
 #elif HAVE_GLFW
 GLFWwindow *window;             ///< GLFW window.
 #endif
+GdkGLContext *gdk_gl_context;   ///< Default GdkGLContext.
 
 /**
  * Function to do one main loop iteration.
@@ -75,9 +79,18 @@ void
 main_iteration ()
 {
   GMainContext *context;
+  if (gdk_gl_context)
+    gdk_gl_context_make_current (gdk_gl_context);
   context = g_main_context_default ();
   while (g_main_context_pending (context))
     g_main_context_iteration (context, 0);
+#if HAVE_FREEGLUT
+  glutSetWindow (window);
+#elif HAVE_SDL
+  SDL_GL_MakeCurrent (window, sdl_context);
+#elif HAVE_GLFW
+  glfwMakeContextCurrent (window);
+#endif
 }
 
 /**
@@ -170,7 +183,7 @@ main (int argn,                 ///< Arguments number.
   glutInit (&argn, argc);
   glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
   glutInitWindowSize (window_width, window_height);
-  glutCreateWindow ("fractal");
+  window = glutCreateWindow ("fractal");
 
 #elif HAVE_SDL
 
@@ -189,7 +202,8 @@ main (int argn,                 ///< Arguments number.
       return 1;
     }
   SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-  if (!SDL_GL_CreateContext (window))
+  sdl_context = SDL_GL_CreateContext (window);
+  if (!sdl_context)
     {
       printf ("ERROR! SDL_GL_CreateContext: %s\n", SDL_GetError ());
       return 1;
@@ -235,6 +249,7 @@ main (int argn,                 ///< Arguments number.
   fflush (stdout);
 #endif
   dialog_simulator_create ();
+  gdk_gl_context = gdk_gl_context_get_current ();
 
 #if !HAVE_GTKGLAREA
   // Initing drawing data
@@ -263,7 +278,10 @@ main (int argn,                 ///< Arguments number.
   main_loop ();
 
   // Freeing memory
-#if HAVE_GLFW
+#if HAVE_SDL
+  SDL_GL_DeleteContext (sdl_context);
+  SDL_Quit ();
+#elif HAVE_GLFW
   glfwDestroyWindow (window);
   glfwTerminate ();
 #endif

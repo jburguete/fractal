@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2021, Javier Burguete Tolosa.
+Copyright 2009-2022, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file config.h
  * \brief Header file to define basic configuration and compilation options.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2022, Javier Burguete Tolosa.
  */
 #ifndef CONFIG__H
 #define CONFIG__H 1

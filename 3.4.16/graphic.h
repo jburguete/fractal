@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2021, Javier Burguete Tolosa.
+Copyright 2009-2022, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -27,32 +27,41 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * \file text.h
- * \brief Header file to define the text drawing data and functions.
+ * \file graphic.h
+ * \brief Header file to define the graphic drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2022, Javier Burguete Tolosa.
  */
-#ifndef TEXT__H
-#define TEXT__H 1
+#ifndef GRAPHIC__H
+#define GRAPHIC__H 1
 
 /**
- * \struct Text
- * Struct to define data to draw text.
+ * \struct Graphic
+ * Struct to define graphic drawing data.
  */
 typedef struct
 {
-  FT_Library ft;                ///< FreeType data.
-  FT_Face face;                 ///< FreeType face to draw text.
-  GLint attribute_position;     ///< Text variable position.
-  GLint uniform_text;           ///< Text constant.
-  GLint uniform_color;          ///< Color constant.
-  GLuint vbo;                   ///< Text vertex buffer object.
-  GLuint program;               ///< Text program.
-} Text;
+  Text text[1];                 ///< Text data.
+  GLfloat projection_matrix[16];        ///< Projection matrix.
+  Image *logo;                  ///< Logo data.
+  float xmin;                   ///< Minimum x-coordinate.
+  float xmax;                   ///< Maximum x-coordinate.
+  float ymin;                   ///< Minimum y-coordinate.
+  float ymax;                   ///< Maximum y-coordinate.
+  float phi;                    ///< Horizontal perspective angle (in radians).
+  float theta;                  ///< Vertical perspective angle (in radians).
+  GLint attribute_3D_position;  ///< 3D variable position.
+  GLint attribute_3D_color;     ///< 3D variable color identifier.
+  GLint uniform_3D_matrix;      ///< 3D constant matrix.
+  GLuint program_3D;            ///< 3D program.
+} Graphic;
 
-int text_init (Text * text);
-void text_destroy (Text * text);
-void text_draw (Text * text, char *string, float x, float y, float sx, float sy,
-                const GLfloat * color);
+extern unsigned int window_width;
+extern unsigned int window_height;
+
+int graphic_init (Graphic * graphic, char *logo_name);
+void graphic_destroy (Graphic * graphic);
+void graphic_render (Graphic * graphic);
+void graphic_save (char *file_name);
 
 #endif

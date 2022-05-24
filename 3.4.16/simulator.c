@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2021, Javier Burguete Tolosa.
+Copyright 2009-2022, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file simulator.c
  * \brief Source file to define the windows data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2021, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2022, Javier Burguete Tolosa.
  */
 #define _GNU_SOURCE
 #include <stdio.h>
@@ -234,7 +234,7 @@ dialog_options_create ()
     (_("_Diagonal movement"));
   dlg->button_3D =
     (GtkCheckButton *) gtk_check_button_new_with_mnemonic ("3_D");
-  g_signal_connect (dlg->button_3D, "clicked", dialog_options_update, NULL);
+  g_signal_connect (dlg->button_3D, "toggled", dialog_options_update, NULL);
   dlg->label_length = (GtkLabel *) gtk_label_new (_("Length"));
   dlg->label_width = (GtkLabel *) gtk_label_new (_("Width"));
   dlg->label_height = (GtkLabel *) gtk_label_new (_("Height"));
@@ -312,7 +312,7 @@ dialog_options_create ()
 #endif
       gtk_grid_attach (dlg->grid_seed, GTK_WIDGET (dlg->array_seeds[i]),
                        0, i, 1, 1);
-      g_signal_connect (dlg->array_seeds[i], "clicked", dialog_options_update,
+      g_signal_connect (dlg->array_seeds[i], "toggled", dialog_options_update,
                         NULL);
     }
   gtk_check_button_set_active (dlg->array_seeds[random_seed_type], 1);
@@ -399,9 +399,9 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.15",
+                         "version", "3.4.16",
                          "copyright",
-                         "Copyright 2009-2021 Javier Burguete Tolosa",
+                         "Copyright 2009-2022 Javier Burguete Tolosa",
                          "license-type", GTK_LICENSE_BSD,
                          "logo", dialog_simulator->logo,
                          "website-label", _("Website"),

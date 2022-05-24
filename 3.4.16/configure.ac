@@ -1,8 +1,8 @@
 AC_PREREQ([2.69])
-AC_INIT(fractal, [3.4.15])
+AC_INIT([fractal],[3.4.16])
 
 # Checks for operative systems
-AC_CANONICAL_SYSTEM
+AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE
 AC_MSG_NOTICE([Build: $build])
 AC_MSG_NOTICE([Host: $host])
@@ -90,7 +90,7 @@ if test "x$win" = "x1"; then
 fi
 
 # Checks for programs
-AC_PROG_CC([gcc-10 gcc10 gcc-9 gcc9 gcc-8 gcc8 gcc-7 gcc7 egcc gcc clang])
+AC_PROG_CC([gcc-12 gcc12 gcc-11 gcc11 gcc-10 gcc10 gcc-9 gcc9 gcc-8 gcc8 gcc-7 gcc7 egcc gcc clang])
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG
@@ -110,9 +110,7 @@ AC_ARG_WITH([native],
 if test "x$with_native" = "xyes"; then
 	if test "x$native" = "x1"; then
 		CC="$CC -march=native"
-		AC_TRY_LINK([],
-			[int main(int argc, char **argv){return 0;}], [arch=1],
-			[arch=0])
+		AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [arch=1], [arch=0])
 		CC=$compiler
 		if test $arch = 0; then
 			AC_MSG_NOTICE([checking for -march=native... no])
@@ -125,7 +123,7 @@ if test "x$with_native" = "xyes"; then
 fi
 
 CC="$CC -flto"
-AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [lto=1], [lto=0])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [lto=1], [lto=0])
 CC=$compiler
 if test "x$lto" = "x0"; then
 	AC_MSG_NOTICE("checking for -flto... no")
@@ -136,13 +134,12 @@ else
 fi
 
 CC="$CC -std=gnu11"
-AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [std=1], [std=0])
+AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [std=1], [std=0])
 CC=$compiler
 if test "x$std" = "x0"; then
 	AC_MSG_NOTICE("checking for -std=gnu11... no")
 	CC="$CC -std=gnu99"
-	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [std=1],
-		[std=0])
+	AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [std=1], [std=0])
 	CC=$compiler
 	if test "x$std" = "x0"; then
 		AC_MSG_NOTICE("checking for -std=gnu99... no")
@@ -160,8 +157,7 @@ AC_ARG_WITH([pgo],
 	AS_HELP_STRING([--with-pgo], [Build using PGO]))
 if test "x$with_pgo" = "xyes"; then
 	CC="$CC -fprofile-generate"
-	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [pgo=1],
-		[pgo=0])
+	AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [pgo=1], [pgo=0])
 	CC=$compiler
 	if test "x$pgo" = "x0"; then
 		AC_MSG_NOTICE("checking for PGO... no")
@@ -174,8 +170,7 @@ fi
 
 if test "x$native" = "x1"; then
 	CC="$CC -march=native"
-	AC_TRY_LINK([], [int main(int argc, char **argv){return 0;}], [native=1],
-		[native=0])
+	AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [native=1], [native=0])
 	CC=$compiler
 	if test "x$native" = "x0"; then
 		AC_MSG_NOTICE("checking for -march=native... no")
@@ -201,8 +196,7 @@ PKG_CHECK_MODULES([GLEW], [glew])
 AC_SEARCH_LIBS([glViewport], [GL opengl32])
 AC_ARG_WITH([gtk],
 	AS_HELP_STRING([--with-gtk],
-		[Build using a version of GTK (3 (--with-gtk=3 or 
-		 4 (--with-gtk=4))]))
+		[Build using a version of GTK (3 (--with-gtk=3 or 4 (--with-gtk=4))]))
 if test "x$with_gtk" = "x4"; then
 	PKG_CHECK_MODULES([GTK], [gtk4], [gtk4=1], [gtk4=0])
 fi
