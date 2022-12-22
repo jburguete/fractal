@@ -27,18 +27,28 @@ dll = $(dlldir)libatk-1.0-0.dll $(dlldir)libbz2-1.dll $(dlldir)libcairo-2.dll \
 	$(dlldir)libpixman-1-0.dll $(dlldir)libpng16-16.dll \
 	$(dlldir)libwinpthread-1.dll $(dlldir)zlib1.dll
 png = logo.png logo2.png
-pgo = @PGO@
 pgoobjs = fractal.pgo image.pgo text.pgo graphic.pgo draw.pgo simulator.o \
 	main.o @icon@
-ifeq ($(pgo), 1)
-	fractaldep = fractalpgo fractal.gcda image.gcda text.gcda graphic.gcda \
-		draw.gcda
+ifeq (@PGO@, 1)
+	fractaldep = fractalpgo
 	imagedep = fractalpgo
 	textdep = fractalpgo
 	graphicdep = fractalpgo
 	drawdep = fractalpgo
+ifeq (@CC@, clang)
+	pgogen = -fprofile-instr-generate
+	pgouse = -fprofile-instr-use=fractal.profraw
+	treeprefix = LLVM_PROFILE_FILE="tree.profdata"
+	forestprefix = LLVM_PROFILE_FILE="forest.profdata"
+	neuronprefix = LLVM_PROFILE_FILE="neuron.profdata"
+	tree3dprefix = LLVM_PROFILE_FILE="tree-3d.profdata"
+	forest3dprefix = LLVM_PROFILE_FILE="forest-3d.profdata"
+	neuron3dprefix = LLVM_PROFILE_FILE="neuron-3d.profdata"
+	llvm_merge = llvm-profdata merge *.profdata -output fractal.profraw
+else
 	pgogen = -fprofile-generate
 	pgouse = -fprofile-use -fprofile-correction
+endif
 	exedep = $(objs) $(fractaldep)
 else
 	fractaldep = fractal.c fractal.h simulator.h draw.h $(configs)
@@ -71,12 +81,13 @@ fractal@EXE@: $(exedep)
 
 fractalpgo: $(pgoobjs) $(tests)
 	$(CC) $(pgogen) $(pgoobjs) $(LDFLAGS) -o fractalpgo
-	./fractalpgo tests/tree.xml
-	./fractalpgo tests/forest.xml
-	./fractalpgo tests/neuron.xml
-	./fractalpgo tests/tree-3d.xml
-	./fractalpgo tests/forest-3d.xml
-	./fractalpgo tests/neuron-3d.xml
+	$(treeprefix) ./fractalpgo tests/tree.xml
+	$(forestprefix) ./fractalpgo tests/forest.xml
+	$(neuronprefix) ./fractalpgo tests/neuron.xml
+	$(tree3dprefix) ./fractalpgo tests/tree-3d.xml
+	$(forest3dprefix) ./fractalpgo tests/forest-3d.xml
+	$(neuron3dprefix) ./fractalpgo tests/neuron-3d.xml
+	$(llvm_merge)
 
 fractal.pgo: fractal.c fractal.h simulator.h image.h text.h graphic.h draw.h \
 	$(configs)

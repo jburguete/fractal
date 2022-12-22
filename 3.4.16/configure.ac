@@ -90,7 +90,7 @@ if test "x$win" = "x1"; then
 fi
 
 # Checks for programs
-AC_PROG_CC([gcc-12 gcc12 gcc-11 gcc11 gcc-10 gcc10 gcc-9 gcc9 gcc-8 gcc8 gcc-7 gcc7 egcc gcc clang])
+AC_PROG_CC([gcc-12 gcc12 gcc-11 gcc11 gcc-10 gcc10 egcc gcc clang])
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG
@@ -112,7 +112,7 @@ if test "x$with_native" = "xyes"; then
 		CC="$CC -march=native"
 		AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [arch=1], [arch=0])
 		CC=$compiler
-		if test $arch = 0; then
+		if test "x$arch" = "x0"; then
 			AC_MSG_NOTICE([checking for -march=native... no])
 			AC_SUBST(ARCH, "")
 		else
@@ -200,7 +200,7 @@ AC_ARG_WITH([gtk],
 if test "x$with_gtk" = "x4"; then
 	PKG_CHECK_MODULES([GTK], [gtk4], [gtk4=1], [gtk4=0])
 fi
-if test $gtk4 = 1; then
+if test "x$gtk4" = "x1"; then
 	AC_SUBST(GTK4, "-DGTK4=1")
 else
 	AC_SUBST(GTK4, "-DGTK4=0")
