@@ -60,7 +60,8 @@ elif test $host = "i686-pc-cygwin"; then
 	win=1
 elif test `uname -s` = "Darwin"; then
 	AC_MSG_NOTICE([MacOS])
-	LDFLAGS="$LDFLAGS -L/System/Library/Frameworks -framework GLUT -framework OpenGL"
+	LDFLAGS="$LDFLAGS -L/usr/local/opt/llvm@13/lib -L/System/Library/Frameworks -framework GLUT -framework OpenGL"
+	CPPFLAGS+="$CPPFLAGS -I/usr/local/include -I/usr/local/opt/llvm@13/include"
 elif test `uname -s` = "NetBSD"; then
 	AC_MSG_NOTICE([NetBSD])
 	LDFLAGS="$LDFLAGS -L/usr/pkg/lib"
@@ -218,7 +219,7 @@ AC_ARG_WITH([sdl],
 	AS_HELP_STRING([--with-sdl], [Build graphic window with SDL]))
 if test "x$with_freeglut" = "xyes"; then
 	AC_SUBST(GRAPHIC, "-DHAVE_FREEGLUT=1")
-	AC_SEARCH_LIBS([glutInit], [freeglut glut], glut="yes", glut="no")
+	PKG_CHECK_MODULES([GLUT], [glut])
 else
 	if test "x$with_glfw" = "xyes"; then
 		AC_SUBST(GRAPHIC, "-DHAVE_GLFW=1")
