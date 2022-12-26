@@ -44,7 +44,7 @@ ifeq (@CC@, clang)
 	tree3dprefix = LLVM_PROFILE_FILE="tree-3d.profdata"
 	forest3dprefix = LLVM_PROFILE_FILE="forest-3d.profdata"
 	neuron3dprefix = LLVM_PROFILE_FILE="neuron-3d.profdata"
-	llvm_merge = llvm-profdata merge *.profdata -output fractal.profraw
+	llvm_merge = @LLVM_PROFDATA@ merge *.profdata -output fractal.profraw
 else
 	pgogen = -fprofile-generate
 	pgouse = -fprofile-use -fprofile-correction

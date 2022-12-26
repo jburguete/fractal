@@ -100,6 +100,13 @@ $CC -v
 if test "x$win" = "x1"; then
 	AC_CHECK_TOOL(WINDRES, windres)
 fi
+if test $CC = "clang"; then
+	AC_CHECK_PROGS([LLVM_PROFDATA], [llvm-profdata llvm-profdata-15], 0)
+	if test $LLVM_PROFDATA = 0; then
+	      	AC_MSG_ERROR([No llvm-profdata])
+	fi
+	AC_MSG_NOTICE([llvm-profdata: $LLVM_PROFDATA])
+fi
 
 # Checks for compiler flags
 compiler=$CC
