@@ -97,7 +97,12 @@ AC_LANG([C])
 PKG_PROG_PKG_CONFIG
 AC_MSG_NOTICE([Compiler: $CC])
 $CC -v
-if test "x$win" = "x1"; then
+if test "`command -v gmake`"; then
+	AC_SUBST(MAKE, [gmake])
+else
+	AC_SUBST(MAKE, [make])
+fi
+if test "$win" = "1"; then
 	AC_CHECK_TOOL(WINDRES, windres)
 fi
 if test $CC = "clang"; then
@@ -130,10 +135,11 @@ if test "x$with_native" = "xyes"; then
 	fi
 fi
 
+# Checking -flto compiler flag
 CC="$CC -flto"
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [lto=1], [lto=0])
 CC=$compiler
-if test "x$lto" = "x0"; then
+if test $lto = 0; then
 	AC_MSG_NOTICE("checking for -flto... no")
 	AC_SUBST(LTO, "")
 else
@@ -141,15 +147,16 @@ else
 	AC_SUBST(LTO, "-flto")
 fi
 
+# Checking -std compiler flag
 CC="$CC -std=gnu11"
 AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [std=1], [std=0])
 CC=$compiler
-if test "x$std" = "x0"; then
+if test $std = 0; then
 	AC_MSG_NOTICE("checking for -std=gnu11... no")
 	CC="$CC -std=gnu99"
 	AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [std=1], [std=0])
 	CC=$compiler
-	if test "x$std" = "x0"; then
+	if test $std = 0; then
 		AC_MSG_NOTICE("checking for -std=gnu99... no")
 		AC_SUBST(STD, "")
 	else
@@ -161,33 +168,26 @@ else
 	AC_SUBST(STD, "-std=gnu11")
 fi
 
+# Checking PGO optimiztion
 AC_ARG_WITH([pgo],
 	AS_HELP_STRING([--with-pgo], [Build using PGO]))
+pgo=0
 if test "x$with_pgo" = "xyes"; then
 	CC="$CC -fprofile-generate"
-	AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [pgo=1], [pgo=0])
+	AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [pgo=1])
 	CC=$compiler
 	if test "x$pgo" = "x0"; then
+		CC="$CC -fprofile-instr-generate"
+		AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [pgo=1])
+		CC=$compiler
+	fi
+fi
+if test "$pgo" = 0; then
 		AC_MSG_NOTICE("checking for PGO... no")
-		AC_SUBST(PGO, "0")
-	else
+else
 		AC_MSG_NOTICE("checking for PGO... yes")
-		AC_SUBST(PGO, "1")
-	fi
 fi
-
-if test "x$native" = "x1"; then
-	CC="$CC -march=native"
-	AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [native=1], [native=0])
-	CC=$compiler
-	if test "x$native" = "x0"; then
-		AC_MSG_NOTICE("checking for -march=native... no")
-		AC_SUBST(NATIVE, "")
-	else
-		AC_MSG_NOTICE("checking for -march=native... yes")
-		AC_SUBST(NATIVE, "-march=native")
-	fi
-fi
+AC_SUBST(PGO, [$pgo])
 
 # Checks for libraries.
 AC_SEARCH_LIBS([sqrt], [m])
