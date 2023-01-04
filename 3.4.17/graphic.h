@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2022, Javier Burguete Tolosa.
+Copyright 2009-2023, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -27,26 +27,41 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 /**
- * \file draw.h
- * \brief Header file to define the drawing data and functions.
+ * \file graphic.h
+ * \brief Header file to define the graphic drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2022, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2023, Javier Burguete Tolosa.
  */
-#ifndef DRAW__H
-#define DRAW__H 1
+#ifndef GRAPHIC__H
+#define GRAPHIC__H 1
 
-#if HAVE_SDL
-extern SDL_Window *window;
-#elif HAVE_GLFW
-extern GLFWwindow *window;
-#endif
-extern Graphic graphic[1];
+/**
+ * \struct Graphic
+ * Struct to define graphic drawing data.
+ */
+typedef struct
+{
+  Text text[1];                 ///< Text data.
+  GLfloat projection_matrix[16];        ///< Projection matrix.
+  Image *logo;                  ///< Logo data.
+  float xmin;                   ///< Minimum x-coordinate.
+  float xmax;                   ///< Maximum x-coordinate.
+  float ymin;                   ///< Minimum y-coordinate.
+  float ymax;                   ///< Maximum y-coordinate.
+  float phi;                    ///< Horizontal perspective angle (in radians).
+  float theta;                  ///< Vertical perspective angle (in radians).
+  GLint attribute_3D_position;  ///< 3D variable position.
+  GLint attribute_3D_color;     ///< 3D variable color identifier.
+  GLint uniform_3D_matrix;      ///< 3D constant matrix.
+  GLuint program_3D;            ///< 3D program.
+} Graphic;
 
-void draw_resize (int width, int height);
-#if HAVE_GTKGLAREA
-void resize (GtkGLArea * gl_area, int w, int h);
-#endif
+extern unsigned int window_width;
+extern unsigned int window_height;
 
-void draw ();
+int graphic_init (Graphic * graphic, char *logo_name);
+void graphic_destroy (Graphic * graphic);
+void graphic_render (Graphic * graphic);
+void graphic_save (char *file_name);
 
 #endif

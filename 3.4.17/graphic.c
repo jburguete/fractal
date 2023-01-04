@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2022, Javier Burguete Tolosa.
+Copyright 2009-2023, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,9 +30,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file graphic.c
  * \brief Source file to define the graphic drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2022, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2023, Javier Burguete Tolosa.
  */
-#define _GNU_SOURCE
+#include "config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -44,8 +44,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include FT_FREETYPE_H
 #include <gtk/gtk.h>
 #include <GL/glew.h>
-
-#include "config.h"
+#include "config2.h"
 #include "fractal.h"
 #include "image.h"
 #include "text.h"
@@ -255,7 +254,7 @@ graphic_render (Graphic * graphic)      ///< Graphic struct.
   };
   const GLushort square_indices[4] = { 0, 1, 2, 3 };
   const GLfloat black[4] = { 0., 0., 0., 1. };
-  const char *str_version = "Fractal 3.4.16";
+  const char *str_version = "Fractal 3.4.17";
   float cp, sp, ct, st, w, h, sx, sy;
   GLuint vbo_square, ibo_square, vbo_points;
 

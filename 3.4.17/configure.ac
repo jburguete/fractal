@@ -1,5 +1,6 @@
+# Header
 AC_PREREQ([2.69])
-AC_INIT([fractal],[3.4.16])
+AC_INIT([fractal],[3.4.17])
 
 # Checks for operative systems
 AC_CANONICAL_TARGET
@@ -10,7 +11,6 @@ win=0
 native=1
 if test $host = "x86_64-w64-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 64 bits])
-	CPPFLAGS="$CPPFLAGS -I/mingw/include"
 	AC_SUBST(ccflags, "-march=corei7 -mfpmath=sse -msse3 -mwindows")
 	AC_SUBST(libgcc, "libgcc_s_seh-1")
 	AC_SUBST(icon, [logo.o])
@@ -64,12 +64,8 @@ elif test `uname -s` = "Darwin"; then
 	CPPFLAGS+="$CPPFLAGS -I/usr/local/include -I/usr/local/opt/llvm@13/include"
 elif test `uname -s` = "NetBSD"; then
 	AC_MSG_NOTICE([NetBSD])
-	LDFLAGS="$LDFLAGS -L/usr/pkg/lib"
-	CPPFLAGS="$CPPFLAGS -I/usr/pkg/include"
-elif test `uname -s` = "NetBSD"; then
-	AC_MSG_NOTICE([NetBSD])
-	LDFLAGS="$LDFLAGS -L/usr/X11R7/lib"
-	CPPFLAGS="$CPPFLAGS -I/usr/X11R7/include"
+	LDFLAGS="$LDFLAGS -L/usr/pkg/lib -L/usr/X11R7/lib"
+	CPPFLAGS="$CPPFLAGS -I/usr/pkg/include -I/usr/X11R7/include"
 elif test `uname -s` = "OpenBSD"; then
 	AC_MSG_NOTICE([OpenBSD])
 	LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
@@ -85,18 +81,18 @@ elif test `uname -s` = "SunOS"; then
 else
 	AC_MSG_NOTICE([Unix type system])
 fi
-if test "x$win" = "x1"; then
-	native=0
+if test $win = 1; then
 	AC_SUBST(EXE, [.exe])
+	native=0
 fi
 
 # Checks for programs
 AC_PROG_CC([gcc-12 gcc12 gcc-11 gcc11 gcc-10 gcc10 egcc gcc clang])
+AC_MSG_NOTICE([Compiler: $CC])
+$CC -v
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG
-AC_MSG_NOTICE([Compiler: $CC])
-$CC -v
 if test "`command -v gmake`"; then
 	AC_SUBST(MAKE, [gmake])
 else
@@ -117,15 +113,14 @@ fi
 compiler=$CC
 
 # Checking -march=native compiler flag
-AC_ARG_WITH([native],
-	AS_HELP_STRING([--with-native],
+if test $native = 1; then
+	AC_ARG_WITH([native], AS_HELP_STRING([--with-native],
 		[Build using -march=native compiler flag]))
-if test "x$with_native" = "xyes"; then
-	if test "x$native" = "x1"; then
+	if test "x$with_native" = "xyes"; then
 		CC="$CC -march=native"
 		AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [arch=1], [arch=0])
 		CC=$compiler
-		if test "x$arch" = "x0"; then
+		if test $arch = 0; then
 			AC_MSG_NOTICE([checking for -march=native... no])
 			AC_SUBST(ARCH, "")
 		else
@@ -147,30 +142,8 @@ else
 	AC_SUBST(LTO, "-flto")
 fi
 
-# Checking -std compiler flag
-CC="$CC -std=gnu11"
-AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [std=1], [std=0])
-CC=$compiler
-if test $std = 0; then
-	AC_MSG_NOTICE("checking for -std=gnu11... no")
-	CC="$CC -std=gnu99"
-	AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [std=1], [std=0])
-	CC=$compiler
-	if test $std = 0; then
-		AC_MSG_NOTICE("checking for -std=gnu99... no")
-		AC_SUBST(STD, "")
-	else
-		AC_MSG_NOTICE("checking for -std=gnu99... yes")
-		AC_SUBST(STD, "-std=gnu99")
-	fi
-else
-	AC_MSG_NOTICE("checking for -std=gnu11... yes")
-	AC_SUBST(STD, "-std=gnu11")
-fi
-
 # Checking PGO optimiztion
-AC_ARG_WITH([pgo],
-	AS_HELP_STRING([--with-pgo], [Build using PGO]))
+AC_ARG_WITH([pgo], AS_HELP_STRING([--with-pgo], [Build using PGO]))
 pgo=0
 if test "x$with_pgo" = "xyes"; then
 	CC="$CC -fprofile-generate"
@@ -196,15 +169,14 @@ PKG_CHECK_MODULES([GSL], [gsl])
 PKG_CHECK_MODULES([XML], [libxml-2.0])
 PKG_CHECK_MODULES([GLIB], [glib-2.0])
 PKG_CHECK_MODULES([GTHREAD], [gthread-2.0])
-PKG_CHECK_MODULES([GTOP], [libgtop-2.0], AC_SUBST(NCORES, "-DHAVE_GTOP=1"),
+PKG_CHECK_MODULES([GTOP], [libgtop-2.0], AC_DEFINE([HAVE_GTOP], [1]),
 	AC_MSG_NOTICE("No libgtop"))
 PKG_CHECK_MODULES([PNG], [libpng])
 PKG_CHECK_MODULES([FREETYPE], [freetype2])
 PKG_CHECK_MODULES([GLEW], [glew])
 AC_SEARCH_LIBS([glViewport], [GL opengl32])
-AC_ARG_WITH([gtk],
-	AS_HELP_STRING([--with-gtk],
-		[Build using a version of GTK (3 (--with-gtk=3 or 4 (--with-gtk=4))]))
+AC_ARG_WITH([gtk], AS_HELP_STRING([--with-gtk],
+	[Build using a version of GTK (3 (--with-gtk=3 or 4 (--with-gtk=4))]))
 if test "x$with_gtk" = "x4"; then
 	PKG_CHECK_MODULES([GTK], [gtk4], [gtk4=1], [gtk4=0])
 fi
@@ -226,7 +198,8 @@ AC_ARG_WITH([sdl],
 	AS_HELP_STRING([--with-sdl], [Build graphic window with SDL]))
 if test "x$with_freeglut" = "xyes"; then
 	AC_SUBST(GRAPHIC, "-DHAVE_FREEGLUT=1")
-	PKG_CHECK_MODULES([GLUT], [glut])
+	PKG_CHECK_MODULES([GLUT], [glut], ,
+		[PKG_CHECK_MODULES([GLUT], [freeglut])])
 else
 	if test "x$with_glfw" = "xyes"; then
 		AC_SUBST(GRAPHIC, "-DHAVE_GLFW=1")
@@ -271,5 +244,6 @@ AC_MSG_NOTICE([Font: $font])
 AC_SUBST(FONT, "-DFONT=\\\"$font\\\"")
 
 # Output
+AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

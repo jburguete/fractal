@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2022, Javier Burguete Tolosa.
+Copyright 2009-2023, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -34,6 +34,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #ifndef CONFIG__H
 #define CONFIG__H 1
+
 
 #define DEBUG 0                 ///< Macro to debug the code.
 
