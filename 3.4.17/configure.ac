@@ -90,6 +90,7 @@ fi
 AC_PROG_CC([gcc-12 gcc12 gcc-11 gcc11 gcc-10 gcc10 egcc gcc clang])
 AC_MSG_NOTICE([Compiler: $CC])
 $CC -v
+AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_LANG([C])
 PKG_PROG_PKG_CONFIG
@@ -122,7 +123,6 @@ if test $native = 1; then
 		CC=$compiler
 		if test $arch = 0; then
 			AC_MSG_NOTICE([checking for -march=native... no])
-			AC_SUBST(ARCH, "")
 		else
 			AC_MSG_NOTICE([checking for -march=native... yes])
 			AC_SUBST(ARCH, "-march=native")
@@ -136,7 +136,6 @@ AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [lto=1], [lto=0])
 CC=$compiler
 if test $lto = 0; then
 	AC_MSG_NOTICE("checking for -flto... no")
-	AC_SUBST(LTO, "")
 else
 	AC_MSG_NOTICE("checking for -flto... yes")
 	AC_SUBST(LTO, "-flto")
