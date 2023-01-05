@@ -9,6 +9,7 @@ AC_MSG_NOTICE([Build: $build])
 AC_MSG_NOTICE([Host: $host])
 win=0
 native=1
+haiku=0
 if test $host = "x86_64-w64-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 64 bits])
 	AC_SUBST(ccflags, "-march=corei7 -mfpmath=sse -msse3 -mwindows")
@@ -78,6 +79,9 @@ elif test `uname -s` = "DragonFly"; then
 elif test `uname -s` = "SunOS"; then
 	AC_MSG_NOTICE([SunOS])
 	AC_SUBST(gnu, [/usr/gnu/bin/])
+elif test `uname -s` = "Haiku"; then
+	AC_MSG_NOTICE([Haiku])
+	haiku=1
 else
 	AC_MSG_NOTICE([Unix type system])
 fi
@@ -148,13 +152,13 @@ if test "x$with_pgo" = "xyes"; then
 	CC="$CC -fprofile-generate"
 	AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [pgo=1])
 	CC=$compiler
-	if test "x$pgo" = "x0"; then
+	if test $pgo = 0; then
 		CC="$CC -fprofile-instr-generate"
 		AC_LINK_IFELSE([AC_LANG_PROGRAM([[]], [[]])], [pgo=1])
 		CC=$compiler
 	fi
 fi
-if test "$pgo" = 0; then
+if test $pgo = 0; then
 		AC_MSG_NOTICE("checking for PGO... no")
 else
 		AC_MSG_NOTICE("checking for PGO... yes")
@@ -174,6 +178,8 @@ PKG_CHECK_MODULES([PNG], [libpng])
 PKG_CHECK_MODULES([FREETYPE], [freetype2])
 PKG_CHECK_MODULES([GLEW], [glew])
 AC_SEARCH_LIBS([glViewport], [GL opengl32])
+
+# Checks for GTK interface
 AC_ARG_WITH([gtk], AS_HELP_STRING([--with-gtk],
 	[Build using a version of GTK (3 (--with-gtk=3 or 4 (--with-gtk=4))]))
 if test "x$with_gtk" = "x4"; then
@@ -231,12 +237,26 @@ AC_SUBST(SINCOS, [-DHAVE_SINCOS=$sincos])
 AC_SUBST(SINCOSF, [-DHAVE_SINCOSF=$sincosf])
 
 # Check for font
-AC_MSG_NOTICE([searching FreeMono font])
-font=`find /usr -type f -iname freemono.otf`
+AC_MSG_NOTICE([Searching font...])
+if test $win = 1; then
+	if test $win32 = 1; then
+		dir="/mingw32"
+	else
+		dir="/mingw64"
+	fi
+elif test $haiku = 1; then
+	dir="/"
+else
+	dir="/usr"
+fi
+font=`find $dir -type f -iname freemono.otf`
 if test "x$font" = "x"; then
-	font=`find /usr -type f -iname freemono.ttf`
+	font=`find $dir -type f -iname freemono.ttf`
 	if test "x$font" = "x"; then
-		AC_MSG_ERROR([font not found])
+		font=`find $dir -type f -iname NotoSansMono-Regular.ttf`
+		if test "x$font" = "x"; then
+			AC_MSG_ERROR([FreeMono font not found])
+		fi
 	fi
 fi
 AC_MSG_NOTICE([Font: $font])
