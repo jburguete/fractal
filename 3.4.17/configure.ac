@@ -8,6 +8,7 @@ AM_INIT_AUTOMAKE
 AC_MSG_NOTICE([Build: $build])
 AC_MSG_NOTICE([Host: $host])
 win=0
+win32=0
 native=1
 haiku=0
 if test $host = "x86_64-w64-mingw32"; then
@@ -33,6 +34,7 @@ elif test $host = "x86_64-pc-mingw32"; then
 	AC_SUBST(sysdir, [/mingw32/])
 	AC_SUBST(basedir, [win32/])
 	win=1
+	win32=1
 elif test $host = "i686-pc-mingw32"; then
 	AC_MSG_NOTICE([Microsoft Windows 32 bits])
 	LDFLAGS="$LDFLAGS -lfreeglut -lopengl32"
@@ -42,6 +44,7 @@ elif test $host = "i686-pc-mingw32"; then
 	AC_SUBST(sysdir, [/mingw32/])
 	AC_SUBST(basedir, [win32/])
 	win=1
+	win32=1
 elif test $host = "x86_64-pc-cygwin"; then
 	AC_MSG_NOTICE([Microsoft Windows 64 bits])
 	AC_SUBST(ccflags, "-march=corei7 -mfpmath=sse -msse3 -mwindows")
@@ -59,6 +62,7 @@ elif test $host = "i686-pc-cygwin"; then
 	AC_SUBST(sysdir, [/mingw32/])
 	AC_SUBST(basedir, [win32/])
 	win=1
+	win32=1
 elif test `uname -s` = "Darwin"; then
 	AC_MSG_NOTICE([MacOS])
 	LDFLAGS="$LDFLAGS -L/usr/local/opt/llvm@13/lib -L/System/Library/Frameworks -framework GLUT -framework OpenGL"
