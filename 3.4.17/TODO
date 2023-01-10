@@ -1,3 +1,4 @@
+* No rendering with GTK4
 - Enable OpenGL ES
 - Enable Vulkan
 - Enable different movement probabilities
