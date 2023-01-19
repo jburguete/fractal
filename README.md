@@ -1,4 +1,4 @@
-FRACTAL (3.4.17 version)
+FRACTAL (3.4.18 version)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
@@ -109,7 +109,7 @@ On OpenBSD 7.0 you have to do first on the building terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Download this repository and execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.4.17
+> $ cd PATH\_TO\_FRACTAL/3.4.18
 >
 > $ sh build.sh
 
@@ -149,7 +149,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.4.17
+> $ cd PATH\_TO\_FRACTAL/3.4.18
 >
 > $ doxygen
 >

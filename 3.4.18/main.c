@@ -71,6 +71,14 @@ GLFWwindow *window;             ///< GLFW window.
 #endif
 GdkGLContext *gdk_gl_context;   ///< Default GdkGLContext.
 
+#if HAVE_GLFW
+void
+glfw_resize (GLFWwindow * win __attribute__((unused)), int w, int h)
+{
+  draw_resize (w, h);
+}
+#endif
+
 /**
  * Function to do one main loop iteration.
  */
@@ -228,7 +236,20 @@ main (int argn,                 ///< Arguments number.
       return 1;
     }
   glfwMakeContextCurrent (window);
+  glfwSetFramebufferSizeCallback (window, glfw_resize);
+  glfwSetWindowRefreshCallback (window, draw);
+  glViewport (0, 0, window_width, window_height);
 
+#endif
+
+#if !HAVE_GTKGLAREA
+  // Initing drawing data
+#if DEBUG
+  printf ("Initing drawing data\n");
+  fflush (stdout);
+#endif
+  if (!graphic_init (graphic, "logo.png"))
+    return 1;
 #endif
 
   // Initing GTK+
@@ -249,16 +270,6 @@ main (int argn,                 ///< Arguments number.
 #endif
   dialog_simulator_create ();
   gdk_gl_context = gdk_gl_context_get_current ();
-
-#if !HAVE_GTKGLAREA
-  // Initing drawing data
-#if DEBUG
-  printf ("Initing drawing data\n");
-  fflush (stdout);
-#endif
-  if (!graphic_init (graphic, "logo.png"))
-    return 1;
-#endif
 
   // Opening input file
   if (argn == 2 && !fractal_input (argc[1]))

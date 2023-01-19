@@ -254,7 +254,7 @@ graphic_render (Graphic * graphic)      ///< Graphic struct.
   };
   const GLushort square_indices[4] = { 0, 1, 2, 3 };
   const GLfloat black[4] = { 0., 0., 0., 1. };
-  const char *str_version = "Fractal 3.4.17";
+  const char *str_version = "Fractal 3.4.18";
   float cp, sp, ct, st, w, h, sx, sy;
   GLuint vbo_square, ibo_square, vbo_points;
 
