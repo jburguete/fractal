@@ -167,7 +167,7 @@ operativos:
 * FreeBSD 13.0
 * Gentoo Linux
 * Linux Mint DE 5
-* MacOS Catalina + Homebrew
+* MacOS Big Sur + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10 + MSYS2
 * NetBSD 9.2
