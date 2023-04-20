@@ -100,14 +100,14 @@ les outils requis. On peut suivre les instructions détaillées dans le
 didacticiel
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf).
 
-Avec NetBSD 9.2, pour utiliser le derniére version du compilateur GCC, il faut
+Avec NetBSD 9.3, pour utiliser le derniére version du compilateur GCC, il faut
 faire avant dans le terminal:
 > $ export PATH="/usr/pkg/gcc9/bin:$PATH"
 Pour faire le changement permanent on peut ajouter à la dernière ligne di
 fichier ".profile" dans le répertoire racine du utilisateur:
 > PATH="/usr/pkg/gcc9/bin:$PATH"
 
-Avec OpenBSD 7.0 on doit faire avant dans le terminal:
+Avec OpenBSD 7.3 on doit faire avant dans le terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Téléchargez ce dépôt et exécutez dans un terminal:
@@ -165,16 +165,16 @@ d'exploitation:
 * Arch Linux
 * Debian 11 (Linux)
 * Devuan Linux 4
-* Dragonfly BSD 6.2.1
-* Fedora Linux 35
+* Dragonfly BSD 6.4.0
+* Fedora Linux 38
 * Gentoo Linux
-* FreeBSD 13.0
+* FreeBSD 13.2
 * Linux Mint DE 5
 * MacOS Big Sur + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10 + MSYS2
-* NetBSD 9.2
-* OpenBSD 7.0
+* NetBSD 9.3
+* OpenBSD 7.3
 * OpenInidiana Hipster
 * OpenSUSE Linux Leap 15.2
 * Ubuntu Linux 21.04

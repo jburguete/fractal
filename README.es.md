@@ -98,14 +98,14 @@ En sistemas Microsoft Windows deben instalarse
 requeridas. Puede seguir instrucciones detalladas en
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
 
-En NetBSD 9.2, para compilar con la última versión del compilador GCC, hay que
+En NetBSD 9.3, para compilar con la última versión del compilador GCC, hay que
 hacer primero en el terminal:
 > $ export PATH=/usr/pkg/gcc9/bin:$PATH"
 Si se quiere hacer permanente tambien se puede añadir en el fichero ".profile"
 de la carpeta raíz del usuario la línea:
 > PATH="/usr/pkg/gcc9/bin:$PATH"
 
-En OpenBSD 7.0 hay que hacer primero en el terminal de construcción:
+En OpenBSD 7.3 hay que hacer primero en el terminal de construcción:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Descárguese este repositorio y ejecútese en un terminal:
@@ -162,16 +162,16 @@ operativos:
 * Arch Linux
 * Debian 11 (Linux)
 * Devuan Linux 4
-* Dragonfly BSD 6.2.1
-* Fedora Linux 35
-* FreeBSD 13.0
+* Dragonfly BSD 6.4.0
+* Fedora Linux 38
+* FreeBSD 13.2
 * Gentoo Linux
 * Linux Mint DE 5
 * MacOS Big Sur + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10 + MSYS2
-* NetBSD 9.2
-* OpenBSD 7.0
+* NetBSD 9.3
+* OpenBSD 7.3
 * OpenInidiana Hipster
 * OpenSUSE Linux Leap 15.2
 * Ubuntu Linux 21.04
