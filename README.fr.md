@@ -170,7 +170,7 @@ d'exploitation:
 * Gentoo Linux
 * FreeBSD 13.2
 * Linux Mint DE 5
-* MacOS Big Sur + Homebrew
+* MacOS Monterey + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10 + MSYS2
 * NetBSD 9.3
