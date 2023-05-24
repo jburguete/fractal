@@ -1,161 +1,161 @@
-# Spanish translations for fractal package.
+# French translations for fractal package.
 # Copyright (C) 2009 THE fractal'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the fractal package.
 # Automatically generated, 2009.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 3.4.18\n"
+"Project-Id-Version: 3.4.19\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-04 23:58+0100\n"
 "PO-Revision-Date: 2009-04-12 20:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: spanish\n"
+"Language: french\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: fractal.c:1422
 msgid "Unable to parse the input file"
-msgstr "No se pudo abrir el fichero de entrada"
+msgstr "On peut pas analyser le fichier d'entrée"
 
 #: fractal.c:1428
 msgid "Bad XML root node"
-msgstr "Nodo XML raíz incorrecto"
+msgstr "Node XML source incorrect"
 
 #: fractal.c:1434
 msgid "Bad width"
-msgstr "Anchura incorrecta"
+msgstr "Largeur incorrecte"
 
 #: fractal.c:1441
 msgid "Bad height"
-msgstr "Altura incorrecta"
+msgstr "Hauteur incorrecte"
 
 #: fractal.c:1448
 msgid "Bad length"
-msgstr "Longitud incorrecta"
+msgstr "Longueur incorrecte"
 
 #: fractal.c:1455
 msgid "Bad random seed"
-msgstr "Semilla de números aleatorios incorrecta"
+msgstr "Graine aléatoire incorrecte"
 
 #: fractal.c:1463
 msgid "Bad threads number"
-msgstr "Número de tareas incorrecto"
+msgstr "Nombre de fils incorrect"
 
 #: fractal.c:1473
 msgid "Bad diagonal movement"
-msgstr "Movimiento diagonal incorrecto"
+msgstr "Mouvement diagonal incorrect"
 
 #: fractal.c:1484
 msgid "Bad 3D"
-msgstr "3D incorrecto"
+msgstr "3D incorrect"
 
 #: fractal.c:1495
 msgid "Bad animation"
-msgstr "Animación incorrecta"
+msgstr "Réalisation incorrecte"
 
 #: fractal.c:1508
 msgid "Unknown fractal type"
-msgstr "Tipo de fractal desconocido"
+msgstr "Type de fractal inconnu"
 
 #: fractal.c:1521
 msgid "Unknown random seed type"
-msgstr "Tipo de semilla de números aleatorios desconocido"
+msgstr "Type de graine aléatoire inconnu"
 
 #: fractal.c:1552
 msgid "Unknown random algorithm"
-msgstr "Algoritmo de números aleatorios desconocido"
+msgstr "Algorithme aléatoire inconnu"
 
 #: simulator.c:208
 msgid "_Tree"
-msgstr "Á_rbol"
+msgstr "A_rbre"
 
 #: simulator.c:208
 msgid "_Forest"
-msgstr "_Bosque"
+msgstr "_Bois"
 
 #: simulator.c:208
 msgid "_Neuron"
-msgstr "_Neurona"
+msgstr "_Neurone"
 
 #: simulator.c:224
 msgid "_Default"
-msgstr "_Defecto"
+msgstr "_Défaut"
 
 #: simulator.c:224
 msgid "_Clock based"
-msgstr "_Basdo en reloj"
+msgstr "_Basé á l'horloge"
 
 #: simulator.c:224
 msgid "_Fixed"
-msgstr "_Fijo"
+msgstr "_Fixé"
 
 #: simulator.c:233
 msgid "_Diagonal movement"
-msgstr "Movimiento _diagonal"
+msgstr "_Mouvement diagonal"
 
 #: simulator.c:237
 msgid "Length"
-msgstr "Longitud"
+msgstr "Longueur"
 
 #: simulator.c:238
 msgid "Width"
-msgstr "Anchura"
+msgstr "Largeur"
 
 #: simulator.c:239
 msgid "Height"
-msgstr "Altura"
+msgstr "Hauteur"
 
 #: simulator.c:240
 msgid "Random seed"
-msgstr "Semilla de números aleatorios"
+msgstr "Graine aléatoire"
 
 #: simulator.c:241
 msgid "Threads number"
-msgstr "Número de tareas"
+msgstr "Nombre de fils"
 
 #: simulator.c:271
 msgid "Fractal type"
-msgstr "Tipo de fractal"
+msgstr "Type de fractal"
 
 #: simulator.c:275
 msgid "_Animate"
-msgstr "_Animar"
+msgstr "_Réaliser"
 
 #: simulator.c:296
 msgid "Random algorithm"
-msgstr "Algoritmo de números aleatorios"
+msgstr "Algorithme aléatoire"
 
 #: simulator.c:318
 msgid "Random seed type"
-msgstr "Tipo de semilla de números aleatorios"
+msgstr "Type de graine aléatoire"
 
 #: simulator.c:343 simulator.c:364
 msgid "Options"
-msgstr "Opciones"
+msgstr "Options"
 
 #: simulator.c:344
 msgid "Set the fractal options"
-msgstr "Define las opciones de fractal"
+msgstr "Définir les options du fractal"
 
 #: simulator.c:354
 msgid "_OK"
-msgstr "_Aceptar"
+msgstr "_Accepter"
 
 #: simulator.c:356 simulator.c:513
 msgid "_Cancel"
-msgstr "_Cancelar"
+msgstr "_Annuler"
 
 #: simulator.c:396
 msgid ""
 "A program using growing fractals to benchmark parallelization and drawing "
 "libraries"
 msgstr ""
-"Un programa que usa crecimiento de fractales como banco de pruebas para "
-"paralelización y bibliotecas gráficas"
+"Un programme qu'utilise croissance de fractals comme banc d'essais pour "
+"parallèlization et bibliothèques graphiques"
 
 #: simulator.c:400
 msgid "Javier Burguete Tolosa (jburguete@eead.csic.es)"
@@ -163,70 +163,70 @@ msgstr "Javier Burguete Tolosa (jburguete@eead.csic.es)"
 
 #: simulator.c:406
 msgid "Website"
-msgstr "Sitio web"
+msgstr "Site web"
 
 #: simulator.c:510 simulator.c:577
 msgid "Save graphical"
-msgstr "Guardar gráfica"
+msgstr "Saver graphique"
 
 #: simulator.c:514
 msgid "_Open"
-msgstr "_Abrir"
+msgstr "_Ouvrir"
 
 #: simulator.c:574
 msgid "Fractal options"
-msgstr "Opciones de fractal"
+msgstr "Options du fractal"
 
 #: simulator.c:575
 msgid "Start fractal growing"
-msgstr "Iniciar crecimiento fractal"
+msgstr "Commencer croissance fractal"
 
 #: simulator.c:576
 msgid "Stop fractal growing"
-msgstr "Parar crecimiento fractal"
+msgstr "Arrêter croissance fractal"
 
 #: simulator.c:578
 msgid "Help"
-msgstr "Ayuda"
+msgstr "Aide"
 
 #: simulator.c:579
 msgid "Exit"
-msgstr "Salir"
+msgstr "Quitter"
 
 #: simulator.c:667
 msgid "Calculating time"
-msgstr "Tiempo de cálculo"
+msgstr "Temp de calcul"
 
 #: simulator.c:673
 msgid "Progress"
-msgstr "Progreso"
+msgstr "Progrès"
 
 #: simulator.c:687
 msgid "Horizontal perspective angle (º)"
-msgstr "Ángulo de perspectiva horizontal (º)"
+msgstr "Angle de perspective horizontale (º)"
 
 #: simulator.c:689
 msgid "Vertical perspective angle (º)"
-msgstr "Ángulo de perspectiva vertical (º)"
+msgstr "Angle de perspective verticale (º)"
 
 #: simulator.c:736 simulator.c:753
 msgid "Fractal growing"
-msgstr "Crecimiento fractal"
+msgstr "Croissance fractal"
 
 #~ msgid "_Options"
-#~ msgstr "_Opciones"
+#~ msgstr "_Options"
 
 #~ msgid "S_tart"
-#~ msgstr "_Comenzar"
+#~ msgstr "_Commencer"
 
 #~ msgid "Sto_p"
-#~ msgstr "_Parar"
+#~ msgstr "A_rrêter"
 
 #~ msgid "_Save"
-#~ msgstr "_Guardar"
+#~ msgstr "_Enregistrer"
 
 #~ msgid "_Help"
-#~ msgstr "A_yuda"
+#~ msgstr "_Aide"
 
 #~ msgid "E_xit"
-#~ msgstr "_Salir"
+#~ msgstr "_Sortir"

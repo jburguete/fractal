@@ -127,7 +127,7 @@ show_error (const char *message)        ///< Error message string.
   g_signal_connect_swapped (dlg, "response", G_CALLBACK (gtk_widget_destroy),
                             GTK_WIDGET (dlg));
 #else
-  gtk_widget_show (GTK_WIDGET (dlg));
+  gtk_window_present (GTK_WINDOW (dlg));
   g_signal_connect_swapped (dlg, "response", G_CALLBACK (gtk_window_destroy),
                             GTK_WINDOW (dlg));
 #endif
@@ -364,7 +364,7 @@ dialog_options_create ()
   gtk_window_set_title (GTK_WINDOW (dlg->dialog), _("Options"));
   content = (GtkBox *) gtk_dialog_get_content_area (dlg->dialog);
   gtk_box_append (content, GTK_WIDGET (dlg->grid));
-  gtk_widget_show (GTK_WIDGET (dlg->dialog));
+  gtk_window_present (GTK_WINDOW (dlg->dialog));
 #endif
 
   gtk_check_button_set_active (dlg->button_diagonal, fractal_diagonal);
@@ -398,7 +398,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.18",
+                         "version", "3.4.19",
                          "copyright",
                          "Copyright 2009-2023 Javier Burguete Tolosa",
                          "license-type", GTK_LICENSE_BSD,
@@ -516,7 +516,7 @@ dialog_simulator_graphic_save ()
   gtk_file_chooser_set_do_overwrite_confirmation (GTK_FILE_CHOOSER (dlg), 1);
   gtk_widget_show_all (GTK_WIDGET (dlg));
 #else
-  gtk_widget_show (GTK_WIDGET (dlg));
+  gtk_window_present (GTK_WINDOW (dlg));
 #endif
   g_signal_connect (dlg, "response",
                     G_CALLBACK (dialog_simulator_graphic_close), NULL);
@@ -719,7 +719,7 @@ dialog_simulator_create ()
   gtk_window_set_child (dlg->window_gl, GTK_WIDGET (dlg->gl_area));
   g_signal_connect_swapped (dlg->window_gl, "close-request",
                             (GCallback) g_main_loop_quit, dlg->loop);
-  gtk_widget_show (GTK_WIDGET (dlg->window_gl));
+  gtk_window_present (dlg->window_gl);
 #endif
 #else
   gtk_grid_attach (dlg->grid, GTK_WIDGET (dlg->gl_area), 0, 4, 3, 1);
@@ -764,7 +764,7 @@ dialog_simulator_create ()
   g_signal_connect (dlg->window, "close-request", (void (*)) window_close,
                     NULL);
 #endif
-  gtk_widget_show (GTK_WIDGET (dlg->window));
+  gtk_window_present (dlg->window);
 #endif
 
 #if DEBUG
