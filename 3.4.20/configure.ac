@@ -1,6 +1,6 @@
 # Header
 AC_PREREQ([2.69])
-AC_INIT([fractal],[3.4.19])
+AC_INIT([fractal],[3.4.20])
 
 # Checks for operative systems
 AC_CANONICAL_TARGET
@@ -180,7 +180,12 @@ PKG_CHECK_MODULES([GTOP], [libgtop-2.0], AC_DEFINE([HAVE_GTOP], [1]),
 	AC_MSG_NOTICE("No libgtop"))
 PKG_CHECK_MODULES([PNG], [libpng])
 PKG_CHECK_MODULES([FREETYPE], [freetype2])
-PKG_CHECK_MODULES([GLEW], [glew])
+if test $haiku = 1; then
+	AC_MSG_NOTICE([Haiku])
+	AC_SUBST(GLEW_LIBS, "-lGLEW -lGLU")
+else
+	PKG_CHECK_MODULES([GLEW], [glew])
+fi
 AC_SEARCH_LIBS([glViewport], [GL opengl32])
 
 # Checks for GTK interface

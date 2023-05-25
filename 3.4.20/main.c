@@ -38,6 +38,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <math.h>
 #include <time.h>
 #include <unistd.h>
+#include <locale.h>
 #include <libintl.h>
 #include <gsl/gsl_rng.h>
 #include <glib.h>
@@ -176,6 +177,8 @@ main (int argn,                 ///< Arguments number.
   printf ("Initing locales\n");
   fflush (stdout);
 #endif
+  setlocale (LC_ALL, "");
+  setlocale (LC_NUMERIC, "C");
   bindtextdomain ("fractal", "./po");
   bind_textdomain_codeset ("fractal", "UTF-8");
   textdomain ("fractal");
@@ -257,6 +260,7 @@ main (int argn,                 ///< Arguments number.
   printf ("Initing GTK+\n");
   fflush (stdout);
 #endif
+  gtk_disable_setlocale ();
 #if !GTK4
   gtk_init (&argn, &argc);
 #else
