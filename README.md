@@ -133,14 +133,14 @@ This software has been built and tested in the following operative systems:
 * FreeBSD 13.2
 * Gentoo Linux
 * Linux Mint DE 5
-* MacOS Monterey + Homebrew
+* MacOS Ventura + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10 + MSYS2
 * NetBSD 9.3
 * OpenBSD 7.3
 * OpenInidiana Hipster
-* OpenSUSE Linux Leap 15
-* Ubuntu Linux 21.04
+* OpenSUSE Linux Leap 15.5
+* Ubuntu Linux 23.04
 
 Probably, it can be built in other systems, distributions or versions but it has
 not been tested.
