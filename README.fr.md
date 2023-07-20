@@ -163,7 +163,7 @@ Quelques examples de fichiers d'entrée sont au répertoire **tests**.
 Ce programme a été construit et prouvé avec les suivants systèmes
 d'exploitation:
 * Arch Linux
-* Debian 11 (Linux)
+* Debian 12 (Linux)
 * Devuan Linux 4
 * Dragonfly BSD 6.4.0
 * Fedora Linux 38

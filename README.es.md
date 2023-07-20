@@ -160,7 +160,7 @@ Algunos ficheros de entrada como ejemplo están en la carpeta **tests**.
 Este programa ha sido construido y probado en los siguientes sistemas
 operativos:
 * Arch Linux
-* Debian 11 (Linux)
+* Debian 12 (Linux)
 * Devuan Linux 4
 * Dragonfly BSD 6.4.0
 * Fedora Linux 38

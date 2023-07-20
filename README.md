@@ -126,7 +126,7 @@ Several input file examples are in the **tests** directory.
 
 This software has been built and tested in the following operative systems:
 * Arch Linux
-* Debian 11 (Linux)
+* Debian 12 (Linux)
 * Devuan Linux 4
 * Dragonfly BSD 6.4.0
 * Fedora Linux 38
