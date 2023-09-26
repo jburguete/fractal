@@ -30,34 +30,34 @@ png = logo.png logo2.png
 pgoobjs = fractal.pgo image.pgo text.pgo graphic.pgo draw.pgo simulator.o \
 	main.o @icon@
 ifeq (@PGO@, 1)
-	fractaldep = fractalpgo
-	imagedep = fractalpgo
-	textdep = fractalpgo
-	graphicdep = fractalpgo
-	drawdep = fractalpgo
+fractaldep = fractalpgo
+imagedep = fractalpgo
+textdep = fractalpgo
+graphicdep = fractalpgo
+drawdep = fractalpgo
 ifeq (@CC@, clang)
-	pgogen = -fprofile-instr-generate
-	pgouse = -fprofile-instr-use=fractal.profraw
-	treeprefix = LLVM_PROFILE_FILE="tree.profdata"
-	forestprefix = LLVM_PROFILE_FILE="forest.profdata"
-	neuronprefix = LLVM_PROFILE_FILE="neuron.profdata"
-	tree3dprefix = LLVM_PROFILE_FILE="tree-3d.profdata"
-	forest3dprefix = LLVM_PROFILE_FILE="forest-3d.profdata"
-	neuron3dprefix = LLVM_PROFILE_FILE="neuron-3d.profdata"
-	llvm_merge = @LLVM_PROFDATA@ merge *.profdata -output fractal.profraw
+pgogen = -fprofile-instr-generate
+pgouse = -fprofile-instr-use=fractal.profraw
+treeprefix = LLVM_PROFILE_FILE="tree.profdata"
+forestprefix = LLVM_PROFILE_FILE="forest.profdata"
+neuronprefix = LLVM_PROFILE_FILE="neuron.profdata"
+tree3dprefix = LLVM_PROFILE_FILE="tree-3d.profdata"
+forest3dprefix = LLVM_PROFILE_FILE="forest-3d.profdata"
+neuron3dprefix = LLVM_PROFILE_FILE="neuron-3d.profdata"
+llvm_merge = @LLVM_PROFDATA@ merge *.profdata -output fractal.profraw
 else
-	pgogen = -fprofile-generate
-	pgouse = -fprofile-use -fprofile-correction
+pgogen = -fprofile-generate
+pgouse = -fprofile-use -fprofile-correction
 endif
-	exedep = $(objs) $(fractaldep)
+exedep = $(objs) $(fractaldep)
 else
-	fractaldep = fractal.c fractal.h simulator.h draw.h $(configs)
-	imagedep = image.c image.h $(configs)
-	textdep = text.c image.h text.h $(configs)
-	graphicdep = graphic.c fractal.h image.h text.h graphic.h $(configs)
-	drawdep = draw.c fractal.h image.h text.h graphic.h draw.h simulator.h \
-		$(configs)
-	exedep = $(objs)
+fractaldep = fractal.c fractal.h simulator.h draw.h $(configs)
+imagedep = image.c image.h $(configs)
+textdep = text.c image.h text.h $(configs)
+graphicdep = graphic.c fractal.h image.h text.h graphic.h $(configs)
+drawdep = draw.c fractal.h image.h text.h graphic.h draw.h simulator.h \
+	$(configs)
+exedep = $(objs)
 endif
 es = po/es/LC_MESSAGES/
 fr = po/fr/LC_MESSAGES/
