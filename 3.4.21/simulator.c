@@ -156,7 +156,7 @@ dialog_options_update ()
  * Function to close a dialog to set the fractal options.
  */
 static void
-dialog_options_close (DialogOptions * dlg,      ///< DialogOptions struct.
+dialog_options_close (DialogOptions *dlg,       ///< DialogOptions struct.
                       int response_id)  ///< Response identifier.
 {
   unsigned int i;
@@ -261,8 +261,9 @@ dialog_options_create ()
 #else
       dlg->array_fractals[i] = (GtkCheckButton *)
         gtk_check_button_new_with_mnemonic (array_fractals[i]);
-      gtk_check_button_set_group (dlg->array_fractals[i],
-                                  dlg->array_fractals[0]);
+      if (i)
+        gtk_check_button_set_group (dlg->array_fractals[i],
+                                    dlg->array_fractals[0]);
 #endif
       gtk_grid_attach (dlg->grid_fractal, GTK_WIDGET (dlg->array_fractals[i]),
                        0, i, 1, 1);
@@ -286,8 +287,9 @@ dialog_options_create ()
 #else
       dlg->array_algorithms[i] = (GtkCheckButton *)
         gtk_check_button_new_with_mnemonic (array_algorithms[i]);
-      gtk_check_button_set_group (dlg->array_algorithms[i],
-                                  dlg->array_algorithms[0]);
+      if (i)
+        gtk_check_button_set_group (dlg->array_algorithms[i],
+                                    dlg->array_algorithms[0]);
 #endif
       gtk_grid_attach (dlg->grid_algorithm,
                        GTK_WIDGET (dlg->array_algorithms[i]), 0, i, 1, 1);
@@ -307,7 +309,8 @@ dialog_options_create ()
 #else
       dlg->array_seeds[i] = (GtkCheckButton *)
         gtk_check_button_new_with_mnemonic (array_seeds[i]);
-      gtk_check_button_set_group (dlg->array_seeds[i], dlg->array_seeds[0]);
+      if (i)
+        gtk_check_button_set_group (dlg->array_seeds[i], dlg->array_seeds[0]);
 #endif
       gtk_grid_attach (dlg->grid_seed, GTK_WIDGET (dlg->array_seeds[i]),
                        0, i, 1, 1);
@@ -398,7 +401,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.20",
+                         "version", "3.4.21",
                          "copyright",
                          "Copyright 2009-2023 Javier Burguete Tolosa",
                          "license-type", GTK_LICENSE_BSD,
@@ -478,9 +481,9 @@ dialog_simulator_progress ()
  * Function to close the dialog to save the graphical view.
  */
 static void
-dialog_simulator_graphic_close (GtkFileChooserDialog * dlg,
+dialog_simulator_graphic_close (GtkFileChooserDialog *dlg,
                                 ///< GtkFileChooserDialog struct.
-                                int response_id)       ///< Response identifier.
+                                int response_id)        ///< Response identifier.
 {
   char *filename;
   if (response_id == GTK_RESPONSE_ACCEPT)
@@ -525,7 +528,7 @@ dialog_simulator_graphic_save ()
 #if HAVE_GTKGLAREA
 
 static void
-dialog_simulator_draw_init (GtkGLArea * gl_area)
+dialog_simulator_draw_init (GtkGLArea *gl_area)
 {
 #if DEBUG
   printf ("dialog_simulator_draw_init: start\n");

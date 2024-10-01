@@ -154,7 +154,7 @@ error1:
  * \return 1 on success, 0 on error.
  */
 int
-image_init (Image * image)      ///< Image struct.
+image_init (Image *image)       ///< Image struct.
 {
   const char *vs_texture_source =
     "attribute highp vec2 position;"
@@ -301,7 +301,7 @@ exit_on_error:
  * Function to free the memory used by the image.
  */
 void
-image_destroy (Image * image)   ///< Image struct.
+image_destroy (Image *image)    ///< Image struct.
 {
 #if DEBUG
   printf ("image_destroy: start\n");
@@ -321,7 +321,7 @@ image_destroy (Image * image)   ///< Image struct.
  * Function to draw the image.
  */
 void
-image_draw (Image * image,      ///< Image struct.
+image_draw (Image *image,       ///< Image struct.
             unsigned int x,     ///< Draw x-coordinate.
             unsigned int y,     ///< Draw y-coordinate.
             unsigned int window_width,  ///< Window width.

@@ -59,7 +59,7 @@ unsigned int window_height = 480;       ///< Graphic window height.
  * \return 1 on success, 0 on error.
  */
 int
-graphic_init (Graphic * graphic,        ///< Draw struct.
+graphic_init (Graphic *graphic, ///< Draw struct.
               char *logo_name)  ///< Logo PNG file name.
 {
   const GLfloat projection_matrix[16] = {
@@ -225,7 +225,7 @@ exit_on_error:
  * Function to free the memory used by graphic drawing functions.
  */
 void
-graphic_destroy (Graphic * graphic)     ///< Graphic struct.
+graphic_destroy (Graphic *graphic)      ///< Graphic struct.
 {
 #if DEBUG
   printf ("graphic_destroy: start\n");
@@ -243,7 +243,7 @@ graphic_destroy (Graphic * graphic)     ///< Graphic struct.
  * Function to draw the fractal.
  */
 void
-graphic_render (Graphic * graphic)      ///< Graphic struct.
+graphic_render (Graphic *graphic)       ///< Graphic struct.
 {
   // Rectangle matrix
   const Point3D square_vertices[4] = {
@@ -254,7 +254,7 @@ graphic_render (Graphic * graphic)      ///< Graphic struct.
   };
   const GLushort square_indices[4] = { 0, 1, 2, 3 };
   const GLfloat black[4] = { 0., 0., 0., 1. };
-  const char *str_version = "Fractal 3.4.20";
+  const char *str_version = "Fractal 3.4.21";
   float cp, sp, ct, st, w, h, sx, sy;
   GLuint vbo_square, ibo_square, vbo_points;
 
