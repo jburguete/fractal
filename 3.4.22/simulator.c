@@ -401,7 +401,7 @@ dialog_simulator_help ()
                          "authors", authors,
                          "translator-credits",
                          _("Javier Burguete Tolosa (jburguete@eead.csic.es)"),
-                         "version", "3.4.21",
+                         "version", "3.4.22",
                          "copyright",
                          "Copyright 2009-2023 Javier Burguete Tolosa",
                          "license-type", GTK_LICENSE_BSD,

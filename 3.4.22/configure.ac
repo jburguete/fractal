@@ -1,6 +1,6 @@
 # Header
 AC_PREREQ([2.69])
-AC_INIT([fractal],[3.4.21])
+AC_INIT([fractal],[3.4.22])
 
 # Checks for operative systems
 AC_CANONICAL_TARGET
