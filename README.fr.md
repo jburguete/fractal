@@ -167,7 +167,7 @@ d'exploitation:
 * Devuan Linux 5
 * Dragonfly BSD 6.4.1
 * Fedora Linux 42
-* FreeBSD 14.1
+* FreeBSD 14.2
 * Gentoo Linux
 * Linux Mint DE 6
 * MacOS Ventura + Homebrew

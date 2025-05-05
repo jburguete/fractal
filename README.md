@@ -130,7 +130,7 @@ This software has been built and tested in the following operative systems:
 * Devuan Linux 5
 * Dragonfly BSD 6.4.1
 * Fedora Linux 42
-* FreeBSD 14.1
+* FreeBSD 14.2
 * Gentoo Linux
 * Linux Mint DE 6
 * MacOS Ventura + Homebrew
@@ -140,7 +140,7 @@ This software has been built and tested in the following operative systems:
 * OpenBSD 7.7
 * OpenInidiana Hipster
 * OpenSUSE Linux Leap 15.5
-* Ubuntu Linux 25.04 
+* Ubuntu Linux 25.04
 
 Probably, it can be built in other systems, distributions or versions but it has
 not been tested.
