@@ -52,7 +52,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \return 1 on success, 0 on error.
  */
 int
-text_init (Text * text)         ///< Text struct data.
+text_init (Text *text)          ///< Text struct data.
 {
   const char *vs_source =
     "attribute highp vec4 position;"
@@ -154,7 +154,7 @@ exit_on_error:
  * Function to free the memory used to draw text.
  */
 void
-text_destroy (Text * text)      ///< Text struct data.
+text_destroy (Text *text)       ///< Text struct data.
 {
 #if DEBUG
   printf ("text_destroy: start\n");
@@ -175,13 +175,13 @@ text_destroy (Text * text)      ///< Text struct data.
  * Function to draw a string.
  */
 void
-text_draw (Text * text,         ///< Text struct data.
+text_draw (Text *text,          ///< Text struct data.
            char *string,        ///< String.
            float x,             ///< x initial coordinate.
            float y,             ///< y initial coordinate.
            float sx,            ///< x scale factor.
            float sy,            ///< y scale factor.
-           const GLfloat * color)       ///< array of RBGA colors.
+           const GLfloat *color)        ///< array of RBGA colors.
 {
   float box[16];
   FT_Face face;

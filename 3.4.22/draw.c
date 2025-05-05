@@ -90,7 +90,7 @@ draw_resize (int w,             ///< Graphic window width.
 
 #if HAVE_GTKGLAREA
 void
-resize (GtkGLArea * gl_area, int w, int h)
+resize (GtkGLArea *gl_area, int w, int h)
 {
   draw_resize (w, h);
   gtk_widget_queue_draw (GTK_WIDGET (gl_area));

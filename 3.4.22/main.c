@@ -74,7 +74,7 @@ GdkGLContext *gdk_gl_context;   ///< Default GdkGLContext.
 
 #if HAVE_GLFW
 void
-glfw_resize (GLFWwindow * win __attribute__((unused)), int w, int h)
+glfw_resize (GLFWwindow *win __attribute__((unused)), int w, int h)
 {
   draw_resize (w, h);
 }

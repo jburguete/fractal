@@ -1,7 +1,9 @@
 #ifndef CONF__H
 #define CONF__H 1
 
+#ifndef _GNU_SOURCE
 #define _GNU_SOURCE
+#endif
 #undef HAVE_GTOP
 #undef HAVE_GET_NPROCS
 

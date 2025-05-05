@@ -183,7 +183,7 @@ points_add (int x,              ///< Point x-coordinate.
 static inline void
 point_2D_move (int *x,          ///< Point x-coordinate.
                int *y,          ///< Point y-coordinate.
-               gsl_rng * rng)   ///< Pseudo-random number generator.
+               gsl_rng *rng)    ///< Pseudo-random number generator.
 {
   register unsigned int k;
   static const int mx[4] = { 0, 0, 1, -1 }, my[4] = { 1, -1, 0, 0 };
@@ -198,7 +198,7 @@ point_2D_move (int *x,          ///< Point x-coordinate.
 static inline void
 point_2D_move_diagonal (int *x, ///< Point x-coordinate.
                         int *y, ///< Point y-coordinate.
-                        gsl_rng * rng)  ///< Pseudo-random number generator.
+                        gsl_rng *rng)   ///< Pseudo-random number generator.
 {
   register unsigned int k;
   static const int mx[8] = { 1, 1, 1, 0, -1, -1, -1, 0 },
@@ -215,7 +215,7 @@ static inline void
 point_3D_move (int *x,          ///< Point x-coordinate.
                int *y,          ///< Point y-coordinate.
                int *z,          ///< Point z-coordinate.
-               gsl_rng * rng)   ///< Pseudo-random number generator.
+               gsl_rng *rng)    ///< Pseudo-random number generator.
 {
   register unsigned int k;
   static const int mx[6] = { 0, 1, -1, 0, 0, 0 },
@@ -233,7 +233,7 @@ static inline void
 point_3D_move_diagonal (int *x, ///< Point x-coordinate.
                         int *y, ///< Point y-coordinate.
                         int *z, ///< Point z-coordinate.
-                        gsl_rng * rng)  ///< Pseudo-random number generator.
+                        gsl_rng *rng)   ///< Pseudo-random number generator.
 {
   register int k;
   static const int mx[26] = {
@@ -259,7 +259,7 @@ point_3D_move_diagonal (int *x, ///< Point x-coordinate.
 static inline void
 tree_2D_point_new (int *x,      ///< Point x-coordinate.
                    int *y,      ///< Point y-coordinate.
-                   gsl_rng * rng)       ///< Pseudo-random number generator.
+                   gsl_rng *rng)        ///< Pseudo-random number generator.
 {
   *x = gsl_rng_uniform_int (rng, width);
   *y = max_d;
@@ -274,7 +274,7 @@ tree_2D_point_new (int *x,      ///< Point x-coordinate.
 static inline void
 tree_2D_point_boundary (int *x, ///< Point x-coordinate.
                         int *y, ///< Point y-coordinate.
-                        gsl_rng * rng)  ///< Pseudo-random number generator.
+                        gsl_rng *rng)   ///< Pseudo-random number generator.
 {
   if (*y < 0 || *y == (int) height)
     {
@@ -368,7 +368,7 @@ static inline void
 tree_3D_point_new (int *x,      ///< Point x-coordinate.
                    int *y,      ///< Point y-coordinate.
                    int *z,      ///< Point z-coordinate.
-                   gsl_rng * rng)       ///< Pseudo-random number generator.
+                   gsl_rng *rng)        ///< Pseudo-random number generator.
 {
   *x = gsl_rng_uniform_int (rng, length);
   *y = gsl_rng_uniform_int (rng, width);
@@ -385,7 +385,7 @@ static inline void
 tree_3D_point_boundary (int *x, ///< Point x-coordinate.
                         int *y, ///< Point y-coordinate.
                         int *z, ///< Point z-coordinate.
-                        gsl_rng * rng)  ///< Pseudo-random number generator.
+                        gsl_rng *rng)   ///< Pseudo-random number generator.
 {
   if (*z < 0 || *z == (int) height)
     {
@@ -477,7 +477,7 @@ tree_3D_end (int z)             ///< Point z-coordinate.
 static inline void
 forest_2D_point_boundary (int *x,       ///< Point x-coordinate.
                           int *y,       ///< Point y-coordinate.
-                          gsl_rng * rng)
+                          gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   if (*y == (int) height || *y < 0)
@@ -502,7 +502,7 @@ forest_2D_point_boundary (int *x,       ///< Point x-coordinate.
 static inline unsigned int
 forest_2D_point_fix (int x,     ///< Point x-coordinate.
                      int y,     ///< Point y-coordinate.
-                     gsl_rng * rng)     ///< Pseudo-random number generator.
+                     gsl_rng *rng)      ///< Pseudo-random number generator.
 {
   register unsigned int k, *point;
   if (y > (int) max_d || x == 0 || x == (int) width - 1
@@ -545,7 +545,7 @@ static inline void
 forest_3D_point_boundary (int *x,       ///< Point x-coordinate.
                           int *y,       ///< Point y-coordinate.
                           int *z,       ///< Point z-coordinate.
-                          gsl_rng * rng)
+                          gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   if (*z == (int) height || *z < 0)
@@ -575,7 +575,7 @@ static inline unsigned int
 forest_3D_point_fix (int x,     ///< Point x-coordinate.
                      int y,     ///< Point y-coordinate.
                      int z,     ///< Point z-coordinate.
-                     gsl_rng * rng)     ///< Pseudo-random number generator.
+                     gsl_rng *rng)      ///< Pseudo-random number generator.
 {
   register unsigned int k, *point;
   if (z > (int) max_d || y == 0 || x == 0 || z == (int) height - 1
@@ -623,7 +623,7 @@ forest:
 static inline void
 neuron_2D_point_new (int *x,    ///< Point x-coordinate.
                      int *y,    ///< Point y-coordinate.
-                     gsl_rng * rng)     ///< Pseudo-random number generator.
+                     gsl_rng *rng)      ///< Pseudo-random number generator.
 {
   register double angle;
   angle = 2 * M_PI * gsl_rng_uniform (rng);
@@ -640,7 +640,7 @@ neuron_2D_point_new (int *x,    ///< Point x-coordinate.
 static inline void
 neuron_2D_point_boundary (int *x,       ///< Point x-coordinate.
                           int *y,       ///< Point y-coordinate.
-                          gsl_rng * rng)
+                          gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   if (*y < 0 || *y == (int) height || *x < 0 || *x == (int) width)
@@ -730,7 +730,7 @@ static inline void
 neuron_3D_point_new (int *x,    ///< Point x-coordinate.
                      int *y,    ///< Point y-coordinate.
                      int *z,    ///< Point z-coordinate.
-                     gsl_rng * rng)     ///< Pseudo-random number generator.
+                     gsl_rng *rng)      ///< Pseudo-random number generator.
 {
   double c1, s1, c2, s2;
   sincos (2. * M_PI * gsl_rng_uniform (rng), &s1, &c1);
@@ -750,7 +750,7 @@ static inline void
 neuron_3D_point_boundary (int *x,       ///< Point x-coordinate.
                           int *y,       ///< Point y-coordinate.
                           int *z,       ///< Point z-coordinate.
-                          gsl_rng * rng)
+                          gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   if (*z < 0 || *y < 0 || *x < 0 || *z == (int) height || *y == (int) width
@@ -861,7 +861,7 @@ fractal_stop ()
  * \return NULL.
  */
 void *
-parallel_fractal_tree_2D (gsl_rng * rng)
+parallel_fractal_tree_2D (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y;
@@ -909,7 +909,7 @@ parallel_fractal_tree_2D (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_tree_3D (gsl_rng * rng)
+parallel_fractal_tree_3D (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y, z;
@@ -939,7 +939,7 @@ parallel_fractal_tree_3D (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_forest_2D (gsl_rng * rng)
+parallel_fractal_forest_2D (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y;
@@ -969,7 +969,7 @@ parallel_fractal_forest_2D (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_forest_3D (gsl_rng * rng)
+parallel_fractal_forest_3D (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y, z;
@@ -999,7 +999,7 @@ parallel_fractal_forest_3D (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_neuron_2D (gsl_rng * rng)
+parallel_fractal_neuron_2D (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y;
@@ -1029,7 +1029,7 @@ parallel_fractal_neuron_2D (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_neuron_3D (gsl_rng * rng)
+parallel_fractal_neuron_3D (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y, z;
@@ -1059,7 +1059,7 @@ parallel_fractal_neuron_3D (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_tree_2D_diagonal (gsl_rng * rng)
+parallel_fractal_tree_2D_diagonal (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y;
@@ -1089,7 +1089,7 @@ parallel_fractal_tree_2D_diagonal (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_tree_3D_diagonal (gsl_rng * rng)
+parallel_fractal_tree_3D_diagonal (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y, z;
@@ -1119,7 +1119,7 @@ parallel_fractal_tree_3D_diagonal (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_forest_2D_diagonal (gsl_rng * rng)
+parallel_fractal_forest_2D_diagonal (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y;
@@ -1149,7 +1149,7 @@ parallel_fractal_forest_2D_diagonal (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_forest_3D_diagonal (gsl_rng * rng)
+parallel_fractal_forest_3D_diagonal (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y, z;
@@ -1179,7 +1179,7 @@ parallel_fractal_forest_3D_diagonal (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_neuron_2D_diagonal (gsl_rng * rng)
+parallel_fractal_neuron_2D_diagonal (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y;
@@ -1209,7 +1209,7 @@ parallel_fractal_neuron_2D_diagonal (gsl_rng * rng)
  * \return NULL.
  */
 void *
-parallel_fractal_neuron_3D_diagonal (gsl_rng * rng)
+parallel_fractal_neuron_3D_diagonal (gsl_rng *rng)
 ///< Pseudo-random number generator.
 {
   int x, y, z;
@@ -1354,8 +1354,8 @@ medium_start ()
  * \return Unsigned integer number value.
  */
 static unsigned int
-xml_node_get_uint_with_default (xmlNode * node, ///< XML node.
-                                const xmlChar * prop,   ///< XML property.
+xml_node_get_uint_with_default (xmlNode *node,  ///< XML node.
+                                const xmlChar *prop,    ///< XML property.
                                 unsigned int default_value,     ///< Default value.
                                 int *error_code)        ///< Error code.
 {
@@ -1380,8 +1380,8 @@ xml_node_get_uint_with_default (xmlNode * node, ///< XML node.
  * \return Unsigned long integer number value.
  */
 static unsigned long
-xml_node_get_ulong_with_default (xmlNode * node,        ///< XML node.
-                                 const xmlChar * prop,  ///< XML property.
+xml_node_get_ulong_with_default (xmlNode *node, ///< XML node.
+                                 const xmlChar *prop,   ///< XML property.
                                  unsigned long default_value,
                                  ///< Default value.
                                  int *error_code)       ///< Error code.

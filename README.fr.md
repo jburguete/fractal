@@ -1,4 +1,4 @@
-FRACTAL (versión 3.4.20)
+FRACTAL (versión 3.4.22)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
@@ -100,25 +100,25 @@ les outils requis. On peut suivre les instructions détaillées dans le
 didacticiel
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf).
 
-Avec NetBSD 9.3, pour utiliser le derniére version du compilateur GCC, il faut
+Avec NetBSD 10.1, pour utiliser le derniére version du compilateur GCC, il faut
 faire avant dans le terminal:
 > $ export PATH="/usr/pkg/gcc9/bin:$PATH"
 Pour faire le changement permanent on peut ajouter à la dernière ligne di
 fichier ".profile" dans le répertoire racine du utilisateur:
 > PATH="/usr/pkg/gcc9/bin:$PATH"
 
-Avec OpenBSD 7.3 on doit faire avant dans le terminal:
+Avec OpenBSD 7.7 on doit faire avant dans le terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Téléchargez ce dépôt et exécutez dans un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.20
+> $ cd RUTA\_DE\_FRACTAL/3.4.22
 >
 > $ sh build.sh
 
 Ce script (build.sh) essai de construire l'exécutable an utilisant PGO (Profile
 Guided Optimization) mais c'échoue dans some systèmes. Dans ce cas il faut
 fair:
-> $ cd RUTA\_DE\_FRACTAL/3.4.20
+> $ cd RUTA\_DE\_FRACTAL/3.4.22
 >
 > $ aclocal
 >
@@ -164,20 +164,20 @@ Ce programme a été construit et prouvé avec les suivants systèmes
 d'exploitation:
 * Arch Linux
 * Debian 12 (Linux)
-* Devuan Linux 4
-* Dragonfly BSD 6.4.0
-* Fedora Linux 38
-* FreeBSD 13.2
+* Devuan Linux 5
+* Dragonfly BSD 6.4.1
+* Fedora Linux 42
+* FreeBSD 14.2
 * Gentoo Linux
-* Linux Mint DE 5
+* Linux Mint DE 6
 * MacOS Ventura + Homebrew
 * Manjaro Linux
-* Microsoft Windows 10 + MSYS2
-* NetBSD 9.3
-* OpenBSD 7.3
+* Microsoft Windows 11 + MSYS2
+* NetBSD 10.1
+* OpenBSD 7.7
 * OpenInidiana Hipster
 * OpenSUSE Linux Leap 15.5
-* Ubuntu Linux 23.04
+* Ubuntu Linux 25.04 
 
 Peut être qu'on puisse construire le programme en autres systèmes, distributions
 ou versions, mais ça n'a pas été prouvé.
@@ -186,7 +186,7 @@ POUR FAIRE LE MANUEL D'INSTRUCTIONS (latex/refman.pdf file)
 -----------------------------------------------------------
 
 Exécutez dans un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.20
+> $ cd RUTA\_DE\_FRACTAL/3.4.22
 >
 > $ doxygen
 >
