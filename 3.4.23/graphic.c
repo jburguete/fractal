@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2023, Javier Burguete Tolosa.
+Copyright 2009-2025, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file graphic.c
  * \brief Source file to define the graphic drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2023, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2025, Javier Burguete Tolosa.
  */
 #include "config.h"
 #include <stdio.h>
@@ -43,7 +43,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <gtk/gtk.h>
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 #include "config2.h"
 #include "fractal.h"
 #include "image.h"
@@ -88,24 +88,11 @@ graphic_init (Graphic *graphic, ///< Draw struct.
   const char *error_message;
   GLint k;
   GLuint vs, fs;
-  GLenum glew_status;
 
 #if DEBUG
   printf ("graphic_init: start\n");
   fflush (stdout);
 #endif
-
-  // Initing GLEW
-#if DEBUG
-  printf ("Initing GLEW\n");
-  fflush (stdout);
-#endif
-  glew_status = glewInit ();
-  if (glew_status != GLEW_OK)
-    {
-      printf ("ERROR! glewInit: %s\n", glewGetErrorString (glew_status));
-      return 0;
-    }
 
 #if DEBUG
   printf ("graphic_init: compiling fragment shader\n");
@@ -254,7 +241,7 @@ graphic_render (Graphic *graphic)       ///< Graphic struct.
   };
   const GLushort square_indices[4] = { 0, 1, 2, 3 };
   const GLfloat black[4] = { 0., 0., 0., 1. };
-  const char *str_version = "Fractal 3.4.22";
+  const char *str_version = "Fractal 3.4.23";
   float cp, sp, ct, st, w, h, sx, sy;
   GLuint vbo_square, ibo_square, vbo_points;
 

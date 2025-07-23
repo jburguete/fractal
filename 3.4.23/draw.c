@@ -2,7 +2,7 @@
 FRACTAL - A program growing fractals to benchmark parallelization and drawing
 libraries.
 
-Copyright 2009-2023, Javier Burguete Tolosa.
+Copyright 2009-2025, Javier Burguete Tolosa.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \file draw.c
  * \brief Source file to define the drawing data and functions.
  * \author Javier Burguete Tolosa.
- * \copyright Copyright 2009-2023, Javier Burguete Tolosa.
+ * \copyright Copyright 2009-2025, Javier Burguete Tolosa.
  */
 #include "config.h"
 #include <stdio.h>
@@ -43,7 +43,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include <gtk/gtk.h>
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 #if HAVE_FREEGLUT
 #include <GL/freeglut.h>
 #elif HAVE_SDL
