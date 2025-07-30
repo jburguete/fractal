@@ -292,6 +292,7 @@ main (int argn,                 ///< Arguments number.
   main_loop ();
 
   // Freeing memory
+  graphic_destroy (graphic);
 #if HAVE_SDL
   SDL_GL_DeleteContext (sdl_context);
   SDL_Quit ();
@@ -299,7 +300,6 @@ main (int argn,                 ///< Arguments number.
   glfwDestroyWindow (window);
   glfwTerminate ();
 #endif
-  graphic_destroy (graphic);
 
   return 0;
 }

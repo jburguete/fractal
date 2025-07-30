@@ -161,9 +161,9 @@ text_destroy (Text *text)       ///< Text struct data.
   fflush (stdout);
 #endif
 
+  glDeleteProgram (text->program);
   FT_Done_Face (text->face);
   FT_Done_Library (text->ft);
-  glDeleteProgram (text->program);
 
 #if DEBUG
   printf ("text_destroy: end\n");

@@ -1,4 +1,4 @@
-FRACTAL (versión 3.4.23)
+FRACTAL (versión 3.4.24)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
@@ -111,14 +111,14 @@ Avec OpenBSD 7.7 on doit faire avant dans le terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Téléchargez ce dépôt et exécutez dans un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.23
+> $ cd RUTA\_DE\_FRACTAL/3.4.24
 >
 > $ sh build.sh
 
 Ce script (build.sh) essai de construire l'exécutable an utilisant PGO (Profile
 Guided Optimization) mais c'échoue dans some systèmes. Dans ce cas il faut
 fair:
-> $ cd RUTA\_DE\_FRACTAL/3.4.23
+> $ cd RUTA\_DE\_FRACTAL/3.4.24
 >
 > $ aclocal
 >
@@ -162,6 +162,7 @@ Quelques examples de fichiers d'entrée sont au répertoire **tests**.
 
 Ce programme a été construit et prouvé avec les suivants systèmes
 d'exploitation:
+* Alpine Linux
 * Arch Linux
 * Debian 12 (Linux)
 * Devuan Linux 5
@@ -186,7 +187,7 @@ POUR FAIRE LE MANUEL D'INSTRUCTIONS (latex/refman.pdf file)
 -----------------------------------------------------------
 
 Exécutez dans un terminal:
-> $ cd RUTA\_DE\_FRACTAL/3.4.23
+> $ cd RUTA\_DE\_FRACTAL/3.4.24
 >
 > $ doxygen
 >

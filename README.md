@@ -1,4 +1,4 @@
-FRACTAL (3.4.23 version)
+FRACTAL (3.4.24 version)
 =======================
 
 :gb:[english](README.md) :es:[español](README.es.md)
@@ -109,7 +109,7 @@ On OpenBSD 7.7 you have to do first on the building terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 Download this repository and execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.4.23
+> $ cd PATH\_TO\_FRACTAL/3.4.24
 >
 > $ sh build.sh
 
@@ -125,6 +125,7 @@ or, if used an input file:
 Several input file examples are in the **tests** directory.
 
 This software has been built and tested in the following operative systems:
+* Alpine Linux
 * Arch Linux
 * Debian 12 (Linux)
 * Devuan Linux 5
@@ -149,7 +150,7 @@ MAKING MANUAL INSTRUCTIONS (latex/refman.pdf file)
 --------------------------------------------------
 
 Execute on a terminal:
-> $ cd PATH\_TO\_FRACTAL/3.4.23
+> $ cd PATH\_TO\_FRACTAL/3.4.24
 >
 > $ doxygen
 >
